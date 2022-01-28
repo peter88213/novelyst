@@ -62,7 +62,7 @@ def run(sourcePath='', installDir=''):
 if __name__ == '__main__':
 
     try:
-        installDir = str(Path.home()).replace('\\', '/') + '/.pywriter/' + APPNAME + '/config/'
+        installDir = '{}/.pywriter/{}/config/'.format(str(Path.home()).replace('\\', '/'), APPNAME)
 
     except:
         installDir = ''
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     else:
         parser = argparse.ArgumentParser(
-            description='yWriter file viewer',
+            description='Novel metadata organizer',
             epilog='')
         parser.add_argument('sourcePath',
                             metavar='Sourcefile',
