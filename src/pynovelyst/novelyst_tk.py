@@ -11,8 +11,6 @@ from tkinter import ttk
 from pywriter.ui.main_tk import MainTk
 from pywriter.yw.yw7_file import Yw7File
 
-from pynovelyst.rich_text_tk import RichTextTk
-
 
 class NovelystTk(MainTk):
     """A tkinter GUI class for yWriter project processing.
@@ -47,29 +45,25 @@ class NovelystTk(MainTk):
         chId = self.chapterTree.identify('item', event.x, event.y)
 
         if self.ywPrj.chapters[chId].desc:
-            text = (self.ywPrj.chapters[chId].desc, '')
+            text = self.ywPrj.chapters[chId].desc
 
         else:
-            text = '(No chapter description available)', 'italic'
+            text = '(No chapter description available)'
 
-        self.chapterInfoWin['state'] = 'normal'
         self.chapterInfoWin.delete('1.0', tk.END)
-        self.chapterInfoWin.insert(tk.END, text[0], text[1])
-        self.chapterInfoWin['state'] = 'disabled'
+        self.chapterInfoWin.insert(tk.END, text)
 
     def set_scene_info(self, event):
         scId = self.sceneTree.identify('item', event.x, event.y)
 
         if self.ywPrj.scenes[scId].desc:
-            text = (self.ywPrj.scenes[scId].desc, '')
+            text = self.ywPrj.scenes[scId].desc
 
         else:
-            text = '(No scene description available)', 'italic'
+            text = '(No scene description available)'
 
-        self.sceneInfoWin['state'] = 'normal'
         self.sceneInfoWin.delete('1.0', tk.END)
-        self.sceneInfoWin.insert(tk.END, text[0], text[1])
-        self.sceneInfoWin['state'] = 'disabled'
+        self.sceneInfoWin.insert(tk.END, text)
 
     def __init__(self, title, **kwargs):
         """Put a text box to the GUI main window.
@@ -93,7 +87,7 @@ class NovelystTk(MainTk):
         self.chapterWindow.pack(expand=True, fill='both')
         self.chapterTree = ttk.Treeview(self.chapterWindow)
         self.chapterWindow.add(self.chapterTree)
-        self.chapterInfoWin = RichTextTk(wrap='word')
+        self.chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1)
         self.chapterWindow.add(self.chapterInfoWin)
 
         self.chapterTree.bind('<1>', self.set_scenes)
@@ -105,7 +99,7 @@ class NovelystTk(MainTk):
         self.sceneWindow.pack(expand=True, fill='both')
         self.sceneTree = ttk.Treeview(self.sceneWindow)
         self.sceneWindow.add(self.sceneTree)
-        self.sceneInfoWin = RichTextTk(wrap='word')
+        self.sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1)
         self.sceneWindow.add(self.sceneInfoWin)
 
         self.sceneTree.bind('<Double-1>', self.set_scene_info)
