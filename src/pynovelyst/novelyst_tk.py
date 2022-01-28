@@ -34,7 +34,7 @@ class NovelystTk(MainTk):
         self.sceneFrame = tk.Frame(self.appWindow)
         self.appWindow.add(self.sceneFrame)
 
-        # Create a chapter window with a chapter tree and an info label..
+        # Create a chapter window with a chapter tree and an info box.
 
         self.chapterWindow = tk.PanedWindow(self.chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.chapterWindow.pack(expand=True, fill='both')
@@ -45,7 +45,7 @@ class NovelystTk(MainTk):
 
         self.chapterTree.bind('<<TreeviewSelect>>', self.on_chapter_select)
 
-        # Create a scene window with a scene tree and an info label..
+        # Create a scene window with a scene tree and an info box.
 
         self.sceneWindow = tk.PanedWindow(self.sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.sceneWindow.pack(expand=True, fill='both')
