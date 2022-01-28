@@ -18,53 +18,6 @@ class NovelystTk(MainTk):
     Show titles, descriptions, and contents in a text box.
     """
 
-    def reset_chapters(self):
-
-        for child in self.chapterTree.get_children(''):
-            self.chapterTree.delete(child)
-
-    def set_chapters(self):
-        self.reset_chapters()
-
-        for chId in self.ywPrj.srtChapters:
-            self.chapterTree.insert('', 'end', chId, text=self.ywPrj.chapters[chId].title)
-
-    def reset_scenes(self):
-
-        for child in self.sceneTree.get_children(''):
-            self.sceneTree.delete(child)
-
-    def set_scenes(self, event):
-        chId = self.chapterTree.identify('item', event.x, event.y)
-        self.reset_scenes()
-
-        for scId in self.ywPrj.chapters[chId].srtScenes:
-            self.sceneTree.insert('', 'end', scId, text=self.ywPrj.scenes[scId].title)
-
-    def set_chapter_info(self, event):
-        chId = self.chapterTree.identify('item', event.x, event.y)
-
-        if self.ywPrj.chapters[chId].desc:
-            text = self.ywPrj.chapters[chId].desc
-
-        else:
-            text = '(No chapter description available)'
-
-        self.chapterInfoWin.delete('1.0', tk.END)
-        self.chapterInfoWin.insert(tk.END, text)
-
-    def set_scene_info(self, event):
-        scId = self.sceneTree.identify('item', event.x, event.y)
-
-        if self.ywPrj.scenes[scId].desc:
-            text = self.ywPrj.scenes[scId].desc
-
-        else:
-            text = '(No scene description available)'
-
-        self.sceneInfoWin.delete('1.0', tk.END)
-        self.sceneInfoWin.insert(tk.END, text)
-
     def __init__(self, title, **kwargs):
         """Put a text box to the GUI main window.
         Extend the superclass constructor.
@@ -87,11 +40,10 @@ class NovelystTk(MainTk):
         self.chapterWindow.pack(expand=True, fill='both')
         self.chapterTree = ttk.Treeview(self.chapterWindow)
         self.chapterWindow.add(self.chapterTree)
-        self.chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1)
+        self.chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
         self.chapterWindow.add(self.chapterInfoWin)
 
-        self.chapterTree.bind('<1>', self.set_scenes)
-        self.chapterTree.bind('<Double-1>', self.set_chapter_info)
+        self.chapterTree.bind('<<TreeviewSelect>>', self.on_chapter_select)
 
         # Create a scene window with a scene tree and an info label..
 
@@ -99,10 +51,65 @@ class NovelystTk(MainTk):
         self.sceneWindow.pack(expand=True, fill='both')
         self.sceneTree = ttk.Treeview(self.sceneWindow)
         self.sceneWindow.add(self.sceneTree)
-        self.sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1)
+        self.sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
         self.sceneWindow.add(self.sceneInfoWin)
 
-        self.sceneTree.bind('<Double-1>', self.set_scene_info)
+        self.sceneTree.bind('<<TreeviewSelect>>', self.on_scene_select)
+
+    def on_chapter_select(self, event):
+        chId = self.chapterTree.selection()[0]
+        self.set_scenes(chId)
+        self.set_chapter_info(chId)
+
+    def on_scene_select(self, event):
+        scId = self.sceneTree.selection()[0]
+        self.set_scene_info(scId)
+
+    def reset_chapters(self):
+
+        for child in self.chapterTree.get_children(''):
+            self.chapterTree.delete(child)
+
+    def set_chapters(self):
+        self.reset_chapters()
+
+        for chId in self.ywPrj.srtChapters:
+            self.chapterTree.insert('', 'end', chId, text=self.ywPrj.chapters[chId].title)
+
+    def reset_scenes(self):
+
+        for child in self.sceneTree.get_children(''):
+            self.sceneTree.delete(child)
+
+        self.sceneInfoWin.delete('1.0', tk.END)
+
+    def set_scenes(self, chId):
+        self.reset_scenes()
+
+        for scId in self.ywPrj.chapters[chId].srtScenes:
+            self.sceneTree.insert('', 'end', scId, text=self.ywPrj.scenes[scId].title)
+
+    def set_chapter_info(self, chId):
+
+        if self.ywPrj.chapters[chId].desc is not None:
+            text = self.ywPrj.chapters[chId].desc
+
+        else:
+            text = ''
+
+        self.chapterInfoWin.delete('1.0', tk.END)
+        self.chapterInfoWin.insert(tk.END, text)
+
+    def set_scene_info(self, scId):
+
+        if self.ywPrj.scenes[scId].desc is not None:
+            text = self.ywPrj.scenes[scId].desc
+
+        else:
+            text = ''
+
+        self.sceneInfoWin.delete('1.0', tk.END)
+        self.sceneInfoWin.insert(tk.END, text)
 
     def extend_menu(self):
         """Add main menu entries.
