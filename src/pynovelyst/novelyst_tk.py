@@ -169,7 +169,7 @@ class NovelystTk(MainTk):
         else:
             authorView = 'Unknown author'
 
-        self.titleBar.config(text=titleView + ' by ' + authorView)
+        self.titleBar.config(text=f'{titleView} by {authorView}')
         self.enable_menu()
         self.set_chapters()
         return fileName
