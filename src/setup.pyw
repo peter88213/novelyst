@@ -25,8 +25,8 @@ except ModuleNotFoundError:
 APPNAME = 'novelyst'
 
 VERSION = ' @release'
-APP = APPNAME + '.pyw'
-INI_FILE = APPNAME + '.ini'
+APP = f'{APPNAME}.pyw'
+INI_FILE = f'{APPNAME}.ini'
 INI_PATH = '/config/'
 SAMPLE_PATH = 'sample/'
 SUCCESS_MESSAGE = '''
@@ -74,13 +74,14 @@ def make_context_menu(installPath):
         with open(filePath, 'w', encoding='utf-8') as f:
             f.write(template.safe_substitute(mapping))
 
-        output('Creating ' + os.path.normpath(filePath))
+        output(f'Creating "{os.path.normpath(filePath)}"')
 
     python = sys.executable.replace('\\', '\\\\')
-    script = installPath.replace('/', '\\\\') + '\\\\' + APP
+    instPath = installPath.replace('/', '\\\\')
+    script = f'{instPath}\\\\{APP}'
     mapping = dict(PYTHON=python, SCRIPT=script)
-    save_reg_file(installPath + '/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
-    save_reg_file(installPath + '/rem_context_menu.reg', Template(RESET_CONTEXT_MENU), {})
+    save_reg_file(f'{installPath}/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
+    save_reg_file(f'{installPath}/rem_context_menu.reg', Template(RESET_CONTEXT_MENU), {})
 
 
 def output(text):
@@ -116,10 +117,10 @@ def install(pywriterPath):
     # Create a general PyWriter installation directory, if necessary.
 
     os.makedirs(pywriterPath, exist_ok=True)
-    installDir = pywriterPath + APPNAME
-    cnfDir = installDir + INI_PATH
+    installDir = f'{pywriterPath}{APPNAME}'
+    cnfDir = f'{installDir}{INI_PATH}'
 
-    if os.path.isfile(installDir + '/' + APP):
+    if os.path.isfile(f'{installDir}/{APP}'):
         simpleUpdate = True
 
     else:
@@ -128,9 +129,10 @@ def install(pywriterPath):
     try:
         # Move an existing installation to the new place, if necessary.
 
-        oldInstDir = os.getenv('APPDATA').replace('\\', '/') + '/pyWriter/' + APPNAME
+        oldInst = os.getenv('APPDATA').replace('\\', '/')
+        oldInstDir =  f'{oldInst}/pyWriter/{APPNAME}'
         os.replace(oldInstDir, installDir)
-        output('Moving "' + oldInstDir + '" to "' + installDir + '"')
+        output(f'Moving "{oldInstDir}" to "{installDir}"')
 
     except:
         pass
@@ -145,17 +147,17 @@ def install(pywriterPath):
 
             if not 'config' in file.name:
                 os.remove(file)
-                output('Removing "' + file.name + '"')
+                output(f'Removing "{file.name}"')
 
     # Install the new version.
 
-    copyfile(APP, installDir + '/' + APP)
-    output('Copying "' + APP + '"')
+    copyfile(APP, f'{installDir}/{APP}')
+    output(f'Copying "{APP}"')
 
     # Make the script executable under Linux.
 
-    st = os.stat(installDir + '/' + APP)
-    os.chmod(installDir + '/' + APP, st.st_mode | stat.S_IEXEC)
+    st = os.stat(f'{installDir}/{APP}')
+    os.chmod(f'{installDir}/{APP}', st.st_mode | stat.S_IEXEC)
 
     # Install configuration files, if needed.
 
@@ -164,12 +166,12 @@ def install(pywriterPath):
 
             for file in files:
 
-                if not os.path.isfile(cnfDir + file.name):
-                    copyfile(SAMPLE_PATH + file.name, cnfDir + file.name)
-                    output('Copying "' + file.name + '"')
+                if not os.path.isfile(f'{cnfDir}{file.name}'):
+                    copyfile(f'{SAMPLE_PATH}{file.name}', f'{cnfDir}{file.name}')
+                    output(f'Copying "{file.name}"')
 
                 else:
-                    output('Keeping "' + file.name + '"')
+                    output(f'Keeping "{file.name}"')
     except:
         pass
 
@@ -180,7 +182,7 @@ def install(pywriterPath):
 
     # Display a success message.
 
-    mapping = {'Appname': APPNAME, 'Apppath': installDir + '/' + APP}
+    mapping = {'Appname': APPNAME, 'Apppath': f'{installDir}/{APP}'}
 
     output(Template(SUCCESS_MESSAGE).safe_substitute(mapping))
 
@@ -195,7 +197,7 @@ if __name__ == '__main__':
     # Open a tk window.
 
     root.geometry("800x500")
-    root.title('Install ' + APPNAME + VERSION)
+    root.title(f'Install {APPNAME}{VERSION}')
     header = Label(root, text='')
     header.pack(padx=5, pady=5)
 
@@ -205,12 +207,12 @@ if __name__ == '__main__':
 
     # Run the installation.
 
-    pywriterPath = str(Path.home()).replace('\\', '/') + '/.pywriter/'
-    install(pywriterPath)
+    homePath = str(Path.home()).replace('\\', '/')
+    install(f'{homePath}/.pywriter/')
 
     # Show options: open installation folders or quit.
 
-    root.openButton = Button(text="Open installation folder", command=lambda: open_folder(pywriterPath + APPNAME))
+    root.openButton = Button(text="Open installation folder", command=lambda: open_folder(f'{pywriterPath}{APPNAME}'))
     root.openButton.config(height=1, width=30)
     root.openButton.pack(padx=5, pady=5)
     root.quitButton = Button(text="Quit", command=quit)
