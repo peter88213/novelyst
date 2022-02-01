@@ -10,27 +10,19 @@ For further information see https://github.com/peter88213/novelyst
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
+import sys 
+sys.path.insert(0, f'{os.getcwd()}/../../PyWriter/src')
 import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE_GUI = 'novelyst_.pyw'
-TARGET_FILE_GUI = f'{BUILD}novelyst.pyw'
+SOURCE_FILE = f'{SRC}novelyst_.pyw'
+TARGET_FILE = f'{BUILD}novelyst.pyw'
 
 
 def main():
-    os.chdir(SRC)
-
-    try:
-        os.remove(TARGET_FILE_GUI)
-
-    except:
-        pass
-
-    inliner.run(SOURCE_FILE_GUI,
-                TARGET_FILE_GUI, 'pynovelyst', '../src/')
-    inliner.run(TARGET_FILE_GUI,
-                TARGET_FILE_GUI, 'pywriter', '../../PyWriter/src/')
+    inliner.run(SOURCE_FILE,TARGET_FILE, 'pynovelyst', '../src/')
+    inliner.run(TARGET_FILE,TARGET_FILE, 'pywriter', '../../PyWriter/src/')
     print('Done.')
 
 
