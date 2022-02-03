@@ -24,73 +24,73 @@ class NovelystTk(MainTk):
         Extend the superclass constructor.
         """
         super().__init__(title, **kwargs)
-        self.root.geometry("800x500")
+        self._root.geometry("800x500")
 
         # Create an application window with a chapter and a scene frame.
 
-        self.appWindow = tk.PanedWindow(self.mainWindow, sashrelief=tk.RAISED)
-        self.appWindow.pack(expand=True, fill='both')
-        self.chapterFrame = tk.Frame(self.appWindow)
-        self.appWindow.add(self.chapterFrame)
-        self.sceneFrame = tk.Frame(self.appWindow)
-        self.appWindow.add(self.sceneFrame)
+        self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
+        self._appWindow.pack(expand=True, fill='both')
+        self._chapterFrame = tk.Frame(self._appWindow)
+        self._appWindow.add(self._chapterFrame)
+        self._sceneFrame = tk.Frame(self._appWindow)
+        self._appWindow.add(self._sceneFrame)
 
         # Create a chapter window with a chapter tree and an info box.
 
-        self.chapterWindow = tk.PanedWindow(self.chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
-        self.chapterWindow.pack(expand=True, fill='both')
-        self.chapterTree = ttk.Treeview(self.chapterWindow)
-        self.chapterWindow.add(self.chapterTree)
-        self.chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
-        self.chapterWindow.add(self.chapterInfoWin)
+        self._chapterWindow = tk.PanedWindow(self._chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self._chapterWindow.pack(expand=True, fill='both')
+        self._chapterTree = ttk.Treeview(self._chapterWindow)
+        self._chapterWindow.add(self._chapterTree)
+        self._chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
+        self._chapterWindow.add(self._chapterInfoWin)
 
-        self.chapterTree.bind('<<TreeviewSelect>>', self.on_chapter_select)
+        self._chapterTree.bind('<<TreeviewSelect>>', self._on_chapter_select)
 
         # Create a scene window with a scene tree and an info box.
 
-        self.sceneWindow = tk.PanedWindow(self.sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
-        self.sceneWindow.pack(expand=True, fill='both')
-        self.sceneTree = ttk.Treeview(self.sceneWindow)
-        self.sceneWindow.add(self.sceneTree)
-        self.sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
-        self.sceneWindow.add(self.sceneInfoWin)
+        self._sceneWindow = tk.PanedWindow(self._sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self._sceneWindow.pack(expand=True, fill='both')
+        self._sceneTree = ttk.Treeview(self._sceneWindow)
+        self._sceneWindow.add(self._sceneTree)
+        self._sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
+        self._sceneWindow.add(self._sceneInfoWin)
 
-        self.sceneTree.bind('<<TreeviewSelect>>', self.on_scene_select)
+        self._sceneTree.bind('<<TreeviewSelect>>', self._on_scene_select)
 
-    def on_chapter_select(self, event):
-        chId = self.chapterTree.selection()[0]
-        self.set_scenes(chId)
-        self.set_chapter_info(chId)
+    def _on_chapter_select(self, event):
+        chId = self._chapterTree.selection()[0]
+        self._set_scenes(chId)
+        self._set_chapter_info(chId)
 
-    def on_scene_select(self, event):
-        scId = self.sceneTree.selection()[0]
-        self.set_scene_info(scId)
+    def _on_scene_select(self, event):
+        scId = self._sceneTree.selection()[0]
+        self._set_scene_info(scId)
 
-    def reset_chapters(self):
+    def _reset_chapters(self):
 
-        for child in self.chapterTree.get_children(''):
-            self.chapterTree.delete(child)
+        for child in self._chapterTree.get_children(''):
+            self._chapterTree.delete(child)
 
-    def set_chapters(self):
-        self.reset_chapters()
+    def _set_chapters(self):
+        self._reset_chapters()
 
         for chId in self.ywPrj.srtChapters:
-            self.chapterTree.insert('', 'end', chId, text=self.ywPrj.chapters[chId].title)
+            self._chapterTree.insert('', 'end', chId, text=self.ywPrj.chapters[chId].title)
 
-    def reset_scenes(self):
+    def _reset_scenes(self):
 
-        for child in self.sceneTree.get_children(''):
-            self.sceneTree.delete(child)
+        for child in self._sceneTree.get_children(''):
+            self._sceneTree.delete(child)
 
-        self.sceneInfoWin.delete('1.0', tk.END)
+        self._sceneInfoWin.delete('1.0', tk.END)
 
-    def set_scenes(self, chId):
-        self.reset_scenes()
+    def _set_scenes(self, chId):
+        self._reset_scenes()
 
         for scId in self.ywPrj.chapters[chId].srtScenes:
-            self.sceneTree.insert('', 'end', scId, text=self.ywPrj.scenes[scId].title)
+            self._sceneTree.insert('', 'end', scId, text=self.ywPrj.scenes[scId].title)
 
-    def set_chapter_info(self, chId):
+    def _set_chapter_info(self, chId):
 
         if self.ywPrj.chapters[chId].desc is not None:
             text = self.ywPrj.chapters[chId].desc
@@ -98,10 +98,10 @@ class NovelystTk(MainTk):
         else:
             text = ''
 
-        self.chapterInfoWin.delete('1.0', tk.END)
-        self.chapterInfoWin.insert(tk.END, text)
+        self._chapterInfoWin.delete('1.0', tk.END)
+        self._chapterInfoWin.insert(tk.END, text)
 
-    def set_scene_info(self, scId):
+    def _set_scene_info(self, scId):
 
         if self.ywPrj.scenes[scId].desc is not None:
             text = self.ywPrj.scenes[scId].desc
@@ -109,35 +109,35 @@ class NovelystTk(MainTk):
         else:
             text = ''
 
-        self.sceneInfoWin.delete('1.0', tk.END)
-        self.sceneInfoWin.insert(tk.END, text)
+        self._sceneInfoWin.delete('1.0', tk.END)
+        self._sceneInfoWin.insert(tk.END, text)
 
-    def extend_menu(self):
+    def _extend_menu(self):
         """Add main menu entries.
         Override the superclass template method. 
         """
-        self.chapterMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
-        self.mainMenu.add_cascade(label='Chapter', menu=self.chapterMenu)
-        self.mainMenu.entryconfig('Chapter', state='disabled')
-        self.sceneMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
-        self.mainMenu.add_cascade(label='Scene', menu=self.sceneMenu)
-        self.mainMenu.entryconfig('Scene', state='disabled')
+        self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
+        self._mainMenu.entryconfig('Chapter', state='disabled')
+        self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
+        self._mainMenu.entryconfig('Scene', state='disabled')
 
-    def disable_menu(self):
+    def _disable_menu(self):
         """Disable menu entries when no project is open.
         Extend the superclass method.      
         """
-        super().disable_menu()
-        self.mainMenu.entryconfig('Chapter', state='disabled')
-        self.mainMenu.entryconfig('Scene', state='disabled')
+        super()._disable_menu()
+        self._mainMenu.entryconfig('Chapter', state='disabled')
+        self._mainMenu.entryconfig('Scene', state='disabled')
 
-    def enable_menu(self):
+    def _enable_menu(self):
         """Enable menu entries when a project is open.
         Extend the superclass method.
         """
-        super().enable_menu()
-        self.mainMenu.entryconfig('Chapter', state='normal')
-        self.mainMenu.entryconfig('Scene', state='normal')
+        super()._enable_menu()
+        self._mainMenu.entryconfig('Chapter', state='normal')
+        self._mainMenu.entryconfig('Scene', state='normal')
 
     def open_project(self, fileName):
         """Create a yWriter project instance and read the file.
@@ -154,8 +154,8 @@ class NovelystTk(MainTk):
         message = self.ywPrj.read()
 
         if message.startswith(ERROR):
-            self.close_project()
-            self.statusBar.config(text=message)
+            self._close_project()
+            self._statusBar.config(text=message)
             return ''
 
         if self.ywPrj.title:
@@ -170,17 +170,17 @@ class NovelystTk(MainTk):
         else:
             authorView = 'Unknown author'
 
-        self.titleBar.config(text=f'{titleView} by {authorView}')
-        self.enable_menu()
-        self.set_chapters()
+        self._titleBar.config(text=f'{titleView} by {authorView}')
+        self._enable_menu()
+        self._set_chapters()
         return fileName
 
-    def close_project(self):
+    def _close_project(self):
         """Clear the text box.
         Extend the superclass method.
         """
-        self.reset_chapters()
-        self.reset_scenes()
-        self.chapterInfoWin.delete('1.0', tk.END)
-        self.sceneInfoWin.delete('1.0', tk.END)
-        super().close_project()
+        self._reset_chapters()
+        self._reset_scenes()
+        self._chapterInfoWin.delete('1.0', tk.END)
+        self._sceneInfoWin.delete('1.0', tk.END)
+        super()._close_project()
