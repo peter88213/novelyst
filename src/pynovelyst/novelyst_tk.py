@@ -25,6 +25,8 @@ class NovelystTk(MainTk):
         """
         super().__init__(title, **kwargs)
         self._root.geometry("800x500")
+        self._chapterMenu = None 
+        self._sceneMenu = None
 
         # Create an application window with a chapter and a scene frame.
 
@@ -74,8 +76,8 @@ class NovelystTk(MainTk):
     def _set_chapters(self):
         self._reset_chapters()
 
-        for chId in self.ywPrj.srtChapters:
-            self._chapterTree.insert('', 'end', chId, text=self.ywPrj.chapters[chId].title)
+        for chId in self._ywPrj.srtChapters:
+            self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title)
 
     def _reset_scenes(self):
 
@@ -87,13 +89,13 @@ class NovelystTk(MainTk):
     def _set_scenes(self, chId):
         self._reset_scenes()
 
-        for scId in self.ywPrj.chapters[chId].srtScenes:
-            self._sceneTree.insert('', 'end', scId, text=self.ywPrj.scenes[scId].title)
+        for scId in self._ywPrj.chapters[chId].srtScenes:
+            self._sceneTree.insert('', 'end', scId, text=self._ywPrj.scenes[scId].title)
 
     def _set_chapter_info(self, chId):
 
-        if self.ywPrj.chapters[chId].desc is not None:
-            text = self.ywPrj.chapters[chId].desc
+        if self._ywPrj.chapters[chId].desc is not None:
+            text = self._ywPrj.chapters[chId].desc
 
         else:
             text = ''
@@ -103,8 +105,8 @@ class NovelystTk(MainTk):
 
     def _set_scene_info(self, scId):
 
-        if self.ywPrj.scenes[scId].desc is not None:
-            text = self.ywPrj.scenes[scId].desc
+        if self._ywPrj.scenes[scId].desc is not None:
+            text = self._ywPrj.scenes[scId].desc
 
         else:
             text = ''
@@ -150,22 +152,22 @@ class NovelystTk(MainTk):
         if not fileName:
             return ''
 
-        self.ywPrj = Yw7File(fileName)
-        message = self.ywPrj.read()
+        self._ywPrj = Yw7File(fileName)
+        message = self._ywPrj.read()
 
         if message.startswith(ERROR):
             self._close_project()
             self._statusBar.config(text=message)
             return ''
 
-        if self.ywPrj.title:
-            titleView = self.ywPrj.title
+        if self._ywPrj.title:
+            titleView = self._ywPrj.title
 
         else:
             titleView = 'Untitled yWriter project'
 
-        if self.ywPrj.author:
-            authorView = self.ywPrj.author
+        if self._ywPrj.author:
+            authorView = self._ywPrj.author
 
         else:
             authorView = 'Unknown author'
