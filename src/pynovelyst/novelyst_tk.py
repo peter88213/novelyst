@@ -41,10 +41,14 @@ class NovelystTk(MainTk):
 
         self._chapterWindow = tk.PanedWindow(self._chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._chapterWindow.pack(expand=True, fill='both')
-        self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse', columns=['Title', 'Scenes'])
-        self._chapterTree['columns'] = ('Scenes')
-        self._chapterTree.heading('Scenes', text= 'Scenes')
+        self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse')
+        self._chapterTree['columns'] = ('Scenes', 'Words')
         
+        self._chapterTree.heading('Scenes', text= 'Scenes', anchor='w')
+        self._chapterTree.column('Scenes', width=50)
+        
+        self._chapterTree.heading('Words', text= 'Words', anchor='w')
+        self._chapterTree.column('Words', width=50)       
         
         self._chapterWindow.add(self._chapterTree)
         self._chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
@@ -58,8 +62,12 @@ class NovelystTk(MainTk):
         self._sceneWindow.pack(expand=True, fill='both')
         self._sceneTree = ttk.Treeview(self._sceneWindow, selectmode='browse')
         self._sceneTree['columns'] = ('Words', 'Viewpoint')
-        self._sceneTree.heading('Words', text= 'Words')
-        self._sceneTree.heading('Viewpoint', text= 'Viewpoint')
+        
+        self._sceneTree.heading('Words', text= 'Words', anchor='w')
+        self._sceneTree.column('Words', width=50)
+        
+        self._sceneTree.heading('Viewpoint', text= 'Viewpoint', anchor='w')
+        self._sceneTree.column('Viewpoint', width=150)
         
         self._sceneWindow.add(self._sceneTree)
         self._sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
@@ -86,7 +94,13 @@ class NovelystTk(MainTk):
 
         for chId in self._ywPrj.srtChapters:            
             display = [] 
-            display.append(len(self._ywPrj.chapters[chId].srtScenes))            
+            display.append(len(self._ywPrj.chapters[chId].srtScenes))
+            wordCount = 0
+            
+            for scId in self._ywPrj.chapters[chId].srtScenes:
+                wordCount += self._ywPrj.scenes[scId].wordCount
+                
+            display.append(wordCount)
             self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title, values=display)
 
     def _reset_scenes(self):
