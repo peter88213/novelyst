@@ -41,7 +41,11 @@ class NovelystTk(MainTk):
 
         self._chapterWindow = tk.PanedWindow(self._chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._chapterWindow.pack(expand=True, fill='both')
-        self._chapterTree = ttk.Treeview(self._chapterWindow)
+        self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse', columns=['Title', 'Scenes'])
+        self._chapterTree['columns'] = ('Scenes')
+        self._chapterTree.heading('Scenes', text= 'Scenes')
+        
+        
         self._chapterWindow.add(self._chapterTree)
         self._chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
         self._chapterWindow.add(self._chapterInfoWin)
@@ -52,7 +56,11 @@ class NovelystTk(MainTk):
 
         self._sceneWindow = tk.PanedWindow(self._sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._sceneWindow.pack(expand=True, fill='both')
-        self._sceneTree = ttk.Treeview(self._sceneWindow)
+        self._sceneTree = ttk.Treeview(self._sceneWindow, selectmode='browse')
+        self._sceneTree['columns'] = ('Words', 'Viewpoint')
+        self._sceneTree.heading('Words', text= 'Words')
+        self._sceneTree.heading('Viewpoint', text= 'Viewpoint')
+        
         self._sceneWindow.add(self._sceneTree)
         self._sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
         self._sceneWindow.add(self._sceneInfoWin)
@@ -76,8 +84,10 @@ class NovelystTk(MainTk):
     def _set_chapters(self):
         self._reset_chapters()
 
-        for chId in self._ywPrj.srtChapters:
-            self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title)
+        for chId in self._ywPrj.srtChapters:            
+            display = [] 
+            display.append(len(self._ywPrj.chapters[chId].srtScenes))            
+            self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title, values=display)
 
     def _reset_scenes(self):
 
@@ -90,7 +100,16 @@ class NovelystTk(MainTk):
         self._reset_scenes()
 
         for scId in self._ywPrj.chapters[chId].srtScenes:
-            self._sceneTree.insert('', 'end', scId, text=self._ywPrj.scenes[scId].title)
+            display = []
+            display.append(self._ywPrj.scenes[scId].wordCount)
+            
+            try:
+                display.append(self._ywPrj.characters[self._ywPrj.scenes[scId].characters[0]].title)
+                
+            except IndexError:
+                display.append('N/A')
+                
+            self._sceneTree.insert('', 'end', scId, text=self._ywPrj.scenes[scId].title, values=display)
 
     def _set_chapter_info(self, chId):
 
