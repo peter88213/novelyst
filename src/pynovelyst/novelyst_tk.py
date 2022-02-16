@@ -199,8 +199,8 @@ class NovelystTk(MainTk):
         else:
             titleView = 'Untitled yWriter project'
 
-        if self._ywPrj.author:
-            authorView = self._ywPrj.author
+        if self._ywPrj.authorName:
+            authorView = self._ywPrj.authorName
 
         else:
             authorView = 'Unknown author'
