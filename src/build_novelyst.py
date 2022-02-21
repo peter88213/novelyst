@@ -21,7 +21,7 @@ TARGET_FILE = f'{BUILD}novelyst.pyw'
 
 
 def main():
-    inliner.run(SOURCE_FILE,TARGET_FILE, 'pynovelyst', '../src/')
+    inliner.run(SOURCE_FILE,TARGET_FILE, 'novelystlib', '../src/')
     inliner.run(TARGET_FILE,TARGET_FILE, 'pywriter', '../../PyWriter/src/')
     print('Done.')
 

@@ -13,7 +13,7 @@ import argparse
 from pathlib import Path
 
 from pywriter.config.configuration import Configuration
-from pynovelyst.novelyst_tk import NovelystTk
+from novelystlib.novelyst_tk import NovelystTk
 
 APPNAME = 'novelyst'
 

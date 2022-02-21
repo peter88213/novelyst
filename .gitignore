@@ -1,5 +1,3 @@
-/src/__pycache__/
-/src/pynovelyst/__pycache__/
-/test/__pycache__/
 /test/yw7/
 /build/
+*.pyc
