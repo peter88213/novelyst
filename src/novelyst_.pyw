@@ -21,10 +21,10 @@ SETTINGS = dict(
 OPTIONS = {}
 
 
-def run(sourcePath='', installDir=''):
+def run(sourcePath='', installDir='.'):
 
     #--- Load configuration.
-    iniFile = f'{installDir}{APPNAME}.ini'
+    iniFile = f'{installDir}/{APPNAME}.ini'
     configuration = Configuration(SETTINGS, OPTIONS)
     configuration.read(iniFile)
     kwargs = {}
@@ -52,9 +52,9 @@ def run(sourcePath='', installDir=''):
 if __name__ == '__main__':
     try:
         homeDir = str(Path.home()).replace('\\', '/')
-        installDir = f'{homeDir}/.pywriter/{APPNAME}/config/'
+        installDir = f'{homeDir}/.pywriter/{APPNAME}/config'
     except:
-        installDir = ''
+        installDir = '.'
     os.makedirs(installDir, exist_ok=True)
     if len(sys.argv) == 1:
         run('', installDir)
