@@ -20,7 +20,8 @@ class NovelystTk(MainTk):
 
     def __init__(self, title, **kwargs):
         """Put a text box to the GUI main window.
-        Extend the superclass constructor.
+        
+        Extends the superclass constructor.
         """
         super().__init__(title, **kwargs)
         self._root.geometry("800x500")
@@ -129,7 +130,8 @@ class NovelystTk(MainTk):
 
     def _extend_menu(self):
         """Add main menu entries.
-        Override the superclass template method. 
+        
+        Overrides the superclass template method. 
         """
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
@@ -140,7 +142,8 @@ class NovelystTk(MainTk):
 
     def _disable_menu(self):
         """Disable menu entries when no project is open.
-        Extend the superclass method.      
+        
+        Extends the superclass method.      
         """
         super()._disable_menu()
         self._mainMenu.entryconfig('Chapter', state='disabled')
@@ -148,7 +151,8 @@ class NovelystTk(MainTk):
 
     def _enable_menu(self):
         """Enable menu entries when a project is open.
-        Extend the superclass method.
+        
+        Extends the superclass method.
         """
         super()._enable_menu()
         self._mainMenu.entryconfig('Chapter', state='normal')
@@ -158,7 +162,7 @@ class NovelystTk(MainTk):
         """Create a yWriter project instance and read the file.
         Display project title, description and status.
         Return the file name.
-        Extend the superclass method.
+        Extends the superclass method.
         """
         fileName = super().open_project(fileName)
         if not fileName:
@@ -186,7 +190,8 @@ class NovelystTk(MainTk):
 
     def _close_project(self):
         """Clear the text box.
-        Extend the superclass method.
+        
+        Extends the superclass method.
         """
         self._reset_chapters()
         self._reset_scenes()
