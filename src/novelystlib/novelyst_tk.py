@@ -7,7 +7,6 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import tkinter as tk
 from tkinter import ttk
-
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
 from pywriter.yw.yw7_file import Yw7File
@@ -29,7 +28,6 @@ class NovelystTk(MainTk):
         self._sceneMenu = None
 
         # Create an application window with a chapter and a scene frame.
-
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
         self._appWindow.pack(expand=True, fill='both')
         self._chapterFrame = tk.Frame(self._appWindow)
@@ -38,7 +36,6 @@ class NovelystTk(MainTk):
         self._appWindow.add(self._sceneFrame)
 
         # Create a chapter window with a chapter tree and an info box.
-
         self._chapterWindow = tk.PanedWindow(self._chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._chapterWindow.pack(expand=True, fill='both')
         self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse')
@@ -57,7 +54,6 @@ class NovelystTk(MainTk):
         self._chapterTree.bind('<<TreeviewSelect>>', self._on_chapter_select)
 
         # Create a scene window with a scene tree and an info box.
-
         self._sceneWindow = tk.PanedWindow(self._sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._sceneWindow.pack(expand=True, fill='both')
         self._sceneTree = ttk.Treeview(self._sceneWindow, selectmode='browse')
@@ -85,65 +81,49 @@ class NovelystTk(MainTk):
         self._set_scene_info(scId)
 
     def _reset_chapters(self):
-
         for child in self._chapterTree.get_children(''):
             self._chapterTree.delete(child)
 
     def _set_chapters(self):
         self._reset_chapters()
-
         for chId in self._ywPrj.srtChapters:            
             display = [] 
             display.append(len(self._ywPrj.chapters[chId].srtScenes))
             wordCount = 0
-            
             for scId in self._ywPrj.chapters[chId].srtScenes:
                 wordCount += self._ywPrj.scenes[scId].wordCount
-                
             display.append(wordCount)
             self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title, values=display)
 
     def _reset_scenes(self):
-
         for child in self._sceneTree.get_children(''):
             self._sceneTree.delete(child)
-
         self._sceneInfoWin.delete('1.0', tk.END)
 
     def _set_scenes(self, chId):
         self._reset_scenes()
-
         for scId in self._ywPrj.chapters[chId].srtScenes:
             display = []
             display.append(self._ywPrj.scenes[scId].wordCount)
-            
             try:
                 display.append(self._ywPrj.characters[self._ywPrj.scenes[scId].characters[0]].title)
-                
             except IndexError:
                 display.append('N/A')
-                
             self._sceneTree.insert('', 'end', scId, text=self._ywPrj.scenes[scId].title, values=display)
 
     def _set_chapter_info(self, chId):
-
         if self._ywPrj.chapters[chId].desc is not None:
             text = self._ywPrj.chapters[chId].desc
-
         else:
             text = ''
-
         self._chapterInfoWin.delete('1.0', tk.END)
         self._chapterInfoWin.insert(tk.END, text)
 
     def _set_scene_info(self, scId):
-
         if self._ywPrj.scenes[scId].desc is not None:
             text = self._ywPrj.scenes[scId].desc
-
         else:
             text = ''
-
         self._sceneInfoWin.delete('1.0', tk.END)
         self._sceneInfoWin.insert(tk.END, text)
 
@@ -181,13 +161,11 @@ class NovelystTk(MainTk):
         Extend the superclass method.
         """
         fileName = super().open_project(fileName)
-
         if not fileName:
             return ''
 
         self._ywPrj = Yw7File(fileName)
         message = self._ywPrj.read()
-
         if message.startswith(ERROR):
             self._close_project()
             self._statusBar.config(text=message)
@@ -195,16 +173,12 @@ class NovelystTk(MainTk):
 
         if self._ywPrj.title:
             titleView = self._ywPrj.title
-
         else:
             titleView = 'Untitled yWriter project'
-
         if self._ywPrj.authorName:
             authorView = self._ywPrj.authorName
-
         else:
             authorView = 'Unknown author'
-
         self._titleBar.config(text=f'{titleView} by {authorView}')
         self._enable_menu()
         self._set_chapters()
