@@ -17,8 +17,16 @@ class NovelystTk(MainTk):
 
     Show titles, descriptions, and contents in a text box.
     """
+    _CHAPTER_COLUMNS = (
+        ('Scenes', 'ch_sc_width'),
+        ('Words', 'ch_wc_width'),
+        )
+    _SCENE_COLUMNS = (
+        ('Words', 'sc_wc_width'),
+        ('Viewpoint', 'sc_vp_width'),
+        )
 
-    def __init__(self, title, **kwargs):
+    def __init__(self, colTitle, **kwargs):
         """Put a text box to the GUI main window.
         
         Required keyword arguments:
@@ -34,7 +42,7 @@ class NovelystTk(MainTk):
         Extends the superclass constructor.
         """
         self.kwargs = kwargs
-        super().__init__(title, **kwargs)
+        super().__init__(colTitle, **kwargs)
         self._root.geometry(kwargs['root_geometry'])
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
         self._root.protocol("WM_DELETE_WINDOW", self._on_closing)
@@ -55,16 +63,16 @@ class NovelystTk(MainTk):
         self._chapterWindow.pack(expand=True, fill='both')
         self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse')
         self._chapterTree.heading('#0', text='Chapter', anchor='w')
-        titleWidth = int(kwargs['chapter_frame_width'])-int(kwargs['ch_sc_width'])-int(kwargs['ch_wc_width'])
+        columns = []
+        titleWidth = int(kwargs['chapter_frame_width'])
+        for column in self._CHAPTER_COLUMNS:
+            titleWidth -= int(kwargs[column[1]])
+            columns.append(column[0])
+        self._chapterTree['columns'] = tuple(columns)
+        for column in self._CHAPTER_COLUMNS:
+            self._chapterTree.heading(column[0], text=column[0], anchor='w')
+            self._chapterTree.column(column[0], width=int(kwargs[column[1]]))
         self._chapterTree.column('#0', width=titleWidth)
-        self._chapterTree['columns'] = ('Scenes', 'Words')
-        
-        self._chapterTree.heading('Scenes', text='Scenes', anchor='w')
-        self._chapterTree.column('Scenes', width=kwargs['ch_sc_width'])
-        
-        self._chapterTree.heading('Words', text='Words', anchor='w')
-        self._chapterTree.column('Words', width=kwargs['ch_wc_width'])       
-        
         kw = {'height':kwargs['chapter_window_height']}
         self._chapterWindow.add(self._chapterTree, **kw)
         self._chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
@@ -77,16 +85,16 @@ class NovelystTk(MainTk):
         self._sceneWindow.pack(expand=True, fill='both')
         self._sceneTree = ttk.Treeview(self._sceneWindow, selectmode='browse')
         self._sceneTree.heading('#0', text= 'Scene', anchor='w')
-        titleWidth = rootWidth - int(kwargs['chapter_frame_width']) - int(kwargs['sc_wc_width']) - int(kwargs['sc_vp_width'])
+        columns = []
+        titleWidth = rootWidth - int(kwargs['chapter_frame_width'])
+        for column in self._SCENE_COLUMNS:
+            titleWidth -= int(kwargs[column[1]])
+            columns.append(column[0])
+        self._sceneTree['columns'] = tuple(columns)
+        for column in self._SCENE_COLUMNS:
+            self._sceneTree.heading(column[0], text=column[0], anchor='w')
+            self._sceneTree.column(column[0], width=int(kwargs[column[1]]))
         self._sceneTree.column('#0', width=titleWidth)
-        self._sceneTree['columns'] = ('Words', 'Viewpoint')
-        
-        self._sceneTree.heading('Words', text= 'Words', anchor='w')
-        self._sceneTree.column('Words', width=kwargs['sc_wc_width'])
-        
-        self._sceneTree.heading('Viewpoint', text= 'Viewpoint', anchor='w')
-        self._sceneTree.column('Viewpoint', width=kwargs['sc_vp_width'])
-        
         kw = {'height':kwargs['scene_window_height']}
         self._sceneWindow.add(self._sceneTree, **kw)
         self._sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
@@ -99,11 +107,11 @@ class NovelystTk(MainTk):
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
         self.kwargs['chapter_frame_width'] = self._chapterFrame.winfo_width()
         self.kwargs['chapter_window_height'] = self._chapterTree.winfo_height()
-        self.kwargs['ch_sc_width'] = self._chapterTree.column(0, 'width')
-        self.kwargs['ch_wc_width'] = self._chapterTree.column(1, 'width')
         self.kwargs['scene_window_height'] = self._sceneTree.winfo_height()
-        self.kwargs['sc_wc_width'] = self._sceneTree.column(0, 'width')
-        self.kwargs['sc_vp_width'] = self._sceneTree.column(1, 'width')
+        for i, column in enumerate(self._CHAPTER_COLUMNS):
+            self.kwargs[column[1]] = self._chapterTree.column(i, 'width')
+        for i, column in enumerate(self._SCENE_COLUMNS):
+            self.kwargs[column[1]] = self._sceneTree.column(i, 'width')
         self._root.destroy()
 
     def _on_chapter_select(self, event):
