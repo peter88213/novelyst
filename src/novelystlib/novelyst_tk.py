@@ -32,7 +32,7 @@ class NovelystTk(MainTk):
         super().__init__(colTitle, **kwargs)
         self._root.geometry(kwargs['root_geometry'])
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
-        self._root.protocol("WM_DELETE_WINDOW", self._on_close_project)
+        self._root.protocol("WM_DELETE_WINDOW", self._on_close)
         self._chapterMenu = None
         self._sceneMenu = None
 
@@ -79,7 +79,10 @@ class NovelystTk(MainTk):
             candidate = f'Chapter "{self._ywPrj.chapters[elemId].title}"'
         elif selection.startswith('pt'):
             candidate = f'Part "{self._ywPrj.chapters[elemId].title}"'
-        if not selection.startswith('nv') and self.ask_yes_no(f'Delete {candidate}?'):
+        else:
+            return
+
+        if self.ask_yes_no(f'Delete {candidate}?'):
             if tv.prev(selection):
                 tv.selection_set(tv.prev(selection))
             else:
@@ -98,7 +101,7 @@ class NovelystTk(MainTk):
         elif selection.startswith('ch') and targetNode.startswith('pt') and not tv.get_children(targetNode):
             tv.move(selection, targetNode, tv.index(targetNode))
 
-    def _on_close_project(self):
+    def _on_close(self):
         """Save windows size and position."""
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
@@ -264,7 +267,6 @@ class NovelystTk(MainTk):
         Extends the superclass method.
         """
         self._reset_novel_tree()
-        self._reset_scenes()
         self._descWindow.delete('1.0', tk.END)
         super()._close_project()
 
