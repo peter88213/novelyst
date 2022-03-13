@@ -91,7 +91,7 @@ class NovelystTk(MainTk):
     def _set_novel_tree(self):
         """Display the opened novel's tree."""
         self._reset_novel_tree()
-        rootNode = self._novelTree.insert('', 'end', 'root', text=self._ywPrj.title)
+        rootNode = self._novelTree.insert('', 'end', 'root', text=self._ywPrj.title, open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
@@ -107,7 +107,7 @@ class NovelystTk(MainTk):
                 inPart = True
                 inChapter = False
                 nodeTags.append('part')
-                partNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                partNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
             else:
                 inChapter = True
                 if inPart:
