@@ -49,8 +49,11 @@ class NovelystTk(MainTk):
         self._treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._treeWindow.pack(expand=True, fill='both')
         self._novelTree = ttk.Treeview(self._treeWindow, selectmode='browse')
-        self._treeWindow.add(self._novelTree)
+        scrollY = ttk.Scrollbar(self._treeWindow, orient="vertical", command=self._novelTree.yview)
+        scrollY.pack(side=tk.RIGHT, fill=tk.Y)
+        self._novelTree.configure(yscrollcommand=scrollY.set)
         self._novelTree.bind('<<TreeviewSelect>>', self._on_node_select)
+        self._treeWindow.add(self._novelTree)
 
         # Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -89,7 +92,7 @@ class NovelystTk(MainTk):
         """Display the opened novel's tree."""
         self._reset_novel_tree()
         rootNode = self._novelTree.insert('', 'end', 'root', text=self._ywPrj.title)
-        hasParts = False
+        inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
             if self._ywPrj.chapters[chId].chType == 1:
@@ -101,13 +104,13 @@ class NovelystTk(MainTk):
             else:
                 nodeTags.append('chapter')
             if self._ywPrj.chapters[chId].chLevel == 1:
-                hasParts = True
-                hasChapters = False
+                inPart = True
+                inChapter = False
                 nodeTags.append('part')
                 partNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
             else:
-                hasChapters = True
-                if hasParts:
+                inChapter = True
+                if inPart:
                     chapterNode = self._novelTree.insert(partNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
                 else:
                     chapterNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
@@ -119,7 +122,7 @@ class NovelystTk(MainTk):
                     nodeTags.append('notes')
                 elif self._ywPrj.scenes[scId].isUnused:
                     nodeTags.append('unused')
-                if hasChapters:
+                if inChapter:
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
