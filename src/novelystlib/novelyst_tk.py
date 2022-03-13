@@ -32,7 +32,7 @@ class NovelystTk(MainTk):
         super().__init__(colTitle, **kwargs)
         self._root.geometry(kwargs['root_geometry'])
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
-        self._root.protocol("WM_DELETE_WINDOW", self._on_closing)
+        self._root.protocol("WM_DELETE_WINDOW", self._on_close_project)
         self._chapterMenu = None
         self._sceneMenu = None
 
@@ -52,7 +52,6 @@ class NovelystTk(MainTk):
         scrollY = ttk.Scrollbar(self._treeWindow, orient="vertical", command=self._novelTree.yview)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
         self._novelTree.configure(yscrollcommand=scrollY.set)
-        self._novelTree.bind('<<TreeviewSelect>>', self._on_node_select)
         self._treeWindow.add(self._novelTree)
 
         # Create a data window.
@@ -65,14 +64,48 @@ class NovelystTk(MainTk):
 
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
-    def _on_closing(self):
+        self._novelTree.bind('<<TreeviewSelect>>', self._on_select_node)
+        self._novelTree.bind('<Control-B1-Motion>', self._move_node)
+        self._novelTree.bind('<Delete>', self._delete_node)
+
+    def _delete_node(self, event):
+        """Delete parts, chapters, and scenes in the novel tree."""
+        tv = event.widget
+        selection = tv.selection()[0]
+        elemId = selection[2:]
+        if selection.startswith('sc'):
+            candidate = f'Scene "{self._ywPrj.scenes[elemId].title}"'
+        elif selection.startswith('ch'):
+            candidate = f'Chapter "{self._ywPrj.chapters[elemId].title}"'
+        elif selection.startswith('pt'):
+            candidate = f'Part "{self._ywPrj.chapters[elemId].title}"'
+        if not selection.startswith('nv') and self.ask_yes_no(f'Delete {candidate}?'):
+            if tv.prev(selection):
+                tv.selection_set(tv.prev(selection))
+            else:
+                tv.selection_set(tv.parent(selection))
+            tv.delete(selection)
+
+    def _move_node(self, event):
+        """Move parts, chapters, and scenes in the novel tree."""
+        tv = event.widget
+        selection = tv.selection()[0]
+        targetNode = tv.identify_row(event.y)
+        if selection[:2] == targetNode[:2]:
+            tv.move(selection, tv.parent(targetNode), tv.index(targetNode))
+        elif selection.startswith('sc') and targetNode.startswith('ch') and not tv.get_children(targetNode):
+            tv.move(selection, targetNode, tv.index(targetNode))
+        elif selection.startswith('ch') and targetNode.startswith('pt') and not tv.get_children(targetNode):
+            tv.move(selection, targetNode, tv.index(targetNode))
+
+    def _on_close_project(self):
         """Save windows size and position."""
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         self._root.destroy()
 
-    def _on_node_select(self, event):
-        """Show the chapter's description and scenes."""
+    def _on_select_node(self, event):
+        """Show info on the right level."""
         nodeId = self._novelTree.selection()[0]
         if nodeId.startswith('ch'):
             chId = self._novelTree.selection()[0].split('ch', maxsplit=1)[1]
@@ -80,6 +113,9 @@ class NovelystTk(MainTk):
         elif nodeId.startswith('sc'):
             scId = nodeId.split('sc', maxsplit=1)[1]
             self._set_scene_info(scId)
+        elif nodeId.startswith('pt'):
+            chId = self._novelTree.selection()[0].split('pt', maxsplit=1)[1]
+            self._set_chapter_info(chId)
         else:
             self._set_novel_info()
 
@@ -91,7 +127,7 @@ class NovelystTk(MainTk):
     def _set_novel_tree(self):
         """Display the opened novel's tree."""
         self._reset_novel_tree()
-        rootNode = self._novelTree.insert('', 'end', 'root', text=self._ywPrj.title, open=True)
+        rootNode = self._novelTree.insert('', 'end', 'nv1', text=self._ywPrj.title, open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
@@ -107,7 +143,7 @@ class NovelystTk(MainTk):
                 inPart = True
                 inChapter = False
                 nodeTags.append('part')
-                partNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
+                partNode = self._novelTree.insert(rootNode, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
             else:
                 inChapter = True
                 if inPart:
