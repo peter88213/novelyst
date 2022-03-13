@@ -18,13 +18,7 @@ APPNAME = 'novelyst'
 SETTINGS = dict(
     yw_last_open='',
     root_geometry='1200x800',
-    chapter_frame_width=500,
-    chapter_window_height=600,
-    ch_sc_width=50,
-    ch_wc_width=50,
-    scene_window_height=600,
-    sc_vp_width=150,
-    sc_wc_width=50,
+    tree_frame_width=500,
 )
 OPTIONS = {}
 

@@ -7,6 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import tkinter as tk
 from tkinter import ttk
+import tkinter.font as tkFont
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
 from pywriter.yw.yw7_file import Yw7File
@@ -17,27 +18,13 @@ class NovelystTk(MainTk):
 
     Show titles, descriptions, and contents in a text box.
     """
-    _CHAPTER_COLUMNS = (
-        ('Scenes', 'ch_sc_width'),
-        ('Words', 'ch_wc_width'),
-        )
-    _SCENE_COLUMNS = (
-        ('Words', 'sc_wc_width'),
-        ('Viewpoint', 'sc_vp_width'),
-        )
 
     def __init__(self, colTitle, **kwargs):
         """Put a text box to the GUI main window.
         
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
-            chapter_frame_width -- int: width of the chapter frame.
-            chapter_window_height -- int: height of the chapter tree window.
-            scene_window_height -- int: height of the scene tree window.
-            ch_sc_width -- int: width of the chapter scenecount column.
-            ch_wc_width -- int: width of the chapter wordcount column.
-            sc_wc_width -- int: width of the scene wordcount column.
-            sc_vp_width -- int: width of the scene viewpoint column.
+            tree_frame_width -- int: width of the chapter frame.
     
         Extends the superclass constructor.
         """
@@ -46,119 +33,87 @@ class NovelystTk(MainTk):
         self._root.geometry(kwargs['root_geometry'])
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
         self._root.protocol("WM_DELETE_WINDOW", self._on_closing)
-        self._chapterMenu = None 
+        self._chapterMenu = None
         self._sceneMenu = None
 
-        # Create an application window with a chapter and a scene frame.
+        # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
         self._appWindow.pack(expand=True, fill='both')
-        self._chapterFrame = tk.Frame(self._appWindow)
-        kw = {'width':kwargs['chapter_frame_width']}
-        self._appWindow.add(self._chapterFrame, **kw)
-        self._sceneFrame = tk.Frame(self._appWindow)
-        self._appWindow.add(self._sceneFrame)
+        self._treeFrame = tk.Frame(self._appWindow)
+        kw = {'width':kwargs['tree_frame_width']}
+        self._appWindow.add(self._treeFrame, **kw)
+        self._dataFrame = tk.Frame(self._appWindow)
+        self._appWindow.add(self._dataFrame)
 
-        # Create a chapter window with a chapter tree and an info box.
-        self._chapterWindow = tk.PanedWindow(self._chapterFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
-        self._chapterWindow.pack(expand=True, fill='both')
-        self._chapterTree = ttk.Treeview(self._chapterWindow, selectmode='browse')
-        self._chapterTree.heading('#0', text='Chapter', anchor='w')
-        columns = []
-        titleWidth = int(kwargs['chapter_frame_width'])
-        for column in self._CHAPTER_COLUMNS:
-            titleWidth -= int(kwargs[column[1]])
-            columns.append(column[0])
-        self._chapterTree['columns'] = tuple(columns)
-        for column in self._CHAPTER_COLUMNS:
-            self._chapterTree.heading(column[0], text=column[0], anchor='w')
-            self._chapterTree.column(column[0], width=int(kwargs[column[1]]))
-        self._chapterTree.column('#0', width=titleWidth)
-        kw = {'height':kwargs['chapter_window_height']}
-        self._chapterWindow.add(self._chapterTree, **kw)
-        self._chapterInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
-        self._chapterWindow.add(self._chapterInfoWin)
+        # Create a novel tree window.
+        self._treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self._treeWindow.pack(expand=True, fill='both')
+        self._novelTree = ttk.Treeview(self._treeWindow, selectmode='browse')
+        self._treeWindow.add(self._novelTree)
+        self._novelTree.bind('<<TreeviewSelect>>', self._on_node_select)
 
-        self._chapterTree.bind('<<TreeviewSelect>>', self._on_chapter_select)
+        # Create a data window.
+        self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self._dataWindow.pack(expand=True, fill='both')
 
-        # Create a scene window with a scene tree and an info box.
-        self._sceneWindow = tk.PanedWindow(self._sceneFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
-        self._sceneWindow.pack(expand=True, fill='both')
-        self._sceneTree = ttk.Treeview(self._sceneWindow, selectmode='browse')
-        self._sceneTree.heading('#0', text= 'Scene', anchor='w')
-        columns = []
-        titleWidth = rootWidth - int(kwargs['chapter_frame_width'])
-        for column in self._SCENE_COLUMNS:
-            titleWidth -= int(kwargs[column[1]])
-            columns.append(column[0])
-        self._sceneTree['columns'] = tuple(columns)
-        for column in self._SCENE_COLUMNS:
-            self._sceneTree.heading(column[0], text=column[0], anchor='w')
-            self._sceneTree.column(column[0], width=int(kwargs[column[1]]))
-        self._sceneTree.column('#0', width=titleWidth)
-        kw = {'height':kwargs['scene_window_height']}
-        self._sceneWindow.add(self._sceneTree, **kw)
-        self._sceneInfoWin = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1,  height=4, width=10)
-        self._sceneWindow.add(self._sceneInfoWin)
+        # Place a desc window inside the data window.
+        self._descWindow = tk.Text(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10)
+        self._dataWindow.add(self._descWindow)
 
-        self._sceneTree.bind('<<TreeviewSelect>>', self._on_scene_select)
+        self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
     def _on_closing(self):
         """Save windows size and position."""
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
-        self.kwargs['chapter_frame_width'] = self._chapterFrame.winfo_width()
-        self.kwargs['chapter_window_height'] = self._chapterTree.winfo_height()
-        self.kwargs['scene_window_height'] = self._sceneTree.winfo_height()
-        for i, column in enumerate(self._CHAPTER_COLUMNS):
-            self.kwargs[column[1]] = self._chapterTree.column(i, 'width')
-        for i, column in enumerate(self._SCENE_COLUMNS):
-            self.kwargs[column[1]] = self._sceneTree.column(i, 'width')
+        self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         self._root.destroy()
 
-    def _on_chapter_select(self, event):
+    def _on_node_select(self, event):
         """Show the chapter's description and scenes."""
-        chId = self._chapterTree.selection()[0]
-        self._set_scenes(chId)
-        self._set_chapter_info(chId)
+        nodeId = self._novelTree.selection()[0]
+        if nodeId.startswith('ch'):
+            chId = self._novelTree.selection()[0].split('ch', maxsplit=1)[1]
+            self._set_chapter_info(chId)
+        elif nodeId.startswith('sc'):
+            scId = nodeId.split('sc', maxsplit=1)[1]
+            self._set_scene_info(scId)
 
-    def _on_scene_select(self, event):
-        """Show the scene description."""
-        scId = self._sceneTree.selection()[0]
-        self._set_scene_info(scId)
+    def _reset_novel_tree(self):
+        """Clear the displayed novel tree."""
+        for child in self._novelTree.get_children(''):
+            self._novelTree.delete(child)
 
-    def _reset_chapters(self):
-        """Clear the displayed chapter tree."""
-        for child in self._chapterTree.get_children(''):
-            self._chapterTree.delete(child)
-
-    def _set_chapters(self):
-        """Display the opened novel's chapter tree."""
-        self._reset_chapters()
-        for chId in self._ywPrj.srtChapters:            
-            display = [] 
-            display.append(len(self._ywPrj.chapters[chId].srtScenes))
-            wordCount = 0
+    def _set_novel_tree(self):
+        """Display the opened novel's tree."""
+        self._reset_novel_tree()
+        for chId in self._ywPrj.srtChapters:
+            nodeTags = []
+            if self._ywPrj.chapters[chId].chType == 1:
+                nodeTags.append('notes')
+            elif self._ywPrj.chapters[chId].chType == 2:
+                nodeTags.append('todo')
+            elif self._ywPrj.chapters[chId].isUnused:
+                nodeTags.append('unused')
+            else:
+                nodeTags.append('chapter')
+            if self._ywPrj.chapters[chId].chLevel == 1:
+                nodeTags.append('part')
+            chapterNode = self._novelTree.insert('', 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
             for scId in self._ywPrj.chapters[chId].srtScenes:
-                wordCount += self._ywPrj.scenes[scId].wordCount
-            display.append(wordCount)
-            self._chapterTree.insert('', 'end', chId, text=self._ywPrj.chapters[chId].title, values=display)
+                nodeTags = []
+                if self._ywPrj.scenes[scId].isTodoScene:
+                    nodeTags.append('todo')
+                elif self._ywPrj.scenes[scId].isNotesScene:
+                    nodeTags.append('notes')
+                elif self._ywPrj.scenes[scId].isUnused:
+                    nodeTags.append('unused')
+                self._novelTree.insert(chapterNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
 
-    def _reset_scenes(self):
-        """Clear the displayed scene tree."""
-        for child in self._sceneTree.get_children(''):
-            self._sceneTree.delete(child)
-        self._sceneInfoWin.delete('1.0', tk.END)
-
-    def _set_scenes(self, chId):
-        """Display the selected chapter's scene tree."""
-        self._reset_scenes()
-        for scId in self._ywPrj.chapters[chId].srtScenes:
-            display = []
-            display.append(self._ywPrj.scenes[scId].wordCount)
-            try:
-                display.append(self._ywPrj.characters[self._ywPrj.scenes[scId].characters[0]].title)
-            except TypeError:
-                display.append('N/A')
-            self._sceneTree.insert('', 'end', scId, text=self._ywPrj.scenes[scId].title, values=display)
+        self._novelTree.tag_configure('chapter', foreground='green')
+        self._novelTree.tag_configure('unused', foreground='grey')
+        self._novelTree.tag_configure('notes', foreground='blue')
+        self._novelTree.tag_configure('todo', foreground='red')
+        self._novelTree.tag_configure('part', font=('', self._fontSize, 'bold'))
 
     def _set_chapter_info(self, chId):
         """Show the selected chapter's description."""
@@ -166,8 +121,8 @@ class NovelystTk(MainTk):
             text = self._ywPrj.chapters[chId].desc
         else:
             text = ''
-        self._chapterInfoWin.delete('1.0', tk.END)
-        self._chapterInfoWin.insert(tk.END, text)
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
 
     def _set_scene_info(self, scId):
         """Show the selected scene's description."""
@@ -175,8 +130,8 @@ class NovelystTk(MainTk):
             text = self._ywPrj.scenes[scId].desc
         else:
             text = ''
-        self._sceneInfoWin.delete('1.0', tk.END)
-        self._sceneInfoWin.insert(tk.END, text)
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
 
     def _extend_menu(self):
         """Add main menu entries.
@@ -236,7 +191,7 @@ class NovelystTk(MainTk):
             authorView = 'Unknown author'
         self._titleBar.config(text=f'{titleView} by {authorView}')
         self._enable_menu()
-        self._set_chapters()
+        self._set_novel_tree()
         return fileName
 
     def _close_project(self):
@@ -244,9 +199,8 @@ class NovelystTk(MainTk):
         
         Extends the superclass method.
         """
-        self._reset_chapters()
+        self._reset_novel_tree()
         self._reset_scenes()
-        self._chapterInfoWin.delete('1.0', tk.END)
-        self._sceneInfoWin.delete('1.0', tk.END)
+        self._descWindow.delete('1.0', tk.END)
         super()._close_project()
 
