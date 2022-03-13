@@ -77,6 +77,8 @@ class NovelystTk(MainTk):
         elif nodeId.startswith('sc'):
             scId = nodeId.split('sc', maxsplit=1)[1]
             self._set_scene_info(scId)
+        else:
+            self._set_novel_info()
 
     def _reset_novel_tree(self):
         """Clear the displayed novel tree."""
@@ -86,6 +88,8 @@ class NovelystTk(MainTk):
     def _set_novel_tree(self):
         """Display the opened novel's tree."""
         self._reset_novel_tree()
+        rootNode = self._novelTree.insert('', 'end', 'root', text=self._ywPrj.title)
+        hasParts = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
             if self._ywPrj.chapters[chId].chType == 1:
@@ -97,8 +101,16 @@ class NovelystTk(MainTk):
             else:
                 nodeTags.append('chapter')
             if self._ywPrj.chapters[chId].chLevel == 1:
+                hasParts = True
+                hasChapters = False
                 nodeTags.append('part')
-            chapterNode = self._novelTree.insert('', 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                partNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+            else:
+                hasChapters = True
+                if hasParts:
+                    chapterNode = self._novelTree.insert(partNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                else:
+                    chapterNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
             for scId in self._ywPrj.chapters[chId].srtScenes:
                 nodeTags = []
                 if self._ywPrj.scenes[scId].isTodoScene:
@@ -107,13 +119,26 @@ class NovelystTk(MainTk):
                     nodeTags.append('notes')
                 elif self._ywPrj.scenes[scId].isUnused:
                     nodeTags.append('unused')
-                self._novelTree.insert(chapterNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
+                if hasChapters:
+                    parentNode = chapterNode
+                else:
+                    parentNode = partNode
+                self._novelTree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
 
         self._novelTree.tag_configure('chapter', foreground='green')
         self._novelTree.tag_configure('unused', foreground='grey')
         self._novelTree.tag_configure('notes', foreground='blue')
         self._novelTree.tag_configure('todo', foreground='red')
         self._novelTree.tag_configure('part', font=('', self._fontSize, 'bold'))
+
+    def _set_novel_info(self):
+        """Show the selected novel's description."""
+        if self._ywPrj.desc is not None:
+            text = self._ywPrj.desc
+        else:
+            text = ''
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
 
     def _set_chapter_info(self, chId):
         """Show the selected chapter's description."""
