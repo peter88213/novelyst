@@ -11,6 +11,8 @@ import tkinter.font as tkFont
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
 from pywriter.yw.yw7_file import Yw7File
+from pywriter.model.chapter import Chapter
+from pywriter.model.scene import Scene
 
 
 class NovelystTk(MainTk):
@@ -68,6 +70,9 @@ class NovelystTk(MainTk):
         self._novelTree.bind('<Control-B1-Motion>', self._move_node)
         self._novelTree.bind('<Delete>', self._delete_node)
 
+        self._rootNode = None
+        self._trashNode = None
+
     def _delete_node(self, event):
         """Delete parts, chapters, and scenes in the novel tree."""
         tv = event.widget
@@ -87,7 +92,32 @@ class NovelystTk(MainTk):
                 tv.selection_set(tv.prev(selection))
             else:
                 tv.selection_set(tv.parent(selection))
-            tv.delete(selection)
+            if selection == self._trashNode:
+                tv.delete(selection)
+                self._trashNode = None
+            else:
+                if self._trashNode is None:
+                    i = 1
+                    while str(i) in self._ywPrj.chapters:
+                        i += 1
+                    trashId = str(i)
+                    self._ywPrj.chapters[trashId] = Chapter()
+                    self._ywPrj.chapters[trashId].title = "Trash"
+                    self._ywPrj.chapters[trashId].isTrash = True
+                    self._ywPrj.chapters[trashId].isUnused = True
+                    self._ywPrj.srtChapters.append(trashId)
+                    self._trashNode = f'pt{trashId}'
+                    self._novelTree.insert(self._rootNode, 'end', self._trashNode, text='Trash', tags='unused', open=True)
+                else:
+                    trashId = self._trashNode[2:]
+                tv.move(selection, self._trashNode, tv.index(self._trashNode))
+                tv.item(selection, tags='unused')
+                scId = selection[2:]
+                for chId in self._ywPrj.chapters:
+                    if scId in self._ywPrj.chapters[chId].srtScenes:
+                        self._ywPrj.chapters[chId].srtScenes.remove(scId)
+                        break
+                self._ywPrj.chapters[trashId].srtScenes.append(scId)
 
     def _move_node(self, event):
         """Move parts, chapters, and scenes in the novel tree."""
@@ -130,7 +160,7 @@ class NovelystTk(MainTk):
     def _set_novel_tree(self):
         """Display the opened novel's tree."""
         self._reset_novel_tree()
-        rootNode = self._novelTree.insert('', 'end', 'nv1', text=self._ywPrj.title, open=True)
+        self._rootNode = self._novelTree.insert('', 'end', 'nv1', text=self._ywPrj.title, open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
@@ -142,17 +172,20 @@ class NovelystTk(MainTk):
                 nodeTags.append('unused')
             else:
                 nodeTags.append('chapter')
+            if self._ywPrj.chapters[chId].isTrash:
+                self._trashNode = f'ch{chId}'
             if self._ywPrj.chapters[chId].chLevel == 1:
                 inPart = True
                 inChapter = False
                 nodeTags.append('part')
-                partNode = self._novelTree.insert(rootNode, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
+                partNode = self._novelTree.insert(self._rootNode, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
             else:
                 inChapter = True
                 if inPart:
-                    chapterNode = self._novelTree.insert(partNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                    parentNode = partNode
                 else:
-                    chapterNode = self._novelTree.insert(rootNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                    parentNode = self._rootNode
+                chapterNode = self._novelTree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
             for scId in self._ywPrj.chapters[chId].srtScenes:
                 nodeTags = []
                 if self._ywPrj.scenes[scId].isTodoScene:
