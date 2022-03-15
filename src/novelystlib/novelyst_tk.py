@@ -106,14 +106,21 @@ class NovelystTk(MainTk):
         self._fileMenu.entryconfig('Save', state='normal')
 
     def _delete_node(self, event):
-        """Delete parts, chapters, and scenes in the novel tree."""
+        """Delete a node and its children.
+        
+        Move scenes to the "Trash" chapter.
+        Delete parts/chapters and move their children scenes to the "Trash" chapter.
+        Delete characters/locations/items and remove their scene references.
+        """
 
         def waste_scenes(node):
             """Move all scenes under the node to the 'trash bin'."""
             if node.startswith('sc'):
+                # Move scene.
                 tv.item(node, tags='unused')
                 tv.move(node, self._trashNode, tv.index(self._trashNode))
             else:
+                # Delete chapter and go one level up.
                 del self._ywPrj.chapters[node[2:]]
                 for childNode in self._tree.get_children(node):
                     waste_scenes(childNode)
@@ -149,29 +156,32 @@ class NovelystTk(MainTk):
                     del self._ywPrj.scenes[scId]
                 del self._ywPrj.chapters[elemId]
             elif selection.startswith('cr'):
+                # Delete a character and remove references.
+                tv.delete(selection)
                 del self._ywPrj.characters[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].characters.remove(elemId)
-                    except ValueError:
+                    except:
                         pass
-                tv.delete(selection)
             elif selection.startswith('lc'):
+                # Delete a location and remove references.
+                tv.delete(selection)
                 del self._ywPrj.locations[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].locations.remove(elemId)
-                    except ValueError:
+                    except:
                         pass
-                tv.delete(selection)
             elif selection.startswith('it'):
+                # Delete an item and remove references.
+                tv.delete(selection)
                 del self._ywPrj.items[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].items.remove(elemId)
-                    except ValueError:
+                    except:
                         pass
-                tv.delete(selection)
             else:
                 # Move scene(s) to the "trash bin".
                 if self._trashNode is None:
@@ -237,7 +247,7 @@ class NovelystTk(MainTk):
         self._reset_tree()
 
         #--- Build Parts/Chapters/scenes tree.
-        self._novelRoot = self._tree.insert('', 'end', 'Novel', text='Novel', open=True)
+        self._novelRoot = self._tree.insert('', 'end', 'rootNovel', text='Novel', open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
@@ -284,17 +294,17 @@ class NovelystTk(MainTk):
         self._tree.tag_configure('part', font=('', self._fontSize, 'bold'))
 
         #--- Build character tree.
-        self._characterRoot = self._tree.insert('', 'end', 'Characters', text='Characters', open=False)
+        self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', open=False)
         for crId in self._ywPrj.srtCharacters:
             self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, open=True)
 
         #--- Build location tree.
-        self._locationRoot = self._tree.insert('', 'end', 'Locations', text='Locations', open=False)
+        self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', open=False)
         for lcId in self._ywPrj.srtLocations:
             self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, open=True)
 
         #--- Build item tree.
-        self._itemRoot = self._tree.insert('', 'end', 'Items', text='Items', open=False)
+        self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', open=False)
         for itId in self._ywPrj.srtItems:
             self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, open=True)
 
