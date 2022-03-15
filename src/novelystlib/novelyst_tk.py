@@ -23,12 +23,23 @@ class NovelystTk(MainTk):
     Show titles, descriptions, and contents in a text box.
     """
 
+    _COLUMNS = (
+        ('Words', 'wc_width'),
+        ('Status', 'status_width'),
+        ('Viewpoint', 'vp_width'),
+        ('Tags', 'tags_width'),
+        )
+
     def __init__(self, colTitle, **kwargs):
         """Put a text box to the GUI main window.
         
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
             tree_frame_width -- int: width of the chapter frame.
+            wc_width -- int: width of the wordcount column.
+            status_width -- int: width of the scene status column.
+            vp_width -- int: width of the scene viewpoint column.
+            tags_width -- int: width of the tags column.
             color_chapter -- str: tk color name for normal parts and chapters.
             color_unused -- str: tk color name for unused chapters and scenes.
             color_notes -- str: tk color name for "Notes" chapters and scenes.
@@ -69,6 +80,18 @@ class NovelystTk(MainTk):
         self._tree.configure(yscrollcommand=scrollY.set)
         self._treeWindow.add(self._tree)
 
+        # Add columns to the tree.
+        columns = []
+        titleWidth = int(kwargs['tree_frame_width'])
+        for column in self._COLUMNS:
+            titleWidth -= int(kwargs[column[1]])
+            columns.append(column[0])
+        self._tree['columns'] = tuple(columns)
+        for column in self._COLUMNS:
+            self._tree.heading(column[0], text=column[0], anchor='w')
+            self._tree.column(column[0], width=int(kwargs[column[1]]))
+        self._tree.column('#0', width=titleWidth)
+
         # Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._dataWindow.pack(expand=True, fill='both')
@@ -88,6 +111,48 @@ class NovelystTk(MainTk):
 
     def _build_tree(self):
         """Display the opened novel's tree."""
+
+        def set_scene_columns(display):
+            """Configure scene columns."""
+            display.append(self._ywPrj.scenes[scId].wordCount)
+            display.append(Scene.STATUS[self._ywPrj.scenes[scId].status])
+            try:
+                display.append(self._ywPrj.characters[self._ywPrj.scenes[scId].characters[0]].title)
+            except TypeError:
+                display.append('N/A')
+            try:
+                display.append(','.join(self._ywPrj.scenes[scId].tags))
+            except:
+                display.append('')
+
+        def set_chapter_columns(display):
+            """Configure chapter columns."""
+            wordCount = 0
+            for scId in self._ywPrj.chapters[chId].srtScenes:
+                wordCount += self._ywPrj.scenes[scId].wordCount
+            display.append(wordCount)
+
+        def set_character_columns(display):
+            """Configure character columns."""
+            try:
+                display.append(','.join(self._ywPrj.characters[crId].tags))
+            except:
+                display.append('')
+
+        def set_location_columns(display):
+            """Configure location columns."""
+            try:
+                display.append(','.join(self._ywPrj.locations[lcId].tags))
+            except:
+                display.append('')
+
+        def set_item_columns(display):
+            """Configure item columns."""
+            try:
+                display.append(','.join(self._ywPrj.items[itId].tags))
+            except:
+                display.append('')
+
         self._reset_tree()
 
         #--- Build Parts/Chapters/scenes tree.
@@ -95,6 +160,7 @@ class NovelystTk(MainTk):
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
+            chDisplay = []
             if self._ywPrj.chapters[chId].chType == 1:
                 nodeTags.append('notes')
             elif self._ywPrj.chapters[chId].chType == 2:
@@ -117,8 +183,10 @@ class NovelystTk(MainTk):
                     parentNode = partNode
                 else:
                     parentNode = self._novelRoot
-                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                set_chapter_columns(chDisplay)
+                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, values=chDisplay, tags=tuple(nodeTags))
             for scId in self._ywPrj.chapters[chId].srtScenes:
+                scDisplay = []
                 nodeTags = []
                 if self._ywPrj.scenes[scId].isTodoScene:
                     nodeTags.append('todo')
@@ -126,30 +194,39 @@ class NovelystTk(MainTk):
                     nodeTags.append('notes')
                 elif self._ywPrj.scenes[scId].isUnused:
                     nodeTags.append('unused')
+                    set_scene_columns(scDisplay)
+                else:
+                    set_scene_columns(scDisplay)
                 if inChapter:
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
-                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
+                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, values=scDisplay, tags=tuple(nodeTags))
 
         #--- Build character tree.
         self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', tags='root', open=False)
         for crId in self._ywPrj.srtCharacters:
+            display = ['', '', '']
             if self._ywPrj.characters[crId].isMajor:
                 tags = 'major'
             else:
                 tags = 'minor'
-            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, tags=tags)
+            set_character_columns(display)
+            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, values=display, tags=tags)
 
         #--- Build location tree.
         self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', tags='root', open=False)
         for lcId in self._ywPrj.srtLocations:
-            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title)
+            display = ['', '', '']
+            set_location_columns(display)
+            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, values=display)
 
         #--- Build item tree.
         self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', tags='root', open=False)
         for itId in self._ywPrj.srtItems:
-            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title)
+            display = ['', '', '']
+            set_item_columns(display)
+            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, values=display)
 
         self._tree.tag_configure('root', font=('', self._fontSize, 'bold'))
         self._tree.tag_configure('chapter', foreground=self.kwargs['color_chapter'])
@@ -309,6 +386,8 @@ class NovelystTk(MainTk):
         self._close_project()
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
+        for i, column in enumerate(self._COLUMNS):
+            self.kwargs[column[1]] = self._tree.column(i, 'width')
         super()._on_quit()
         self._root.quit()
 

@@ -30,6 +30,10 @@ SETTINGS = dict(
     color_1st_edit='DarkOrange1',
     color_2nd_edit='goldenrod2',
     color_done='DarkOliveGreen4',
+    wc_width=50,
+    status_width=50,
+    vp_width=100,
+    tags_width=100,
 )
 OPTIONS = {}
 
