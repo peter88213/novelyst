@@ -85,13 +85,6 @@ class NovelystTk(MainTk):
 
         self._novelRoot = None
         self._trashNode = None
-        self.statusColors = (
-            kwargs['color_outline'],
-            kwargs['color_draft'],
-            kwargs['color_1st_edit'],
-            kwargs['color_2nd_edit'],
-            kwargs['color_done']
-            )
 
     def _build_tree(self):
         """Display the opened novel's tree."""
@@ -166,6 +159,11 @@ class NovelystTk(MainTk):
         self._tree.tag_configure('part', font=('', self._fontSize, 'bold'))
         self._tree.tag_configure('major', foreground=self.kwargs['color_major'])
         self._tree.tag_configure('minor', foreground=self.kwargs['color_minor'])
+        self._tree.tag_configure('Outline', foreground=self.kwargs['color_outline'])
+        self._tree.tag_configure('Draft', foreground=self.kwargs['color_draft'])
+        self._tree.tag_configure('1st Edit', foreground=self.kwargs['color_1st_edit'])
+        self._tree.tag_configure('2nd Edit', foreground=self.kwargs['color_2nd_edit'])
+        self._tree.tag_configure('Done', foreground=self.kwargs['color_done'])
 
     def _update_tree(self):
         """Rebuild the sorted lists."""
