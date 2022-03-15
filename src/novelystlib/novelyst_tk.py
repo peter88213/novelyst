@@ -117,74 +117,47 @@ class NovelystTk(MainTk):
         self._novelRoot = self._tree.insert('', 'end', 'rootNovel', text='Novel', tags='root', open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
-            nodeTags = []
-            columns = []
-            if self._ywPrj.chapters[chId].chType == 1:
-                nodeTags.append('notes')
-            elif self._ywPrj.chapters[chId].chType == 2:
-                nodeTags.append('todo')
-            elif self._ywPrj.chapters[chId].isUnused:
-                nodeTags.append('unused')
-            else:
-                nodeTags.append('chapter')
             if self._ywPrj.chapters[chId].isTrash:
                 self._trashNode = f'ch{chId}'
                 inPart = False
             if self._ywPrj.chapters[chId].chLevel == 1:
                 inPart = True
                 inChapter = False
-                nodeTags.append('part')
-                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
+                columns, nodeTags = self._set_chapter_display(chId)
+                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, values=columns, tags=nodeTags, open=True)
             else:
                 inChapter = True
                 if inPart:
                     parentNode = partNode
                 else:
                     parentNode = self._novelRoot
-                self._set_chapter_display(chId, columns)
-                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, values=columns, tags=tuple(nodeTags))
+                columns, nodeTags = self._set_chapter_display(chId)
+                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, values=columns, tags=nodeTags)
             for scId in self._ywPrj.chapters[chId].srtScenes:
-                columns = []
-                nodeTags = []
-                if self._ywPrj.scenes[scId].isTodoScene:
-                    nodeTags.append('todo')
-                elif self._ywPrj.scenes[scId].isNotesScene:
-                    nodeTags.append('notes')
-                elif self._ywPrj.scenes[scId].isUnused:
-                    nodeTags.append('unused')
-                    self._set_scene_display(scId, columns)
-                else:
-                    self._set_scene_display(scId, columns)
+                columns, nodeTags = self._set_scene_display(scId)
                 if inChapter:
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
-                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, values=columns, tags=tuple(nodeTags))
+                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
         self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', tags='root', open=False)
         for crId in self._ywPrj.srtCharacters:
-            columns = ['', '', '']
-            if self._ywPrj.characters[crId].isMajor:
-                tags = 'major'
-            else:
-                tags = 'minor'
-            self._set_character_display(crId, columns)
-            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, values=columns, tags=tags)
+            columns, nodeTags = self._set_character_display(crId)
+            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, values=columns, tags=nodeTags)
 
         #--- Build location tree.
         self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', tags='root', open=False)
         for lcId in self._ywPrj.srtLocations:
-            columns = ['', '', '']
-            self._set_location_display(lcId, columns)
-            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, values=columns)
+            columns, nodeTags = self._set_location_display(lcId)
+            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, values=columns, tags=nodeTags)
 
         #--- Build item tree.
         self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', tags='root', open=False)
         for itId in self._ywPrj.srtItems:
-            columns = ['', '', '']
-            self._set_item_display(itId, columns)
-            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, values=columns)
+            columns, nodeTags = self._set_item_display(itId)
+            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, values=columns, tags=nodeTags)
 
         self._tree.tag_configure('root', font=('', self._fontSize, 'bold'))
         self._tree.tag_configure('chapter', foreground=self.kwargs['color_chapter'])
@@ -206,30 +179,29 @@ class NovelystTk(MainTk):
         def update_node(node, chId):
             """Recursive tree builder."""
             for childNode in self._tree.get_children(node):
-                columns = []
                 if childNode.startswith('sc'):
                     scId = childNode[2:]
                     self._ywPrj.chapters[chId].srtScenes.append(scId)
-                    self._set_scene_display(scId, columns)
+                    columns, nodeTags = self._set_scene_display(scId)
                 elif childNode.startswith('cr'):
                     crId = childNode[2:]
                     self._ywPrj.srtCharacters.append(crId)
-                    self._set_character_display(crId, columns)
+                    columns, nodeTags = self._set_character_display(crId)
                 elif childNode.startswith('lc'):
                     lcId = childNode[2:]
                     self._ywPrj.srtLocations.append(lcId)
-                    self._set_location_display(lcId, columns)
+                    columns, nodeTags = self._set_location_display(lcId)
                 elif childNode.startswith('it'):
                     itId = childNode[2:]
                     self._ywPrj.srtItems.append(itId)
-                    self._set_item_display(itId, columns)
+                    columns, nodeTags = self._set_item_display(itId)
                 else:
                     chId = childNode[2:]
                     self._ywPrj.srtChapters.append(chId)
                     self._ywPrj.chapters[chId].srtScenes = []
                     update_node(childNode, chId)
-                    self._set_chapter_display(chId, columns)
-                self._tree.item(childNode, values=columns)
+                    columns, nodeTags = self._set_chapter_display(chId)
+                self._tree.item(childNode, values=columns, tags=nodeTags)
 
         self._ywPrj.srtChapters = []
         self._ywPrj.srtCharacters = []
@@ -337,8 +309,20 @@ class NovelystTk(MainTk):
                     tv.delete(selection)
             self._update_tree()
 
-    def _set_scene_display(self, scId, columns):
-        """Configure scene columns."""
+    def _set_scene_display(self, scId):
+        """Configure scene formatting and columns."""
+        columns = []
+        nodeTags = []
+        if self._ywPrj.scenes[scId].isTodoScene:
+            nodeTags.append('todo')
+            return columns, tuple(nodeTags)
+
+        if self._ywPrj.scenes[scId].isNotesScene:
+            nodeTags.append('notes')
+            return columns, tuple(nodeTags)
+
+        if self._ywPrj.scenes[scId].isUnused:
+            nodeTags.append('unused')
         columns.append(self._ywPrj.scenes[scId].wordCount)
         columns.append(Scene.STATUS[self._ywPrj.scenes[scId].status])
         try:
@@ -349,44 +333,96 @@ class NovelystTk(MainTk):
             columns.append(','.join(self._ywPrj.scenes[scId].tags))
         except:
             columns.append('')
+        return columns, tuple(nodeTags)
 
-    def _set_chapter_display(self, chId, columns):
-        """Configure chapter columns."""
+    def _set_chapter_display(self, chId):
+        """Configure chapter formatting and columns."""
+
+        def count_words(chId):
+            """Accumulate word counts of all relevant scenes in a chapter."""
+            wordCount = 0
+            for scId in self._ywPrj.chapters[chId].srtScenes:
+                if self._ywPrj.scenes[scId].isUnused:
+                    continue
+                if self._ywPrj.scenes[scId].isTodoScene:
+                    continue
+                if self._ywPrj.scenes[scId].isNotesScene:
+                    continue
+                wordCount += self._ywPrj.scenes[scId].wordCount
+            return wordCount
+
+        columns = []
+        nodeTags = []
         wordCount = 0
-        for scId in self._ywPrj.chapters[chId].srtScenes:
-            wordCount += self._ywPrj.scenes[scId].wordCount
+        if self._ywPrj.chapters[chId].chType == 1:
+            nodeTags.append('notes')
+        elif self._ywPrj.chapters[chId].chType == 2:
+            nodeTags.append('todo')
+        elif self._ywPrj.chapters[chId].isUnused:
+            nodeTags.append('unused')
+        else:
+            nodeTags.append('chapter')
+            wordCount = count_words(chId)
+        if self._ywPrj.chapters[chId].chLevel == 1:
+            # This chapter begins a new section in ywriter.
+            nodeTags.append('part')
+            # Add all scene wordcounts until the next part.
+            i = self._ywPrj.srtChapters.index(chId) + 1
+            while i < len(self._ywPrj.srtChapters):
+                c = self._ywPrj.srtChapters[i]
+                if self._ywPrj.chapters[c].chLevel == 1:
+                    break
+                i += 1
+                wordCount += count_words(c)
         columns.append(wordCount)
+        return columns, tuple(nodeTags)
 
-    def _set_character_display(self, crId, columns):
-        """Configure character columns."""
+    def _set_character_display(self, crId):
+        """Configure character formatting and columns."""
+        columns = ['', '', '']
+        nodeTags = []
         try:
             columns.append(','.join(self._ywPrj.characters[crId].tags))
         except:
             columns.append('')
+        if self._ywPrj.characters[crId].isMajor:
+            nodeTags.append('major')
+        else:
+            nodeTags.append('minor')
+        return columns, tuple(nodeTags)
 
-    def _set_location_display(self, lcId, columns):
-        """Configure location columns."""
+    def _set_location_display(self, lcId):
+        """Configure location formatting and columns."""
+        columns = ['', '', '']
+        nodeTags = []
         try:
             columns.append(','.join(self._ywPrj.locations[lcId].tags))
         except:
             columns.append('')
+        return columns, tuple(nodeTags)
 
-    def _set_item_display(self, itId, columns):
-        """Configure item columns."""
+    def _set_item_display(self, itId):
+        """Configure item formatting and columns."""
+        columns = ['', '', '']
+        nodeTags = []
         try:
             columns.append(','.join(self._ywPrj.items[itId].tags))
         except:
             columns.append('')
+        return columns, tuple(nodeTags)
 
     def _move_node(self, event):
         """Move parts, chapters, and scenes in the novel tree."""
         tv = event.widget
         selection = tv.selection()[0]
         targetNode = tv.identify_row(event.y)
+        # tv.item(targetNode, open=True)
         if selection[:2] == targetNode[:2]:
             tv.move(selection, tv.parent(targetNode), tv.index(targetNode))
         elif selection.startswith('sc') and targetNode.startswith('ch') and not tv.get_children(targetNode):
-            tv.move(selection, targetNode, tv.index(targetNode))
+            tv.move(selection, targetNode, 0)
+        elif selection.startswith('sc') and targetNode.startswith('pt'):
+            tv.move(selection, targetNode, 0)
         elif selection.startswith('ch') and targetNode.startswith('pt') and not tv.get_children(targetNode):
             tv.move(selection, targetNode, tv.index(targetNode))
         self._update_tree()
