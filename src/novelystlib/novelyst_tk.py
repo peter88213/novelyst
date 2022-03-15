@@ -52,11 +52,11 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self._treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._treeWindow.pack(expand=True, fill='both')
-        self._novelTree = ttk.Treeview(self._treeWindow, selectmode='browse')
-        scrollY = ttk.Scrollbar(self._treeWindow, orient="vertical", command=self._novelTree.yview)
+        self._tree = ttk.Treeview(self._treeWindow, selectmode='browse')
+        scrollY = ttk.Scrollbar(self._treeWindow, orient="vertical", command=self._tree.yview)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
-        self._novelTree.configure(yscrollcommand=scrollY.set)
-        self._treeWindow.add(self._novelTree)
+        self._tree.configure(yscrollcommand=scrollY.set)
+        self._treeWindow.add(self._tree)
 
         # Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -68,21 +68,27 @@ class NovelystTk(MainTk):
 
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
-        self._novelTree.bind('<<TreeviewSelect>>', self._on_select_node)
-        self._novelTree.bind('<Control-B1-Motion>', self._move_node)
-        self._novelTree.bind('<Delete>', self._delete_node)
+        self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
+        self._tree.bind('<Control-B1-Motion>', self._move_node)
+        self._tree.bind('<Delete>', self._delete_node)
 
-        self._rootNode = None
+        self._novelRoot = None
         self._trashNode = None
 
-    def _update_novel_tree(self):
-        """Rebuild the srtChapters and srtScenes lists."""
+    def _update_tree(self):
+        """Rebuild the sorted lists."""
 
         def update_node(node, chId):
             """Recursive tree builder."""
-            for childNode in self._novelTree.get_children(node):
+            for childNode in self._tree.get_children(node):
                 if childNode.startswith('sc'):
                     self._ywPrj.chapters[chId].srtScenes.append(childNode[2:])
+                elif childNode.startswith('cr'):
+                    self._ywPrj.srtCharacters.append(childNode[2:])
+                elif childNode.startswith('lc'):
+                    self._ywPrj.srtLocations.append(childNode[2:])
+                elif childNode.startswith('it'):
+                    self._ywPrj.srtItems.append(childNode[2:])
                 else:
                     chId = childNode[2:]
                     self._ywPrj.srtChapters.append(chId)
@@ -90,7 +96,13 @@ class NovelystTk(MainTk):
                     update_node(childNode, chId)
 
         self._ywPrj.srtChapters = []
-        update_node(self._rootNode, '')
+        self._ywPrj.srtCharacters = []
+        self._ywPrj.srtLocations = []
+        self._ywPrj.srtItems = []
+        update_node(self._novelRoot, '')
+        update_node(self._characterRoot, '')
+        update_node(self._locationRoot, '')
+        update_node(self._itemRoot, '')
         self._fileMenu.entryconfig('Save', state='normal')
 
     def _delete_node(self, event):
@@ -103,7 +115,7 @@ class NovelystTk(MainTk):
                 tv.move(node, self._trashNode, tv.index(self._trashNode))
             else:
                 del self._ywPrj.chapters[node[2:]]
-                for childNode in self._novelTree.get_children(node):
+                for childNode in self._tree.get_children(node):
                     waste_scenes(childNode)
 
         tv = event.widget
@@ -115,6 +127,12 @@ class NovelystTk(MainTk):
             candidate = f'Chapter "{self._ywPrj.chapters[elemId].title}"'
         elif selection.startswith('pt'):
             candidate = f'Part "{self._ywPrj.chapters[elemId].title}"'
+        elif selection.startswith('cr'):
+            candidate = f'Character "{self._ywPrj.characters[elemId].title}"'
+        elif selection.startswith('lc'):
+            candidate = f'Location "{self._ywPrj.locations[elemId].title}"'
+        elif selection.startswith('it'):
+            candidate = f'Item "{self._ywPrj.items[elemId].title}"'
         else:
             return
 
@@ -130,6 +148,30 @@ class NovelystTk(MainTk):
                 for scId in self._ywPrj.chapters[elemId].srtScenes:
                     del self._ywPrj.scenes[scId]
                 del self._ywPrj.chapters[elemId]
+            elif selection.startswith('cr'):
+                del self._ywPrj.characters[elemId]
+                for scId in self._ywPrj.scenes:
+                    try:
+                        self._ywPrj.scenes[scId].characters.remove(elemId)
+                    except ValueError:
+                        pass
+                tv.delete(selection)
+            elif selection.startswith('lc'):
+                del self._ywPrj.locations[elemId]
+                for scId in self._ywPrj.scenes:
+                    try:
+                        self._ywPrj.scenes[scId].locations.remove(elemId)
+                    except ValueError:
+                        pass
+                tv.delete(selection)
+            elif selection.startswith('it'):
+                del self._ywPrj.items[elemId]
+                for scId in self._ywPrj.scenes:
+                    try:
+                        self._ywPrj.scenes[scId].items.remove(elemId)
+                    except ValueError:
+                        pass
+                tv.delete(selection)
             else:
                 # Move scene(s) to the "trash bin".
                 if self._trashNode is None:
@@ -143,11 +185,11 @@ class NovelystTk(MainTk):
                     self._ywPrj.chapters[trashId].isTrash = True
                     self._ywPrj.chapters[trashId].isUnused = True
                     self._trashNode = f'ch{trashId}'
-                    self._novelTree.insert(self._rootNode, 'end', self._trashNode, text='Trash', tags='unused', open=True)
+                    self._tree.insert(self._novelRoot, 'end', self._trashNode, text='Trash', tags='unused', open=True)
                 waste_scenes(selection)
                 if not selection.startswith('sc'):
                     tv.delete(selection)
-            self._update_novel_tree()
+            self._update_tree()
 
     def _move_node(self, event):
         """Move parts, chapters, and scenes in the novel tree."""
@@ -160,7 +202,7 @@ class NovelystTk(MainTk):
             tv.move(selection, targetNode, tv.index(targetNode))
         elif selection.startswith('ch') and targetNode.startswith('pt') and not tv.get_children(targetNode):
             tv.move(selection, targetNode, tv.index(targetNode))
-        self._update_novel_tree()
+        self._update_tree()
 
     def _on_quit(self):
         """Save windows size and position."""
@@ -172,23 +214,30 @@ class NovelystTk(MainTk):
 
     def _on_select_node(self, event):
         """Show info on the right level."""
-        nodeId = self._novelTree.selection()[0]
+        nodeId = self._tree.selection()[0]
         if nodeId.startswith('ch'):
-            chId = self._novelTree.selection()[0].split('ch', maxsplit=1)[1]
-            self._set_chapter_info(chId)
+            self._set_chapter_info(nodeId[2:])
         elif nodeId.startswith('sc'):
-            scId = nodeId.split('sc', maxsplit=1)[1]
-            self._set_scene_info(scId)
+            self._set_scene_info(nodeId[2:])
         elif nodeId.startswith('pt'):
-            chId = self._novelTree.selection()[0].split('pt', maxsplit=1)[1]
-            self._set_chapter_info(chId)
-        else:
+            self._set_chapter_info(nodeId[2:])
+        elif nodeId == 'Novel':
             self._set_novel_info()
+        elif nodeId.startswith('cr'):
+            self._set_character_info(nodeId[2:])
+        elif nodeId.startswith('lc'):
+            self._set_location_info(nodeId[2:])
+        elif nodeId.startswith('it'):
+            self._set_item_info(nodeId[2:])
+        else:
+            self._reset_info()
 
-    def _set_novel_tree(self):
+    def _build_tree(self):
         """Display the opened novel's tree."""
-        self._reset_novel_tree()
-        self._rootNode = self._novelTree.insert('', 'end', 'nv1', text=self._ywPrj.title, open=True)
+        self._reset_tree()
+
+        #--- Build Parts/Chapters/scenes tree.
+        self._novelRoot = self._tree.insert('', 'end', 'Novel', text='Novel', open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             nodeTags = []
@@ -207,14 +256,14 @@ class NovelystTk(MainTk):
                 inPart = True
                 inChapter = False
                 nodeTags.append('part')
-                partNode = self._novelTree.insert(self._rootNode, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
+                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
             else:
                 inChapter = True
                 if inPart:
                     parentNode = partNode
                 else:
-                    parentNode = self._rootNode
-                chapterNode = self._novelTree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+                    parentNode = self._novelRoot
+                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
             for scId in self._ywPrj.chapters[chId].srtScenes:
                 nodeTags = []
                 if self._ywPrj.scenes[scId].isTodoScene:
@@ -227,17 +276,32 @@ class NovelystTk(MainTk):
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
-                self._novelTree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
-        self._novelTree.tag_configure('chapter', foreground='green')
-        self._novelTree.tag_configure('unused', foreground='grey')
-        self._novelTree.tag_configure('notes', foreground='blue')
-        self._novelTree.tag_configure('todo', foreground='red')
-        self._novelTree.tag_configure('part', font=('', self._fontSize, 'bold'))
+                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
+        self._tree.tag_configure('chapter', foreground='green')
+        self._tree.tag_configure('unused', foreground='grey')
+        self._tree.tag_configure('notes', foreground='blue')
+        self._tree.tag_configure('todo', foreground='red')
+        self._tree.tag_configure('part', font=('', self._fontSize, 'bold'))
 
-    def _reset_novel_tree(self):
+        #--- Build character tree.
+        self._characterRoot = self._tree.insert('', 'end', 'Characters', text='Characters', open=False)
+        for crId in self._ywPrj.srtCharacters:
+            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, open=True)
+
+        #--- Build location tree.
+        self._locationRoot = self._tree.insert('', 'end', 'Locations', text='Locations', open=False)
+        for lcId in self._ywPrj.srtLocations:
+            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, open=True)
+
+        #--- Build item tree.
+        self._itemRoot = self._tree.insert('', 'end', 'Items', text='Items', open=False)
+        for itId in self._ywPrj.srtItems:
+            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, open=True)
+
+    def _reset_tree(self):
         """Clear the displayed novel tree."""
-        for child in self._novelTree.get_children(''):
-            self._novelTree.delete(child)
+        for child in self._tree.get_children(''):
+            self._tree.delete(child)
 
     def _set_novel_info(self):
         """Show the selected novel's description."""
@@ -261,6 +325,33 @@ class NovelystTk(MainTk):
         """Show the selected scene's description."""
         if self._ywPrj.scenes[scId].desc is not None:
             text = self._ywPrj.scenes[scId].desc
+        else:
+            text = ''
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
+
+    def _set_character_info(self, crId):
+        """Show the selected character's description."""
+        if self._ywPrj.characters[crId].desc is not None:
+            text = self._ywPrj.characters[crId].desc
+        else:
+            text = ''
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
+
+    def _set_location_info(self, lcId):
+        """Show the selected location's deslciption."""
+        if self._ywPrj.locations[lcId].desc is not None:
+            text = self._ywPrj.locations[lcId].desc
+        else:
+            text = ''
+        self._descWindow.delete('1.0', tk.END)
+        self._descWindow.insert(tk.END, text)
+
+    def _set_item_info(self, itId):
+        """Show the selected item's desitiption."""
+        if self._ywPrj.items[itId].desc is not None:
+            text = self._ywPrj.items[itId].desc
         else:
             text = ''
         self._descWindow.delete('1.0', tk.END)
@@ -326,14 +417,13 @@ class NovelystTk(MainTk):
             authorView = 'Unknown author'
         self._titleBar.config(text=f'{titleView} by {authorView}')
         self._enable_menu()
-        self._set_novel_tree()
+        self._build_tree()
         return fileName
 
     def _save_project(self):
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return
-        self._update_novel_tree()
         self._ywPrj.write()
         self._fileMenu.entryconfig('Save', state='disabled')
         current_time = datetime.now().strftime('%H:%M:%S')
@@ -345,10 +435,13 @@ class NovelystTk(MainTk):
         Extends the superclass method.
         """
         if self._fileMenu.entrycget('Save', 'state') == 'normal':
-            if self.ask_yes_no('Project has been changed. Save?'):
+            if self.ask_yes_no('Save changes?'):
                 self._save_project()
         self._fileMenu.entryconfig('Save', state='disabled')
-        self._reset_novel_tree()
-        self._descWindow.delete('1.0', tk.END)
+        self._reset_tree()
+        self._reset_info()
         super()._close_project()
+
+    def _reset_info(self):
+        self._descWindow.delete('1.0', tk.END)
 
