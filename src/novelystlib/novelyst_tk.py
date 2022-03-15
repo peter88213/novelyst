@@ -232,8 +232,8 @@ class NovelystTk(MainTk):
             """Move all scenes under the node to the 'trash bin'."""
             if node.startswith('sc'):
                 # Move scene.
-                tv.item(node, tags='unused')
                 tv.move(node, self._trashNode, tv.index(self._trashNode))
+                self._ywPrj.scenes[node[2:]].isUnused = True
             else:
                 # Delete chapter and go one level up.
                 del self._ywPrj.chapters[node[2:]]
@@ -351,8 +351,6 @@ class NovelystTk(MainTk):
             """Accumulate word counts of all relevant scenes in a chapter."""
             wordCount = 0
             for scId in self._ywPrj.chapters[chId].srtScenes:
-                if self._ywPrj.scenes[scId].isUnused:
-                    continue
                 if self._ywPrj.scenes[scId].isTodoScene:
                     continue
                 if self._ywPrj.scenes[scId].isNotesScene:
@@ -363,15 +361,19 @@ class NovelystTk(MainTk):
         columns = []
         nodeTags = []
         wordCount = 0
-        if self._ywPrj.chapters[chId].chType == 1 or self._ywPrj.chapters[chId].oldType == 1:
+        if self._ywPrj.chapters[chId].chType == 1:
             nodeTags.append('notes')
+            return columns, tuple(nodeTags)
+
         elif self._ywPrj.chapters[chId].chType == 2:
             nodeTags.append('todo')
+            return columns, tuple(nodeTags)
+
         elif self._ywPrj.chapters[chId].isUnused:
             nodeTags.append('unused')
         else:
             nodeTags.append('chapter')
-            wordCount = count_words(chId)
+        wordCount = count_words(chId)
         if self._ywPrj.chapters[chId].chLevel == 1:
             # This chapter begins a new section in ywriter.
             nodeTags.append('part')
@@ -658,7 +660,7 @@ class NovelystTk(MainTk):
                 if self._ywPrj.chapters[chId].isUnused or self._ywPrj.chapters[chId].isTrash:
                     continue
 
-                if self._ywPrj.chapters[chId].chType == 0 or self._ywPrj.chapters[chId].oldType == 0:
+                if self._ywPrj.chapters[chId].chType == 0:
                     for scId in self._ywPrj.chapters[chId].srtScenes:
                         if self._ywPrj.scenes[scId].isUnused:
                             continue
