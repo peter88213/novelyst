@@ -5,6 +5,7 @@ Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
+import os
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
@@ -105,6 +106,11 @@ class NovelystTk(MainTk):
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Control-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
+        self._tree.bind('<Button-3>', self._context_menu)
+        self._root.bind('<Control_L>s', self._save_project)
+        self._root.bind('<Control_R>s', self._save_project)
+        self._root.bind('<Control_L>o', self._open_project)
+        self._root.bind('<Control_R>o', self._open_project)
 
         self._novelRoot = None
         self._trashNode = None
@@ -212,6 +218,7 @@ class NovelystTk(MainTk):
         update_node(self._locationRoot, '')
         update_node(self._itemRoot, '')
         self._fileMenu.entryconfig('Save', state='normal')
+        self._set_status()
 
     def _delete_node(self, event):
         """Delete a node and its children.
@@ -323,6 +330,8 @@ class NovelystTk(MainTk):
 
         if self._ywPrj.scenes[scId].isUnused:
             nodeTags.append('unused')
+        else:
+            nodeTags.append(Scene.STATUS[self._ywPrj.scenes[scId].status])
         columns.append(self._ywPrj.scenes[scId].wordCount)
         columns.append(Scene.STATUS[self._ywPrj.scenes[scId].status])
         try:
@@ -354,7 +363,7 @@ class NovelystTk(MainTk):
         columns = []
         nodeTags = []
         wordCount = 0
-        if self._ywPrj.chapters[chId].chType == 1:
+        if self._ywPrj.chapters[chId].chType == 1 or self._ywPrj.chapters[chId].oldType == 1:
             nodeTags.append('notes')
         elif self._ywPrj.chapters[chId].chType == 2:
             nodeTags.append('todo')
@@ -521,6 +530,13 @@ class NovelystTk(MainTk):
         
         Overrides the superclass template method. 
         """
+        self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
+        self._mainMenu.entryconfig('View', state='disabled')
+        self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
+        self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
+        self._viewMenu.add_command(label="Expand selected", command=lambda: self._open_children(self._tree.selection()[0]))
+        self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
         self._mainMenu.entryconfig('Chapter', state='disabled')
@@ -536,6 +552,7 @@ class NovelystTk(MainTk):
         Extends the superclass method.      
         """
         super()._disable_menu()
+        self._mainMenu.entryconfig('View', state='disabled')
         self._mainMenu.entryconfig('Chapter', state='disabled')
         self._mainMenu.entryconfig('Scene', state='disabled')
 
@@ -545,10 +562,15 @@ class NovelystTk(MainTk):
         Extends the superclass method.
         """
         super()._enable_menu()
+        self._mainMenu.entryconfig('View', state='normal')
         self._mainMenu.entryconfig('Chapter', state='normal')
         self._mainMenu.entryconfig('Scene', state='normal')
 
-    def open_project(self, fileName):
+    def _open_project(self, event=None):
+        """Create a yWriter project instance and read the file."""
+        self.open_project('')
+
+    def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
         
         Display project title, description and status.
@@ -563,9 +585,11 @@ class NovelystTk(MainTk):
         message = self._ywPrj.read()
         if message.startswith(ERROR):
             self._close_project()
-            self._statusBar.config(text=message)
+            self._set_status(text=message)
             return ''
 
+        current_time = datetime.now().strftime('%H:%M:%S')
+        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} opened at {current_time}')
         if self._ywPrj.title:
             titleView = self._ywPrj.title
         else:
@@ -577,16 +601,17 @@ class NovelystTk(MainTk):
         self._titleBar.config(text=f'{titleView} by {authorView}')
         self._enable_menu()
         self._build_tree()
+        self._set_status()
         return fileName
 
-    def _save_project(self):
+    def _save_project(self, event=None):
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return
         self._ywPrj.write()
         self._fileMenu.entryconfig('Save', state='disabled')
         current_time = datetime.now().strftime('%H:%M:%S')
-        self._set_status(f'Project saved at {current_time}')
+        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
 
     def _close_project(self):
         """Clear the text box.
@@ -604,3 +629,51 @@ class NovelystTk(MainTk):
     def _reset_info(self):
         self._descWindow.delete('1.0', tk.END)
 
+    def _open_children(self, parent):
+        """Recursively open children"""
+        self._tree.item(parent, open=True)
+        for child in self._tree.get_children(parent):
+            self._open_children(child)
+
+    def _close_children(self, parent):
+        """Recursively close children"""
+        self._tree.item(parent, open=False)
+        for child in self._tree.get_children(parent):
+            self._close_children(child)
+
+    def _context_menu(self, event):
+        try:
+            self._viewMenu.tk_popup(event.x_root, event.y_root, 0)
+        finally:
+            self._viewMenu.grab_release()
+
+    def _set_status(self, message=None):
+        """Extend the superclass method."""
+        if self._ywPrj is not None and not message:
+            partCount = 0
+            chapterCount = 0
+            sceneCount = 0
+            wordCount = 0
+            for chId in self._ywPrj.srtChapters:
+                if self._ywPrj.chapters[chId].isUnused or self._ywPrj.chapters[chId].isTrash:
+                    continue
+
+                if self._ywPrj.chapters[chId].chType == 0 or self._ywPrj.chapters[chId].oldType == 0:
+                    for scId in self._ywPrj.chapters[chId].srtScenes:
+                        if self._ywPrj.scenes[scId].isUnused:
+                            continue
+
+                        if self._ywPrj.scenes[scId].isNotesScene:
+                            continue
+
+                        if self._ywPrj.scenes[scId].isTodoScene:
+                            continue
+
+                        sceneCount += 1
+                        wordCount += self._ywPrj.scenes[scId].wordCount
+                if self._ywPrj.chapters[chId].chLevel == 1:
+                    partCount += 1
+                else:
+                    chapterCount += 1
+            message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
+        super()._set_status(message)
