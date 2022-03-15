@@ -19,6 +19,17 @@ SETTINGS = dict(
     yw_last_open='',
     root_geometry='1200x800',
     tree_frame_width=500,
+    color_chapter='green',
+    color_unused='gray',
+    color_notes='blue',
+    color_todo='red',
+    color_major='navy',
+    color_minor='cornflower blue',
+    color_outline='firebrick1',
+    color_draft='firebrick4',
+    color_1st_edit='DarkOrange1',
+    color_2nd_edit='goldenrod2',
+    color_done='DarkOliveGreen4',
 )
 OPTIONS = {}
 

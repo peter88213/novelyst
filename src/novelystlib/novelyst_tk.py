@@ -29,6 +29,17 @@ class NovelystTk(MainTk):
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
             tree_frame_width -- int: width of the chapter frame.
+            color_chapter -- str: tk color name for normal parts and chapters.
+            color_unused -- str: tk color name for unused chapters and scenes.
+            color_notes -- str: tk color name for "Notes" chapters and scenes.
+            color_todo -- str: tk color name for "To do" chapters and scenes.
+            color_major -- str: tk color name for major characters.
+            color_minor -- str: tk color name for minor characters.
+            color_outline -- str: tk color name for "Outline" status.
+            color_draft -- str: tk color name for "Draft" status.
+            color_1st_edit -- str: tk color name for "First Edit" status.
+            color_2nd_edit -- str: tk color name for "Second Edit" status.
+            color_done -- str: tk color name for "Done" status.
     
         Extends the superclass constructor.
         """
@@ -74,6 +85,87 @@ class NovelystTk(MainTk):
 
         self._novelRoot = None
         self._trashNode = None
+        self.statusColors = (
+            kwargs['color_outline'],
+            kwargs['color_draft'],
+            kwargs['color_1st_edit'],
+            kwargs['color_2nd_edit'],
+            kwargs['color_done']
+            )
+
+    def _build_tree(self):
+        """Display the opened novel's tree."""
+        self._reset_tree()
+
+        #--- Build Parts/Chapters/scenes tree.
+        self._novelRoot = self._tree.insert('', 'end', 'rootNovel', text='Novel', tags='root', open=True)
+        inPart = False
+        for chId in self._ywPrj.srtChapters:
+            nodeTags = []
+            if self._ywPrj.chapters[chId].chType == 1:
+                nodeTags.append('notes')
+            elif self._ywPrj.chapters[chId].chType == 2:
+                nodeTags.append('todo')
+            elif self._ywPrj.chapters[chId].isUnused:
+                nodeTags.append('unused')
+            else:
+                nodeTags.append('chapter')
+            if self._ywPrj.chapters[chId].isTrash:
+                self._trashNode = f'ch{chId}'
+                inPart = False
+            if self._ywPrj.chapters[chId].chLevel == 1:
+                inPart = True
+                inChapter = False
+                nodeTags.append('part')
+                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
+            else:
+                inChapter = True
+                if inPart:
+                    parentNode = partNode
+                else:
+                    parentNode = self._novelRoot
+                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
+            for scId in self._ywPrj.chapters[chId].srtScenes:
+                nodeTags = []
+                if self._ywPrj.scenes[scId].isTodoScene:
+                    nodeTags.append('todo')
+                elif self._ywPrj.scenes[scId].isNotesScene:
+                    nodeTags.append('notes')
+                elif self._ywPrj.scenes[scId].isUnused:
+                    nodeTags.append('unused')
+                if inChapter:
+                    parentNode = chapterNode
+                else:
+                    parentNode = partNode
+                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
+
+        #--- Build character tree.
+        self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', tags='root', open=False)
+        for crId in self._ywPrj.srtCharacters:
+            if self._ywPrj.characters[crId].isMajor:
+                tags = 'major'
+            else:
+                tags = 'minor'
+            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, tags=tags)
+
+        #--- Build location tree.
+        self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', tags='root', open=False)
+        for lcId in self._ywPrj.srtLocations:
+            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title)
+
+        #--- Build item tree.
+        self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', tags='root', open=False)
+        for itId in self._ywPrj.srtItems:
+            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title)
+
+        self._tree.tag_configure('root', font=('', self._fontSize, 'bold'))
+        self._tree.tag_configure('chapter', foreground=self.kwargs['color_chapter'])
+        self._tree.tag_configure('unused', foreground=self.kwargs['color_unused'])
+        self._tree.tag_configure('notes', foreground=self.kwargs['color_notes'])
+        self._tree.tag_configure('todo', foreground=self.kwargs['color_todo'])
+        self._tree.tag_configure('part', font=('', self._fontSize, 'bold'))
+        self._tree.tag_configure('major', foreground=self.kwargs['color_major'])
+        self._tree.tag_configure('minor', foreground=self.kwargs['color_minor'])
 
     def _update_tree(self):
         """Rebuild the sorted lists."""
@@ -241,72 +333,6 @@ class NovelystTk(MainTk):
             self._set_item_info(nodeId[2:])
         else:
             self._reset_info()
-
-    def _build_tree(self):
-        """Display the opened novel's tree."""
-        self._reset_tree()
-
-        #--- Build Parts/Chapters/scenes tree.
-        self._novelRoot = self._tree.insert('', 'end', 'rootNovel', text='Novel', open=True)
-        inPart = False
-        for chId in self._ywPrj.srtChapters:
-            nodeTags = []
-            if self._ywPrj.chapters[chId].chType == 1:
-                nodeTags.append('notes')
-            elif self._ywPrj.chapters[chId].chType == 2:
-                nodeTags.append('todo')
-            elif self._ywPrj.chapters[chId].isUnused:
-                nodeTags.append('unused')
-            else:
-                nodeTags.append('chapter')
-            if self._ywPrj.chapters[chId].isTrash:
-                self._trashNode = f'ch{chId}'
-                inPart = False
-            if self._ywPrj.chapters[chId].chLevel == 1:
-                inPart = True
-                inChapter = False
-                nodeTags.append('part')
-                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags), open=True)
-            else:
-                inChapter = True
-                if inPart:
-                    parentNode = partNode
-                else:
-                    parentNode = self._novelRoot
-                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=self._ywPrj.chapters[chId].title, tags=tuple(nodeTags))
-            for scId in self._ywPrj.chapters[chId].srtScenes:
-                nodeTags = []
-                if self._ywPrj.scenes[scId].isTodoScene:
-                    nodeTags.append('todo')
-                elif self._ywPrj.scenes[scId].isNotesScene:
-                    nodeTags.append('notes')
-                elif self._ywPrj.scenes[scId].isUnused:
-                    nodeTags.append('unused')
-                if inChapter:
-                    parentNode = chapterNode
-                else:
-                    parentNode = partNode
-                self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, tags=tuple(nodeTags))
-        self._tree.tag_configure('chapter', foreground='green')
-        self._tree.tag_configure('unused', foreground='grey')
-        self._tree.tag_configure('notes', foreground='blue')
-        self._tree.tag_configure('todo', foreground='red')
-        self._tree.tag_configure('part', font=('', self._fontSize, 'bold'))
-
-        #--- Build character tree.
-        self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', open=False)
-        for crId in self._ywPrj.srtCharacters:
-            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, open=True)
-
-        #--- Build location tree.
-        self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', open=False)
-        for lcId in self._ywPrj.srtLocations:
-            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, open=True)
-
-        #--- Build item tree.
-        self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', open=False)
-        for itId in self._ywPrj.srtItems:
-            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, open=True)
 
     def _reset_tree(self):
         """Clear the displayed novel tree."""
