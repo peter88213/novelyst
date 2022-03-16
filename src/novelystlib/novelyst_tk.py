@@ -123,25 +123,37 @@ class NovelystTk(MainTk):
         self._typeMenu.add_command(label='Todo', command=lambda: self._set_type(self._tree.selection()[0], 2))
         self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self._tree.selection()[0], 3))
 
-        #--- Create a status menu.
-        self._statusMenu = tk.Menu(self._root, tearoff=0)
-        self._statusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self._tree.selection()[0], 1))
-        self._statusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self._tree.selection()[0], 2))
-        self._statusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 3))
-        self._statusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 4))
-        self._statusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self._tree.selection()[0], 5))
+        #--- Create a scene status menu.
+        self._scnStatusMenu = tk.Menu(self._root, tearoff=0)
+        self._scnStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self._tree.selection()[0], 1))
+        self._scnStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self._tree.selection()[0], 2))
+        self._scnStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 3))
+        self._scnStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 4))
+        self._scnStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self._tree.selection()[0], 5))
 
-        #--- Create a context menu.
-        self._popupMenu = tk.Menu(self._root, tearoff=0)
-        self._popupMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
-        self._popupMenu.add_separator()
-        self._popupMenu.add_cascade(label='SetType', menu=self._typeMenu)
-        self._popupMenu.add_cascade(label='SetStatus', menu=self._statusMenu)
-        self._popupMenu.add_separator()
-        self._popupMenu.add_command(label='Expand', command=lambda: self._open_children(self._tree.selection()[0]))
-        self._popupMenu.add_command(label='Collapse', command=lambda: self._close_children(self._tree.selection()[0]))
-        self._popupMenu.add_command(label='Expand all', command=lambda: self._open_children(''))
-        self._popupMenu.add_command(label='Collapse all', command=lambda: self._close_children(''))
+        #--- Create a novel context menu.
+        self._nvCtxtMenu = tk.Menu(self._root, tearoff=0)
+        self._nvCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
+        self._nvCtxtMenu.add_separator()
+        self._nvCtxtMenu.add_cascade(label='SetType', menu=self._typeMenu)
+        self._nvCtxtMenu.add_cascade(label='SetStatus', menu=self._scnStatusMenu)
+        self._nvCtxtMenu.add_separator()
+        self._nvCtxtMenu.add_command(label='Expand', command=lambda: self._open_children(self._tree.selection()[0]))
+        self._nvCtxtMenu.add_command(label='Collapse', command=lambda: self._close_children(self._tree.selection()[0]))
+        self._nvCtxtMenu.add_command(label='Expand all', command=lambda: self._open_children(''))
+        self._nvCtxtMenu.add_command(label='Collapse all', command=lambda: self._close_children(''))
+
+        #--- Create a character status menu.
+        self._chrStatusMenu = tk.Menu(self._root, tearoff=0)
+        self._chrStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], True))
+        self._chrStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], False))
+
+        #--- Create a world context menu.
+        self._wrCtxtMenu = tk.Menu(self._root, tearoff=0)
+        self._wrCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
+        self._wrCtxtMenu.add_separator()
+        self._wrCtxtMenu.add_cascade(label='SetStatus', menu=self._chrStatusMenu)
+        self._wrCtxtMenu.add_separator()
 
     def _build_main_menu(self):
         """Add main menu entries.
@@ -201,10 +213,30 @@ class NovelystTk(MainTk):
         if row:
             self._tree.focus_set()
             self._tree.selection_set(row)
-            try:
-                self._popupMenu.tk_popup(event.x_root, event.y_root, 0)
-            finally:
-                self._viewMenu.grab_release()
+            if row[:2] in ('nv', 'pt', 'ch', 'sc'):
+                # Context is novel/part/chapter/scene.
+                if row.startswith('nv'):
+                    self._nvCtxtMenu.entryconfig('Delete', state='disabled')
+                else:
+                    self._nvCtxtMenu.entryconfig('Delete', state='normal')
+                try:
+                    self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
+                finally:
+                    self._nvCtxtMenu.grab_release()
+            elif row[:2] in ('wr', 'cr', 'lc', 'it'):
+                # Context is character/location/item.
+                if row.startswith('wr'):
+                    self._wrCtxtMenu.entryconfig('Delete', state='disabled')
+                else:
+                    self._wrCtxtMenu.entryconfig('Delete', state='normal')
+                if row.startswith('cr') or  row.startswith('wr0'):
+                    self._wrCtxtMenu.entryconfig('SetStatus', state='normal')
+                else:
+                    self._wrCtxtMenu.entryconfig('SetStatus', state='disabled')
+                try:
+                    self._wrCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
+                finally:
+                    self._wrCtxtMenu.grab_release()
 
     def _build_tree(self):
         """Display the opened novel's tree."""
@@ -239,19 +271,19 @@ class NovelystTk(MainTk):
                 self._tree.insert(parentNode, 'end', f'sc{scId}', text=self._ywPrj.scenes[scId].title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
-        self._characterRoot = self._tree.insert('', 'end', 'rootCharacters', text='Characters', tags='root', open=False)
+        self._characterRoot = self._tree.insert('', 'end', 'wr0', text='Characters', tags='root', open=False)
         for crId in self._ywPrj.srtCharacters:
             columns, nodeTags = self._set_character_display(crId)
             self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=self._ywPrj.characters[crId].title, values=columns, tags=nodeTags)
 
         #--- Build location tree.
-        self._locationRoot = self._tree.insert('', 'end', 'rootLocations', text='Locations', tags='root', open=False)
+        self._locationRoot = self._tree.insert('', 'end', 'wr1', text='Locations', tags='root', open=False)
         for lcId in self._ywPrj.srtLocations:
             columns, nodeTags = self._set_location_display(lcId)
             self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=self._ywPrj.locations[lcId].title, values=columns, tags=nodeTags)
 
         #--- Build item tree.
-        self._itemRoot = self._tree.insert('', 'end', 'rootItems', text='Items', tags='root', open=False)
+        self._itemRoot = self._tree.insert('', 'end', 'wr3', text='Items', tags='root', open=False)
         for itId in self._ywPrj.srtItems:
             columns, nodeTags = self._set_item_display(itId)
             self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, values=columns, tags=nodeTags)
@@ -514,7 +546,7 @@ class NovelystTk(MainTk):
         return columns, tuple(nodeTags)
 
     def _set_type(self, node, newType):
-        """Recursively set scene or chapter type."""
+        """Recursively set scene or chapter type (Normal/Notes/Todo/Unused)."""
         if node.startswith('sc'):
             scene = self._ywPrj.scenes[node[2:]]
             if newType == 3:
@@ -548,16 +580,38 @@ class NovelystTk(MainTk):
             # Go one level down.
             for childNode in self._tree.get_children(node):
                 self._set_type(childNode, newType)
+        else:
+            # Do nothing, avoid tree update.
+            return
+
         self._update_tree()
 
-    def _set_scn_status(self, node, sceneStatus):
-        """Recursively set scene status."""
+    def _set_scn_status(self, node, scnStatus):
+        """Recursively set scene editing status (Outline/Draft..)."""
         if node.startswith('sc'):
-            self._ywPrj.scenes[node[2:]].status = sceneStatus
+            self._ywPrj.scenes[node[2:]].status = scnStatus
         elif node.startswith('ch') or node.startswith('pt') or node.startswith('nv'):
             # Go one level down.
             for childNode in self._tree.get_children(node):
-                self._set_scn_status(childNode, sceneStatus)
+                self._set_scn_status(childNode, scnStatus)
+        else:
+            # Do nothing, avoid tree update.
+            return
+
+        self._update_tree()
+
+    def _set_chr_status(self, node, chrStatus):
+        """Set character status (Major/Minor)."""
+        if node.startswith('cr'):
+            self._ywPrj.characters[node[2:]].isMajor = chrStatus
+        elif node.startswith('wr0'):
+            # Go one level down.
+            for childNode in self._tree.get_children(node):
+                self._set_chr_status(childNode, chrStatus)
+        else:
+            # Do nothing, avoid tree update.
+            return
+
         self._update_tree()
 
     def _move_node(self, event):
