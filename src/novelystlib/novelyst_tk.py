@@ -15,7 +15,6 @@ from pywriter.ui.main_tk import MainTk
 from pywriter.yw.yw7_file import Yw7File
 from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
-from pywriter.pywriter_globals import ERROR
 
 
 class NovelystTk(MainTk):
@@ -617,9 +616,7 @@ class NovelystTk(MainTk):
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return
-        if os.path.isfile(self._ywPrj.filePath):
-            if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
-                if not self.ask_yes_no('File has changed on disk. Save anyway?'):
+        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
                     return
 
         self._ywPrj.write()
@@ -652,16 +649,24 @@ class NovelystTk(MainTk):
         """Create a yWriter project instance and read the file."""
         self.open_project('')
 
+    def _yw_changed_on_disk(self):
+        """Return True if the yw project file has changed since last opened."""
+        try:
+            if os.path.isfile(self._ywPrj.filePath):
+                if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
+                    return True
+        except:
+            pass
+        return False
+
     def _reload_project(self, event=None):
         """Reload a yWriter project."""
+        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
+            return
+
         if self._hasChanged:
             if not self.ask_yes_no('Discard changes and reload the project?'):
                 return
-
-        if os.path.isfile(self._ywPrj.filePath):
-            if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
-                if not self.ask_yes_no('File has changed on disk. Reload anyway?'):
-                    return
 
         self.open_project(self._ywPrj.filePath)
 
