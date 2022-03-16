@@ -116,14 +116,32 @@ class NovelystTk(MainTk):
         self._root.bind('<Control_L>r', self._reload_project)
         self._root.bind('<Control_L>s', self._save_project)
 
+        #--- Create a status menu.
+        self._statusMenu = tk.Menu(self._root, tearoff=0)
+        self._statusMenu.add_command(label='Outline', command=lambda: self._setScnStatus(self._tree.selection()[0], 1))
+        self._statusMenu.add_command(label='Draft', command=lambda: self._setScnStatus(self._tree.selection()[0], 2))
+        self._statusMenu.add_command(label='1st Edit', command=lambda: self._setScnStatus(self._tree.selection()[0], 3))
+        self._statusMenu.add_command(label='2nd Edit', command=lambda: self._setScnStatus(self._tree.selection()[0], 4))
+        self._statusMenu.add_command(label='Done', command=lambda: self._setScnStatus(self._tree.selection()[0], 5))
+
+        #--- Create a type menu.
+        self._typeMenu = tk.Menu(self._root, tearoff=0)
+        self._typeMenu.add_command(label='Normal', command=lambda: self._setType(self._tree.selection()[0], 0))
+        self._typeMenu.add_command(label='Notes', command=lambda: self._setType(self._tree.selection()[0], 1))
+        self._typeMenu.add_command(label='Todo', command=lambda: self._setType(self._tree.selection()[0], 2))
+        self._typeMenu.add_command(label='Unused', command=lambda: self._setType(self._tree.selection()[0], 3))
+
         #--- Create a context menu.
-        self._popup = tk.Menu(self._root, tearoff=0)
-        self._popup.add_command(label="Delete", command=lambda: self._tree.event_generate('<Delete>', when='tail'))
-        self._popup.add_separator()
-        self._popup.add_command(label="Expand", command=lambda: self._open_children(self._tree.selection()[0]))
-        self._popup.add_command(label="Collapse", command=lambda: self._close_children(self._tree.selection()[0]))
-        self._popup.add_command(label="Expand all", command=lambda: self._open_children(''))
-        self._popup.add_command(label="Collapse all", command=lambda: self._close_children(''))
+        self._popupMenu = tk.Menu(self._root, tearoff=0)
+        self._popupMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
+        self._popupMenu.add_separator()
+        self._popupMenu.add_cascade(label='SetStatus', menu=self._statusMenu)
+        self._popupMenu.add_cascade(label='SetType', menu=self._typeMenu)
+        self._popupMenu.add_separator()
+        self._popupMenu.add_command(label='Expand', command=lambda: self._open_children(self._tree.selection()[0]))
+        self._popupMenu.add_command(label='Collapse', command=lambda: self._close_children(self._tree.selection()[0]))
+        self._popupMenu.add_command(label='Expand all', command=lambda: self._open_children(''))
+        self._popupMenu.add_command(label='Collapse all', command=lambda: self._close_children(''))
 
     def _build_main_menu(self):
         """Add main menu entries.
@@ -184,7 +202,7 @@ class NovelystTk(MainTk):
             self._tree.focus_set()
             self._tree.selection_set(row)
             try:
-                self._popup.tk_popup(event.x_root, event.y_root, 0)
+                self._popupMenu.tk_popup(event.x_root, event.y_root, 0)
             finally:
                 self._viewMenu.grab_release()
 
@@ -193,7 +211,7 @@ class NovelystTk(MainTk):
         self._reset_tree()
 
         #--- Build Parts/Chapters/scenes tree.
-        self._novelRoot = self._tree.insert('', 'end', 'rootNovel', text='Novel', tags='root', open=True)
+        self._novelRoot = self._tree.insert('', 'end', 'nv0', text='Novel', tags='root', open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             if self._ywPrj.chapters[chId].isTrash:
@@ -306,10 +324,9 @@ class NovelystTk(MainTk):
             """Move all scenes under the node to the 'trash bin'."""
             if node.startswith('sc'):
                 # Move scene.
-                tv.move(node, self._trashNode, tv.index(self._trashNode))
-                self._ywPrj.scenes[node[2:]].isUnused = True
+                tv.move(node, self._trashNode, 0)
             else:
-                # Delete chapter and go one level up.
+                # Delete chapter and go one level down.
                 del self._ywPrj.chapters[node[2:]]
                 for childNode in self._tree.get_children(node):
                     waste_scenes(childNode)
@@ -382,12 +399,13 @@ class NovelystTk(MainTk):
                     self._ywPrj.chapters[trashId] = Chapter()
                     self._ywPrj.chapters[trashId].title = "Trash"
                     self._ywPrj.chapters[trashId].isTrash = True
-                    self._ywPrj.chapters[trashId].isUnused = True
                     self._trashNode = f'ch{trashId}'
                     self._tree.insert(self._novelRoot, 'end', self._trashNode, text='Trash', tags='unused', open=True)
                 waste_scenes(selection)
                 if not selection.startswith('sc'):
                     tv.delete(selection)
+                self._setType(self._trashNode, 3)
+                # Make sure the whole "trash bin" is unused.
             self._update_tree()
 
     def _set_scene_display(self, scId):
@@ -494,6 +512,53 @@ class NovelystTk(MainTk):
         except:
             columns.append('')
         return columns, tuple(nodeTags)
+
+    def _setType(self, node, newType):
+        """Recursively set scene or chapter type."""
+        if node.startswith('sc'):
+            scene = self._ywPrj.scenes[node[2:]]
+            if newType == 3:
+                scene.isUnused = True
+                scene.isTodoScene = False
+                scene.isNotesScene = False
+            elif newType == 2:
+                scene.isUnused = False
+                scene.isTodoScene = True
+                scene.isNotesScene = False
+            elif newType == 1:
+                scene.isUnused = False
+                scene.isTodoScene = False
+                scene.isNotesScene = True
+            else:
+                scene.isUnused = False
+                scene.isTodoScene = False
+                scene.isNotesScene = False
+        elif node.startswith('ch') or node.startswith('pt'):
+            chapter = self._ywPrj.chapters[node[2:]]
+            if newType == 3:
+                chapter.isUnused = True
+                chapter.chType = 0
+            else:
+                chapter.chType = newType
+                chapter.isUnused = False
+            # Go one level down.
+            for childNode in self._tree.get_children(node):
+                self._setType(childNode, newType)
+        elif node.startswith('nv'):
+            # Go one level down.
+            for childNode in self._tree.get_children(node):
+                self._setType(childNode, newType)
+        self._update_tree()
+
+    def _setScnStatus(self, node, sceneStatus):
+        """Recursively set scene status."""
+        if node.startswith('sc'):
+            self._ywPrj.scenes[node[2:]].status = sceneStatus
+        elif node.startswith('ch') or node.startswith('pt') or node.startswith('nv'):
+            # Go one level down.
+            for childNode in self._tree.get_children(node):
+                self._setScnStatus(childNode, sceneStatus)
+        self._update_tree()
 
     def _move_node(self, event):
         """Move parts, chapters, and scenes in the novel tree."""
