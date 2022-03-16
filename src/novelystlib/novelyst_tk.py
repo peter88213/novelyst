@@ -63,6 +63,7 @@ class NovelystTk(MainTk):
         self._chapterMenu = None
         self._sceneMenu = None
         self._hasChanged = False
+        self._ywFileDate = None
 
         # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
@@ -592,9 +593,9 @@ class NovelystTk(MainTk):
         if message.startswith(ERROR):
             self._close_project()
             self._set_status(text=message)
-            self._reset_changeflag()
             return ''
 
+        self._ywFileDate = os.path.getmtime(fileName)
         current_time = datetime.now().strftime('%H:%M:%S')
         self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} opened at {current_time}')
         if self._ywPrj.title:
@@ -616,7 +617,13 @@ class NovelystTk(MainTk):
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return
+        if os.path.isfile(self._ywPrj.filePath):
+            if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
+                if not self.ask_yes_no('File has changed on disk. Save anyway?'):
+                    return
+
         self._ywPrj.write()
+        self._ywFileDate = os.path.getmtime(self._ywPrj.filePath)
         self._reset_changeflag()
         current_time = datetime.now().strftime('%H:%M:%S')
         self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
@@ -632,6 +639,7 @@ class NovelystTk(MainTk):
         self._reset_changeflag()
         self._reset_tree()
         self._reset_info()
+        self._ywFileDate = None
         super()._close_project()
 
     def _set_changeflag(self):
@@ -649,6 +657,11 @@ class NovelystTk(MainTk):
         if self._hasChanged:
             if not self.ask_yes_no('Discard changes and reload the project?'):
                 return
+
+        if os.path.isfile(self._ywPrj.filePath):
+            if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
+                if not self.ask_yes_no('File has changed on disk. Reload anyway?'):
+                    return
 
         self.open_project(self._ywPrj.filePath)
 
