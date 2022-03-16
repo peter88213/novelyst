@@ -561,6 +561,8 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('View', state='disabled')
         self._mainMenu.entryconfig('Chapter', state='disabled')
         self._mainMenu.entryconfig('Scene', state='disabled')
+        self._fileMenu.entryconfig('Reload', state='disabled')
+        self._fileMenu.entryconfig('Save', state='disabled')
 
     def _enable_menu(self):
         """Enable menu entries when a project is open.
@@ -571,6 +573,8 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('View', state='normal')
         self._mainMenu.entryconfig('Chapter', state='normal')
         self._mainMenu.entryconfig('Scene', state='normal')
+        self._fileMenu.entryconfig('Reload', state='normal')
+        self._fileMenu.entryconfig('Save', state='normal')
 
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
@@ -609,14 +613,13 @@ class NovelystTk(MainTk):
         return fileName
 
     def _save_project(self, event=None):
-        if self._hasChanged:
-            if self._ywPrj.is_locked():
-                self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
-                return
-            self._ywPrj.write()
-            self._reset_changeflag()
-            current_time = datetime.now().strftime('%H:%M:%S')
-            self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
+        if self._ywPrj.is_locked():
+            self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
+            return
+        self._ywPrj.write()
+        self._reset_changeflag()
+        current_time = datetime.now().strftime('%H:%M:%S')
+        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
 
     def _close_project(self, event=None):
         """Clear the text box.
@@ -633,13 +636,9 @@ class NovelystTk(MainTk):
 
     def _set_changeflag(self):
         self._hasChanged = True
-        self._fileMenu.entryconfig('Save', state='normal')
-        self._fileMenu.entryconfig('Reload', state='normal')
 
     def _reset_changeflag(self):
         self._hasChanged = False
-        self._fileMenu.entryconfig('Save', state='disabled')
-        self._fileMenu.entryconfig('Reload', state='disabled')
 
     def _open_project(self, event=None):
         """Create a yWriter project instance and read the file."""
@@ -648,8 +647,10 @@ class NovelystTk(MainTk):
     def _reload_project(self, event=None):
         """Reload a yWriter project."""
         if self._hasChanged:
-            if self.ask_yes_no('Discard changes and reload the project?'):
-                self.open_project(self._ywPrj.filePath)
+            if not self.ask_yes_no('Discard changes and reload the project?'):
+                return
+
+        self.open_project(self._ywPrj.filePath)
 
     def _reset_info(self):
         self._descWindow.delete('1.0', tk.END)
