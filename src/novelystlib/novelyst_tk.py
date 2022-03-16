@@ -63,6 +63,8 @@ class NovelystTk(MainTk):
         self._sceneMenu = None
         self._hasChanged = False
         self._ywFileDate = None
+        self._novelRoot = None
+        self._trashNode = None
 
         # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
@@ -76,6 +78,8 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self._treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self._treeWindow.pack(expand=True, fill='both')
+
+        # Create a novel tree.
         self._tree = ttk.Treeview(self._treeWindow, selectmode='browse')
         scrollY = ttk.Scrollbar(self._treeWindow, orient="vertical", command=self._tree.yview)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
@@ -106,14 +110,83 @@ class NovelystTk(MainTk):
 
         #--- Event bindings.
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
-        self._tree.bind('<Control-B1-Motion>', self._move_node)
+        self._tree.bind('<Shift-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
         self._tree.bind('<Button-3>', self._context_menu)
         self._root.bind('<Control_L>r', self._reload_project)
         self._root.bind('<Control_L>s', self._save_project)
 
-        self._novelRoot = None
-        self._trashNode = None
+        #--- Create a context menu.
+        self._popup = tk.Menu(self._root, tearoff=0)
+        self._popup.add_command(label="Delete", command=lambda: self._tree.event_generate('<Delete>', when='tail'))
+        self._popup.add_separator()
+        self._popup.add_command(label="Expand", command=lambda: self._open_children(self._tree.selection()[0]))
+        self._popup.add_command(label="Collapse", command=lambda: self._close_children(self._tree.selection()[0]))
+        self._popup.add_command(label="Expand all", command=lambda: self._open_children(''))
+        self._popup.add_command(label="Collapse all", command=lambda: self._close_children(''))
+
+    def _build_main_menu(self):
+        """Add main menu entries.
+        
+        Overrides the superclass template method. 
+        """
+        self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
+        self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
+        self._fileMenu.add_command(label='Reload', command=self._reload_project)
+        self._fileMenu.entryconfig('Reload', state='disabled')
+        self._fileMenu.add_command(label='Save', command=self._save_project)
+        self._fileMenu.entryconfig('Save', state='disabled')
+        self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
+        self._fileMenu.entryconfig('Close', state='disabled')
+        self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
+        self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
+        self._mainMenu.entryconfig('View', state='disabled')
+        self._viewMenu.add_command(label="Expand selected", command=lambda: self._open_children(self._tree.selection()[0]))
+        self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
+        self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
+        self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
+        self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
+        self._mainMenu.entryconfig('Chapter', state='disabled')
+        self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
+        self._mainMenu.entryconfig('Scene', state='disabled')
+
+    def _disable_menu(self):
+        """Disable menu entries when no project is open.
+        
+        Extends the superclass method.      
+        """
+        super()._disable_menu()
+        self._mainMenu.entryconfig('View', state='disabled')
+        self._mainMenu.entryconfig('Chapter', state='disabled')
+        self._mainMenu.entryconfig('Scene', state='disabled')
+        self._fileMenu.entryconfig('Reload', state='disabled')
+        self._fileMenu.entryconfig('Save', state='disabled')
+
+    def _enable_menu(self):
+        """Enable menu entries when a project is open.
+        
+        Extends the superclass method.
+        """
+        super()._enable_menu()
+        self._mainMenu.entryconfig('View', state='normal')
+        self._mainMenu.entryconfig('Chapter', state='normal')
+        self._mainMenu.entryconfig('Scene', state='normal')
+        self._fileMenu.entryconfig('Reload', state='normal')
+        self._fileMenu.entryconfig('Save', state='normal')
+
+    def _context_menu(self, event):
+        row = self._tree.identify_row(event.y)
+        if row:
+            self._tree.focus_set()
+            self._tree.selection_set(row)
+            try:
+                self._popup.tk_popup(event.x_root, event.y_root, 0)
+            finally:
+                self._viewMenu.grab_release()
 
     def _build_tree(self):
         """Display the opened novel's tree."""
@@ -165,6 +238,7 @@ class NovelystTk(MainTk):
             columns, nodeTags = self._set_item_display(itId)
             self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=self._ywPrj.items[itId].title, values=columns, tags=nodeTags)
 
+        #--- configure row display.
         self._tree.tag_configure('root', font=('', self._fontSize, 'bold'))
         self._tree.tag_configure('chapter', foreground=self.kwargs['color_chapter'])
         self._tree.tag_configure('unused', foreground=self.kwargs['color_unused'])
@@ -360,7 +434,6 @@ class NovelystTk(MainTk):
 
         columns = []
         nodeTags = []
-        wordCount = 0
         if self._ywPrj.chapters[chId].chType == 1:
             nodeTags.append('notes')
             return columns, tuple(nodeTags)
@@ -526,59 +599,6 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def _build_main_menu(self):
-        """Add main menu entries.
-        
-        Overrides the superclass template method. 
-        """
-        self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
-        self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
-        self._fileMenu.add_command(label='Reload', command=self._reload_project)
-        self._fileMenu.entryconfig('Reload', state='disabled')
-        self._fileMenu.add_command(label='Save', command=self._save_project)
-        self._fileMenu.entryconfig('Save', state='disabled')
-        self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
-        self._fileMenu.entryconfig('Close', state='disabled')
-        self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
-        self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
-        self._mainMenu.entryconfig('View', state='disabled')
-        self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
-        self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
-        self._viewMenu.add_command(label="Expand selected", command=lambda: self._open_children(self._tree.selection()[0]))
-        self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
-        self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
-        self._mainMenu.entryconfig('Chapter', state='disabled')
-        self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
-        self._mainMenu.entryconfig('Scene', state='disabled')
-
-    def _disable_menu(self):
-        """Disable menu entries when no project is open.
-        
-        Extends the superclass method.      
-        """
-        super()._disable_menu()
-        self._mainMenu.entryconfig('View', state='disabled')
-        self._mainMenu.entryconfig('Chapter', state='disabled')
-        self._mainMenu.entryconfig('Scene', state='disabled')
-        self._fileMenu.entryconfig('Reload', state='disabled')
-        self._fileMenu.entryconfig('Save', state='disabled')
-
-    def _enable_menu(self):
-        """Enable menu entries when a project is open.
-        
-        Extends the superclass method.
-        """
-        super()._enable_menu()
-        self._mainMenu.entryconfig('View', state='normal')
-        self._mainMenu.entryconfig('Chapter', state='normal')
-        self._mainMenu.entryconfig('Scene', state='normal')
-        self._fileMenu.entryconfig('Reload', state='normal')
-        self._fileMenu.entryconfig('Save', state='normal')
-
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
         
@@ -683,12 +703,6 @@ class NovelystTk(MainTk):
         self._tree.item(parent, open=False)
         for child in self._tree.get_children(parent):
             self._close_children(child)
-
-    def _context_menu(self, event):
-        try:
-            self._viewMenu.tk_popup(event.x_root, event.y_root, 0)
-        finally:
-            self._viewMenu.grab_release()
 
     def _set_status(self, message=None):
         """Extend the superclass method."""

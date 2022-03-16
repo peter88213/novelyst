@@ -18,21 +18,11 @@ You can either
 
 #### Open a yWriter project
 
-- If no yWriter project is specified by dragging and dropping on the program icon, the latest project selected is preset. You can change it with **File > Open**.
-
-#### Close a ywriter project
-
-- You can close the project without exiting the program with **File > Close**.
-- If you open another project, the current project is automatically closed.
-
-#### Save the yWriter project
-
-- When you make changes, the **File > Save** menu entry is activated. Changes only take effect when saving manually.
-- When closing the project or exiting the application, you will be asked for saving the project, if it has changed.
+- If no yWriter project is specified by dragging and dropping on the program icon, the latest project selected is preset. You can change it with **File > Open** or **Ctrl-o***.
 
 #### Move parts, chapters, and scenes
 
-Drag and drop while pressing the **Ctrl** key.
+Drag and drop while pressing the **Shift** key.
 
 #### Delete parts, chapters, and scenes
 
@@ -41,4 +31,26 @@ Select item and hit the **Del** key.
 - When deleting a part, chapter oder scene, the scenes are moved to the _Trash_ chapter at the bottom. 
 - The _Trash_ chapter is created automatically, if needed. 
 - When deleting the _Trash_ chapter, all scenes are deleted.
+
+#### Reload the yWriter project
+
+- You can reload the project with **File > Reload** or **Ctrl-r***.
+- If the project has changed on disk since last opened, you will get a warning.
+
+#### Save the yWriter project
+
+- You can save the project with **File > Save** or **Ctrl-s***.
+- If the project is open in yWriter, you will be asked to exit yWriter first.
+- If the project has changed on disk since last opened, you will get a warning.
+
+#### Close the ywriter project
+
+- You can close the project without exiting the program with **File > Close**.
+- When closing the project, you will be asked for saving the project, if it has changed.
+- If you open another project, the current project is automatically closed.
+
+#### Exit 
+
+- You can exit with **File > Exit** of **Ctrl-q**.
+- When exiting the program, you will be asked for saving the project, if it has changed.
 
