@@ -109,10 +109,8 @@ class NovelystTk(MainTk):
         self._tree.bind('<Control-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
         self._tree.bind('<Button-3>', self._context_menu)
-        self._root.bind('<Control_L>s', self._save_project)
         self._root.bind('<Control_L>r', self._reload_project)
-        self._root.bind('<Control_L>o', self._open_project)
-        self._root.bind('<Control_L>q', self._close_project)
+        self._root.bind('<Control_L>s', self._save_project)
 
         self._novelRoot = None
         self._trashNode = None
@@ -440,7 +438,7 @@ class NovelystTk(MainTk):
             tv.move(selection, targetNode, tv.index(targetNode))
         self._update_tree()
 
-    def _on_quit(self):
+    def _on_quit(self, event=None):
         """Save windows size and position."""
         self._close_project()
         self.kwargs['root_geometry'] = self._root.winfo_geometry()
@@ -448,7 +446,6 @@ class NovelystTk(MainTk):
         for i, column in enumerate(self._COLUMNS):
             self.kwargs[column[1]] = self._tree.column(i, 'width')
         super()._on_quit()
-        self._root.quit()
 
     def _on_select_node(self, event):
         """Show info on the right level."""
@@ -529,11 +526,21 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def _extend_menu(self):
+    def _build_main_menu(self):
         """Add main menu entries.
         
         Overrides the superclass template method. 
         """
+        self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
+        self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
+        self._fileMenu.add_command(label='Reload', command=self._reload_project)
+        self._fileMenu.entryconfig('Reload', state='disabled')
+        self._fileMenu.add_command(label='Save', command=self._save_project)
+        self._fileMenu.entryconfig('Save', state='disabled')
+        self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
+        self._fileMenu.entryconfig('Close', state='disabled')
+        self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
         self._mainMenu.entryconfig('View', state='disabled')
@@ -547,10 +554,6 @@ class NovelystTk(MainTk):
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
         self._mainMenu.entryconfig('Scene', state='disabled')
-        self._fileMenu.add_command(label='Reload', command=self._reload_project)
-        self._fileMenu.entryconfig('Reload', state='disabled')
-        self._fileMenu.add_command(label='Save', command=self._save_project)
-        self._fileMenu.entryconfig('Save', state='disabled')
 
     def _disable_menu(self):
         """Disable menu entries when no project is open.
@@ -644,10 +647,6 @@ class NovelystTk(MainTk):
 
     def _reset_changeflag(self):
         self._hasChanged = False
-
-    def _open_project(self, event=None):
-        """Create a yWriter project instance and read the file."""
-        self.open_project('')
 
     def _yw_changed_on_disk(self):
         """Return True if the yw project file has changed since last opened."""
