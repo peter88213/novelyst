@@ -62,6 +62,7 @@ class NovelystTk(MainTk):
         self._root.protocol("WM_DELETE_WINDOW", self._on_quit)
         self._chapterMenu = None
         self._sceneMenu = None
+        self._hasChanged = False
 
         # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
@@ -103,14 +104,15 @@ class NovelystTk(MainTk):
 
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
+        #--- Event bindings.
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Control-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
         self._tree.bind('<Button-3>', self._context_menu)
         self._root.bind('<Control_L>s', self._save_project)
-        self._root.bind('<Control_R>s', self._save_project)
+        self._root.bind('<Control_L>r', self._reload_project)
         self._root.bind('<Control_L>o', self._open_project)
-        self._root.bind('<Control_R>o', self._open_project)
+        self._root.bind('<Control_L>q', self._close_project)
 
         self._novelRoot = None
         self._trashNode = None
@@ -217,7 +219,7 @@ class NovelystTk(MainTk):
         update_node(self._characterRoot, '')
         update_node(self._locationRoot, '')
         update_node(self._itemRoot, '')
-        self._fileMenu.entryconfig('Save', state='normal')
+        self._set_changeflag()
         self._set_status()
 
     def _delete_node(self, event):
@@ -545,7 +547,9 @@ class NovelystTk(MainTk):
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
         self._mainMenu.entryconfig('Scene', state='disabled')
-        self._fileMenu.add_command(label='Save', command=lambda: self._save_project())
+        self._fileMenu.add_command(label='Reload', command=self._reload_project)
+        self._fileMenu.entryconfig('Reload', state='disabled')
+        self._fileMenu.add_command(label='Save', command=self._save_project)
         self._fileMenu.entryconfig('Save', state='disabled')
 
     def _disable_menu(self):
@@ -568,10 +572,6 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('Chapter', state='normal')
         self._mainMenu.entryconfig('Scene', state='normal')
 
-    def _open_project(self, event=None):
-        """Create a yWriter project instance and read the file."""
-        self.open_project('')
-
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
         
@@ -588,6 +588,7 @@ class NovelystTk(MainTk):
         if message.startswith(ERROR):
             self._close_project()
             self._set_status(text=message)
+            self._reset_changeflag()
             return ''
 
         current_time = datetime.now().strftime('%H:%M:%S')
@@ -604,29 +605,51 @@ class NovelystTk(MainTk):
         self._enable_menu()
         self._build_tree()
         self._set_status()
+        self._reset_changeflag()
         return fileName
 
     def _save_project(self, event=None):
-        if self._ywPrj.is_locked():
-            self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
-            return
-        self._ywPrj.write()
-        self._fileMenu.entryconfig('Save', state='disabled')
-        current_time = datetime.now().strftime('%H:%M:%S')
-        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
+        if self._hasChanged:
+            if self._ywPrj.is_locked():
+                self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
+                return
+            self._ywPrj.write()
+            self._reset_changeflag()
+            current_time = datetime.now().strftime('%H:%M:%S')
+            self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
 
-    def _close_project(self):
+    def _close_project(self, event=None):
         """Clear the text box.
         
         Extends the superclass method.
         """
-        if self._fileMenu.entrycget('Save', 'state') == 'normal':
+        if self._hasChanged:
             if self.ask_yes_no('Save changes?'):
                 self._save_project()
-        self._fileMenu.entryconfig('Save', state='disabled')
+        self._reset_changeflag()
         self._reset_tree()
         self._reset_info()
         super()._close_project()
+
+    def _set_changeflag(self):
+        self._hasChanged = True
+        self._fileMenu.entryconfig('Save', state='normal')
+        self._fileMenu.entryconfig('Reload', state='normal')
+
+    def _reset_changeflag(self):
+        self._hasChanged = False
+        self._fileMenu.entryconfig('Save', state='disabled')
+        self._fileMenu.entryconfig('Reload', state='disabled')
+
+    def _open_project(self, event=None):
+        """Create a yWriter project instance and read the file."""
+        self.open_project('')
+
+    def _reload_project(self, event=None):
+        """Reload a yWriter project."""
+        if self._hasChanged:
+            if self.ask_yes_no('Discard changes and reload the project?'):
+                self.open_project(self._ywPrj.filePath)
 
     def _reset_info(self):
         self._descWindow.delete('1.0', tk.END)
