@@ -219,6 +219,7 @@ class NovelystTk(MainTk):
         self._tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
         self._update_tree()
         self._tree.selection_set(newNode)
+        self._tree.see(newNode)
 
     def _build_main_menu(self):
         """Add main menu entries.
