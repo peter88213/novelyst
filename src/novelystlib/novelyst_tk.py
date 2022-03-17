@@ -126,12 +126,12 @@ class NovelystTk(MainTk):
         self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self._tree.selection()[0], 3))
 
         #--- Create a scene status menu.
-        self._scnStatusMenu = tk.Menu(self._root, tearoff=0)
-        self._scnStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self._tree.selection()[0], 1))
-        self._scnStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self._tree.selection()[0], 2))
-        self._scnStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 3))
-        self._scnStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 4))
-        self._scnStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self._tree.selection()[0], 5))
+        self._scStatusMenu = tk.Menu(self._root, tearoff=0)
+        self._scStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self._tree.selection()[0], 1))
+        self._scStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self._tree.selection()[0], 2))
+        self._scStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 3))
+        self._scStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 4))
+        self._scStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self._tree.selection()[0], 5))
 
         #--- Create a novel context menu.
         self._nvCtxtMenu = tk.Menu(self._root, tearoff=0)
@@ -142,7 +142,7 @@ class NovelystTk(MainTk):
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_cascade(label='SetType', menu=self._typeMenu)
-        self._nvCtxtMenu.add_cascade(label='SetStatus', menu=self._scnStatusMenu)
+        self._nvCtxtMenu.add_cascade(label='SetStatus', menu=self._scStatusMenu)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Expand', command=lambda: self._open_children(self._tree.selection()[0]))
         self._nvCtxtMenu.add_command(label='Collapse', command=lambda: self._close_children(self._tree.selection()[0]))
@@ -150,17 +150,17 @@ class NovelystTk(MainTk):
         self._nvCtxtMenu.add_command(label='Collapse all', command=lambda: self._close_children(''))
 
         #--- Create a character status menu.
-        self._chrStatusMenu = tk.Menu(self._root, tearoff=0)
-        self._chrStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], True))
-        self._chrStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], False))
+        self._crStatusMenu = tk.Menu(self._root, tearoff=0)
+        self._crStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], True))
+        self._crStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], False))
 
-        #--- Create a world context menu.
+        #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_worldelem(self._tree.selection()[0]))
+        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_world_element(self._tree.selection()[0]))
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._wrCtxtMenu.add_separator()
-        self._wrCtxtMenu.add_cascade(label='SetStatus', menu=self._chrStatusMenu)
+        self._wrCtxtMenu.add_cascade(label='SetStatus', menu=self._crStatusMenu)
 
     def _create_id(self, elements):
         """Return an unused ID for a new element."""
@@ -169,27 +169,63 @@ class NovelystTk(MainTk):
             i += 1
         return str(i)
 
-    def _add_worldelem(self, node):
-        """Add a world element (character/location/scene)."""
+    def _add_world_element(self, node):
+        """Add a world element (character/location/scene).
+        
+        Positional arguments:
+            node -- str: tree index
+            
+        - If node is a world element entry, place the new element 
+          one below and select it.
+        - If node is the element type's tree root place the new element
+          at the tree top and select it.
+        - Otherwise, do nothing.   
+        """
         if 'cr' in node:
             # Add a character.
             crId = self._create_id(self._ywPrj.characters)
+            newNode = f'cr{crId}'
             self._ywPrj.characters[crId] = Character()
             self._ywPrj.characters[crId].title = f'New Character (ID{crId})'
             title, columns, nodeTags = self._set_character_display(crId)
-            if node.startswith('cr'):
-                index = self._tree.index(node) + 1
-            else:
-                index = 0
-                self._tree.item(self._characterRoot, open=True)
-            self._tree.insert(self._characterRoot, index, f'cr{crId}', text=title, values=columns, tags=nodeTags)
-            self._update_tree()
+            root = self._characterRoot
+            prefix = 'cr'
+        elif 'lc' in node:
+            # Add a location.
+            lcId = self._create_id(self._ywPrj.locations)
+            newNode = f'lc{lcId}'
+            self._ywPrj.locations[lcId] = WorldElement()
+            self._ywPrj.locations[lcId].title = f'New Location (ID{lcId})'
+            title, columns, nodeTags = self._set_location_display(lcId)
+            root = self._locationRoot
+            prefix = 'lc'
+        elif 'it' in node:
+            # Add an item.
+            itId = self._create_id(self._ywPrj.items)
+            newNode = f'it{itId}'
+            self._ywPrj.items[itId] = WorldElement()
+            self._ywPrj.items[itId].title = f'New Item (ID{itId})'
+            title, columns, nodeTags = self._set_item_display(itId)
+            root = self._itemRoot
+            prefix = 'it'
+        else:
+            return
+
+        if node.startswith(prefix):
+            index = self._tree.index(node) + 1
+        else:
+            index = 0
+            self._tree.item(root, open=True)
+        self._tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
+        self._update_tree()
+        self._tree.selection_set(newNode)
 
     def _build_main_menu(self):
         """Add main menu entries.
         
         Overrides the superclass template method. 
         """
+        # Files
         self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
         self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
@@ -200,6 +236,8 @@ class NovelystTk(MainTk):
         self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
         self._fileMenu.entryconfig('Close', state='disabled')
         self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
+
+        # View
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
         self._mainMenu.entryconfig('View', state='disabled')
@@ -207,12 +245,34 @@ class NovelystTk(MainTk):
         self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
         self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
         self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
+
+        # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
         self._mainMenu.entryconfig('Chapter', state='disabled')
+
+        # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
         self._mainMenu.entryconfig('Scene', state='disabled')
+
+        # Character
+        self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
+        self._mainMenu.entryconfig('Character', state='disabled')
+        self._characterMenu.add_command(label='Add', command=lambda: self._add_world_element('wrcr'))
+
+        # Location
+        self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
+        self._mainMenu.entryconfig('Location', state='disabled')
+        self._locationMenu.add_command(label='Add', command=lambda: self._add_world_element('wrlc'))
+
+        # Item
+        self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
+        self._mainMenu.entryconfig('Item', state='disabled')
+        self._itemMenu.add_command(label='Add', command=lambda: self._add_world_element('writ'))
 
     def _disable_menu(self):
         """Disable menu entries when no project is open.
@@ -223,6 +283,9 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('View', state='disabled')
         self._mainMenu.entryconfig('Chapter', state='disabled')
         self._mainMenu.entryconfig('Scene', state='disabled')
+        self._mainMenu.entryconfig('Character', state='disabled')
+        self._mainMenu.entryconfig('Location', state='disabled')
+        self._mainMenu.entryconfig('Item', state='disabled')
         self._fileMenu.entryconfig('Reload', state='disabled')
         self._fileMenu.entryconfig('Save', state='disabled')
 
@@ -235,6 +298,9 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('View', state='normal')
         self._mainMenu.entryconfig('Chapter', state='normal')
         self._mainMenu.entryconfig('Scene', state='normal')
+        self._mainMenu.entryconfig('Character', state='normal')
+        self._mainMenu.entryconfig('Location', state='normal')
+        self._mainMenu.entryconfig('Item', state='normal')
         self._fileMenu.entryconfig('Reload', state='normal')
         self._fileMenu.entryconfig('Save', state='normal')
 
