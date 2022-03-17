@@ -40,6 +40,12 @@ class NovelystTk(MainTk):
         
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
+            key_restore_status -- str: "Restore Status bar" key binding.
+            key_open_project -- str: "Open Project" key binding.
+            key_on_quit -- str: "Exit" key binding.
+            key_reload_project -- str: "Reload Project" key binding.
+            key_save_project -- str: "Save Project" key binding.
+            button_context_menu -- str: Mouse button to open the treeveiw context menu.
             tree_frame_width -- int: width of the chapter frame.
             wc_width -- int: width of the wordcount column.
             status_width -- int: width of the scene status column.
@@ -113,12 +119,13 @@ class NovelystTk(MainTk):
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
         #--- Event bindings.
+        self._root.bind(kwargs['key_reload_project'], self._reload_project)
+        self._root.bind(kwargs['key_save_project'], self.save_project)
+
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Shift-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
-        self._tree.bind('<Button-3>', self._context_menu)
-        self._root.bind('<Control_L>r', self._reload_project)
-        self._root.bind('<Control_L>s', self.save_project)
+        self._tree.bind(kwargs['button_context_menu'], self._context_menu)
 
         #--- Create a type menu.
         self._typeMenu = tk.Menu(self._root, tearoff=0)
@@ -937,12 +944,11 @@ class NovelystTk(MainTk):
 
     def _reload_project(self, event=None):
         """Reload a yWriter project."""
-        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
+        if self._hasChanged and not self.ask_yes_no('Discard changes and reload the project?'):
             return
 
-        if self._hasChanged:
-            if not self.ask_yes_no('Discard changes and reload the project?'):
-                return
+        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
+            return
 
         self.open_project(self._ywPrj.filePath)
 
