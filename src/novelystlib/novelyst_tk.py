@@ -58,9 +58,7 @@ class NovelystTk(MainTk):
         """
         self.kwargs = kwargs
         super().__init__(colTitle, **kwargs)
-        self._root.geometry(kwargs['root_geometry'])
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
-        self._root.protocol("WM_DELETE_WINDOW", self._on_quit)
         self._chapterMenu = None
         self._sceneMenu = None
         self._hasChanged = False
@@ -156,7 +154,7 @@ class NovelystTk(MainTk):
 
         #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_world_element(self._tree.selection()[0]))
+        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_node(self._tree.selection()[0]))
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._wrCtxtMenu.add_separator()
@@ -169,8 +167,8 @@ class NovelystTk(MainTk):
             i += 1
         return str(i)
 
-    def _add_world_element(self, node):
-        """Add a world element (character/location/scene).
+    def _add_node(self, node):
+        """Add a node to the tree.
         
         Positional arguments:
             node -- str: tree index
@@ -247,6 +245,11 @@ class NovelystTk(MainTk):
         self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
         self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
 
+        # Part
+        self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
+        self._mainMenu.entryconfig('Part', state='disabled')
+
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
@@ -261,19 +264,19 @@ class NovelystTk(MainTk):
         self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
         self._mainMenu.entryconfig('Character', state='disabled')
-        self._characterMenu.add_command(label='Add', command=lambda: self._add_world_element('wrcr'))
+        self._characterMenu.add_command(label='Add', command=lambda: self._add_node('wrcr'))
 
         # Location
         self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
         self._mainMenu.entryconfig('Location', state='disabled')
-        self._locationMenu.add_command(label='Add', command=lambda: self._add_world_element('wrlc'))
+        self._locationMenu.add_command(label='Add', command=lambda: self._add_node('wrlc'))
 
         # Item
         self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
         self._mainMenu.entryconfig('Item', state='disabled')
-        self._itemMenu.add_command(label='Add', command=lambda: self._add_world_element('writ'))
+        self._itemMenu.add_command(label='Add', command=lambda: self._add_node('writ'))
 
     def _disable_menu(self):
         """Disable menu entries when no project is open.
@@ -282,6 +285,7 @@ class NovelystTk(MainTk):
         """
         super()._disable_menu()
         self._mainMenu.entryconfig('View', state='disabled')
+        self._mainMenu.entryconfig('Part', state='disabled')
         self._mainMenu.entryconfig('Chapter', state='disabled')
         self._mainMenu.entryconfig('Scene', state='disabled')
         self._mainMenu.entryconfig('Character', state='disabled')
@@ -297,6 +301,7 @@ class NovelystTk(MainTk):
         """
         super()._enable_menu()
         self._mainMenu.entryconfig('View', state='normal')
+        self._mainMenu.entryconfig('Part', state='normal')
         self._mainMenu.entryconfig('Chapter', state='normal')
         self._mainMenu.entryconfig('Scene', state='normal')
         self._mainMenu.entryconfig('Character', state='normal')
@@ -749,7 +754,6 @@ class NovelystTk(MainTk):
     def _on_quit(self, event=None):
         """Save windows size and position."""
         self._close_project()
-        self.kwargs['root_geometry'] = self._root.winfo_geometry()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         for i, column in enumerate(self._COLUMNS):
             self.kwargs[column[1]] = self._tree.column(i, 'width')
@@ -863,7 +867,7 @@ class NovelystTk(MainTk):
             authorView = self._ywPrj.authorName
         else:
             authorView = 'Unknown author'
-        self._titleBar.config(text=f'{titleView} by {authorView}')
+        self._root.title(f'{titleView} by {authorView} - {self._title}')
         self._enable_menu()
         self._build_tree()
         self._set_status()
