@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yWriter file viewer. 
+"""A tree view for ywriter projects. 
 
 Version @release
 Requires Python 3.6+

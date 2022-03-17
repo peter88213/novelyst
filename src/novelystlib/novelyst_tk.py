@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""""Provide a tkinter GUI class for yWriter file viewing.
+""""Provide a tkinter GUI class for yWriter tree view.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer
@@ -17,12 +17,15 @@ from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
 from pywriter.model.character import Character
 from pywriter.model.world_element import WorldElement
+from novelystlib.nv_exporter import NvExporter
 
 
 class NovelystTk(MainTk):
-    """A tkinter GUI class for yWriter project processing.
+    """A tkinter GUI class for yWriter tree view.
 
-    Show titles, descriptions, and contents in a text box.
+    Public methods:
+        open_project -- Create a yWriter project instance and read the file.
+        save_project -- Save the yWriter project to disk and set 'unchanged' status.
     """
 
     _COLUMNS = (
@@ -65,6 +68,7 @@ class NovelystTk(MainTk):
         self._ywFileDate = None
         self._novelRoot = None
         self._trashNode = None
+        self._exporter = NvExporter(self)
 
         # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
@@ -114,7 +118,7 @@ class NovelystTk(MainTk):
         self._tree.bind('<Delete>', self._delete_node)
         self._tree.bind('<Button-3>', self._context_menu)
         self._root.bind('<Control_L>r', self._reload_project)
-        self._root.bind('<Control_L>s', self._save_project)
+        self._root.bind('<Control_L>s', self.save_project)
 
         #--- Create a type menu.
         self._typeMenu = tk.Menu(self._root, tearoff=0)
@@ -159,13 +163,6 @@ class NovelystTk(MainTk):
         self._wrCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_cascade(label='SetStatus', menu=self._crStatusMenu)
-
-    def _create_id(self, elements):
-        """Return an unused ID for a new element."""
-        i = 1
-        while str(i) in elements:
-            i += 1
-        return str(i)
 
     def _add_node(self, node):
         """Add a node to the tree.
@@ -229,17 +226,13 @@ class NovelystTk(MainTk):
         self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
         self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Reload', command=self._reload_project)
-        self._fileMenu.entryconfig('Reload', state='disabled')
-        self._fileMenu.add_command(label='Save', command=self._save_project)
-        self._fileMenu.entryconfig('Save', state='disabled')
+        self._fileMenu.add_command(label='Save', command=self.save_project)
         self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
-        self._fileMenu.entryconfig('Close', state='disabled')
         self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
 
         # View
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
-        self._mainMenu.entryconfig('View', state='disabled')
         self._viewMenu.add_command(label="Expand selected", command=lambda: self._open_children(self._tree.selection()[0]))
         self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
         self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
@@ -248,35 +241,50 @@ class NovelystTk(MainTk):
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
-        self._mainMenu.entryconfig('Part', state='disabled')
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
-        self._mainMenu.entryconfig('Chapter', state='disabled')
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
-        self._mainMenu.entryconfig('Scene', state='disabled')
+        self._sceneMenu.add_command(label='Export scene descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
+        self._sceneMenu.add_command(label='Export scene list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
 
         # Character
         self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
-        self._mainMenu.entryconfig('Character', state='disabled')
         self._characterMenu.add_command(label='Add', command=lambda: self._add_node('wrcr'))
+        self._characterMenu.add_separator()
+        self._characterMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_characters'))
+        self._characterMenu.add_command(label='Export character list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_charlist'))
 
         # Location
         self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
-        self._mainMenu.entryconfig('Location', state='disabled')
         self._locationMenu.add_command(label='Add', command=lambda: self._add_node('wrlc'))
+        self._locationMenu.add_separator()
+        self._locationMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_locations'))
+        self._locationMenu.add_command(label='Export location list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_loclist'))
 
         # Item
         self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
-        self._mainMenu.entryconfig('Item', state='disabled')
         self._itemMenu.add_command(label='Add', command=lambda: self._add_node('writ'))
+        self._itemMenu.add_separator()
+        self._itemMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_items'))
+        self._itemMenu.add_command(label='Export item list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_itemlist'))
+
+        # Export
+        self._exportMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
+        self._mainMenu.add_cascade(label='Export', menu=self._exportMenu)
+        self._exportMenu.add_command(label='Manuscript for editing', command=lambda: self._exporter.run(self._ywPrj, '_manuscript'))
+        self._exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', command=lambda: self._exporter.run(self._ywPrj, '_proof'))
+        self._exportMenu.add_command(label='Manuscript without tags (export only)', command=lambda: self._exporter.run(self._ywPrj, ''))
+        self._exportMenu.add_command(label='Cross references (export only)', command=lambda: self._exporter.run(self._ywPrj, '_xref'))
+
+        self._disable_menu()
 
     def _disable_menu(self):
         """Disable menu entries when no project is open.
@@ -291,6 +299,8 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('Character', state='disabled')
         self._mainMenu.entryconfig('Location', state='disabled')
         self._mainMenu.entryconfig('Item', state='disabled')
+        self._mainMenu.entryconfig('Export', state='disabled')
+
         self._fileMenu.entryconfig('Reload', state='disabled')
         self._fileMenu.entryconfig('Save', state='disabled')
 
@@ -307,6 +317,8 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('Character', state='normal')
         self._mainMenu.entryconfig('Location', state='normal')
         self._mainMenu.entryconfig('Item', state='normal')
+        self._mainMenu.entryconfig('Export', state='normal')
+
         self._fileMenu.entryconfig('Reload', state='normal')
         self._fileMenu.entryconfig('Save', state='normal')
 
@@ -874,18 +886,24 @@ class NovelystTk(MainTk):
         self._reset_changeflag()
         return fileName
 
-    def _save_project(self, event=None):
+    def save_project(self, event=None):
+        """Save the yWriter project to disk and set 'unchanged' status.
+        
+        Return True on success, otherwise return False.
+        """
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
-            return
+            return False
+
         if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
-                    return
+            return False
 
         self._ywPrj.write()
         self._ywFileDate = os.path.getmtime(self._ywPrj.filePath)
         self._reset_changeflag()
         current_time = datetime.now().strftime('%H:%M:%S')
         self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
+        return True
 
     def _close_project(self, event=None):
         """Clear the text box.
@@ -894,7 +912,7 @@ class NovelystTk(MainTk):
         """
         if self._hasChanged:
             if self.ask_yes_no('Save changes?'):
-                self._save_project()
+                self.save_project()
         self._reset_changeflag()
         self._reset_tree()
         self._reset_info()
@@ -973,3 +991,11 @@ class NovelystTk(MainTk):
                     chapterCount += 1
             message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
         super()._set_status(message)
+
+    def _create_id(self, elements):
+        """Return an unused ID for a new element."""
+        i = 1
+        while str(i) in elements:
+            i += 1
+        return str(i)
+
