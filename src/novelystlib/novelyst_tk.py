@@ -480,7 +480,7 @@ class NovelystTk(MainTk):
         update_node(self._locationRoot, '')
         update_node(self._itemRoot, '')
         self._set_changeflag()
-        self._set_status()
+        self._show_status()
 
     def _delete_node(self, event):
         """Delete a node and its children.
@@ -872,12 +872,12 @@ class NovelystTk(MainTk):
         message = self._ywPrj.read()
         if message.startswith(ERROR):
             self._close_project()
-            self._set_status(text=message)
+            self._show_status(text=message)
             return ''
 
         self._ywFileDate = os.path.getmtime(fileName)
-        current_time = datetime.now().strftime('%H:%M:%S')
-        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} opened at {current_time}')
+        ywFileDate = datetime.fromtimestamp(self._ywFileDate).replace(microsecond=0).isoformat(sep=' ')
+        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {ywFileDate})')
         if self._ywPrj.title:
             titleView = self._ywPrj.title
         else:
@@ -889,7 +889,7 @@ class NovelystTk(MainTk):
         self._root.title(f'{titleView} by {authorView} - {self._title}')
         self._enable_menu()
         self._build_tree()
-        self._set_status()
+        self._show_status()
         self._reset_changeflag()
         return fileName
 
@@ -907,9 +907,10 @@ class NovelystTk(MainTk):
 
         self._ywPrj.write()
         self._ywFileDate = os.path.getmtime(self._ywPrj.filePath)
+        currentTime = datetime.now().replace(microsecond=0).isoformat(sep=' ')
+        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {currentTime})')
         self._reset_changeflag()
-        current_time = datetime.now().strftime('%H:%M:%S')
-        self._pathBar.config(text=f'{os.path.normpath(self._ywPrj.filePath)} saved at {current_time}')
+        self._restore_status(event)
         return True
 
     def _close_project(self, event=None):
@@ -928,9 +929,13 @@ class NovelystTk(MainTk):
 
     def _set_changeflag(self):
         self._hasChanged = True
+        self._pathBar.config(bg='purple')
+        self._pathBar.config(fg='white')
 
     def _reset_changeflag(self):
         self._hasChanged = False
+        self._pathBar.config(bg=self._root.cget('background'))
+        self._pathBar.config(fg='black')
 
     def _yw_changed_on_disk(self):
         """Return True if the yw project file has changed since last opened."""
@@ -967,7 +972,7 @@ class NovelystTk(MainTk):
         for child in self._tree.get_children(parent):
             self._close_children(child)
 
-    def _set_status(self, message=None):
+    def _show_status(self, message=None):
         """Extend the superclass method."""
         if self._ywPrj is not None and not message:
             partCount = 0
@@ -996,7 +1001,7 @@ class NovelystTk(MainTk):
                 else:
                     chapterCount += 1
             message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
-        super()._set_status(message)
+        super()._show_status(message)
 
     def _create_id(self, elements):
         """Return an unused ID for a new element."""
