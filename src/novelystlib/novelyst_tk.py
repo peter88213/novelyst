@@ -248,14 +248,19 @@ class NovelystTk(MainTk):
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
+        self._partMenu.add_separator()
+        self._partMenu.add_command(label='Export part descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_parts'))
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
+        self._chapterMenu.add_separator()
+        self._chapterMenu.add_command(label='Export chapter descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_chapters'))
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
+        self._sceneMenu.add_separator()
         self._sceneMenu.add_command(label='Export scene descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
         self._sceneMenu.add_command(label='Export scene list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
 
@@ -288,7 +293,9 @@ class NovelystTk(MainTk):
         self._mainMenu.add_cascade(label='Export', menu=self._exportMenu)
         self._exportMenu.add_command(label='Manuscript for editing', command=lambda: self._exporter.run(self._ywPrj, '_manuscript'))
         self._exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', command=lambda: self._exporter.run(self._ywPrj, '_proof'))
+        self._exportMenu.add_separator()
         self._exportMenu.add_command(label='Manuscript without tags (export only)', command=lambda: self._exporter.run(self._ywPrj, ''))
+        self._exportMenu.add_command(label='Brief synopsis (export only)', command=lambda: self._exporter.run(self._ywPrj, '_brf_synopsis'))
         self._exportMenu.add_command(label='Cross references (export only)', command=lambda: self._exporter.run(self._ywPrj, '_xref'))
 
         self._disable_menu()
