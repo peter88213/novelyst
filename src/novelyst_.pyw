@@ -21,6 +21,7 @@ SETTINGS = dict(
     key_restore_status='<Escape>',
     key_open_project='<Control_L>o',
     key_on_quit='<Control_L>q',
+    key_create_project='<Control_L>n',
     key_reload_project='<Control_L>r',
     key_save_project='<Control_L>s',
     button_context_menu='<Button-3>',

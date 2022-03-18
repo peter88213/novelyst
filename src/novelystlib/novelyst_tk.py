@@ -64,6 +64,7 @@ class NovelystTk(MainTk):
             key_restore_status -- str: "Restore Status bar" key binding.
             key_open_project -- str: "Open Project" key binding.
             key_on_quit -- str: "Exit" key binding.
+            key_create_project -- str: "New" key binding.
             key_reload_project -- str: "Reload Project" key binding.
             key_save_project -- str: "Save Project" key binding.
             button_context_menu -- str: Mouse button to open the treeveiw context menu.
@@ -139,6 +140,7 @@ class NovelystTk(MainTk):
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
         #--- Event bindings.
+        self._root.bind(kwargs['key_create_project'], self._create_project)
         self._root.bind(kwargs['key_reload_project'], self._reload_project)
         self._root.bind(kwargs['key_save_project'], self.save_project)
 
@@ -199,6 +201,7 @@ class NovelystTk(MainTk):
         # Files
         self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
+        self._fileMenu.add_command(label='New', command=lambda: self._create_project())
         self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Reload', command=self._reload_project)
         self._fileMenu.add_command(label='Save', command=self.save_project)
@@ -959,6 +962,27 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
+    def _create_project(self, event=None):
+        """Create a yWriter project instance."""
+        if self._ywPrj is not None:
+            self._close_project()
+        fileName = 'New project.yw7'
+        self._ywPrj = Yw7File(fileName)
+        if self._ywPrj.title:
+            titleView = self._ywPrj.title
+        else:
+            titleView = 'Untitled yWriter project'
+        if self._ywPrj.authorName:
+            authorView = self._ywPrj.authorName
+        else:
+            authorView = 'Unknown author'
+        self._root.title(f'{titleView} by {authorView} - {self._title}')
+        self._show_path(os.path.normpath(fileName))
+        self._enable_menu()
+        self._build_tree()
+        self._show_status()
+        self._set_changeflag()
+
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
         
@@ -1000,6 +1024,10 @@ class NovelystTk(MainTk):
         
         Return True on success, otherwise return False.
         """
+        if len(self._ywPrj.srtChapters) < 1:
+            self.set_info_how(f'{ERROR}Cannot save: The project must have at least one chapter or part.')
+            return False
+
         if self._ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return False
@@ -1013,6 +1041,7 @@ class NovelystTk(MainTk):
         self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {currentTime})')
         self._reset_changeflag()
         self._restore_status(event)
+        self.kwargs['yw_last_open'] = self._ywPrj.filePath
         return True
 
     def _close_project(self, event=None):
@@ -1045,6 +1074,9 @@ class NovelystTk(MainTk):
             if os.path.isfile(self._ywPrj.filePath):
                 if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
                     return True
+            else:
+                # this is for newly created projects
+                return True
         except:
             pass
         return False
