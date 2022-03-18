@@ -86,6 +86,10 @@ class NovelystTk(MainTk):
             color_1st_edit -- str: tk color name for "First Edit" status.
             color_2nd_edit -- str: tk color name for "Second Edit" status.
             color_done -- str: tk color name for "Done" status.
+            color_locked_bg -- str: tk color name for Footer background when locked.
+            color_locked_fg -- str: tk color name for Footer foreground when locked.
+            color_modified_bg -- str: tk color name for Footer background when modified.
+            color_modified_fg -- str: tk color name for Footer foreground when modified.
     
         Extends the superclass constructor.
         """
@@ -207,8 +211,8 @@ class NovelystTk(MainTk):
     def _modified(self, setFlag):
         if setFlag:
             self._internalModificationFlag = True
-            self._pathBar.config(bg='purple')
-            self._pathBar.config(fg='white')
+            self._pathBar.config(bg=self.kwargs['color_modified_bg'])
+            self._pathBar.config(fg=self.kwargs['color_modified_fg'])
         else:
             self._internalModificationFlag = False
             if not self._locked:
@@ -221,7 +225,7 @@ class NovelystTk(MainTk):
 
     @_locked.setter
     def _locked(self, setFlag):
-        if setFlag:
+        if setFlag and not self._internalLockFlag:
             if self._modified:
                 if self.ask_yes_no('Save and lock?'):
                     self.save_project()
@@ -232,9 +236,9 @@ class NovelystTk(MainTk):
             self._fileMenu.entryconfig('Save', state='disabled')
             self._fileMenu.entryconfig('Lock', state='disabled')
             self._fileMenu.entryconfig('Unlock', state='normal')
-            self._pathBar.config(bg='dim gray')
-            self._pathBar.config(fg='white')
-        else:
+            self._pathBar.config(bg=self.kwargs['color_locked_bg'])
+            self._pathBar.config(fg=self.kwargs['color_locked_fg'])
+        elif self._internalLockFlag:
             self._internalLockFlag = False
             self._fileMenu.entryconfig('Save', state='normal')
             self._fileMenu.entryconfig('Lock', state='normal')
@@ -415,7 +419,7 @@ class NovelystTk(MainTk):
                         self._wrCtxtMenu.entryconfig('Delete', state='disabled')
                     else:
                         self._wrCtxtMenu.entryconfig('Delete', state='normal')
-                    if (prefix.startswith(self._CR) or  row.endswith(self._CR)) and not self._locked():
+                    if (prefix.startswith(self._CR) or  row.endswith(self._CR)) and not self._locked:
                         self._wrCtxtMenu.entryconfig('Set Status', state='normal')
                     else:
                         self._wrCtxtMenu.entryconfig('Set Status', state='disabled')
