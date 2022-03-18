@@ -35,6 +35,27 @@ class NovelystTk(MainTk):
         ('Tags', 'tags_width'),
         )
 
+    _PT = 'pt'
+    # Part node ID prefix
+    _CH = 'ch'
+    # Chapter node ID prefix
+    _SC = 'sc'
+    # Scene node ID prefix
+    _CR = 'cr'
+    # Character node ID prefix
+    _LC = 'lc'
+    # Location node ID prefix
+    _IT = 'it'
+    # Item node ID prefix
+    _NV_ROOT = 'nv'
+    # Root of the Narrative subtree
+    _CR_ROOT = f'wr{_CR}'
+    # Root of the Characters subtree
+    _LC_ROOT = f'wr{_LC}'
+    # Root of the Locations subtree
+    _IT_ROOT = f'wr{_IT}'
+    # Root of the Items subtree
+
     def __init__(self, colTitle, **kwargs):
         """Put a text box to the GUI main window.
         
@@ -72,7 +93,6 @@ class NovelystTk(MainTk):
         self._sceneMenu = None
         self._hasChanged = False
         self._ywFileDate = None
-        self._novelRoot = None
         self._trashNode = None
         self._exporter = NvExporter(self)
 
@@ -125,16 +145,16 @@ class NovelystTk(MainTk):
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Shift-B1-Motion>', self._move_node)
         self._tree.bind('<Delete>', self._delete_node)
-        self._tree.bind(kwargs['button_context_menu'], self._context_menu)
+        self._tree.bind(kwargs['button_context_menu'], self._open_context_menu)
 
-        #--- Create a type menu.
+        #--- Create a scene type submenu.
         self._typeMenu = tk.Menu(self._root, tearoff=0)
         self._typeMenu.add_command(label='Normal', command=lambda: self._set_type(self._tree.selection()[0], 0))
         self._typeMenu.add_command(label='Notes', command=lambda: self._set_type(self._tree.selection()[0], 1))
         self._typeMenu.add_command(label='Todo', command=lambda: self._set_type(self._tree.selection()[0], 2))
         self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self._tree.selection()[0], 3))
 
-        #--- Create a scene status menu.
+        #--- Create a scene scene status submenu.
         self._scStatusMenu = tk.Menu(self._root, tearoff=0)
         self._scStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self._tree.selection()[0], 1))
         self._scStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self._tree.selection()[0], 2))
@@ -142,86 +162,34 @@ class NovelystTk(MainTk):
         self._scStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self._tree.selection()[0], 4))
         self._scStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self._tree.selection()[0], 5))
 
-        #--- Create a novel context menu.
+        #--- Create a narrative context menu.
         self._nvCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._nvCtxtMenu.add_command(label='Add Part', command=lambda: self._add_part(self._tree.selection()[0]))
-        self._nvCtxtMenu.add_command(label='Add Chapter', command=lambda: self._add_chapter(self._tree.selection()[0]))
-        self._nvCtxtMenu.add_command(label='Add Scene', command=lambda: self._add_scene(self._tree.selection()[0]))
+        self._nvCtxtMenu.add_command(label='Add Part', command=lambda: self._add_part())
+        self._nvCtxtMenu.add_command(label='Add Chapter', command=lambda: self._add_chapter())
+        self._nvCtxtMenu.add_command(label='Add Scene', command=lambda: self._add_scene())
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
-        self._nvCtxtMenu.add_cascade(label='SetType', menu=self._typeMenu)
-        self._nvCtxtMenu.add_cascade(label='SetStatus', menu=self._scStatusMenu)
+        self._nvCtxtMenu.add_cascade(label='Set Type', menu=self._typeMenu)
+        self._nvCtxtMenu.add_cascade(label='Set Status', menu=self._scStatusMenu)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Expand', command=lambda: self._open_children(self._tree.selection()[0]))
         self._nvCtxtMenu.add_command(label='Collapse', command=lambda: self._close_children(self._tree.selection()[0]))
         self._nvCtxtMenu.add_command(label='Expand all', command=lambda: self._open_children(''))
         self._nvCtxtMenu.add_command(label='Collapse all', command=lambda: self._close_children(''))
 
-        #--- Create a character status menu.
+        #--- Create a character status submenu.
         self._crStatusMenu = tk.Menu(self._root, tearoff=0)
-        self._crStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], True))
-        self._crStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(self._tree.selection()[0], False))
+        self._crStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(True))
+        self._crStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(False))
 
         #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_node(self._tree.selection()[0]))
+        self._wrCtxtMenu.add_command(label='Add', command=lambda: self._add_world_element())
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._wrCtxtMenu.add_separator()
-        self._wrCtxtMenu.add_cascade(label='SetStatus', menu=self._crStatusMenu)
-
-    def _add_node(self, node):
-        """Add a node to the tree.
-        
-        Positional arguments:
-            node -- str: tree index
-            
-        - If node is a world element entry, place the new element 
-          one below and select it.
-        - If node is the element type's tree root place the new element
-          at the tree top and select it.
-        - Otherwise, do nothing.   
-        """
-        if 'cr' in node:
-            # Add a character.
-            crId = self._create_id(self._ywPrj.characters)
-            newNode = f'cr{crId}'
-            self._ywPrj.characters[crId] = Character()
-            self._ywPrj.characters[crId].title = f'New Character (ID{crId})'
-            title, columns, nodeTags = self._set_character_display(crId)
-            root = self._characterRoot
-            prefix = 'cr'
-        elif 'lc' in node:
-            # Add a location.
-            lcId = self._create_id(self._ywPrj.locations)
-            newNode = f'lc{lcId}'
-            self._ywPrj.locations[lcId] = WorldElement()
-            self._ywPrj.locations[lcId].title = f'New Location (ID{lcId})'
-            title, columns, nodeTags = self._set_location_display(lcId)
-            root = self._locationRoot
-            prefix = 'lc'
-        elif 'it' in node:
-            # Add an item.
-            itId = self._create_id(self._ywPrj.items)
-            newNode = f'it{itId}'
-            self._ywPrj.items[itId] = WorldElement()
-            self._ywPrj.items[itId].title = f'New Item (ID{itId})'
-            title, columns, nodeTags = self._set_item_display(itId)
-            root = self._itemRoot
-            prefix = 'it'
-        else:
-            return
-
-        if node.startswith(prefix):
-            index = self._tree.index(node) + 1
-        else:
-            index = 0
-            self._tree.item(root, open=True)
-        self._tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
-        self._update_tree()
-        self._tree.selection_set(newNode)
-        self._tree.see(newNode)
+        self._wrCtxtMenu.add_cascade(label='Set Status', menu=self._crStatusMenu)
 
     def _build_main_menu(self):
         """Add main menu entries.
@@ -248,18 +216,21 @@ class NovelystTk(MainTk):
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
+        self._partMenu.add_command(label='Add', command=lambda: self._add_part())
         self._partMenu.add_separator()
         self._partMenu.add_command(label='Export part descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_parts'))
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
+        self._chapterMenu.add_command(label='Add', command=lambda: self._add_chapter())
         self._chapterMenu.add_separator()
         self._chapterMenu.add_command(label='Export chapter descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_chapters'))
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
+        self._sceneMenu.add_command(label='Add', command=lambda: self._add_scene())
         self._sceneMenu.add_separator()
         self._sceneMenu.add_command(label='Export scene descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
         self._sceneMenu.add_command(label='Export scene list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
@@ -267,7 +238,7 @@ class NovelystTk(MainTk):
         # Character
         self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
-        self._characterMenu.add_command(label='Add', command=lambda: self._add_node('wrcr'))
+        self._characterMenu.add_command(label='Add', command=lambda: self._add_world_element(self._CR_ROOT))
         self._characterMenu.add_separator()
         self._characterMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_characters'))
         self._characterMenu.add_command(label='Export character list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_charlist'))
@@ -275,7 +246,7 @@ class NovelystTk(MainTk):
         # Location
         self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
-        self._locationMenu.add_command(label='Add', command=lambda: self._add_node('wrlc'))
+        self._locationMenu.add_command(label='Add', command=lambda: self._add_world_element(self._LC_ROOT))
         self._locationMenu.add_separator()
         self._locationMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_locations'))
         self._locationMenu.add_command(label='Export location list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_loclist'))
@@ -283,7 +254,7 @@ class NovelystTk(MainTk):
         # Item
         self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
-        self._itemMenu.add_command(label='Add', command=lambda: self._add_node('writ'))
+        self._itemMenu.add_command(label='Add', command=lambda: self._add_world_element(self._IT_ROOT))
         self._itemMenu.add_separator()
         self._itemMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_items'))
         self._itemMenu.add_command(label='Export item list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_itemlist'))
@@ -336,31 +307,35 @@ class NovelystTk(MainTk):
         self._fileMenu.entryconfig('Reload', state='normal')
         self._fileMenu.entryconfig('Save', state='normal')
 
-    def _context_menu(self, event):
+    def _open_context_menu(self, event):
         row = self._tree.identify_row(event.y)
         if row:
             self._tree.focus_set()
             self._tree.selection_set(row)
             prefix = row[:2]
-            if prefix in ('nv', 'pt', 'ch', 'sc'):
-                # Context is novel/part/chapter/scene.
-                if prefix.startswith('sc'):
+            if prefix in ('nv', self._PT, self._CH, self._SC):
+                # Context is narrative/part/chapter/scene.
+                if prefix.startswith(self._SC):
                     self._nvCtxtMenu.entryconfig('Delete', state='normal')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
-                elif prefix.startswith('ch'):
+                elif prefix.startswith(self._CH):
                     self._nvCtxtMenu.entryconfig('Delete', state='normal')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
-                elif prefix.startswith('pt'):
+                elif prefix.startswith(self._PT):
                     self._nvCtxtMenu.entryconfig('Delete', state='normal')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                 elif prefix.startswith('nv'):
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
@@ -368,70 +343,70 @@ class NovelystTk(MainTk):
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
                     self._nvCtxtMenu.grab_release()
-            elif prefix in ('wr', 'cr', 'lc', 'it'):
+            elif prefix in ('wr', self._CR, self._LC, self._IT):
                 # Context is character/location/item.
                 if prefix.startswith('wr'):
                     self._wrCtxtMenu.entryconfig('Delete', state='disabled')
                 else:
                     self._wrCtxtMenu.entryconfig('Delete', state='normal')
-                if prefix.startswith('cr') or  row.endswith('cr'):
-                    self._wrCtxtMenu.entryconfig('SetStatus', state='normal')
+                if prefix.startswith(self._CR) or  row.endswith(self._CR):
+                    self._wrCtxtMenu.entryconfig('Set Status', state='normal')
                 else:
-                    self._wrCtxtMenu.entryconfig('SetStatus', state='disabled')
+                    self._wrCtxtMenu.entryconfig('Set Status', state='disabled')
                 try:
                     self._wrCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
                     self._wrCtxtMenu.grab_release()
 
     def _build_tree(self):
-        """Display the opened novel's tree."""
+        """Display the opened narrative's tree."""
         self._reset_tree()
 
         #--- Build Parts/Chapters/scenes tree.
-        self._novelRoot = self._tree.insert('', 'end', 'nv0', text='Novel', tags='root', open=True)
+        self._tree.insert('', 'end', self._NV_ROOT, text='Narrative', tags='root', open=True)
         inPart = False
         for chId in self._ywPrj.srtChapters:
             if self._ywPrj.chapters[chId].isTrash:
-                self._trashNode = f'ch{chId}'
+                self._trashNode = f'{self._CH}{chId}'
                 inPart = False
             if self._ywPrj.chapters[chId].chLevel == 1:
                 inPart = True
                 inChapter = False
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                partNode = self._tree.insert(self._novelRoot, 'end', f'pt{chId}', text=title, values=columns, tags=nodeTags, open=True)
+                partNode = self._tree.insert(self._NV_ROOT, 'end', f'{self._PT}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             else:
                 inChapter = True
                 if inPart:
                     parentNode = partNode
                 else:
-                    parentNode = self._novelRoot
+                    parentNode = self._NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                chapterNode = self._tree.insert(parentNode, 'end', f'ch{chId}', text=title, values=columns, tags=nodeTags)
+                chapterNode = self._tree.insert(parentNode, 'end', f'{self._CH}{chId}', text=title, values=columns, tags=nodeTags)
             for scId in self._ywPrj.chapters[chId].srtScenes:
                 title, columns, nodeTags = self._set_scene_display(scId)
                 if inChapter:
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
-                self._tree.insert(parentNode, 'end', f'sc{scId}', text=title, values=columns, tags=nodeTags)
+                self._tree.insert(parentNode, 'end', f'{self._SC}{scId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
-        self._characterRoot = self._tree.insert('', 'end', 'wrcr', text='Characters', tags='root', open=False)
+        self._tree.insert('', 'end', self._CR_ROOT, text='Characters', tags='root', open=False)
         for crId in self._ywPrj.srtCharacters:
             title, columns, nodeTags = self._set_character_display(crId)
-            self._tree.insert(self._characterRoot, 'end', f'cr{crId}', text=title, values=columns, tags=nodeTags)
+            self._tree.insert(self._CR_ROOT, 'end', f'{self._CR}{crId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build location tree.
-        self._locationRoot = self._tree.insert('', 'end', 'wrLc', text='Locations', tags='root', open=False)
+        self._tree.insert('', 'end', self._LC_ROOT, text='Locations', tags='root', open=False)
         for lcId in self._ywPrj.srtLocations:
             title, columns, nodeTags = self._set_location_display(lcId)
-            self._tree.insert(self._locationRoot, 'end', f'lc{lcId}', text=title, values=columns, tags=nodeTags)
+            self._tree.insert(self._LC_ROOT, 'end', f'{self._LC}{lcId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build item tree.
-        self._itemRoot = self._tree.insert('', 'end', 'wrIt', text='Items', tags='root', open=False)
+        self._tree.insert('', 'end', self._IT_ROOT, text='Items', tags='root', open=False)
         for itId in self._ywPrj.srtItems:
             title, columns, nodeTags = self._set_item_display(itId)
-            self._tree.insert(self._itemRoot, 'end', f'it{itId}', text=title, values=columns, tags=nodeTags)
+            self._tree.insert(self._IT_ROOT, 'end', f'{self._IT}{itId}', text=title, values=columns, tags=nodeTags)
 
         #--- configure row display.
         self._tree.tag_configure('root', font=('', self._fontSize, 'bold'))
@@ -454,19 +429,19 @@ class NovelystTk(MainTk):
         def update_node(node, chId):
             """Recursive tree builder."""
             for childNode in self._tree.get_children(node):
-                if childNode.startswith('sc'):
+                if childNode.startswith(self._SC):
                     scId = childNode[2:]
                     self._ywPrj.chapters[chId].srtScenes.append(scId)
                     title, columns, nodeTags = self._set_scene_display(scId)
-                elif childNode.startswith('cr'):
+                elif childNode.startswith(self._CR):
                     crId = childNode[2:]
                     self._ywPrj.srtCharacters.append(crId)
                     title, columns, nodeTags = self._set_character_display(crId)
-                elif childNode.startswith('lc'):
+                elif childNode.startswith(self._LC):
                     lcId = childNode[2:]
                     self._ywPrj.srtLocations.append(lcId)
                     title, columns, nodeTags = self._set_location_display(lcId)
-                elif childNode.startswith('it'):
+                elif childNode.startswith(self._IT):
                     itId = childNode[2:]
                     self._ywPrj.srtItems.append(itId)
                     title, columns, nodeTags = self._set_item_display(itId)
@@ -482,10 +457,10 @@ class NovelystTk(MainTk):
         self._ywPrj.srtCharacters = []
         self._ywPrj.srtLocations = []
         self._ywPrj.srtItems = []
-        update_node(self._novelRoot, '')
-        update_node(self._characterRoot, '')
-        update_node(self._locationRoot, '')
-        update_node(self._itemRoot, '')
+        update_node(self._NV_ROOT, '')
+        update_node(self._CR_ROOT, '')
+        update_node(self._LC_ROOT, '')
+        update_node(self._IT_ROOT, '')
         self._set_changeflag()
         self._show_status()
 
@@ -499,7 +474,7 @@ class NovelystTk(MainTk):
 
         def waste_scenes(node):
             """Move all scenes under the node to the 'trash bin'."""
-            if node.startswith('sc'):
+            if node.startswith(self._SC):
                 # Move scene.
                 tv.move(node, self._trashNode, 0)
             else:
@@ -509,56 +484,56 @@ class NovelystTk(MainTk):
                     waste_scenes(childNode)
 
         tv = event.widget
-        selection = tv.selection()[0]
-        elemId = selection[2:]
-        if selection.startswith('sc'):
+        node = tv.selection()[0]
+        elemId = node[2:]
+        if node.startswith(self._SC):
             candidate = f'Scene "{self._ywPrj.scenes[elemId].title}"'
-        elif selection.startswith('ch'):
+        elif node.startswith(self._CH):
             candidate = f'Chapter "{self._ywPrj.chapters[elemId].title}"'
-        elif selection.startswith('pt'):
+        elif node.startswith(self._PT):
             candidate = f'Part "{self._ywPrj.chapters[elemId].title}"'
-        elif selection.startswith('cr'):
+        elif node.startswith(self._CR):
             candidate = f'Character "{self._ywPrj.characters[elemId].title}"'
-        elif selection.startswith('lc'):
+        elif node.startswith(self._LC):
             candidate = f'Location "{self._ywPrj.locations[elemId].title}"'
-        elif selection.startswith('it'):
+        elif node.startswith(self._IT):
             candidate = f'Item "{self._ywPrj.items[elemId].title}"'
         else:
             return
 
         if self.ask_yes_no(f'Delete {candidate}?'):
-            if tv.prev(selection):
-                tv.selection_set(tv.prev(selection))
+            if tv.prev(node):
+                tv.selection_set(tv.prev(node))
             else:
-                tv.selection_set(tv.parent(selection))
-            if selection == self._trashNode:
+                tv.selection_set(tv.parent(node))
+            if node == self._trashNode:
                 # Remove the "trash bin".
-                tv.delete(selection)
+                tv.delete(node)
                 self._trashNode = None
                 for scId in self._ywPrj.chapters[elemId].srtScenes:
                     del self._ywPrj.scenes[scId]
                 del self._ywPrj.chapters[elemId]
-            elif selection.startswith('cr'):
+            elif node.startswith(self._CR):
                 # Delete a character and remove references.
-                tv.delete(selection)
+                tv.delete(node)
                 del self._ywPrj.characters[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].characters.remove(elemId)
                     except:
                         pass
-            elif selection.startswith('lc'):
+            elif node.startswith(self._LC):
                 # Delete a location and remove references.
-                tv.delete(selection)
+                tv.delete(node)
                 del self._ywPrj.locations[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].locations.remove(elemId)
                     except:
                         pass
-            elif selection.startswith('it'):
+            elif node.startswith(self._IT):
                 # Delete an item and remove references.
-                tv.delete(selection)
+                tv.delete(node)
                 del self._ywPrj.items[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
@@ -573,14 +548,134 @@ class NovelystTk(MainTk):
                     self._ywPrj.chapters[trashId] = Chapter()
                     self._ywPrj.chapters[trashId].title = "Trash"
                     self._ywPrj.chapters[trashId].isTrash = True
-                    self._trashNode = f'ch{trashId}'
-                    self._tree.insert(self._novelRoot, 'end', self._trashNode, text='Trash', tags='unused', open=True)
-                waste_scenes(selection)
-                if not selection.startswith('sc'):
-                    tv.delete(selection)
+                    self._trashNode = f'{self._CH}{trashId}'
+                    self._tree.insert(self._NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
+                waste_scenes(node)
+                if not node.startswith(self._SC):
+                    tv.delete(node)
                 self._set_type(self._trashNode, 3)
                 # Make sure the whole "trash bin" is unused.
             self._update_tree()
+
+    def _add_part(self):
+        """Add a Part node to the tree and create an instance.
+        
+        - If a part is selected, place the new part 
+          after the selected part and select it.
+        - Otherwise, place the new part at the first position 
+          in the narrative tree and select it.
+        """
+        try:
+            node = self._tree.selection()[0]
+        except:
+            node = ''
+        if node.startswith(self._PT):
+            parent = self._NV_ROOT
+            index = self._tree.index(node) + 1
+        else:
+            parent = self._NV_ROOT
+            index = 0
+            self._tree.item(parent, open=True)
+        chId = self._create_id(self._ywPrj.chapters)
+        newNode = f'{self._PT}{chId}'
+        self._ywPrj.chapters[chId] = Chapter()
+        self._ywPrj.chapters[chId].title = f'New Part (ID{chId})'
+        self._ywPrj.chapters[chId].chLevel = 1
+        self._ywPrj.srtChapters.append(chId)
+        title, columns, nodeTags = self._set_chapter_display(chId)
+        self._tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self._update_tree()
+        self._tree.selection_set(newNode)
+        self._tree.see(newNode)
+
+    def _add_chapter(self):
+        """Add a Chapter node to the tree and create an instance.
+        
+        - If a part is selected, place the new chapter at the 
+          first position under this part and select it. 
+        - If a chapter is selected, place the new chapter after the 
+          selected chapter and select it. 
+        - Otherwise, place the new node at the first position 
+          in the narrative tree and select it.
+        """
+        try:
+            node = self._tree.selection()[0]
+        except:
+            node = ''
+        if node.startswith(self._PT):
+            parent = node
+            index = 0
+        elif node.startswith(self._CH):
+            parent = self._tree.parent(node)
+            index = self._tree.index(node) + 1
+        else:
+            parent = self._NV_ROOT
+            index = 0
+            self._tree.item(self._NV_ROOT, open=True)
+        chId = self._create_id(self._ywPrj.chapters)
+        newNode = f'{self._CH}{chId}'
+        self._ywPrj.chapters[chId] = Chapter()
+        self._ywPrj.chapters[chId].title = f'New Chapter (ID{chId})'
+        self._ywPrj.chapters[chId].chLevel = 0
+        self._ywPrj.srtChapters.append(chId)
+        title, columns, nodeTags = self._set_chapter_display(chId)
+        self._tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self._update_tree()
+        self._tree.selection_set(newNode)
+        self._tree.see(newNode)
+
+    def _add_world_element(self, node=None):
+        """Add a Character/Location/Item node to the tree and create an instance.
+        
+        Positional arguments:
+            node -- str: tree position where to place a new node.
+            
+        - The new node's type is determined by the "node" argument.
+        - If a node of the same type as the new node is selected, 
+          place the new node after the selected node and select it.
+        - Otherwise, place the new node at the first position.   
+        """
+        if node is None:
+            node = self._tree.selection()[0]
+        if self._CR in node:
+            # Add a character.
+            crId = self._create_id(self._ywPrj.characters)
+            newNode = f'{self._CR}{crId}'
+            self._ywPrj.characters[crId] = Character()
+            self._ywPrj.characters[crId].title = f'New Character (ID{crId})'
+            title, columns, nodeTags = self._set_character_display(crId)
+            root = self._CR_ROOT
+            prefix = self._CR
+        elif self._LC in node:
+            # Add a location.
+            lcId = self._create_id(self._ywPrj.locations)
+            newNode = f'{self._LC}{lcId}'
+            self._ywPrj.locations[lcId] = WorldElement()
+            self._ywPrj.locations[lcId].title = f'New Location (ID{lcId})'
+            title, columns, nodeTags = self._set_location_display(lcId)
+            root = self._LC_ROOT
+            prefix = self._LC
+        elif self._IT in node:
+            # Add an item.
+            itId = self._create_id(self._ywPrj.items)
+            newNode = f'{self._IT}{itId}'
+            self._ywPrj.items[itId] = WorldElement()
+            self._ywPrj.items[itId].title = f'New Item (ID{itId})'
+            title, columns, nodeTags = self._set_item_display(itId)
+            root = self._IT_ROOT
+            prefix = self._IT
+        else:
+            return
+
+        if node.startswith(prefix):
+            index = self._tree.index(node) + 1
+        else:
+            index = 0
+            self._tree.item(root, open=True)
+        self._tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
+        self._update_tree()
+        self._tree.selection_set(newNode)
+        self._tree.see(newNode)
 
     def _set_scene_display(self, scId):
         """Configure scene formatting and columns."""
@@ -694,7 +789,7 @@ class NovelystTk(MainTk):
 
     def _set_type(self, node, newType):
         """Recursively set scene or chapter type (Normal/Notes/Todo/Unused)."""
-        if node.startswith('sc'):
+        if node.startswith(self._SC):
             scene = self._ywPrj.scenes[node[2:]]
             if newType == 3:
                 scene.isUnused = True
@@ -712,7 +807,8 @@ class NovelystTk(MainTk):
                 scene.isUnused = False
                 scene.isTodoScene = False
                 scene.isNotesScene = False
-        elif node.startswith('ch') or node.startswith('pt'):
+        elif node.startswith(self._CH) or node.startswith(self._PT):
+            self._tree.item(node, open=True)
             chapter = self._ywPrj.chapters[node[2:]]
             if newType == 3:
                 chapter.isUnused = True
@@ -720,10 +816,6 @@ class NovelystTk(MainTk):
             else:
                 chapter.chType = newType
                 chapter.isUnused = False
-            # Go one level down.
-            for childNode in self._tree.get_children(node):
-                self._set_type(childNode, newType)
-        elif node.startswith('nv'):
             # Go one level down.
             for childNode in self._tree.get_children(node):
                 self._set_type(childNode, newType)
@@ -735,9 +827,10 @@ class NovelystTk(MainTk):
 
     def _set_scn_status(self, node, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
-        if node.startswith('sc'):
+        if node.startswith(self._SC):
             self._ywPrj.scenes[node[2:]].status = scnStatus
-        elif node.startswith('ch') or node.startswith('pt') or node.startswith('nv'):
+        elif node.startswith(self._CH) or node.startswith(self._PT) or node.startswith('nv'):
+            self._tree.item(node, open=True)
             # Go one level down.
             for childNode in self._tree.get_children(node):
                 self._set_scn_status(childNode, scnStatus)
@@ -747,11 +840,12 @@ class NovelystTk(MainTk):
 
         self._update_tree()
 
-    def _set_chr_status(self, node, chrStatus):
+    def _set_chr_status(self, chrStatus):
         """Set character status (Major/Minor)."""
-        if node.startswith('cr'):
+        node = self._tree.selection()[0]
+        if node.startswith(self._CR):
             self._ywPrj.characters[node[2:]].isMajor = chrStatus
-        elif node.endswith('cr'):
+        elif node.endswith(self._CR):
             # Go one level down.
             for childNode in self._tree.get_children(node):
                 self._set_chr_status(childNode, chrStatus)
@@ -762,19 +856,19 @@ class NovelystTk(MainTk):
         self._update_tree()
 
     def _move_node(self, event):
-        """Move parts, chapters, and scenes in the novel tree."""
+        """Move a selected node in the novel tree."""
         tv = event.widget
-        selection = tv.selection()[0]
+        node = tv.selection()[0]
         targetNode = tv.identify_row(event.y)
         # tv.item(targetNode, open=True)
-        if selection[:2] == targetNode[:2]:
-            tv.move(selection, tv.parent(targetNode), tv.index(targetNode))
-        elif selection.startswith('sc') and targetNode.startswith('ch') and not tv.get_children(targetNode):
-            tv.move(selection, targetNode, 0)
-        elif selection.startswith('sc') and targetNode.startswith('pt'):
-            tv.move(selection, targetNode, 0)
-        elif selection.startswith('ch') and targetNode.startswith('pt') and not tv.get_children(targetNode):
-            tv.move(selection, targetNode, tv.index(targetNode))
+        if node[:2] == targetNode[:2]:
+            tv.move(node, tv.parent(targetNode), tv.index(targetNode))
+        elif node.startswith(self._SC) and targetNode.startswith(self._CH) and not tv.get_children(targetNode):
+            tv.move(node, targetNode, 0)
+        elif node.startswith(self._SC) and targetNode.startswith(self._PT):
+            tv.move(node, targetNode, 0)
+        elif node.startswith(self._CH) and targetNode.startswith(self._PT) and not tv.get_children(targetNode):
+            tv.move(node, targetNode, tv.index(targetNode))
         self._update_tree()
 
     def _on_quit(self, event=None):
@@ -788,19 +882,19 @@ class NovelystTk(MainTk):
     def _on_select_node(self, event):
         """Show info on the right level."""
         nodeId = self._tree.selection()[0]
-        if nodeId.startswith('ch'):
+        if nodeId.startswith(self._CH):
             self._set_chapter_info(nodeId[2:])
-        elif nodeId.startswith('sc'):
+        elif nodeId.startswith(self._SC):
             self._set_scene_info(nodeId[2:])
-        elif nodeId.startswith('pt'):
+        elif nodeId.startswith(self._PT):
             self._set_chapter_info(nodeId[2:])
-        elif nodeId == 'Novel':
+        elif nodeId.startswith(self._NV_ROOT):
             self._set_novel_info()
-        elif nodeId.startswith('cr'):
+        elif nodeId.startswith(self._CR):
             self._set_character_info(nodeId[2:])
-        elif nodeId.startswith('lc'):
+        elif nodeId.startswith(self._LC):
             self._set_location_info(nodeId[2:])
-        elif nodeId.startswith('it'):
+        elif nodeId.startswith(self._IT):
             self._set_item_info(nodeId[2:])
         else:
             self._reset_info()
