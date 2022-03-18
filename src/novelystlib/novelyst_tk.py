@@ -166,9 +166,9 @@ class NovelystTk(MainTk):
 
         #--- Create a narrative context menu.
         self._nvCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._nvCtxtMenu.add_command(label='Add Scene', command=lambda: self._add_scene())
-        self._nvCtxtMenu.add_command(label='Add Chapter', command=lambda: self._add_chapter())
-        self._nvCtxtMenu.add_command(label='Add Part', command=lambda: self._add_part())
+        self._nvCtxtMenu.add_command(label='Add Scene', command=self._add_scene)
+        self._nvCtxtMenu.add_command(label='Add Chapter', command=self._add_chapter)
+        self._nvCtxtMenu.add_command(label='Add Part', command=self._add_part)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
@@ -201,12 +201,12 @@ class NovelystTk(MainTk):
         # Files
         self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
-        self._fileMenu.add_command(label='New', command=lambda: self._create_project())
+        self._fileMenu.add_command(label='New', command=self._create_project)
         self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Reload', command=self._reload_project)
         self._fileMenu.add_command(label='Save', command=self.save_project)
-        self._fileMenu.add_command(label='Close', command=lambda: self._close_project())
-        self._fileMenu.add_command(label='Exit', command=lambda: self._on_quit())
+        self._fileMenu.add_command(label='Close', command=self._close_project)
+        self._fileMenu.add_command(label='Exit', command=self._on_quit)
 
         # View
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
@@ -219,21 +219,21 @@ class NovelystTk(MainTk):
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
-        self._partMenu.add_command(label='Add', command=lambda: self._add_part())
+        self._partMenu.add_command(label='Add', command=self._add_part)
         self._partMenu.add_separator()
         self._partMenu.add_command(label='Export part descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_parts'))
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
-        self._chapterMenu.add_command(label='Add', command=lambda: self._add_chapter())
+        self._chapterMenu.add_command(label='Add', command=self._add_chapter)
         self._chapterMenu.add_separator()
         self._chapterMenu.add_command(label='Export chapter descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_chapters'))
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
-        self._sceneMenu.add_command(label='Add', command=lambda: self._add_scene())
+        self._sceneMenu.add_command(label='Add', command=self._add_scene)
         self._sceneMenu.add_separator()
         self._sceneMenu.add_command(label='Export scene descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
         self._sceneMenu.add_command(label='Export scene list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
