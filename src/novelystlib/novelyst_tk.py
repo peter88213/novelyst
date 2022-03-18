@@ -164,9 +164,9 @@ class NovelystTk(MainTk):
 
         #--- Create a narrative context menu.
         self._nvCtxtMenu = tk.Menu(self._root, tearoff=0)
-        self._nvCtxtMenu.add_command(label='Add Part', command=lambda: self._add_part())
-        self._nvCtxtMenu.add_command(label='Add Chapter', command=lambda: self._add_chapter())
         self._nvCtxtMenu.add_command(label='Add Scene', command=lambda: self._add_scene())
+        self._nvCtxtMenu.add_command(label='Add Chapter', command=lambda: self._add_chapter())
+        self._nvCtxtMenu.add_command(label='Add Part', command=lambda: self._add_part())
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self._tree.event_generate('<Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
@@ -618,7 +618,7 @@ class NovelystTk(MainTk):
         newNode = f'{self._SC}{scId}'
         self._ywPrj.scenes[scId] = Scene()
         self._ywPrj.scenes[scId].title = f'New Scene (ID{scId})'
-        self._ywPrj.scenes[scId].status = 0
+        self._ywPrj.scenes[scId].status = 1
         # Edit status = Outline
         title, columns, nodeTags = self._set_scene_display(scId)
         self._tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
