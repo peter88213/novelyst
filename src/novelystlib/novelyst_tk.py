@@ -315,30 +315,14 @@ class NovelystTk(MainTk):
             prefix = row[:2]
             if prefix in ('nv', self._PT, self._CH, self._SC):
                 # Context is narrative/part/chapter/scene.
-                if prefix.startswith(self._SC):
-                    self._nvCtxtMenu.entryconfig('Delete', state='normal')
-                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
-                    self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
-                elif prefix.startswith(self._CH):
-                    self._nvCtxtMenu.entryconfig('Delete', state='normal')
-                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
-                    self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
-                elif prefix.startswith(self._PT):
-                    self._nvCtxtMenu.entryconfig('Delete', state='normal')
-                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Part', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
-                elif prefix.startswith('nv'):
+                if prefix.startswith('nv'):
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
-                    self._nvCtxtMenu.entryconfig('Add Part', state='normal')
-                    self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
+                else:
+                    self._nvCtxtMenu.entryconfig('Delete', state='normal')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='normal')
+                    self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
@@ -484,56 +468,56 @@ class NovelystTk(MainTk):
                     waste_scenes(childNode)
 
         tv = event.widget
-        node = tv.selection()[0]
-        elemId = node[2:]
-        if node.startswith(self._SC):
+        selection = tv.selection()[0]
+        elemId = selection[2:]
+        if selection.startswith(self._SC):
             candidate = f'Scene "{self._ywPrj.scenes[elemId].title}"'
-        elif node.startswith(self._CH):
+        elif selection.startswith(self._CH):
             candidate = f'Chapter "{self._ywPrj.chapters[elemId].title}"'
-        elif node.startswith(self._PT):
+        elif selection.startswith(self._PT):
             candidate = f'Part "{self._ywPrj.chapters[elemId].title}"'
-        elif node.startswith(self._CR):
+        elif selection.startswith(self._CR):
             candidate = f'Character "{self._ywPrj.characters[elemId].title}"'
-        elif node.startswith(self._LC):
+        elif selection.startswith(self._LC):
             candidate = f'Location "{self._ywPrj.locations[elemId].title}"'
-        elif node.startswith(self._IT):
+        elif selection.startswith(self._IT):
             candidate = f'Item "{self._ywPrj.items[elemId].title}"'
         else:
             return
 
         if self.ask_yes_no(f'Delete {candidate}?'):
-            if tv.prev(node):
-                tv.selection_set(tv.prev(node))
+            if tv.prev(selection):
+                tv.selection_set(tv.prev(selection))
             else:
-                tv.selection_set(tv.parent(node))
-            if node == self._trashNode:
+                tv.selection_set(tv.parent(selection))
+            if selection == self._trashNode:
                 # Remove the "trash bin".
-                tv.delete(node)
+                tv.delete(selection)
                 self._trashNode = None
                 for scId in self._ywPrj.chapters[elemId].srtScenes:
                     del self._ywPrj.scenes[scId]
                 del self._ywPrj.chapters[elemId]
-            elif node.startswith(self._CR):
+            elif selection.startswith(self._CR):
                 # Delete a character and remove references.
-                tv.delete(node)
+                tv.delete(selection)
                 del self._ywPrj.characters[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].characters.remove(elemId)
                     except:
                         pass
-            elif node.startswith(self._LC):
+            elif selection.startswith(self._LC):
                 # Delete a location and remove references.
-                tv.delete(node)
+                tv.delete(selection)
                 del self._ywPrj.locations[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
                         self._ywPrj.scenes[scId].locations.remove(elemId)
                     except:
                         pass
-            elif node.startswith(self._IT):
+            elif selection.startswith(self._IT):
                 # Delete an item and remove references.
-                tv.delete(node)
+                tv.delete(selection)
                 del self._ywPrj.items[elemId]
                 for scId in self._ywPrj.scenes:
                     try:
@@ -550,32 +534,28 @@ class NovelystTk(MainTk):
                     self._ywPrj.chapters[trashId].isTrash = True
                     self._trashNode = f'{self._CH}{trashId}'
                     self._tree.insert(self._NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
-                waste_scenes(node)
-                if not node.startswith(self._SC):
-                    tv.delete(node)
+                waste_scenes(selection)
+                if not selection.startswith(self._SC):
+                    tv.delete(selection)
                 self._set_type(self._trashNode, 3)
                 # Make sure the whole "trash bin" is unused.
             self._update_tree()
 
     def _add_part(self):
-        """Add a Part node to the tree and create an instance.
-        
-        - If a part is selected, place the new part 
-          after the selected part and select it.
-        - Otherwise, place the new part at the first position 
-          in the narrative tree and select it.
-        """
+        """Add a Part node to the tree and create an instance."""
         try:
-            node = self._tree.selection()[0]
+            selection = self._tree.selection()[0]
         except:
-            node = ''
-        if node.startswith(self._PT):
-            parent = self._NV_ROOT
-            index = self._tree.index(node) + 1
-        else:
-            parent = self._NV_ROOT
-            index = 0
-            self._tree.item(parent, open=True)
+            selection = ''
+        parent = self._NV_ROOT
+        index = 0
+        if selection.startswith(self._SC):
+            selection = self._tree.parent(selection)
+        if selection.startswith(self._CH):
+            index = self._tree.index(selection) + 1
+            selection = self._tree.parent(selection)
+        if selection.startswith(self._PT):
+            index = self._tree.index(selection) + 1
         chId = self._create_id(self._ywPrj.chapters)
         newNode = f'{self._PT}{chId}'
         self._ywPrj.chapters[chId] = Chapter()
@@ -589,29 +569,21 @@ class NovelystTk(MainTk):
         self._tree.see(newNode)
 
     def _add_chapter(self):
-        """Add a Chapter node to the tree and create an instance.
-        
-        - If a part is selected, place the new chapter at the 
-          first position under this part and select it. 
-        - If a chapter is selected, place the new chapter after the 
-          selected chapter and select it. 
-        - Otherwise, place the new node at the first position 
-          in the narrative tree and select it.
-        """
+        """Add a Chapter node to the tree and create an instance."""
         try:
-            node = self._tree.selection()[0]
+            selection = self._tree.selection()[0]
         except:
-            node = ''
-        if node.startswith(self._PT):
-            parent = node
-            index = 0
-        elif node.startswith(self._CH):
-            parent = self._tree.parent(node)
-            index = self._tree.index(node) + 1
-        else:
-            parent = self._NV_ROOT
-            index = 0
-            self._tree.item(self._NV_ROOT, open=True)
+            selection = ''
+        parent = self._NV_ROOT
+        index = 0
+        if selection.startswith(self._SC):
+            parent = self._tree.parent(selection)
+            selection = self._tree.parent(selection)
+        if selection.startswith(self._CH):
+            parent = self._tree.parent(selection)
+            index = self._tree.index(selection) + 1
+        elif selection.startswith(self._PT):
+            parent = selection
         chId = self._create_id(self._ywPrj.chapters)
         newNode = f'{self._CH}{chId}'
         self._ywPrj.chapters[chId] = Chapter()
@@ -624,20 +596,50 @@ class NovelystTk(MainTk):
         self._tree.selection_set(newNode)
         self._tree.see(newNode)
 
-    def _add_world_element(self, node=None):
+    def _add_scene(self):
+        """Add a Scene node to the tree and create an instance."""
+        try:
+            selection = self._tree.selection()[0]
+        except:
+            return
+
+        index = 0
+        if selection.startswith(self._SC):
+            parent = self._tree.parent(selection)
+            index = self._tree.index(selection) + 1
+        elif selection.startswith(self._CH):
+            parent = selection
+        elif selection.startswith(self._PT):
+            parent = selection
+        else:
+            return
+
+        scId = self._create_id(self._ywPrj.scenes)
+        newNode = f'{self._SC}{scId}'
+        self._ywPrj.scenes[scId] = Scene()
+        self._ywPrj.scenes[scId].title = f'New Scene (ID{scId})'
+        self._ywPrj.scenes[scId].status = 0
+        # Edit status = Outline
+        title, columns, nodeTags = self._set_scene_display(scId)
+        self._tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self._update_tree()
+        self._tree.selection_set(newNode)
+        self._tree.see(newNode)
+
+    def _add_world_element(self, selection=None):
         """Add a Character/Location/Item node to the tree and create an instance.
         
         Positional arguments:
-            node -- str: tree position where to place a new node.
+            selection -- str: tree position where to place a new node.
             
-        - The new node's type is determined by the "node" argument.
+        - The new node's type is determined by the "selection" argument.
         - If a node of the same type as the new node is selected, 
           place the new node after the selected node and select it.
         - Otherwise, place the new node at the first position.   
         """
-        if node is None:
-            node = self._tree.selection()[0]
-        if self._CR in node:
+        if selection is None:
+            selection = self._tree.selection()[0]
+        if self._CR in selection:
             # Add a character.
             crId = self._create_id(self._ywPrj.characters)
             newNode = f'{self._CR}{crId}'
@@ -646,7 +648,7 @@ class NovelystTk(MainTk):
             title, columns, nodeTags = self._set_character_display(crId)
             root = self._CR_ROOT
             prefix = self._CR
-        elif self._LC in node:
+        elif self._LC in selection:
             # Add a location.
             lcId = self._create_id(self._ywPrj.locations)
             newNode = f'{self._LC}{lcId}'
@@ -655,7 +657,7 @@ class NovelystTk(MainTk):
             title, columns, nodeTags = self._set_location_display(lcId)
             root = self._LC_ROOT
             prefix = self._LC
-        elif self._IT in node:
+        elif self._IT in selection:
             # Add an item.
             itId = self._create_id(self._ywPrj.items)
             newNode = f'{self._IT}{itId}'
@@ -667,11 +669,10 @@ class NovelystTk(MainTk):
         else:
             return
 
-        if node.startswith(prefix):
-            index = self._tree.index(node) + 1
+        if selection.startswith(prefix):
+            index = self._tree.index(selection) + 1
         else:
             index = 0
-            self._tree.item(root, open=True)
         self._tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
         self._update_tree()
         self._tree.selection_set(newNode)
@@ -882,10 +883,10 @@ class NovelystTk(MainTk):
     def _on_select_node(self, event):
         """Show info on the right level."""
         nodeId = self._tree.selection()[0]
-        if nodeId.startswith(self._CH):
-            self._set_chapter_info(nodeId[2:])
-        elif nodeId.startswith(self._SC):
+        if nodeId.startswith(self._SC):
             self._set_scene_info(nodeId[2:])
+        elif nodeId.startswith(self._CH):
+            self._set_chapter_info(nodeId[2:])
         elif nodeId.startswith(self._PT):
             self._set_chapter_info(nodeId[2:])
         elif nodeId.startswith(self._NV_ROOT):
