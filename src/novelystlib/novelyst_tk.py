@@ -1057,7 +1057,6 @@ class NovelystTk(MainTk):
                     except:
                         pass
             else:
-                # Move scene(s) to the "trash bin".
                 if self._trashNode is None:
                     # Create a "trash bin"; use the first free chapter ID.
                     trashId = self._create_id(self._ywPrj.chapters)
@@ -1066,11 +1065,17 @@ class NovelystTk(MainTk):
                     self._ywPrj.chapters[trashId].isTrash = True
                     self._trashNode = f'{self._CH}{trashId}'
                     self._tree.insert(self._NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
-                waste_scenes(selection)
-                if not selection.startswith(self._SC):
+                if selection.startswith(self._SC):
+                    # Remove scene, if already in trash bin.
+                    if self._tree.parent(selection) == self._trashNode:
+                        tv.delete(selection)
+                        del self._ywPrj.scenes[elemId]
+                else:
+                    # Move scene(s) to the "trash bin".
+                    waste_scenes(selection)
                     tv.delete(selection)
-                self._set_type(self._trashNode, 3)
-                # Make sure the whole "trash bin" is unused.
+                    self._set_type(self._trashNode, 3)
+                    # Make sure the whole "trash bin" is unused.
             self._update_tree()
 
     def _add_part(self):
