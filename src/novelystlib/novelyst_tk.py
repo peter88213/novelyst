@@ -245,10 +245,19 @@ class NovelystTk(MainTk):
             self._pathBar.config(fg='black')
 
     def _lock(self, event=None):
-        self._ywPrj.lock(self)
+        self.isLocked = True
+        # actually, this is a setter method with conditions
+        if self.isLocked:
+            self._ywPrj.lock()
+            # make it persistent
 
     def _unlock(self, event=None):
-        self._ywPrj.unlock(self)
+        self.isLocked = False
+        self._ywPrj.unlock()
+        # make it persistent
+        if self._ywPrj.has_changed_on_disk():
+            if self.ask_yes_no(f'File has changed on disk. Reload?'):
+                self.open_project(self._ywPrj.filePath)
 
     def _build_main_menu(self):
         """Add main menu entries.

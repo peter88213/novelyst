@@ -45,40 +45,27 @@ class Yw7WorkFile(Yw7File):
         else:
             return 'Never'
 
-    def lock(self, ui):
-        """Create a non-yWriter lockfile.
-        
-        Positional arguments:
-            ui -- reference to the calling application's user interface instance.
-        """
+    def lock(self):
+        """Create a non-yWriter lockfile."""
         head, tail = os.path.split(self.filePath)
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
-        ui.isLocked = True
-        # This is a setter method with conditions, so better check again
-        if ui.isLocked:
+        if not os.path.isfile(lockfilePath):
             try:
                 with open(lockfilePath, 'w') as f:
                     f.write('')
             except:
                 pass
 
-    def unlock(self, ui):
-        """Delete the non-yWriter lockfile, if any.
-        
-        Positional arguments:
-            ui -- reference to the calling application's user interface instance.
-        """
+    def unlock(self):
+        """Delete the non-yWriter lockfile, if any."""
         head, tail = os.path.split(self.filePath)
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
         try:
             os.remove(lockfilePath)
-        finally:
-            ui.isLocked = False
-        if self.has_changed_on_disk():
-            if ui.ask_yes_no(f'File has changed on disk. Reload?'):
-                ui.open_project(self.filePath)
+        except:
+            pass
 
     def has_lockfile(self):
         """Return True if a non-yWriter lockfile exists."""
