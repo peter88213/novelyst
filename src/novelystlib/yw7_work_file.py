@@ -23,6 +23,8 @@ class Yw7WorkFile(Yw7File):
         
     Public properties:
         fileDate -- str: ISO formatted file date (read-only)
+        
+    This extends the superclass with a timestamp and a locking capability.
     """
     _LOCKFILE_PREFIX = '/.LOCK.'
     _LOCKFILE_SUFFIX = '#'
@@ -87,9 +89,23 @@ class Yw7WorkFile(Yw7File):
             # this is also for newly created projects
             return False
 
+    def read(self):
+        """Read file and get timestamp.
+        
+        Return a message beginning with the ERROR constant in case of error.
+        Extends the superclass method.
+        """
+        message = super().read()
+        try:
+            self._timestamp = os.path.getmtime(self.filePath)
+        except:
+            self.timestamp = None
+        return message
+
     def write(self):
         """Write file if not locked, and get timestamp.
         
+        Return a message beginning with the ERROR constant in case of error.
         Extends the superclass method.
         """
         if not self.has_lockfile():
@@ -103,17 +119,4 @@ class Yw7WorkFile(Yw7File):
 
         else:
             return f'{ERROR}The project is locked.'
-
-    def read(self):
-        """Read file and get timestamp.
-        
-        Return a message beginning with the ERROR constant in case of error.
-        Overrides the superclass method.
-        """
-        message = super().read()
-        try:
-            self._timestamp = os.path.getmtime(self.filePath)
-        except:
-            self.timestamp = None
-        return message
 

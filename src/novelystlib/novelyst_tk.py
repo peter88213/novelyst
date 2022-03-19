@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
 from pywriter.pywriter_globals import ERROR
+from pywriter.model.id_generator import create_id
 from pywriter.ui.main_tk import MainTk
 from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
@@ -930,7 +931,7 @@ class NovelystTk(MainTk):
             self._close_children(child)
 
     def _show_status(self, message=None):
-        """Extend the superclass method."""
+        """Extends the superclass method."""
         if self._ywPrj is not None and not message:
             partCount = 0
             chapterCount = 0
@@ -959,13 +960,6 @@ class NovelystTk(MainTk):
                     chapterCount += 1
             message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
         super()._show_status(message)
-
-    def _create_id(self, elements):
-        """Return an unused ID for a new element."""
-        i = 1
-        while str(i) in elements:
-            i += 1
-        return str(i)
 
     #--- Methods that change the project
 
@@ -1050,7 +1044,7 @@ class NovelystTk(MainTk):
             else:
                 if self._trashNode is None:
                     # Create a "trash bin"; use the first free chapter ID.
-                    trashId = self._create_id(self._ywPrj.chapters)
+                    trashId = create_id(self._ywPrj.chapters)
                     self._ywPrj.chapters[trashId] = Chapter()
                     self._ywPrj.chapters[trashId].title = "Trash"
                     self._ywPrj.chapters[trashId].isTrash = True
@@ -1086,7 +1080,7 @@ class NovelystTk(MainTk):
             selection = self._tree.parent(selection)
         if selection.startswith(self._PT):
             index = self._tree.index(selection) + 1
-        chId = self._create_id(self._ywPrj.chapters)
+        chId = create_id(self._ywPrj.chapters)
         newNode = f'{self._PT}{chId}'
         self._ywPrj.chapters[chId] = Chapter()
         self._ywPrj.chapters[chId].title = f'New Part (ID{chId})'
@@ -1116,7 +1110,7 @@ class NovelystTk(MainTk):
             index = self._tree.index(selection) + 1
         elif selection.startswith(self._PT):
             parent = selection
-        chId = self._create_id(self._ywPrj.chapters)
+        chId = create_id(self._ywPrj.chapters)
         newNode = f'{self._CH}{chId}'
         self._ywPrj.chapters[chId] = Chapter()
         self._ywPrj.chapters[chId].title = f'New Chapter (ID{chId})'
@@ -1148,7 +1142,7 @@ class NovelystTk(MainTk):
         else:
             return
 
-        scId = self._create_id(self._ywPrj.scenes)
+        scId = create_id(self._ywPrj.scenes)
         newNode = f'{self._SC}{scId}'
         self._ywPrj.scenes[scId] = Scene()
         self._ywPrj.scenes[scId].title = f'New Scene (ID{scId})'
@@ -1177,7 +1171,7 @@ class NovelystTk(MainTk):
             selection = self._tree.selection()[0]
         if self._CR in selection:
             # Add a character.
-            crId = self._create_id(self._ywPrj.characters)
+            crId = create_id(self._ywPrj.characters)
             newNode = f'{self._CR}{crId}'
             self._ywPrj.characters[crId] = Character()
             self._ywPrj.characters[crId].title = f'New Character (ID{crId})'
@@ -1186,7 +1180,7 @@ class NovelystTk(MainTk):
             prefix = self._CR
         elif self._LC in selection:
             # Add a location.
-            lcId = self._create_id(self._ywPrj.locations)
+            lcId = create_id(self._ywPrj.locations)
             newNode = f'{self._LC}{lcId}'
             self._ywPrj.locations[lcId] = WorldElement()
             self._ywPrj.locations[lcId].title = f'New Location (ID{lcId})'
@@ -1195,7 +1189,7 @@ class NovelystTk(MainTk):
             prefix = self._LC
         elif self._IT in selection:
             # Add an item.
-            itId = self._create_id(self._ywPrj.items)
+            itId = create_id(self._ywPrj.items)
             newNode = f'{self._IT}{itId}'
             self._ywPrj.items[itId] = WorldElement()
             self._ywPrj.items[itId].title = f'New Item (ID{itId})'
