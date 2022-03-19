@@ -8,6 +8,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import os
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 import tkinter.font as tkFont
 from pywriter.pywriter_globals import ERROR
 from pywriter.model.id_generator import create_id
@@ -63,12 +64,13 @@ class NovelystTk(MainTk):
             root_geometry -- str: geometry of the root window.
             key_restore_status -- str: "Restore Status bar" key binding.
             key_open_project -- str: "Open Project" key binding.
-            key_on_quit -- str: "Exit" key binding.
-            key_create_project -- str: "New" key binding.
+            key_quit_program -- str: "Exit" key binding.
+            key_new_project -- str: "New" key binding.
             key_lock_project -- str: "Lock" key binding.
             key_unlock_project -- str: "Unlock" key binding.
             key_reload_project -- str: "Reload Project" key binding.
             key_save_project -- str: "Save Project" key binding.
+            key_save_as -- str: "Save as new Project" key binding.
             button_context_menu -- str: Mouse button to open the treeveiw context menu.
             tree_frame_width -- int: width of the chapter frame.
             wc_width -- int: width of the wordcount column.
@@ -151,11 +153,12 @@ class NovelystTk(MainTk):
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
         #--- Event bindings.
-        self._root.bind(kwargs['key_create_project'], self._create_project)
+        self._root.bind(kwargs['key_new_project'], self._new_project)
         self._root.bind(kwargs['key_lock_project'], self._lock)
         self._root.bind(kwargs['key_unlock_project'], self._unlock)
         self._root.bind(kwargs['key_reload_project'], self._reload_project)
         self._root.bind(kwargs['key_save_project'], self.save_project)
+        self._root.bind(kwargs['key_save_as'], self._save_as)
 
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Shift-B1-Motion>', self._move_node)
@@ -273,12 +276,13 @@ class NovelystTk(MainTk):
         # Files
         self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
-        self._fileMenu.add_command(label='New', command=self._create_project)
+        self._fileMenu.add_command(label='New', command=self._new_project)
         self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Lock', command=self._lock)
         self._fileMenu.add_command(label='Unlock', command=self._unlock)
         self._fileMenu.add_command(label='Reload', command=self._reload_project)
         self._fileMenu.add_command(label='Save', command=self.save_project)
+        self._fileMenu.add_command(label='Save as...', command=self._save_as)
         self._fileMenu.add_command(label='Close', command=self._close_project)
         self._fileMenu.add_command(label='Exit', command=self._on_quit)
 
@@ -367,6 +371,7 @@ class NovelystTk(MainTk):
         self._fileMenu.entryconfig('Unlock', state='disabled')
         self._fileMenu.entryconfig('Reload', state='disabled')
         self._fileMenu.entryconfig('Save', state='disabled')
+        self._fileMenu.entryconfig('Save as...', state='disabled')
 
     def _enable_menu(self):
         """Enable menu entries when a project is open.
@@ -386,6 +391,7 @@ class NovelystTk(MainTk):
         self._fileMenu.entryconfig('Lock', state='normal')
         self._fileMenu.entryconfig('Reload', state='normal')
         self._fileMenu.entryconfig('Save', state='normal')
+        self._fileMenu.entryconfig('Save as...', state='normal')
 
     def _open_context_menu(self, event):
         row = self._tree.identify_row(event.y)
@@ -836,27 +842,6 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def _create_project(self, event=None):
-        """Create a yWriter project instance."""
-        if self._ywPrj is not None:
-            self._close_project()
-        fileName = 'New project.yw7'
-        self._ywPrj = Yw7WorkFile(fileName)
-        if self._ywPrj.title:
-            titleView = self._ywPrj.title
-        else:
-            titleView = 'Untitled yWriter project'
-        if self._ywPrj.authorName:
-            authorView = self._ywPrj.authorName
-        else:
-            authorView = 'Unknown author'
-        self._root.title(f'{titleView} by {authorView} - {self._title}')
-        self._show_path(os.path.normpath(fileName))
-        self._enable_menu()
-        self._build_tree()
-        self._show_status()
-        self.isModified = True
-
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
         
@@ -1238,3 +1223,48 @@ class NovelystTk(MainTk):
         self.kwargs['yw_last_open'] = self._ywPrj.filePath
         return True
 
+    def _new_project(self, event=None):
+        """Create a yWriter project instance."""
+        fileTypes = [('yWriter 7 project', '.yw7')]
+        fileName = filedialog.asksaveasfilename(filetypes=fileTypes, defaultextension='.yw7')
+        if fileName:
+            if self._ywPrj is not None:
+                self._close_project()
+            self._ywPrj = Yw7WorkFile(fileName)
+            if self._ywPrj.title:
+                titleView = self._ywPrj.title
+            else:
+                titleView = 'Untitled yWriter project'
+            if self._ywPrj.authorName:
+                authorView = self._ywPrj.authorName
+            else:
+                authorView = 'Unknown author'
+            self._root.title(f'{titleView} by {authorView} - {self._title}')
+            self._show_path(os.path.normpath(fileName))
+            self._enable_menu()
+            self._build_tree()
+            self._show_status()
+            self.isModified = True
+
+    def _save_as(self, event=None):
+        """Rename the yWriter file and save it to disk.
+        
+        Return True on success, otherwise return False.
+        """
+        fileTypes = [('yWriter 7 project', '.yw7')]
+        fileName = filedialog.asksaveasfilename(filetypes=fileTypes, defaultextension='.yw7')
+        if fileName:
+            if self._ywPrj is not None:
+                self._ywPrj.filePath = fileName
+                message = self._ywPrj.write()
+                if message.startswith(ERROR):
+                    self.set_info_how(message)
+                else:
+                    self._unlock()
+                    self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {self._ywPrj.fileDate})')
+                    self.isModified = False
+                    self._restore_status(event)
+                    self.kwargs['yw_last_open'] = self._ywPrj.filePath
+                    return True
+
+        return False
