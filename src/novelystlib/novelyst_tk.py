@@ -12,12 +12,12 @@ import tkinter.font as tkFont
 from datetime import datetime
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
-from pywriter.yw.yw7_file import Yw7File
 from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
 from pywriter.model.character import Character
 from pywriter.model.world_element import WorldElement
 from novelystlib.nv_exporter import NvExporter
+from novelystlib.yw7_work_file import Yw7WorkFile
 
 
 class NovelystTk(MainTk):
@@ -100,7 +100,7 @@ class NovelystTk(MainTk):
         self._sceneMenu = None
         self._internalModificationFlag = False
         self._internalLockFlag = False
-        self._locked = False
+        self.isLocked = False
         self._ywFileDate = None
         self._trashNode = None
         self._exporter = NvExporter(self)
@@ -204,29 +204,29 @@ class NovelystTk(MainTk):
         self._wrCtxtMenu.add_cascade(label='Set Status', menu=self._crStatusMenu)
 
     @property
-    def _modified(self):
+    def isModified(self):
         return self._internalModificationFlag
 
-    @_modified.setter
-    def _modified(self, setFlag):
+    @isModified.setter
+    def isModified(self, setFlag):
         if setFlag:
             self._internalModificationFlag = True
             self._pathBar.config(bg=self.kwargs['color_modified_bg'])
             self._pathBar.config(fg=self.kwargs['color_modified_fg'])
         else:
             self._internalModificationFlag = False
-            if not self._locked:
+            if not self.isLocked:
                 self._pathBar.config(bg=self._root.cget('background'))
                 self._pathBar.config(fg='black')
 
     @property
-    def _locked(self):
+    def isLocked(self):
         return self._internalLockFlag
 
-    @_locked.setter
-    def _locked(self, setFlag):
+    @isLocked.setter
+    def isLocked(self, setFlag):
         if setFlag and not self._internalLockFlag:
-            if self._modified:
+            if self.isModified:
                 if self.ask_yes_no('Save and lock?'):
                     self.save_project()
                 else:
@@ -247,10 +247,10 @@ class NovelystTk(MainTk):
             self._pathBar.config(fg='black')
 
     def _lock(self, event=None):
-        self._locked = True
+        self._ywPrj.lock(self)
 
     def _unlock(self, event=None):
-        self._locked = False
+        self._ywPrj.unlock(self)
 
     def _build_main_menu(self):
         """Add main menu entries.
@@ -382,7 +382,7 @@ class NovelystTk(MainTk):
             prefix = row[:2]
             if prefix in ('nv', self._PT, self._CH, self._SC):
                 # Context is narrative/part/chapter/scene.
-                if self._locked:
+                if self.isLocked:
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Status', state='disabled')
@@ -409,7 +409,7 @@ class NovelystTk(MainTk):
                     self._nvCtxtMenu.grab_release()
             elif prefix in ('wr', self._CR, self._LC, self._IT):
                 # Context is character/location/item.
-                if self._locked:
+                if self.isLocked:
                     self._wrCtxtMenu.entryconfig('Add', state='disabled')
                     self._wrCtxtMenu.entryconfig('Delete', state='disabled')
                     self._wrCtxtMenu.entryconfig('Set Status', state='disabled')
@@ -419,7 +419,7 @@ class NovelystTk(MainTk):
                         self._wrCtxtMenu.entryconfig('Delete', state='disabled')
                     else:
                         self._wrCtxtMenu.entryconfig('Delete', state='normal')
-                    if (prefix.startswith(self._CR) or  row.endswith(self._CR)) and not self._locked:
+                    if (prefix.startswith(self._CR) or  row.endswith(self._CR)) and not self.isLocked:
                         self._wrCtxtMenu.entryconfig('Set Status', state='normal')
                     else:
                         self._wrCtxtMenu.entryconfig('Set Status', state='disabled')
@@ -531,7 +531,7 @@ class NovelystTk(MainTk):
         update_node(self._CR_ROOT, '')
         update_node(self._LC_ROOT, '')
         update_node(self._IT_ROOT, '')
-        self._modified = True
+        self.isModified = True
         self._show_status()
 
     def _set_scene_display(self, scId):
@@ -646,7 +646,7 @@ class NovelystTk(MainTk):
 
     def _set_type(self, node, newType):
         """Recursively set scene or chapter type (Normal/Notes/Todo/Unused)."""
-        if self._locked:
+        if self.isLocked:
             return
         if node.startswith(self._SC):
             scene = self._ywPrj.scenes[node[2:]]
@@ -686,7 +686,7 @@ class NovelystTk(MainTk):
 
     def _set_scn_status(self, node, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
-        if self._locked:
+        if self.isLocked:
             return
         if node.startswith(self._SC):
             self._ywPrj.scenes[node[2:]].status = scnStatus
@@ -703,7 +703,7 @@ class NovelystTk(MainTk):
 
     def _set_chr_status(self, chrStatus):
         """Set character status (Major/Minor)."""
-        if self._locked:
+        if self.isLocked:
             return
         node = self._tree.selection()[0]
         if node.startswith(self._CR):
@@ -720,7 +720,7 @@ class NovelystTk(MainTk):
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""
-        if self._locked:
+        if self.isLocked:
             return
         tv = event.widget
         node = tv.selection()[0]
@@ -828,7 +828,7 @@ class NovelystTk(MainTk):
         if self._ywPrj is not None:
             self._close_project()
         fileName = 'New project.yw7'
-        self._ywPrj = Yw7File(fileName)
+        self._ywPrj = Yw7WorkFile(fileName)
         if self._ywPrj.title:
             titleView = self._ywPrj.title
         else:
@@ -842,7 +842,7 @@ class NovelystTk(MainTk):
         self._enable_menu()
         self._build_tree()
         self._show_status()
-        self._modified = True
+        self.isModified = True
 
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
@@ -855,7 +855,7 @@ class NovelystTk(MainTk):
         if not fileName:
             return ''
 
-        self._ywPrj = Yw7File(fileName)
+        self._ywPrj = Yw7WorkFile(fileName)
         message = self._ywPrj.read()
         if message.startswith(ERROR):
             self._close_project()
@@ -877,7 +877,9 @@ class NovelystTk(MainTk):
         self._enable_menu()
         self._build_tree()
         self._show_status()
-        self._modified = False
+        self.isModified = False
+        if self._ywPrj.has_lockfile():
+            self.isLocked = True
         return fileName
 
     def _close_project(self, event=None):
@@ -885,24 +887,25 @@ class NovelystTk(MainTk):
         
         Extends the superclass method.
         """
-        if self._modified:
+        if self.isModified:
             if self.ask_yes_no('Save changes?'):
                 self.save_project()
-            self._modified = False
+            self.isModified = False
         self._reset_tree()
         self._reset_info()
         self._ywFileDate = None
+        self.isLocked = False
         super()._close_project()
 
     def _reload_project(self, event=None):
         """Reload a yWriter project."""
-        if self._modified and not self.ask_yes_no('Discard changes and reload the project?'):
+        if self.isModified and not self.ask_yes_no('Discard changes and reload the project?'):
             return
 
         if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
             return
 
-        self._modified = False
+        self.isModified = False
         # This is to avoid another question when closing the project
         self.open_project(self._ywPrj.filePath)
         # Includes closing
@@ -994,7 +997,7 @@ class NovelystTk(MainTk):
                 for childNode in self._tree.get_children(node):
                     waste_scenes(childNode)
 
-        if self._locked:
+        if self.isLocked:
             return
         tv = event.widget
         selection = tv.selection()[0]
@@ -1072,7 +1075,7 @@ class NovelystTk(MainTk):
 
     def _add_part(self):
         """Add a Part node to the tree and create an instance."""
-        if self._locked:
+        if self.isLocked:
             return
         try:
             selection = self._tree.selection()[0]
@@ -1101,7 +1104,7 @@ class NovelystTk(MainTk):
 
     def _add_chapter(self):
         """Add a Chapter node to the tree and create an instance."""
-        if self._locked:
+        if self.isLocked:
             return
         try:
             selection = self._tree.selection()[0]
@@ -1131,7 +1134,7 @@ class NovelystTk(MainTk):
 
     def _add_scene(self):
         """Add a Scene node to the tree and create an instance."""
-        if self._locked:
+        if self.isLocked:
             return
         try:
             selection = self._tree.selection()[0]
@@ -1172,7 +1175,7 @@ class NovelystTk(MainTk):
           place the new node after the selected node and select it.
         - Otherwise, place the new node at the first position.   
         """
-        if self._locked:
+        if self.isLocked:
             return
         if selection is None:
             selection = self._tree.selection()[0]
@@ -1220,7 +1223,7 @@ class NovelystTk(MainTk):
         
         Return True on success, otherwise return False.
         """
-        if self._locked:
+        if self.isLocked:
             return
         if len(self._ywPrj.srtChapters) < 1:
             self.set_info_how(f'{ERROR}Cannot save: The project must have at least one chapter or part.')
@@ -1237,7 +1240,7 @@ class NovelystTk(MainTk):
         self._ywFileDate = os.path.getmtime(self._ywPrj.filePath)
         currentTime = datetime.now().replace(microsecond=0).isoformat(sep=' ')
         self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {currentTime})')
-        self._modified = False
+        self.isModified = False
         self._restore_status(event)
         self.kwargs['yw_last_open'] = self._ywPrj.filePath
         return True
