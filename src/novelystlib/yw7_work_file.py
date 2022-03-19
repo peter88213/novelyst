@@ -89,9 +89,11 @@ class Yw7WorkFile(Yw7File):
         try:
             if self._timestamp != os.path.getmtime(self.filePath):
                 return True
+            else:
+                return False
 
-        finally:
-            # this is also for newly created projects
+        except:
+            # this is for newly created projects
             return False
 
     def read(self):
