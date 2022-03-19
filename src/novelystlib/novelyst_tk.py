@@ -9,7 +9,6 @@ import os
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
-from datetime import datetime
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
 from pywriter.model.chapter import Chapter
@@ -101,7 +100,6 @@ class NovelystTk(MainTk):
         self._internalModificationFlag = False
         self._internalLockFlag = False
         self.isLocked = False
-        self._ywFileDate = None
         self._trashNode = None
         self._exporter = NvExporter(self)
 
@@ -862,9 +860,7 @@ class NovelystTk(MainTk):
             self._show_status(text=message)
             return ''
 
-        self._ywFileDate = os.path.getmtime(fileName)
-        ywFileDate = datetime.fromtimestamp(self._ywFileDate).replace(microsecond=0).isoformat(sep=' ')
-        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {ywFileDate})')
+        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {self._ywPrj.fileDate})')
         if self._ywPrj.title:
             titleView = self._ywPrj.title
         else:
@@ -893,7 +889,6 @@ class NovelystTk(MainTk):
             self.isModified = False
         self._reset_tree()
         self._reset_info()
-        self._ywFileDate = None
         self.isLocked = False
         super()._close_project()
 
@@ -902,7 +897,7 @@ class NovelystTk(MainTk):
         if self.isModified and not self.ask_yes_no('Discard changes and reload the project?'):
             return
 
-        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
+        if self._ywPrj.has_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
             return
 
         self.isModified = False
@@ -955,19 +950,6 @@ class NovelystTk(MainTk):
                     chapterCount += 1
             message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
         super()._show_status(message)
-
-    def _yw_changed_on_disk(self):
-        """Return True if the yw project file has changed since last opened."""
-        try:
-            if os.path.isfile(self._ywPrj.filePath):
-                if self._ywFileDate != os.path.getmtime(self._ywPrj.filePath):
-                    return True
-            else:
-                # this is for newly created projects
-                return True
-        except:
-            pass
-        return False
 
     def _create_id(self, elements):
         """Return an unused ID for a new element."""
@@ -1238,13 +1220,11 @@ class NovelystTk(MainTk):
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return False
 
-        if self._yw_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
+        if self._ywPrj.has_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
             return False
 
         self._ywPrj.write()
-        self._ywFileDate = os.path.getmtime(self._ywPrj.filePath)
-        currentTime = datetime.now().replace(microsecond=0).isoformat(sep=' ')
-        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {currentTime})')
+        self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {self._ywPrj.fileDate})')
         self.isModified = False
         self._restore_status(event)
         self.kwargs['yw_last_open'] = self._ywPrj.filePath
