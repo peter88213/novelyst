@@ -26,7 +26,7 @@ class Yw7WorkFile(Yw7File):
         
     This extends the superclass with a timestamp and a locking capability.
     """
-    _LOCKFILE_PREFIX = '/.LOCK.'
+    _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
 
     def __init__(self, filePath, **kwargs):
@@ -50,21 +50,26 @@ class Yw7WorkFile(Yw7File):
         else:
             return 'Never'
 
+    def _split_file_path(self):
+        head, tail = os.path.split(self.filePath)
+        if head:
+            head = f'{head}/'
+        else:
+            head = './'
+        return head, tail
+
     def lock(self):
         """Create a non-yWriter lockfile."""
-        head, tail = os.path.split(self.filePath)
+        head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
         if not os.path.isfile(lockfilePath):
-            try:
-                with open(lockfilePath, 'w') as f:
-                    f.write('')
-            except:
-                pass
+            with open(lockfilePath, 'w') as f:
+                f.write('')
 
     def unlock(self):
         """Delete the non-yWriter lockfile, if any."""
-        head, tail = os.path.split(self.filePath)
+        head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
         try:
@@ -74,7 +79,7 @@ class Yw7WorkFile(Yw7File):
 
     def has_lockfile(self):
         """Return True if a non-yWriter lockfile exists."""
-        head, tail = os.path.split(self.filePath)
+        head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
         return os.path.isfile(lockfilePath)

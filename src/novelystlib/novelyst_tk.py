@@ -246,11 +246,12 @@ class NovelystTk(MainTk):
             self._pathBar.config(fg='black')
 
     def _lock(self, event=None):
-        self._isLocked = True
-        # actually, this is a setter method with conditions
-        if self._isLocked:
-            self._ywPrj.lock()
-            # make it persistent
+        if self._ywPrj.filePath is not None:
+            self._isLocked = True
+            # actually, this is a setter method with conditions
+            if self._isLocked:
+                self._ywPrj.lock()
+                # make it persistent
 
     def _unlock(self, event=None):
         self._isLocked = False
