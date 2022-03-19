@@ -84,8 +84,8 @@ class NvExporter:
             source -- Yw7File instance.
             suffix -- str: Target file name suffix.
         """
-        if not source.has_lockfile():
-            source.lock(self.ui)
+        if not self.ui.isLocked:
+            self.ui.isLocked = True
         kwargs = {'suffix':suffix}
         message, __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
         if message.startswith(ERROR):
