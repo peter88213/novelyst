@@ -17,9 +17,12 @@ class Yw7WorkFile(Yw7File):
         lock() -- create a non-yWriter lockfile.
         unlock() -- delete the non-yWriter lockfile, if any.
         has_lockfile() -- return True if a non-yWriter lockfile exists.
+        has_changed_on_disk() -- return True if the yw project file has changed since last opened.
+        write() -- write file if not locked, and get timestamp.
+        read() -- read file and get timestamp.
         
-    Public instance variables:
-        fileDate -- str: ISO formatted file date
+    Public properties:
+        fileDate -- str: ISO formatted file date (read-only)
     """
     _LOCKFILE_PREFIX = '/.LOCK.'
     _LOCKFILE_SUFFIX = '#'
@@ -79,14 +82,13 @@ class Yw7WorkFile(Yw7File):
         try:
             if self._timestamp != os.path.getmtime(self.filePath):
                 return True
-            else:
-                return False
-        except:
-            # this is for newly created projects
-            return True
+
+        finally:
+            # this is also for newly created projects
+            return False
 
     def write(self):
-        """Write instance variables to the yWriter xml file if not locked.
+        """Write file if not locked, and get timestamp.
         
         Extends the superclass method.
         """
@@ -103,7 +105,7 @@ class Yw7WorkFile(Yw7File):
             return f'{ERROR}The project is locked.'
 
     def read(self):
-        """Parse the yWriter xml file and get the instance variables.
+        """Read file and get timestamp.
         
         Return a message beginning with the ERROR constant in case of error.
         Overrides the superclass method.
