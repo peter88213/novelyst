@@ -28,6 +28,12 @@ class NovelystTk(MainTk):
         open_project -- Create a yWriter project instance and read the file.
         save_project -- Save the yWriter project to disk and set 'unchanged' status.
     """
+    _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
+    _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
+    _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
+    _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
+    _KEY_SAVE_PROJECT = ('<Control-s>', 'Ctrl-S')
+    _KEY_SAVE_AS = ('<Control-S>', 'Ctrl-Shift-S')
 
     _COLUMNS = (
         ('Words', 'wc_width'),
@@ -62,15 +68,6 @@ class NovelystTk(MainTk):
         
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
-            key_restore_status -- str: "Restore Status bar" key binding.
-            key_open_project -- str: "Open Project" key binding.
-            key_quit_program -- str: "Exit" key binding.
-            key_new_project -- str: "New" key binding.
-            key_lock_project -- str: "Lock" key binding.
-            key_unlock_project -- str: "Unlock" key binding.
-            key_reload_project -- str: "Reload Project" key binding.
-            key_save_project -- str: "Save Project" key binding.
-            key_save_as -- str: "Save as new Project" key binding.
             button_context_menu -- str: Mouse button to open the treeveiw context menu.
             tree_frame_width -- int: width of the chapter frame.
             wc_width -- int: width of the wordcount column.
@@ -153,12 +150,12 @@ class NovelystTk(MainTk):
         self._fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
 
         #--- Event bindings.
-        self._root.bind(kwargs['key_new_project'], self._new_project)
-        self._root.bind(kwargs['key_lock_project'], self._lock)
-        self._root.bind(kwargs['key_unlock_project'], self._unlock)
-        self._root.bind(kwargs['key_reload_project'], self._reload_project)
-        self._root.bind(kwargs['key_save_project'], self.save_project)
-        self._root.bind(kwargs['key_save_as'], self._save_as)
+        self._root.bind(self._KEY_NEW_PROJECT[0], self._new_project)
+        self._root.bind(self._KEY_LOCK_PROJECT[0], self._lock)
+        self._root.bind(self._KEY_UNLOCK_PROJECT[0], self._unlock)
+        self._root.bind(self._KEY_RELOAD_PROJECT[0], self._reload_project)
+        self._root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
+        self._root.bind(self._KEY_SAVE_AS[0], self._save_as)
 
         self._tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self._tree.bind('<Shift-B1-Motion>', self._move_node)
@@ -275,80 +272,80 @@ class NovelystTk(MainTk):
         """
         # Files
         self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='File', menu=self._fileMenu)
-        self._fileMenu.add_command(label='New', command=self._new_project)
-        self._fileMenu.add_command(label='Open...', command=lambda: self.open_project(''))
-        self._fileMenu.add_command(label='Lock', command=self._lock)
-        self._fileMenu.add_command(label='Unlock', command=self._unlock)
-        self._fileMenu.add_command(label='Reload', command=self._reload_project)
-        self._fileMenu.add_command(label='Save', command=self.save_project)
-        self._fileMenu.add_command(label='Save as...', command=self._save_as)
-        self._fileMenu.add_command(label='Close', command=self._close_project)
-        self._fileMenu.add_command(label='Exit', command=self._on_quit)
+        self._mainMenu.add_cascade(label='File', underline=0, menu=self._fileMenu)
+        self._fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self._new_project)
+        self._fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
+        self._fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
+        self._fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
+        self._fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
+        self._fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
+        self._fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
+        self._fileMenu.add_command(label='Close', underline=0, command=self._close_project)
+        self._fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self._on_quit)
 
         # View
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
-        self._viewMenu.add_command(label="Expand selected", command=lambda: self._open_children(self._tree.selection()[0]))
-        self._viewMenu.add_command(label="Collapse selected", command=lambda: self._close_children(self._tree.selection()[0]))
-        self._viewMenu.add_command(label="Expand all", command=lambda: self._open_children(''))
-        self._viewMenu.add_command(label="Collapse all", command=lambda: self._close_children(''))
+        self._viewMenu.add_command(label="Expand selected", underline=0, command=lambda: self._open_children(self._tree.selection()[0]))
+        self._viewMenu.add_command(label="Collapse selected", underline=0, command=lambda: self._close_children(self._tree.selection()[0]))
+        self._viewMenu.add_command(label="Expand all", underline=1, command=lambda: self._open_children(''))
+        self._viewMenu.add_command(label="Collapse all", underline=1, command=lambda: self._close_children(''))
 
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
-        self._partMenu.add_command(label='Add', command=self._add_part)
+        self._partMenu.add_command(label='Add', underline=0, command=self._add_part)
         self._partMenu.add_separator()
-        self._partMenu.add_command(label='Export part descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_parts'))
+        self._partMenu.add_command(label='Export part descriptions for editing', underline=12, command=lambda: self._exporter.run(self._ywPrj, '_parts'))
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
-        self._chapterMenu.add_command(label='Add', command=self._add_chapter)
+        self._chapterMenu.add_command(label='Add', underline=0, command=self._add_chapter)
         self._chapterMenu.add_separator()
-        self._chapterMenu.add_command(label='Export chapter descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_chapters'))
+        self._chapterMenu.add_command(label='Export chapter descriptions for editing', underline=15, command=lambda: self._exporter.run(self._ywPrj, '_chapters'))
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
-        self._sceneMenu.add_command(label='Add', command=self._add_scene)
+        self._sceneMenu.add_command(label='Add', underline=0, command=self._add_scene)
         self._sceneMenu.add_separator()
-        self._sceneMenu.add_command(label='Export scene descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
-        self._sceneMenu.add_command(label='Export scene list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
+        self._sceneMenu.add_command(label='Export scene descriptions for editing', underline=13, command=lambda: self._exporter.run(self._ywPrj, '_scenes'))
+        self._sceneMenu.add_command(label='Export scene list (spreadsheet)', underline=13, command=lambda: self._exporter.run(self._ywPrj, '_scenelist'))
 
         # Character
         self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
-        self._characterMenu.add_command(label='Add', command=lambda: self._add_world_element(self._CR_ROOT))
+        self._characterMenu.add_command(label='Add', underline=0, command=lambda: self._add_world_element(self._CR_ROOT))
         self._characterMenu.add_separator()
-        self._characterMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_characters'))
-        self._characterMenu.add_command(label='Export character list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_charlist'))
+        self._characterMenu.add_command(label='Export character descriptions for editing', underline=17, command=lambda: self._exporter.run(self._ywPrj, '_characters'))
+        self._characterMenu.add_command(label='Export character list (spreadsheet)', underline=17, command=lambda: self._exporter.run(self._ywPrj, '_charlist'))
 
         # Location
         self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
-        self._locationMenu.add_command(label='Add', command=lambda: self._add_world_element(self._LC_ROOT))
+        self._locationMenu.add_command(label='Add', underline=0, command=lambda: self._add_world_element(self._LC_ROOT))
         self._locationMenu.add_separator()
-        self._locationMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_locations'))
-        self._locationMenu.add_command(label='Export location list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_loclist'))
+        self._locationMenu.add_command(label='Export location descriptions for editing', underline=16, command=lambda: self._exporter.run(self._ywPrj, '_locations'))
+        self._locationMenu.add_command(label='Export location list (spreadsheet)', underline=16, command=lambda: self._exporter.run(self._ywPrj, '_loclist'))
 
         # Item
         self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
-        self._itemMenu.add_command(label='Add', command=lambda: self._add_world_element(self._IT_ROOT))
+        self._itemMenu.add_command(label='Add', underline=0, command=lambda: self._add_world_element(self._IT_ROOT))
         self._itemMenu.add_separator()
-        self._itemMenu.add_command(label='Export descriptions for editing', command=lambda: self._exporter.run(self._ywPrj, '_items'))
-        self._itemMenu.add_command(label='Export item list (spreadsheet)', command=lambda: self._exporter.run(self._ywPrj, '_itemlist'))
+        self._itemMenu.add_command(label='Export item descriptions for editing', underline=12, command=lambda: self._exporter.run(self._ywPrj, '_items'))
+        self._itemMenu.add_command(label='Export item list (spreadsheet)', underline=12, command=lambda: self._exporter.run(self._ywPrj, '_itemlist'))
 
         # Export
         self._exportMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Export', menu=self._exportMenu)
-        self._exportMenu.add_command(label='Manuscript for editing', command=lambda: self._exporter.run(self._ywPrj, '_manuscript'))
-        self._exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', command=lambda: self._exporter.run(self._ywPrj, '_proof'))
+        self._exportMenu.add_command(label='Manuscript for editing', underline=0, command=lambda: self._exporter.run(self._ywPrj, '_manuscript'))
+        self._exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', underline=43, command=lambda: self._exporter.run(self._ywPrj, '_proof'))
         self._exportMenu.add_separator()
-        self._exportMenu.add_command(label='Manuscript without tags (export only)', command=lambda: self._exporter.run(self._ywPrj, ''))
-        self._exportMenu.add_command(label='Brief synopsis (export only)', command=lambda: self._exporter.run(self._ywPrj, '_brf_synopsis'))
-        self._exportMenu.add_command(label='Cross references (export only)', command=lambda: self._exporter.run(self._ywPrj, '_xref'))
+        self._exportMenu.add_command(label='Manuscript without tags (export only)', underline=25, command=lambda: self._exporter.run(self._ywPrj, ''))
+        self._exportMenu.add_command(label='Brief synopsis (export only)', underline=0, command=lambda: self._exporter.run(self._ywPrj, '_brf_synopsis'))
+        self._exportMenu.add_command(label='Cross references (export only)', underline=0, command=lambda: self._exporter.run(self._ywPrj, '_xref'))
 
         self._disable_menu()
 
