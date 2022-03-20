@@ -63,6 +63,8 @@ class NovelystTk(MainTk):
     _IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
+    _YW_CLASS = Yw7WorkFile
+
     def __init__(self, colTitle, **kwargs):
         """Put a text box to the GUI main window.
         
@@ -843,37 +845,19 @@ class NovelystTk(MainTk):
         """Create a yWriter project instance and read the file.
         
         Display project title, description and status.
-        Return the file name.
+        Return True on success, otherwise return False.
         Extends the superclass method.
         """
-        fileName = super().open_project(fileName)
-        if not fileName:
-            return ''
-
-        self._ywPrj = Yw7WorkFile(fileName)
-        message = self._ywPrj.read()
-        if message.startswith(ERROR):
-            self._close_project()
-            self._show_status(text=message)
-            return ''
+        if not super().open_project(fileName):
+            return False
 
         self._show_path(f'{os.path.normpath(self._ywPrj.filePath)} (last saved on {self._ywPrj.fileDate})')
-        if self._ywPrj.title:
-            titleView = self._ywPrj.title
-        else:
-            titleView = 'Untitled yWriter project'
-        if self._ywPrj.authorName:
-            authorView = self._ywPrj.authorName
-        else:
-            authorView = 'Unknown author'
-        self._root.title(f'{titleView} by {authorView} - {self._title}')
-        self._enable_menu()
         self._build_tree()
         self._show_status()
         self.isModified = False
         if self._ywPrj.has_lockfile():
             self.isLocked = True
-        return fileName
+        return True
 
     def _close_project(self, event=None):
         """Clear the text box.
@@ -1222,11 +1206,10 @@ class NovelystTk(MainTk):
 
     def _new_project(self, event=None):
         """Create a yWriter project instance."""
-        fileTypes = [('yWriter 7 project', '.yw7')]
-        fileName = filedialog.asksaveasfilename(filetypes=fileTypes, defaultextension='.yw7')
+        if self._ywPrj is not None:
+            self._close_project()
+        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension='.yw7')
         if fileName:
-            if self._ywPrj is not None:
-                self._close_project()
             self._ywPrj = Yw7WorkFile(fileName)
             if self._ywPrj.title:
                 titleView = self._ywPrj.title
