@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""""Provide a tkinter tree view for novelyst.
+""""Provide a tkinter tree view class for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer

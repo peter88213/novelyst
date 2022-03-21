@@ -26,6 +26,8 @@ class NovelystTk(MainTk):
     Public instance variables:
         isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
         isLocked -- bool: ywPrj must not be modified (property with geter and setter).
+        treeWindow -- tk window for the project tree.
+    
 
     """
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
@@ -47,11 +49,6 @@ class NovelystTk(MainTk):
             color_locked_fg -- str: tk color name for Footer foreground when locked.
             color_modified_bg -- str: tk color name for Footer background when modified.
             color_modified_fg -- str: tk color name for Footer foreground when modified.
-    
-        Public properties:
-            treeWindow -- tk window for the project tree.
-            isModified -- bool: changes have been mades since last save.
-            isLocked -- bool: the project is set read-only.
     
         Extends the superclass constructor.
         """
