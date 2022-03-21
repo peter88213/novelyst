@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""""Provide a tkinter tree view class for novelyst.
+""""Provide a tkinter tree view class.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer
@@ -16,7 +16,22 @@ from pywriter.model.world_element import WorldElement
 
 
 class TreeViewer:
-    """A tkinter GUI class for yWriter tree view."""
+    """A tkinter class for yWriter tree view.
+    
+    Public methods:
+        build_tree -- Create and display the tree.
+        reset_tree -- Clear the displayed tree.
+        open_children -- Recursively open children nodes.
+        close_children -- Recursively close children nodes.
+        add_part -- Add a Part node to the tree and create an instance.
+        add_chapter -- Add a Chapter node to the tree and create an instance.
+        add_scene -- Add a Scene node to the tree and create an instance.
+        add_world_element -- Add a Character/Location/Item node to the tree and create an instance.
+        on_quit -- Write column width to the applicaton's keyword arguments.
+    
+    Public instance variables:
+        tree -- tk Treeview instance.   
+    """
     _COLUMNS = (
         ('Words', 'wc_width'),
         ('Status', 'status_width'),
@@ -45,8 +60,12 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
-    def __init__(self, ui, **kwargs):
+    def __init__(self, ui, window, **kwargs):
         """Put a text box to the GUI main window.
+        
+        Positional arguments:
+            ui -- GUI class reference.
+            window -- parent window for displaying the tree view.
         
         Required keyword arguments:
             button_context_menu -- str: Mouse button to open the treeveiw context menu.
@@ -64,18 +83,16 @@ class TreeViewer:
             color_draft -- str: tk color name for "Draft" status.
             color_1st_edit -- str: tk color name for "First Edit" status.
             color_2nd_edit -- str: tk color name for "Second Edit" status.
-            color_done -- str: tk color name for "Done" status.
-    
-        Extends the superclass constructor.
+            color_done -- str: tk color name for "Done" status.   
         """
         self._ui = ui
 
         # Create a novel tree.
-        self.tree = ttk.Treeview(self._ui.treeWindow, selectmode='browse')
-        scrollY = ttk.Scrollbar(self._ui.treeWindow, orient="vertical", command=self.tree.yview)
+        self.tree = ttk.Treeview(window, selectmode='browse')
+        scrollY = ttk.Scrollbar(window, orient="vertical", command=self.tree.yview)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
         self.tree.configure(yscrollcommand=scrollY.set)
-        self._ui.treeWindow.add(self.tree)
+        window.add(self.tree)
         self._trashNode = None
 
         # Add columns to the tree.
@@ -521,18 +538,18 @@ class TreeViewer:
             self._ui.on_nothing_select()
 
     def reset_tree(self):
-        """Clear the displayed novel tree."""
+        """Clear the displayed tree."""
         for child in self.tree.get_children(''):
             self.tree.delete(child)
 
     def open_children(self, parent):
-        """Recursively open children"""
+        """Recursively open children nodes."""
         self.tree.item(parent, open=True)
         for child in self.tree.get_children(parent):
             self.open_children(child)
 
     def close_children(self, parent):
-        """Recursively close children"""
+        """Recursively close children nodes."""
         self.tree.item(parent, open=False)
         for child in self.tree.get_children(parent):
             self.close_children(child)
@@ -785,7 +802,11 @@ class TreeViewer:
         self.tree.see(newNode)
 
     def on_quit(self, kwargs):
-        """Save column width."""
+        """Write column width to the applicaton's keyword arguments.
+        
+        Positional arguments:
+            kwargs -- reference to the ui kwargs dictionary.
+        """
         for i, column in enumerate(self._COLUMNS):
             kwargs[column[1]] = self.tree.column(i, 'width')
 

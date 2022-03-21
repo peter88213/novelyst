@@ -21,22 +21,20 @@ class NovelystTk(MainTk):
     Public methods:
         open_project -- Create a yWriter project instance and read the file.
         save_project -- Save the yWriter project to disk and set 'unchanged' status.
-        on_quit(event=None) -- save keyword arguments before exiting the program.
-        on_novel_select --
-        on_chapter_select --
-        on_scene_select --
-        on_character_select --
-        on_location_select --
-        on_item_select --
-        on_nothing-select --
-        show_status --
+        on_quit(event=None) -- Save keyword arguments before exiting the program.
+        on_nothing-select -- Event handler for invalid tree selection.
+        on_novel_select -- Event handler for novel tree root selection.
+        on_chapter_select -- Event handler for chapter selection.
+        on_scene_select -- Event handler for scene selection.
+        on_character_select -- Event handler for character selection.
+        on_location_select -- Event handler for location selection.
+        on_item_select -- Event handler for item selection.
+        show_status -- Display project statistics on the status bar.
 
     Public instance variables:
         isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
         isLocked -- bool: ywPrj must not be modified (property with geter and setter).
         treeWindow -- tk window for the project tree.
-    
-
     """
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
@@ -81,7 +79,7 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.treeWindow.pack(expand=True, fill='both')
-        self._tv = TreeViewer(self, **kwargs)
+        self._tv = TreeViewer(self, self.treeWindow, **kwargs)
 
         # Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -351,7 +349,10 @@ class NovelystTk(MainTk):
         # Includes closing
 
     def show_status(self, message=None):
-        """Extends the superclass method."""
+        """Display project statistics on the status bar.
+        
+        Extends the superclass method.
+        """
         if self.ywPrj is not None and not message:
             partCount = 0
             chapterCount = 0
