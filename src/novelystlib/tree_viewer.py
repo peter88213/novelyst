@@ -22,6 +22,7 @@ class TreeViewer:
         ('Status', 'status_width'),
         ('Viewpoint', 'vp_width'),
         ('Tags', 'tags_width'),
+        ('', 'sizer_width'),
         )
     _PT = 'pt'
     # Part node ID prefix
@@ -44,12 +45,11 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
-    def __init__(self, ui):
+    def __init__(self, ui, **kwargs):
         """Put a text box to the GUI main window.
         
         Required keyword arguments:
             button_context_menu -- str: Mouse button to open the treeveiw context menu.
-            tree_frame_width -- int: width of the chapter frame.
             wc_width -- int: width of the wordcount column.
             status_width -- int: width of the scene status column.
             vp_width -- int: width of the scene viewpoint column.
@@ -80,25 +80,22 @@ class TreeViewer:
 
         # Add columns to the tree.
         columns = []
-        titleWidth = int(self._ui.kwargs['tree_frame_width'])
         for column in self._COLUMNS:
-            titleWidth -= int(self._ui.kwargs[column[1]])
             columns.append(column[0])
-        self.tree['columns'] = tuple(columns)
+        self.tree.configure(columns=tuple(columns))
         for column in self._COLUMNS:
             self.tree.heading(column[0], text=column[0], anchor='w')
-            self.tree.column(column[0], width=int(self._ui.kwargs[column[1]]))
-        self.tree.column('#0', width=titleWidth)
+            self.tree.column(column[0], width=int(kwargs[column[1]]), minwidth=40, stretch='No')
 
         #--- Create a scene type submenu.
-        self._typeMenu = tk.Menu(self._ui.root, tearoff=0)
+        self._typeMenu = tk.Menu(self.tree, tearoff=0)
         self._typeMenu.add_command(label='Normal', command=lambda: self._set_type(self.tree.selection()[0], 0))
         self._typeMenu.add_command(label='Notes', command=lambda: self._set_type(self.tree.selection()[0], 1))
         self._typeMenu.add_command(label='Todo', command=lambda: self._set_type(self.tree.selection()[0], 2))
         self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self.tree.selection()[0], 3))
 
         #--- Create a scene scene status submenu.
-        self._scStatusMenu = tk.Menu(self._ui.root, tearoff=0)
+        self._scStatusMenu = tk.Menu(self.tree, tearoff=0)
         self._scStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self.tree.selection()[0], 1))
         self._scStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self.tree.selection()[0], 2))
         self._scStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self.tree.selection()[0], 3))
@@ -106,7 +103,7 @@ class TreeViewer:
         self._scStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self.tree.selection()[0], 5))
 
         #--- Create a narrative context menu.
-        self._nvCtxtMenu = tk.Menu(self._ui.root, tearoff=0)
+        self._nvCtxtMenu = tk.Menu(self.tree, tearoff=0)
         self._nvCtxtMenu.add_command(label='Add Scene', command=self.add_scene)
         self._nvCtxtMenu.add_command(label='Add Chapter', command=self.add_chapter)
         self._nvCtxtMenu.add_command(label='Add Part', command=self.add_part)
@@ -122,12 +119,12 @@ class TreeViewer:
         self._nvCtxtMenu.add_command(label='Collapse all', command=lambda: self.close_children(''))
 
         #--- Create a character status submenu.
-        self._crStatusMenu = tk.Menu(self._ui.root, tearoff=0)
+        self._crStatusMenu = tk.Menu(self.tree, tearoff=0)
         self._crStatusMenu.add_command(label='MajorCharacter', command=lambda: self._set_chr_status(True))
         self._crStatusMenu.add_command(label='MinorCharacter', command=lambda: self._set_chr_status(False))
 
         #--- Create a world element context menu.
-        self._wrCtxtMenu = tk.Menu(self._ui.root, tearoff=0)
+        self._wrCtxtMenu = tk.Menu(self.tree, tearoff=0)
         self._wrCtxtMenu.add_command(label='Add', command=lambda: self.add_world_element())
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_command(label='Delete', command=lambda: self.tree.event_generate('<Delete>', when='tail'))
@@ -137,24 +134,24 @@ class TreeViewer:
         #--- configure tree row display.
         fontSize = tkFont.nametofont('TkDefaultFont').actual()['size']
         self.tree.tag_configure('root', font=('', fontSize, 'bold'))
-        self.tree.tag_configure('chapter', foreground=self._ui.kwargs['color_chapter'])
-        self.tree.tag_configure('unused', foreground=self._ui.kwargs['color_unused'])
-        self.tree.tag_configure('notes', foreground=self._ui.kwargs['color_notes'])
-        self.tree.tag_configure('todo', foreground=self._ui.kwargs['color_todo'])
+        self.tree.tag_configure('chapter', foreground=kwargs['color_chapter'])
+        self.tree.tag_configure('unused', foreground=kwargs['color_unused'])
+        self.tree.tag_configure('notes', foreground=kwargs['color_notes'])
+        self.tree.tag_configure('todo', foreground=kwargs['color_todo'])
         self.tree.tag_configure('part', font=('', fontSize, 'bold'))
-        self.tree.tag_configure('major', foreground=self._ui.kwargs['color_major'])
-        self.tree.tag_configure('minor', foreground=self._ui.kwargs['color_minor'])
-        self.tree.tag_configure('Outline', foreground=self._ui.kwargs['color_outline'])
-        self.tree.tag_configure('Draft', foreground=self._ui.kwargs['color_draft'])
-        self.tree.tag_configure('1st Edit', foreground=self._ui.kwargs['color_1st_edit'])
-        self.tree.tag_configure('2nd Edit', foreground=self._ui.kwargs['color_2nd_edit'])
-        self.tree.tag_configure('Done', foreground=self._ui.kwargs['color_done'])
+        self.tree.tag_configure('major', foreground=kwargs['color_major'])
+        self.tree.tag_configure('minor', foreground=kwargs['color_minor'])
+        self.tree.tag_configure('Outline', foreground=kwargs['color_outline'])
+        self.tree.tag_configure('Draft', foreground=kwargs['color_draft'])
+        self.tree.tag_configure('1st Edit', foreground=kwargs['color_1st_edit'])
+        self.tree.tag_configure('2nd Edit', foreground=kwargs['color_2nd_edit'])
+        self.tree.tag_configure('Done', foreground=kwargs['color_done'])
 
         #--- Event bindings.
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self.tree.bind('<Shift-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
-        self.tree.bind(self._ui.kwargs['button_context_menu'], self._open_context_menu)
+        self.tree.bind(kwargs['button_context_menu'], self._open_context_menu)
 
     def _open_context_menu(self, event):
         row = self.tree.identify_row(event.y)
@@ -211,7 +208,7 @@ class TreeViewer:
                     self._wrCtxtMenu.grab_release()
 
     def build_tree(self):
-        """Display the opened narrative's tree."""
+        """Create and display the tree."""
         self.reset_tree()
 
         #--- Build Parts/Chapters/scenes tree.
@@ -787,8 +784,8 @@ class TreeViewer:
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
 
-    def on_quit(self, event=None):
+    def on_quit(self, kwargs):
         """Save column width."""
         for i, column in enumerate(self._COLUMNS):
-            self._ui.kwargs[column[1]] = self.tree.column(i, 'width')
+            kwargs[column[1]] = self.tree.column(i, 'width')
 

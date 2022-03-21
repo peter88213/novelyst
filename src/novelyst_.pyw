@@ -35,10 +35,11 @@ SETTINGS = dict(
     color_locked_fg='white',
     color_modified_bg='DarkGoldenrod2',
     color_modified_fg='brown',
-    wc_width=65,
-    status_width=80,
-    vp_width=80,
+    wc_width=50,
+    status_width=50,
+    vp_width=70,
     tags_width=100,
+    sizer_width=40,
 )
 OPTIONS = {}
 

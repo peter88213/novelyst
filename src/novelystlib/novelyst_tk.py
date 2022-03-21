@@ -73,7 +73,7 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.treeWindow.pack(expand=True, fill='both')
-        self._tv = TreeViewer(self)
+        self._tv = TreeViewer(self, **kwargs)
 
         # Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -236,7 +236,7 @@ class NovelystTk(MainTk):
         self._close_project()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         # save windows size and position
-        self._tv.on_quit()
+        self._tv.on_quit(self.kwargs)
         super().on_quit()
 
     def set_novel_info(self):
