@@ -504,21 +504,21 @@ class TreeViewer:
         """Show info on the right level."""
         nodeId = self.tree.selection()[0]
         if nodeId.startswith(self._SC):
-            self._ui.set_scene_info(nodeId[2:])
+            self._ui.on_scene_select(nodeId[2:])
         elif nodeId.startswith(self._CH):
-            self._ui.set_chapter_info(nodeId[2:])
+            self._ui.on_chapter_select(nodeId[2:])
         elif nodeId.startswith(self._PT):
-            self._ui.set_chapter_info(nodeId[2:])
+            self._ui.on_chapter_select(nodeId[2:])
         elif nodeId.startswith(self.NV_ROOT):
-            self._ui.set_novel_info()
+            self._ui.on_novel_select()
         elif nodeId.startswith(self._CR):
-            self._ui.set_character_info(nodeId[2:])
+            self._ui.on_character_select(nodeId[2:])
         elif nodeId.startswith(self._LC):
-            self._ui.set_location_info(nodeId[2:])
+            self._ui.on_location_select(nodeId[2:])
         elif nodeId.startswith(self._IT):
-            self._ui.set_item_info(nodeId[2:])
+            self._ui.on_item_select(nodeId[2:])
         else:
-            self._ui.reset_info()
+            self._ui.on_nothing_select()
 
     def reset_tree(self):
         """Clear the displayed novel tree."""

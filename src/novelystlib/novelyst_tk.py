@@ -22,6 +22,14 @@ class NovelystTk(MainTk):
         open_project -- Create a yWriter project instance and read the file.
         save_project -- Save the yWriter project to disk and set 'unchanged' status.
         on_quit(event=None) -- save keyword arguments before exiting the program.
+        on_novel_select --
+        on_chapter_select --
+        on_scene_select --
+        on_character_select --
+        on_location_select --
+        on_item_select --
+        on_nothing-select --
+        show_status --
 
     Public instance variables:
         isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
@@ -239,8 +247,12 @@ class NovelystTk(MainTk):
         self._tv.on_quit(self.kwargs)
         super().on_quit()
 
-    def set_novel_info(self):
-        """Show the selected novel's description."""
+    def on_nothing_select(self):
+        """Event handler for invalid tree selection."""
+        self._descWindow.delete('1.0', tk.END)
+
+    def on_novel_select(self):
+        """Event handler for novel tree root selection."""
         if self.ywPrj.desc is not None:
             text = self.ywPrj.desc
         else:
@@ -248,8 +260,8 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def set_chapter_info(self, chId):
-        """Show the selected chapter's description."""
+    def on_chapter_select(self, chId):
+        """Event handler for chapter selection."""
         if self.ywPrj.chapters[chId].desc is not None:
             text = self.ywPrj.chapters[chId].desc
         else:
@@ -257,8 +269,8 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def set_scene_info(self, scId):
-        """Show the selected scene's description."""
+    def on_scene_select(self, scId):
+        """Event handler for scene selection."""
         if self.ywPrj.scenes[scId].desc is not None:
             text = self.ywPrj.scenes[scId].desc
         else:
@@ -266,8 +278,8 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def set_character_info(self, crId):
-        """Show the selected character's description."""
+    def on_character_select(self, crId):
+        """Event handler for character selection."""
         if self.ywPrj.characters[crId].desc is not None:
             text = self.ywPrj.characters[crId].desc
         else:
@@ -275,8 +287,8 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def set_location_info(self, lcId):
-        """Show the selected location's deslciption."""
+    def on_location_select(self, lcId):
+        """Event handler for location selection."""
         if self.ywPrj.locations[lcId].desc is not None:
             text = self.ywPrj.locations[lcId].desc
         else:
@@ -284,8 +296,8 @@ class NovelystTk(MainTk):
         self._descWindow.delete('1.0', tk.END)
         self._descWindow.insert(tk.END, text)
 
-    def set_item_info(self, itId):
-        """Show the selected item's desitiption."""
+    def on_item_select(self, itId):
+        """Event handler for item selection."""
         if self.ywPrj.items[itId].desc is not None:
             text = self.ywPrj.items[itId].desc
         else:
@@ -321,7 +333,7 @@ class NovelystTk(MainTk):
                 self.save_project()
             self.isModified = False
         self._tv.reset_tree()
-        self.reset_info()
+        self.on_nothing_select()
         self.isLocked = False
         super()._close_project()
 
@@ -337,9 +349,6 @@ class NovelystTk(MainTk):
         # This is to avoid another question when closing the project
         self.open_project(self.ywPrj.filePath)
         # Includes closing
-
-    def reset_info(self):
-        self._descWindow.delete('1.0', tk.END)
 
     def show_status(self, message=None):
         """Extends the superclass method."""
