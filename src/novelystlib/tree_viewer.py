@@ -53,6 +53,8 @@ class TreeViewer:
     # Item node ID prefix
     NV_ROOT = 'nv'
     # Root of the Narrative subtree
+    RS_ROOT = 'rs'
+    # Root of the Research subtree
     CR_ROOT = f'wr{_CR}'
     # Root of the Characters subtree
     LC_ROOT = f'wr{_LC}'
@@ -156,6 +158,7 @@ class TreeViewer:
         self.tree.tag_configure('notes', foreground=kwargs['color_notes'])
         self.tree.tag_configure('todo', foreground=kwargs['color_todo'])
         self.tree.tag_configure('part', font=('', fontSize, 'bold'))
+        self.tree.tag_configure('notes part', font=('', fontSize, 'bold'), foreground=kwargs['color_notes'])
         self.tree.tag_configure('major', foreground=kwargs['color_major'])
         self.tree.tag_configure('minor', foreground=kwargs['color_minor'])
         self.tree.tag_configure('Outline', foreground=kwargs['color_outline'])
@@ -176,7 +179,7 @@ class TreeViewer:
             self.tree.focus_set()
             self.tree.selection_set(row)
             prefix = row[:2]
-            if prefix in ('nv', self._PT, self._CH, self._SC):
+            if prefix in (self.NV_ROOT, self.RS_ROOT, self._PT, self._CH, self._SC):
                 # Context is narrative/part/chapter/scene.
                 if self._ui.isLocked:
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
@@ -185,12 +188,19 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
-                elif prefix.startswith('nv'):
+                elif prefix.startswith(self.NV_ROOT):
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Status', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
+                    self._nvCtxtMenu.entryconfig('Add Part', state='normal')
+                elif prefix.startswith(self.RS_ROOT):
+                    self._nvCtxtMenu.entryconfig('Delete', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Set Status', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
                 else:
                     self._nvCtxtMenu.entryconfig('Delete', state='normal')
@@ -256,6 +266,7 @@ class TreeViewer:
 
         #--- Build Parts/Chapters/scenes tree.
         self.tree.insert('', 'end', self.NV_ROOT, text='Narrative', tags='root', open=True)
+        self.tree.insert('', 'end', self.RS_ROOT, text='Research', tags='root', open=True)
         inPart = False
         inNotesPart = False
         for chId in self._ui.ywPrj.srtChapters:
@@ -269,10 +280,12 @@ class TreeViewer:
                 if self._ui.ywPrj.chapters[chId].chType == 1:
                     # "Notes" part begins.
                     inNotesPart = True
+                    parent = self.RS_ROOT
                 else:
                     inNotesPart = False
+                    parent = self.NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                partNode = self.tree.insert(self.NV_ROOT, 'end', f'{self._PT}{chId}', text=title, values=columns, tags=nodeTags, open=True)
+                partNode = self.tree.insert(parent, 'end', f'{self._PT}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             else:
                 # Chapter begins.
                 inChapter = True
@@ -348,6 +361,7 @@ class TreeViewer:
         self._ui.ywPrj.srtLocations = []
         self._ui.ywPrj.srtItems = []
         update_node(self.NV_ROOT, '')
+        update_node(self.RS_ROOT, '')
         update_node(self.CR_ROOT, '')
         update_node(self.LC_ROOT, '')
         update_node(self.IT_ROOT, '')
@@ -402,7 +416,11 @@ class TreeViewer:
         columns = []
         nodeTags = []
         if self._ui.ywPrj.chapters[chId].chType == 1:
-            nodeTags.append('notes')
+            if self._ui.ywPrj.chapters[chId].chLevel == 1:
+                # This chapter begins a new section in ywriter.
+                nodeTags.append('notes part')
+            else:
+                nodeTags.append('notes')
             return title, columns, tuple(nodeTags)
 
         elif self._ui.ywPrj.chapters[chId].chType == 2:
@@ -511,7 +529,7 @@ class TreeViewer:
             return
         if node.startswith(self._SC):
             self._ui.ywPrj.scenes[node[2:]].status = scnStatus
-        elif node.startswith(self._CH) or node.startswith(self._PT) or node.startswith('nv'):
+        elif node.startswith(self._CH) or node.startswith(self._PT) or node.startswith(self.NV_ROOT):
             self.tree.item(node, open=True)
             # Go one level down.
             for childNode in self.tree.get_children(node):
@@ -635,7 +653,7 @@ class TreeViewer:
         else:
             return
 
-        if self.ask_yes_no(f'Delete {candidate}?'):
+        if self._ui.ask_yes_no(f'Delete {candidate}?'):
             if tv.prev(selection):
                 tv.selection_set(tv.prev(selection))
             else:
@@ -713,11 +731,17 @@ class TreeViewer:
             selection = self.tree.parent(selection)
         if selection.startswith(self._PT):
             index = self.tree.index(selection) + 1
+            parent = self.tree.parent(selection)
+        elif selection.startswith(self.RS_ROOT):
+            index = 0
+            parent = self.RS_ROOT
         chId = create_id(self._ui.ywPrj.chapters)
         newNode = f'{self._PT}{chId}'
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Part (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 1
+        if parent.startswith(self.RS_ROOT):
+            self._ui.ywPrj.chapters[chId].chType = 1
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
@@ -734,6 +758,7 @@ class TreeViewer:
         except:
             selection = ''
         parent = self.NV_ROOT
+        isNotes = False
         index = 0
         if selection.startswith(self._SC):
             parent = self.tree.parent(selection)
@@ -743,11 +768,16 @@ class TreeViewer:
             index = self.tree.index(selection) + 1
         elif selection.startswith(self._PT):
             parent = selection
+            # Inherit part type, if "Notes"
+            if self.tree.parent(parent).startswith(self.RS_ROOT):
+                isNotes = True
         chId = create_id(self._ui.ywPrj.chapters)
         newNode = f'{self._CH}{chId}'
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Chapter (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 0
+        if isNotes:
+            self._ui.ywPrj.chapters[chId].chType = 1
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
@@ -780,6 +810,14 @@ class TreeViewer:
         self._ui.ywPrj.scenes[scId] = Scene()
         self._ui.ywPrj.scenes[scId].title = f'New Scene (ID{scId})'
         self._ui.ywPrj.scenes[scId].status = 1
+        # Inherit chapter type
+        parentChapter = self._ui.ywPrj.chapters[parent[2:]]
+        if parentChapter.chType == 1:
+            self._ui.ywPrj.scenes[scId].isNotesScene = True
+        elif parentChapter.chType == 2:
+            self._ui.ywPrj.scenes[scId].isTodoScene = True
+        elif parentChapter.isUnused:
+            self._ui.ywPrj.scenes[scId].isnused = True
         # Edit status = Outline
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
