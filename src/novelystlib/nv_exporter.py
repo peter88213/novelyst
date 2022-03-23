@@ -21,6 +21,7 @@ from pywriter.odt.odt_characters import OdtCharacters
 from pywriter.odt.odt_items import OdtItems
 from pywriter.odt.odt_locations import OdtLocations
 from pywriter.odt.odt_xref import OdtXref
+from pywriter.odt.odt_notes import OdtNotes
 from pywriter.ods.ods_charlist import OdsCharList
 from pywriter.ods.ods_loclist import OdsLocList
 from pywriter.ods.ods_itemlist import OdsItemList
@@ -58,6 +59,7 @@ class NvExporter:
                              OdtItems,
                              OdtLocations,
                              OdtXref,
+                             OdtNotes,
                              OdsCharList,
                              OdsLocList,
                              OdsItemList,

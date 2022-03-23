@@ -224,6 +224,32 @@ class TreeViewer:
                 finally:
                     self._wrCtxtMenu.grab_release()
 
+    def refresh_tree(self, event=None):
+        """Refresh the tree.
+        
+        Display the tree nodes regarding the way they are read from the file.
+        """
+        modifiedNodes = []
+        isModified = self._ui.isModified
+        for chId in self._ui.ywPrj.chapters:
+            chType = self._ui.ywPrj.chapters[chId].chType
+            for scId in self._ui.ywPrj.chapters[chId].srtScenes:
+                if chType == 1:
+                    if not self._ui.ywPrj.scenes[scId].isNotesScene:
+                        self._ui.ywPrj.scenes[scId].isNotesScene = True
+                        isModified = True
+                        modifiedNodes.append(f'{self._SC}{scId}')
+                elif chType == 2:
+                    if not self._ui.ywPrj.scenes[scId].isTodoScene:
+                        self._ui.ywPrj.scenes[scId].isTodoScene = True
+                        self._ui.ywPrj.scenes[scId].isNotesScene = False
+                        isModified = True
+                        modifiedNodes.append(f'{self._SC}{scId}')
+        self.build_tree()
+        self._ui.isModified = isModified
+        for node in modifiedNodes:
+            self.tree.see(node)
+
     def build_tree(self):
         """Create and display the tree."""
         self.reset_tree()
@@ -231,17 +257,30 @@ class TreeViewer:
         #--- Build Parts/Chapters/scenes tree.
         self.tree.insert('', 'end', self.NV_ROOT, text='Narrative', tags='root', open=True)
         inPart = False
+        inNotesPart = False
         for chId in self._ui.ywPrj.srtChapters:
             if self._ui.ywPrj.chapters[chId].isTrash:
                 self._trashNode = f'{self._CH}{chId}'
                 inPart = False
             if self._ui.ywPrj.chapters[chId].chLevel == 1:
+                # Part begins.
                 inPart = True
                 inChapter = False
+                if self._ui.ywPrj.chapters[chId].chType == 1:
+                    # "Notes" part begins.
+                    inNotesPart = True
+                else:
+                    inNotesPart = False
                 title, columns, nodeTags = self._set_chapter_display(chId)
                 partNode = self.tree.insert(self.NV_ROOT, 'end', f'{self._PT}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             else:
+                # Chapter begins.
                 inChapter = True
+                if self._ui.ywPrj.chapters[chId].chType != 1:
+                    # Regular chapter can not be in "Notes" part.
+                    if inNotesPart:
+                        inNotesPart = False
+                        inPart = False
                 if inPart:
                     parentNode = partNode
                 else:
@@ -350,12 +389,13 @@ class TreeViewer:
         def count_words(chId):
             """Accumulate word counts of all relevant scenes in a chapter."""
             wordCount = 0
-            for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                if self._ui.ywPrj.scenes[scId].isTodoScene:
-                    continue
-                if self._ui.ywPrj.scenes[scId].isNotesScene:
-                    continue
-                wordCount += self._ui.ywPrj.scenes[scId].wordCount
+            if self._ui.ywPrj.chapters[chId].chType == 0:
+                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
+                    if self._ui.ywPrj.scenes[scId].isTodoScene:
+                        continue
+                    if self._ui.ywPrj.scenes[scId].isNotesScene:
+                        continue
+                    wordCount += self._ui.ywPrj.scenes[scId].wordCount
             return wordCount
 
         title = self._ui.ywPrj.chapters[chId].title

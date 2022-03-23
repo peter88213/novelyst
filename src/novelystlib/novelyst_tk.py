@@ -40,6 +40,7 @@ class NovelystTk(MainTk):
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
     _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
+    _KEY_REFRESH_TREE = ('<F5>', 'F5')
     _KEY_SAVE_PROJECT = ('<Control-s>', 'Ctrl-S')
     _KEY_SAVE_AS = ('<Control-S>', 'Ctrl-Shift-S')
 
@@ -98,6 +99,7 @@ class NovelystTk(MainTk):
         self._fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
         self._fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
+        self._fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._tv.refresh_tree)
         self._fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
         self._fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self._fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
@@ -162,6 +164,8 @@ class NovelystTk(MainTk):
         self._exportMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Export', menu=self._exportMenu)
         self._exportMenu.add_command(label='Manuscript for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_manuscript'))
+        self._exportMenu.add_command(label='Notes chapters for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_notes'))
+        self._exportMenu.add_separator()
         self._exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', underline=43, command=lambda: self._exporter.run(self.ywPrj, '_proof'))
         self._exportMenu.add_separator()
         self._exportMenu.add_command(label='Manuscript without tags (export only)', underline=25, command=lambda: self._exporter.run(self.ywPrj, ''))
@@ -175,6 +179,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_LOCK_PROJECT[0], self._lock)
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self._unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self._reload_project)
+        self.root.bind(self._KEY_REFRESH_TREE[0], self._tv.refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self._save_as)
 
