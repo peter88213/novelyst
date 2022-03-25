@@ -79,7 +79,7 @@ class NovelystTk(MainTk):
         kw = {'width':kwargs['tree_frame_width']}
         self._appWindow.add(self._treeFrame, **kw)
         self._dataFrame = tk.Frame(self._appWindow)
-        self._appWindow.add(self._dataFrame)
+        self._appWindow.add(self._dataFrame, minsize=350)
 
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -96,7 +96,11 @@ class NovelystTk(MainTk):
 
         # Place a description window inside the data window.
         self._descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10)
-        self._dataWindow.add(self._descWindow)
+        self._dataWindow.add(self._descWindow, minsize=350)
+
+        # Place a values window inside the data window.
+        self._valuesWindow = tk.Frame()
+        self._dataWindow.add(self._valuesWindow, minsize=350)
 
         # Place a notes window inside the data window.
         self._notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, bg=self._COLOR_NOTE_WINDOWS)
