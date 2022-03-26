@@ -706,12 +706,15 @@ class TreeViewer:
                     if self.tree.parent(selection) == self._trashNode:
                         tv.delete(selection)
                         del self._ui.ywPrj.scenes[elemId]
+                    else:
+                        # Move scene to the "trash bin".
+                        waste_scenes(selection)
                 else:
-                    # Move scene(s) to the "trash bin".
+                    # Delete part/chapter and move child scenes to the "trash bin".
                     waste_scenes(selection)
                     tv.delete(selection)
-                    self._set_type(self._trashNode, 3)
-                    # Make sure the whole "trash bin" is unused.
+                self._set_type(self._trashNode, 3)
+                # Make sure the whole "trash bin" is unused.
             self._update_tree()
 
     def add_part(self):
