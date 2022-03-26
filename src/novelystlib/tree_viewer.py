@@ -693,6 +693,7 @@ class TreeViewer:
                     except:
                         pass
             else:
+                # Part/chapter/scene selected.
                 if self._trashNode is None:
                     # Create a "trash bin"; use the first free chapter ID.
                     trashId = create_id(self._ui.ywPrj.chapters)
@@ -702,8 +703,8 @@ class TreeViewer:
                     self._trashNode = f'{self._CH}{trashId}'
                     self.tree.insert(self.NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
                 if selection.startswith(self._SC):
-                    # Remove scene, if already in trash bin.
                     if self.tree.parent(selection) == self._trashNode:
+                        # Remove scene, if already in trash bin.
                         tv.delete(selection)
                         del self._ui.ywPrj.scenes[elemId]
                     else:
@@ -713,8 +714,8 @@ class TreeViewer:
                     # Delete part/chapter and move child scenes to the "trash bin".
                     waste_scenes(selection)
                     tv.delete(selection)
-                self._set_type(self._trashNode, 3)
                 # Make sure the whole "trash bin" is unused.
+                self._set_type(self._trashNode, 3)
             self._update_tree()
 
     def add_part(self):
