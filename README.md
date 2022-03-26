@@ -1,6 +1,6 @@
 # novelyst
 
-For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
+This project is in an early stage of development and is not yet fully functional.
 
 ## Development
 
@@ -31,11 +31,8 @@ For more information, see the [project homepage](https://peter88213.github.io/no
 - [Eclipse IDE](https://eclipse.org) with [PyDev](https://pydev.org) and [EGit](https://www.eclipse.org/egit/)
 - [Apache Ant](https://ant.apache.org/) for building the application script
 
-## Credits
-
-Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
 
 ## License
 
-yw-viewer is distributed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+novelyst is distributed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
