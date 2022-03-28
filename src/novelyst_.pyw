@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yWriter file viewer. 
+"""A tree view for ywriter projects. 
 
 Version @release
 Requires Python 3.6+
@@ -18,13 +18,28 @@ APPNAME = 'novelyst'
 SETTINGS = dict(
     yw_last_open='',
     root_geometry='1200x800',
-    chapter_frame_width=500,
-    chapter_window_height=600,
-    ch_sc_width=50,
-    ch_wc_width=50,
-    scene_window_height=600,
-    sc_vp_width=150,
-    sc_wc_width=50,
+    button_context_menu='<Button-3>',
+    tree_frame_width=800,
+    color_chapter='green',
+    color_unused='gray',
+    color_notes='blue',
+    color_todo='red',
+    color_major='navy',
+    color_minor='cornflower blue',
+    color_outline='firebrick4',
+    color_draft='black',
+    color_1st_edit='DarkOrange3',
+    color_2nd_edit='DarkOrange1',
+    color_done='DarkGoldenrod2',
+    color_locked_bg='dim gray',
+    color_locked_fg='white',
+    color_modified_bg='DarkGoldenrod2',
+    color_modified_fg='brown',
+    wc_width=50,
+    status_width=50,
+    vp_width=70,
+    tags_width=100,
+    sizer_width=40,
 )
 OPTIONS = {}
 
