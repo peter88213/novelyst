@@ -295,14 +295,8 @@ class NovelystTk(MainTk):
         self._change_selection(self.ywPrj.items[itId])
 
     def _change_selection(self, element):
-        """Store changed values and clear the frame."""
-        if self._activeElement is not None:
-            self._activeElement.title = self._elementTitle.get().strip()
-            self._activeElement.desc = self._descWindow.get('1.0', tk.END).strip()
-            if hasattr(self._activeElement, 'sceneNotes'):
-                self._activeElement.sceneNotes = self._notesWindow.get('1.0', tk.END).strip()
-            elif hasattr(self._activeElement, 'notes'):
-                self._activeElement.notes = self._notesWindow.get('1.0', tk.END).strip()
+        """Apply changed values and clear the frame."""
+        self._apply_changes()
         self._descWindow.delete('1.0', tk.END)
         desc = ''
         self._notesWindow.delete('1.0', tk.END)
@@ -406,13 +400,29 @@ class NovelystTk(MainTk):
 
     #--- Methods that change the project
 
+    def _apply_changes(self):
+        """Transfer changes from the entry widgets to the instance variables."""
+        if self._activeElement is not None:
+            title = self._elementTitle.get()
+            if self._activeElement.title != title:
+                self._activeElement.title = title.strip()
+                self.isModified = True
+            desc = self._descWindow.get('1.0', tk.END).strip(' \n')
+            self._activeElement.desc = desc
+            notes = self._notesWindow.get('1.0', tk.END).strip(' \n')
+            if hasattr(self._activeElement, 'sceneNotes'):
+                self._activeElement.sceneNotes = notes
+            elif hasattr(self._activeElement, 'notes'):
+                self._activeElement.notes = notes
+
     def save_project(self, event=None):
         """Save the yWriter project to disk and set 'unchanged' status.
         
         Return True on success, otherwise return False.
         """
         if self.isLocked:
-            return
+            return False
+
         if len(self.ywPrj.srtChapters) < 1:
             self.set_info_how(f'{ERROR}Cannot save: The project must have at least one chapter or part.')
             return False
@@ -424,6 +434,7 @@ class NovelystTk(MainTk):
         if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
             return False
 
+        self._apply_changes()
         self.ywPrj.write()
         self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
         self.isModified = False
