@@ -42,11 +42,6 @@ Please make sure that your Python3 installation has the *tkinter* module. On Ubu
 
 See the [instructions for use](usage)
 
-## Credits
-
-Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
-
-
 ## License
 
 novelyst is distributed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
