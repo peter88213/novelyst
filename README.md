@@ -1,6 +1,7 @@
 # novelyst
 
 This project is in an early stage of development and is not yet fully functional.
+For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
 
 ## Development
 

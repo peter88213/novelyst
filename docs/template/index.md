@@ -2,12 +2,26 @@ The *novelyst* Python program provides a tree view with parts, chapters and scen
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the yWriter project.
 
+Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
+
+The purpose of *novelyst* is to allow yWriter projects to be edited quickly and easily with OpenOffice. For this purpose there are the appropriate export functions, the possibility to change the chapter structure (which cannot be done with OpenOffice), and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
+
+## Features
+
+- *novelyst* reads and writes yWriter 7 project files.
+- The entire project is displayed in a tree, with branches for the narrative, characters, locations, and items.
+- Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters.
+- There is also a "Research" branch that contains all the "Notes type" chapters and parts. This can be exported to a separate ODT document. 
+- The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
+
 ## Requirements
 
 - [Python 3.6+](https://www.python.org). 
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
 
 ## Download and install
+
+NOTE: This project is in an early stage of development and is not yet fully functional.
 
 [Download the latest release (version 0.99.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.99.0.zip)
 
