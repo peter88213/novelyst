@@ -296,6 +296,13 @@ class NovelystTk(MainTk):
 
     def _change_selection(self, element):
         """Store changed values and clear the frame."""
+        if self._activeElement is not None:
+            self._activeElement.title = self._elementTitle.get().strip()
+            self._activeElement.desc = self._descWindow.get('1.0', tk.END).strip()
+            if hasattr(self._activeElement, 'sceneNotes'):
+                self._activeElement.sceneNotes = self._notesWindow.get('1.0', tk.END).strip()
+            elif hasattr(self._activeElement, 'notes'):
+                self._activeElement.notes = self._notesWindow.get('1.0', tk.END).strip()
         self._descWindow.delete('1.0', tk.END)
         desc = ''
         self._notesWindow.delete('1.0', tk.END)
