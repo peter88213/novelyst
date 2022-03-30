@@ -772,9 +772,9 @@ class TreeViewer:
             index = self.tree.index(selection) + 1
         elif selection.startswith(self._PT):
             parent = selection
-            # Inherit part type, if "Notes"
-            if self.tree.parent(parent).startswith(self.RS_ROOT):
-                isNotes = True
+        # Inherit part type, if "Notes"
+        if self.tree.parent(parent).startswith(self.RS_ROOT):
+            isNotes = True
         chId = create_id(self._ui.ywPrj.chapters)
         newNode = f'{self._CH}{chId}'
         self._ui.ywPrj.chapters[chId] = Chapter()
