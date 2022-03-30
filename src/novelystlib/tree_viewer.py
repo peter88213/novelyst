@@ -746,6 +746,8 @@ class TreeViewer:
         self._ui.ywPrj.chapters[chId].chLevel = 1
         if parent.startswith(self.RS_ROOT):
             self._ui.ywPrj.chapters[chId].chType = 1
+        else:
+            self._ui.ywPrj.chapters[chId].chType = 0
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
@@ -782,6 +784,8 @@ class TreeViewer:
         self._ui.ywPrj.chapters[chId].chLevel = 0
         if isNotes:
             self._ui.ywPrj.chapters[chId].chType = 1
+        else:
+            self._ui.ywPrj.chapters[chId].chType = 0
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
