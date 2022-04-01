@@ -6,9 +6,9 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 from tkinter import messagebox
-import webbrowser
 from datetime import datetime
 from pywriter.pywriter_globals import ERROR
+from pywriter.file.doc_open import open_document
 from pywriter.converter.export_target_factory import ExportTargetFactory
 from pywriter.odt.odt_proof import OdtProof
 from pywriter.odt.odt_manuscript import OdtManuscript
@@ -104,7 +104,7 @@ class NvExporter:
                 return
 
             elif doOpenExisting:
-                webbrowser.open(target.filePath)
+                open_document(target.filePath)
                 self.ui.set_info_how(f'{ERROR}Opened existing {target.DESCRIPTION} (last saved on {targetFileDate}).')
                 return
 
@@ -120,4 +120,5 @@ class NvExporter:
             targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
             self.ui.set_info_how(f'Created {target.DESCRIPTION} on {targetFileDate}.')
             if self.ui.ask_yes_no(f'{os.path.normpath(target.filePath)} created. Open now?'):
-                webbrowser.open(target.filePath)
+                open_document(target.filePath)
+
