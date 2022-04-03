@@ -21,6 +21,7 @@ class Yw7WorkFile(Yw7File):
         has_changed_on_disk() -- return True if the yw project file has changed since last opened.
         write() -- write file if not locked, and get timestamp.
         read() -- read file and get timestamp.
+        renumber_chapters() -- Modify chapter headings.
         
     Public properties:
         fileDate -- str: ISO formatted file date (read-only)
@@ -43,6 +44,17 @@ class Yw7WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self._timestamp = None
+
+        # Configure part/chapter numbering
+        self.renumberChapters = True
+        self.renumberParts = True
+        self.renumberWithinParts = False
+        self.romanChapterNumbers = False
+        self.romanPartNumbers = True
+        self.chapterHeadingPrefix = 'Chapter '
+        self.chapterHeadingSuffix = ''
+        self.partHeadingPrefix = 'Part '
+        self.partHeadingSuffix = ''
 
     @property
     def fileDate(self):
@@ -165,3 +177,73 @@ class Yw7WorkFile(Yw7File):
             self.timestamp = None
         return
 
+    def renumber_chapters(self):
+        """Modify chapter headings."""
+        ROMAN = [
+            (1000, 'M'),
+            (900, 'CM'),
+            (500, 'D'),
+            (400, 'CD'),
+            (100, 'C'),
+            (90, 'XC'),
+            (50, 'L'),
+            (40, 'XL'),
+            (10, 'X'),
+            (9, 'IX'),
+            (5, 'V'),
+            (4, 'IV'),
+            (1, 'I'),
+        ]
+
+        def number_to_roman(n):
+            """Return n as a Roman number.
+            
+            Credit goes to the user 'Aristide' on stack overflow.
+            https://stackoverflow.com/a/47713392
+            """
+            result = []
+            for (arabic, roman) in ROMAN:
+                (factor, n) = divmod(n, arabic)
+                result.append(roman * factor)
+                if n == 0:
+                    break
+
+            return "".join(result)
+
+        chapterCount = 0
+        partCount = 0
+        for chId in self.srtChapters:
+            if self.chapters[chId].isUnused:
+                continue
+
+            if self.chapters[chId].isTrash:
+                continue
+
+            if self.chapters[chId].chLevel == 0:
+                # Regular chapter
+                if not self.renumberChapters:
+                    continue
+
+            else:
+                # Part (chapter "beginning a new section")
+                if self.renumberWithinParts:
+                    chapterCount = 0
+                if not self.renumberParts:
+                    continue
+
+            if self.chapters[chId].chType == 0 or self.chapters[chId].oldType == 0:
+                if self.chapters[chId].chLevel == 0:
+                    chapterCount += 1
+                    if self.romanChapterNumbers:
+                        number = number_to_roman(chapterCount)
+                    else:
+                        number = str(chapterCount)
+                    self.chapters[chId].title = f'{self.chapterHeadingPrefix}{number}{self.chapterHeadingSuffix}'
+                else:
+                    partCount += 1
+                    if self.romanPartNumbers:
+                        number = number_to_roman(partCount)
+                    else:
+                        number = str(partCount)
+                    self.chapters[chId].title = f'{self.partHeadingPrefix}{number}{self.partHeadingSuffix}'
+        return

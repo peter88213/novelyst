@@ -241,6 +241,7 @@ class TreeViewer:
         """
         modifiedNodes = []
         isModified = self._ui.isModified
+        self._ui.ywPrj.renumber_chapters()
         for chId in self._ui.ywPrj.chapters:
             chType = self._ui.ywPrj.chapters[chId].chType
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
