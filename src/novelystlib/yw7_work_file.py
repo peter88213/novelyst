@@ -284,6 +284,7 @@ class Yw7WorkFile(Yw7File):
 
             return "".join(result)
 
+        isModified = False
         chapterCount = 0
         partCount = 0
         for chId in self.srtChapters:
@@ -315,12 +316,16 @@ class Yw7WorkFile(Yw7File):
                         number = number_to_roman(chapterCount)
                     else:
                         number = str(chapterCount)
-                    self.chapters[chId].title = f'{self.chapterHeadingPrefix}{number}{self.chapterHeadingSuffix}'
+                    newTitle = f'{self.chapterHeadingPrefix}{number}{self.chapterHeadingSuffix}'
                 else:
                     partCount += 1
                     if self.romanPartNumbers:
                         number = number_to_roman(partCount)
                     else:
                         number = str(partCount)
-                    self.chapters[chId].title = f'{self.partHeadingPrefix}{number}{self.partHeadingSuffix}'
-        return
+                    newTitle = f'{self.partHeadingPrefix}{number}{self.partHeadingSuffix}'
+                if self.chapters[chId].title != newTitle:
+                    self.chapters[chId].title = newTitle
+                    isModified = True
+
+        return isModified
