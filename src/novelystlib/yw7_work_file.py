@@ -121,21 +121,80 @@ class Yw7WorkFile(Yw7File):
             root = self.tree.getroot()
             prj = root.find('PROJECT')
             for prjFields in prj.findall('Fields'):
-                something = prjFields.find('Field_SomethingCompletelyDifferent')
-                if something is not None:
-                    print(something.text)
+                self.renumberChapters = False
+                renumberChapters = prjFields.find('Field_RenumberChapters')
+                try:
+                    if renumberChapters.text == '1':
+                        self.renumberChapters = True
+                except:
+                    pass
+                self.renumberParts = False
+                renumberParts = prjFields.find('Field_RenumberParts')
+                try:
+                    if renumberParts.text == '1':
+                        self.renumberParts = True
+                except:
+                    pass
+                self.renumberWithinParts = False
+                renumberWithinParts = prjFields.find('Field_RenumberWithinParts')
+                try:
+                    if renumberWithinParts.text == '1':
+                        self.renumberWithinParts = True
+                except:
+                    pass
+                self.romanChapterNumbers = False
+                romanChapterNumbers = prjFields.find('Field_RomanChapterNumbers')
+                try:
+                    if romanChapterNumbers.text == '1':
+                        self.romanChapterNumbers = True
+                except:
+                    pass
+                self.romanPartNumbers = False
+                romanPartNumbers = prjFields.find('Field_RomanPartNumbers')
+                try:
+                    if romanPartNumbers.text == '1':
+                        self.romanPartNumbers = True
+                except:
+                    pass
+                self.chapterHeadingPrefix = ''
+                chapterHeadingPrefix = prjFields.find('Field_ChapterHeadingPrefix')
+                try:
+                    if chapterHeadingPrefix.text:
+                        self.chapterHeadingPrefix = chapterHeadingPrefix.text
+                except:
+                    pass
+                self.chapterHeadingSuffix = ''
+                chapterHeadingSuffix = prjFields.find('Field_ChapterHeadingSuffix')
+                try:
+                    if chapterHeadingSuffix.text:
+                        self.chapterHeadingSuffix = chapterHeadingSuffix.text
+                except:
+                    pass
+                self.partHeadingPrefix = ''
+                partHeadingPrefix = prjFields.find('Field_PartHeadingPrefix')
+                try:
+                    if partHeadingPrefix.text:
+                        self.partHeadingPrefix = partHeadingPrefix.text
+                except:
+                    pass
+                self.partHeadingSuffix = ''
+                partHeadingSuffix = prjFields.find('Field_PartHeadingSuffix')
+                try:
+                    if partHeadingSuffix.text:
+                        self.partHeadingSuffix = partHeadingSuffix.text
+                except:
+                    pass
             for chp in root.iter('CHAPTER'):
                 chId = chp.find('ID').text
                 for chFields in chp.findall('Fields'):
-                    something = chFields.find('Field_SomethingCompletelyDifferent')
-                    if something is not None:
-                        print(something.text)
-            for scn in root.iter('SCENE'):
-                scId = scn.find('ID').text
-                for scFields in scn.findall('Fields'):
-                    something = scFields.find('Field_SomethingCompletelyDifferent')
-                    if something is not None:
-                        print(something.text)
+                    noNumber = chFields.find('Field_NoNumber')
+                    try:
+                        if noNumber.text == '1':
+                            self.chapters[chId].noNumber = True
+                        else:
+                            self.chapters[chId].noNumber = False
+                    except:
+                        pass
 
         # Read the file timestamp.
         try:
@@ -157,15 +216,30 @@ class Yw7WorkFile(Yw7File):
         prjFields = xmlPrj.find('Fields')
         if prjFields is None:
             prjFields = ET.SubElement(xmlPrj, 'Fields')
+        '''
         if self.firstNumberedChapter is not None:
             try:
                 prjFields.find('Field_StartNovelChID').text = self.firstNumberedChapter
             except(AttributeError):
                 ET.SubElement(prjFields, 'Field_StartNovelChID').text = self.firstNumberedChapter
+        '''
 
         # Write chapter custom fields.
         for chp in root.iter('CHAPTER'):
             chId = chp.find('ID').text
+            chFields = chp.find('Fields')
+            if self.chapters[chId].noNumber:
+                if chFields is None:
+                    chFields = ET.SubElement(chp, 'Fields')
+                try:
+                    chFields.find('Field_NoNumber').text = '1'
+                except(AttributeError):
+                    ET.SubElement(chFields, 'Field_NoNumber').text = '1'
+            elif chFields is not None:
+                try:
+                    chFields.remove(chFields.find('Field_NoNumber'))
+                except:
+                    pass
 
         # Write scene custom fields.
         for scn in root.iter('SCENE'):
@@ -213,6 +287,9 @@ class Yw7WorkFile(Yw7File):
         chapterCount = 0
         partCount = 0
         for chId in self.srtChapters:
+            if self.chapters[chId].noNumber:
+                continue
+
             if self.chapters[chId].isUnused:
                 continue
 
