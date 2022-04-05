@@ -46,15 +46,22 @@ class Yw7WorkFile(Yw7File):
         self._timestamp = None
 
         # Configure part/chapter numbering
-        self.renumberChapters = True
-        self.renumberParts = True
-        self.renumberWithinParts = False
-        self.romanChapterNumbers = False
-        self.romanPartNumbers = True
-        self.chapterHeadingPrefix = 'Chapter '
-        self.chapterHeadingSuffix = ''
-        self.partHeadingPrefix = 'Part '
-        self.partHeadingSuffix = ''
+        self._prjOptions = (
+            'Field_RenumberChapters',
+            'Field_RenumberParts',
+            'Field_RenumberWithinParts',
+            'Field_RomanChapterNumbers',
+            'Field_RomanPartNumbers',
+            )
+        self._prjSettings = (
+            'Field_ChapterHeadingPrefix',
+            'Field_ChapterHeadingSuffix',
+            'Field_PartHeadingPrefix',
+            'Field_PartHeadingSuffix',
+            )
+        self._chOptions = (
+            'Field_NoNumber',
+            )
 
     @property
     def fileDate(self):
@@ -121,80 +128,32 @@ class Yw7WorkFile(Yw7File):
             root = self.tree.getroot()
             prj = root.find('PROJECT')
             for prjFields in prj.findall('Fields'):
-                self.renumberChapters = False
-                renumberChapters = prjFields.find('Field_RenumberChapters')
-                try:
-                    if renumberChapters.text == '1':
-                        self.renumberChapters = True
-                except:
-                    pass
-                self.renumberParts = False
-                renumberParts = prjFields.find('Field_RenumberParts')
-                try:
-                    if renumberParts.text == '1':
-                        self.renumberParts = True
-                except:
-                    pass
-                self.renumberWithinParts = False
-                renumberWithinParts = prjFields.find('Field_RenumberWithinParts')
-                try:
-                    if renumberWithinParts.text == '1':
-                        self.renumberWithinParts = True
-                except:
-                    pass
-                self.romanChapterNumbers = False
-                romanChapterNumbers = prjFields.find('Field_RomanChapterNumbers')
-                try:
-                    if romanChapterNumbers.text == '1':
-                        self.romanChapterNumbers = True
-                except:
-                    pass
-                self.romanPartNumbers = False
-                romanPartNumbers = prjFields.find('Field_RomanPartNumbers')
-                try:
-                    if romanPartNumbers.text == '1':
-                        self.romanPartNumbers = True
-                except:
-                    pass
-                self.chapterHeadingPrefix = ''
-                chapterHeadingPrefix = prjFields.find('Field_ChapterHeadingPrefix')
-                try:
-                    if chapterHeadingPrefix.text:
-                        self.chapterHeadingPrefix = chapterHeadingPrefix.text
-                except:
-                    pass
-                self.chapterHeadingSuffix = ''
-                chapterHeadingSuffix = prjFields.find('Field_ChapterHeadingSuffix')
-                try:
-                    if chapterHeadingSuffix.text:
-                        self.chapterHeadingSuffix = chapterHeadingSuffix.text
-                except:
-                    pass
-                self.partHeadingPrefix = ''
-                partHeadingPrefix = prjFields.find('Field_PartHeadingPrefix')
-                try:
-                    if partHeadingPrefix.text:
-                        self.partHeadingPrefix = partHeadingPrefix.text
-                except:
-                    pass
-                self.partHeadingSuffix = ''
-                partHeadingSuffix = prjFields.find('Field_PartHeadingSuffix')
-                try:
-                    if partHeadingSuffix.text:
-                        self.partHeadingSuffix = partHeadingSuffix.text
-                except:
-                    pass
+                for field in self._prjOptions:
+                    try:
+                        if prjFields.find(field).text == '1':
+                            self.kwVar[field] = True
+                        else:
+                            self.kwVar[field] = False
+                    except:
+                        self.kwVar[field] = None
+
+                for field in self._prjSettings:
+                    try:
+                        self.kwVar[field] = prjFields.find(field).text
+                    except:
+                        self.kwVar[field] = None
             for chp in root.iter('CHAPTER'):
                 chId = chp.find('ID').text
                 for chFields in chp.findall('Fields'):
-                    noNumber = chFields.find('Field_NoNumber')
-                    try:
-                        if noNumber.text == '1':
-                            self.chapters[chId].noNumber = True
-                        else:
-                            self.chapters[chId].noNumber = False
-                    except:
-                        pass
+                    for field in self._chOptions:
+                        option = chFields.find(field)
+                        try:
+                            if option.text == '1':
+                                self.chapters[chId].kwVar[field] = True
+                            else:
+                                self.chapters[chId].kwVar[field] = False
+                        except:
+                            self.chapters[chId].kwVar[field] = None
 
         # Read the file timestamp.
         try:
@@ -216,35 +175,47 @@ class Yw7WorkFile(Yw7File):
         prjFields = xmlPrj.find('Fields')
         if prjFields is None:
             prjFields = ET.SubElement(xmlPrj, 'Fields')
-        '''
-        if self.firstNumberedChapter is not None:
-            try:
-                prjFields.find('Field_StartNovelChID').text = self.firstNumberedChapter
-            except(AttributeError):
-                ET.SubElement(prjFields, 'Field_StartNovelChID').text = self.firstNumberedChapter
-        '''
+            for field in self._prjOptions:
+                if self.kwVar[field]:
+                    try:
+                        prjFields.find(field).text = '1'
+                    except(AttributeError):
+                        ET.SubElement(prjFields, field).text = '1'
+                else:
+                    try:
+                        prjFields.remove(prjFields.find(field))
+                    except:
+                        pass
+            for field in self._prjSettings:
+                setting = self.kwVar[field]
+                if setting:
+                    try:
+                        prjFields.find(field).text = setting
+                    except(AttributeError):
+                        ET.SubElement(prjFields, field).text = setting
+                else:
+                    try:
+                        prjFields.remove(prjFields.find(field))
+                    except:
+                        pass
 
         # Write chapter custom fields.
         for chp in root.iter('CHAPTER'):
             chId = chp.find('ID').text
             chFields = chp.find('Fields')
-            if self.chapters[chId].noNumber:
-                if chFields is None:
-                    chFields = ET.SubElement(chp, 'Fields')
-                try:
-                    chFields.find('Field_NoNumber').text = '1'
-                except(AttributeError):
-                    ET.SubElement(chFields, 'Field_NoNumber').text = '1'
-            elif chFields is not None:
-                try:
-                    chFields.remove(chFields.find('Field_NoNumber'))
-                except:
-                    pass
-
-        # Write scene custom fields.
-        for scn in root.iter('SCENE'):
-            scId = scn.find('ID').text
-
+            for field in self._chOptions:
+                if field in self.chapters[chId].kwVar and self.chapters[chId].kwVar[field]:
+                    if chFields is None:
+                        chFields = ET.SubElement(chp, field)
+                    try:
+                        chFields.find(field).text = '1'
+                    except(AttributeError):
+                        ET.SubElement(chFields, field).text = '1'
+                elif chFields is not None:
+                    try:
+                        chFields.remove(chFields.find(field))
+                    except:
+                        pass
         try:
             self._timestamp = os.path.getmtime(self.filePath)
         except:
@@ -288,8 +259,9 @@ class Yw7WorkFile(Yw7File):
         chapterCount = 0
         partCount = 0
         for chId in self.srtChapters:
-            if self.chapters[chId].noNumber:
-                continue
+            if 'Field_NoNumber' in self.chapters[chId].kwVar:
+                if self.chapters[chId].kwVar['Field_NoNumber']:
+                    continue
 
             if self.chapters[chId].isUnused:
                 continue
@@ -299,31 +271,40 @@ class Yw7WorkFile(Yw7File):
 
             if self.chapters[chId].chLevel == 0:
                 # Regular chapter
-                if not self.renumberChapters:
+                if not self.kwVar['Field_RenumberChapters']:
                     continue
 
             else:
                 # Part (chapter "beginning a new section")
-                if self.renumberWithinParts:
+                if self.kwVar['Field_RenumberWithinParts']:
                     chapterCount = 0
-                if not self.renumberParts:
+                if not self.kwVar['Field_RenumberParts']:
                     continue
 
             if self.chapters[chId].chType == 0 or self.chapters[chId].oldType == 0:
+                headingPrefix = ''
+                headingSuffix = ''
                 if self.chapters[chId].chLevel == 0:
                     chapterCount += 1
-                    if self.romanChapterNumbers:
+                    if self.kwVar['Field_RomanChapterNumbers']:
                         number = number_to_roman(chapterCount)
                     else:
                         number = str(chapterCount)
-                    newTitle = f'{self.chapterHeadingPrefix}{number}{self.chapterHeadingSuffix}'
+                    if self.kwVar['Field_ChapterHeadingPrefix'] is not None:
+                        headingPrefix = self.kwVar['Field_ChapterHeadingPrefix']
+                    if self.kwVar['Field_ChapterHeadingSuffix'] is not None:
+                        headingSuffix = self.kwVar['Field_ChapterHeadingSuffix']
                 else:
                     partCount += 1
-                    if self.romanPartNumbers:
+                    if self.kwVar['Field_RomanPartNumbers']:
                         number = number_to_roman(partCount)
                     else:
                         number = str(partCount)
-                    newTitle = f'{self.partHeadingPrefix}{number}{self.partHeadingSuffix}'
+                    if self.kwVar['Field_PartHeadingPrefix'] is not None:
+                        headingPrefix = self.kwVar['Field_PartHeadingPrefix']
+                    if self.kwVar['Field_PartHeadingSuffix'] is not None:
+                        headingSuffix = self.kwVar['Field_PartHeadingSuffix']
+                newTitle = f'{headingPrefix}{number}{headingSuffix}'
                 if self.chapters[chId].title != newTitle:
                     self.chapters[chId].title = newTitle
                     isModified = True
