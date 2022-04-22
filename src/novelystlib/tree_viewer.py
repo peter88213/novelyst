@@ -587,7 +587,7 @@ class TreeViewer:
         elif nodeId.startswith(self._PT):
             self._ui.on_chapter_select(nodeId[2:])
         elif nodeId.startswith(self.NV_ROOT):
-            self._ui.on_novel_select()
+            self._ui.on_narrative_select()
         elif nodeId.startswith(self._CR):
             self._ui.on_character_select(nodeId[2:])
         elif nodeId.startswith(self._LC):

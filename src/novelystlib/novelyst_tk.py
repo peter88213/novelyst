@@ -7,6 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 import tkinter as tk
+from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 from pywriter.pywriter_globals import ERROR
@@ -24,7 +25,7 @@ class NovelystTk(MainTk):
         save_project -- Save the yWriter project to disk and set 'unchanged' status.
         on_quit(event=None) -- Save keyword arguments before exiting the program.
         on_nothing-select -- Event handler for invalid tree selection.
-        on_novel_select -- Event handler for novel tree root selection.
+        on_narrative_select -- Event handler for novel tree root selection.
         on_chapter_select -- Event handler for chapter selection.
         on_scene_select -- Event handler for scene selection.
         on_character_select -- Event handler for character selection.
@@ -270,9 +271,34 @@ class NovelystTk(MainTk):
         """Event handler for invalid tree selection."""
         self._change_selection(None)
 
-    def on_novel_select(self):
-        """Event handler for novel tree root selection."""
+    def on_narrative_select(self):
+        """Event handler for narrative tree root selection."""
         self._change_selection(self.ywPrj)
+        row1Cnt = 1
+        self._renChapters = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberChapters'])
+        renChaptersCheckbox = ttk.Checkbutton(self._valuesWindow, text='Auto number chapters when refreshing the tree',
+                                         variable=self._renChapters, onvalue=True, offvalue=False)
+        renChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        row1Cnt += 1
+        self._romanChapters = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RomanChapterNumbers'])
+        romanChaptersCheckbox = ttk.Checkbutton(self._valuesWindow, text='Use Roman chapter numbers',
+                                        variable=self._romanChapters, onvalue=True, offvalue=False)
+        romanChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        row1Cnt += 1
+        self._renWithinParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberWithinParts'])
+        renWithinPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Reset chapter number when starting a new part',
+                                        variable=self._renWithinParts, onvalue=True, offvalue=False)
+        renWithinPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        row1Cnt += 1
+        self._renParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberParts'])
+        renPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Auto number parts when refreshing the tree',
+                                        variable=self._renParts, onvalue=True, offvalue=False)
+        renPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        row1Cnt += 1
+        self._romanParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RomanPartNumbers'])
+        romanPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Use Roman part numbers',
+                                        variable=self._romanParts, onvalue=True, offvalue=False)
+        romanPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
 
     def on_chapter_select(self, chId):
         """Event handler for chapter selection."""
