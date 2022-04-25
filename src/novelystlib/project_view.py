@@ -74,30 +74,38 @@ class ProjectView(ElementView):
                                         variable=self._romanParts, onvalue=True, offvalue=False)
         self._romanPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
 
-    def apply_changes(self):
+    def apply_changes(self, ui):
         """Apply changes.
         
         Extends the superclass method.
         """
+        super().apply_changes(ui)
         self._element.kwVar['Field_RenumberChapters'] = self._renChapters.get()
-        self._renChaptersCheckbox.grid_remove()
         self._element.kwVar['Field_ChapterHeadingPrefix'] = self._chHdPrefix.get()
+        self._element.kwVar['Field_ChapterHeadingSuffix'] = self._chHdSuffix.get()
+        self._element.kwVar['Field_RomanChapterNumbers'] = self._romanChapters.get()
+        self._element.kwVar['Field_RenumberWithinParts'] = self._renWithinParts.get()
+        self._element.kwVar['Field_RenumberParts'] = self._renParts.get()
+        self._element.kwVar['Field_PartHeadingPrefix'] = self._ptHdPrefix.get()
+        self._element.kwVar['Field_PartHeadingSuffix'] = self._ptHdSuffix.get()
+        self._element.kwVar['Field_RomanPartNumbers'] = self._romanParts.get()
+
+    def close(self, ui):
+        """Remove widgets from the valuesWindow.
+        
+        Extends the superclass method.
+        """
+        super().close(ui)
+        self._renChaptersCheckbox.grid_remove()
         self._chHdPrefixLabel.grid_remove()
         self._chHdPrefixEntry.grid_remove()
-        self._element.kwVar['Field_ChapterHeadingSuffix'] = self._chHdSuffix.get()
         self._chHdSuffixLabel.grid_remove()
         self._chHdSuffixEntry.grid_remove()
-        self._element.kwVar['Field_RomanChapterNumbers'] = self._romanChapters.get()
         self._romanChaptersCheckbox.grid_remove()
-        self._element.kwVar['Field_RenumberWithinParts'] = self._renWithinParts.get()
         self._renWithinPartsCheckbox.grid_remove()
-        self._element.kwVar['Field_RenumberParts'] = self._renParts.get()
         self._renPartsCheckbox.grid_remove()
-        self._element.kwVar['Field_PartHeadingPrefix'] = self._ptHdPrefix.get()
         self._ptHdPrefixLabel.grid_remove()
         self._ptHdPrefixEntry.grid_remove()
-        self._element.kwVar['Field_PartHeadingSuffix'] = self._ptHdSuffix.get()
         self._ptHdSuffixLabel.grid_remove()
         self._ptHdSuffixEntry.grid_remove()
-        self._element.kwVar['Field_RomanPartNumbers'] = self._romanParts.get()
         self._romanPartsCheckbox.grid_remove()

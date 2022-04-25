@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from pywriter.pywriter_globals import ERROR
 from pywriter.yw.yw7_file import Yw7File
+from pywriter.yw.xml_indent import indent
 
 
 class Yw7WorkFile(Yw7File):
@@ -175,29 +176,29 @@ class Yw7WorkFile(Yw7File):
         prjFields = xmlPrj.find('Fields')
         if prjFields is None:
             prjFields = ET.SubElement(xmlPrj, 'Fields')
-            for field in self._prjOptions:
-                if self.kwVar[field]:
-                    try:
-                        prjFields.find(field).text = '1'
-                    except(AttributeError):
-                        ET.SubElement(prjFields, field).text = '1'
-                else:
-                    try:
-                        prjFields.remove(prjFields.find(field))
-                    except:
-                        pass
-            for field in self._prjSettings:
-                setting = self.kwVar[field]
-                if setting:
-                    try:
-                        prjFields.find(field).text = setting
-                    except(AttributeError):
-                        ET.SubElement(prjFields, field).text = setting
-                else:
-                    try:
-                        prjFields.remove(prjFields.find(field))
-                    except:
-                        pass
+        for field in self._prjOptions:
+            if self.kwVar[field]:
+                try:
+                    prjFields.find(field).text = '1'
+                except(AttributeError):
+                    ET.SubElement(prjFields, field).text = '1'
+            else:
+                try:
+                    prjFields.remove(prjFields.find(field))
+                except:
+                    pass
+        for field in self._prjSettings:
+            setting = self.kwVar[field]
+            if setting:
+                try:
+                    prjFields.find(field).text = setting
+                except(AttributeError):
+                    ET.SubElement(prjFields, field).text = setting
+            else:
+                try:
+                    prjFields.remove(prjFields.find(field))
+                except:
+                    pass
 
         # Write chapter custom fields.
         for chp in root.iter('CHAPTER'):
@@ -216,11 +217,15 @@ class Yw7WorkFile(Yw7File):
                         chFields.remove(chFields.find(field))
                     except:
                         pass
-        try:
+        indent(root)
+        self.tree = ET.ElementTree(root)
+
+    def write(self):
+        """Extend the superclass method."""
+        message = super().write()
+        if not message.startswith(ERROR):
             self._timestamp = os.path.getmtime(self.filePath)
-        except:
-            self.timestamp = None
-        return
+        return message
 
     def renumber_chapters(self):
         """Modify chapter headings."""

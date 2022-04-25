@@ -7,7 +7,6 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 import tkinter as tk
-from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 from pywriter.pywriter_globals import ERROR
@@ -72,9 +71,6 @@ class NovelystTk(MainTk):
         self._internalModificationFlag = False
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
-        self._activeElement = None
-        self._elementView = ElementView(self, None)
-        self._elementTitle = tk.StringVar(value='')
 
         # Create an application window with a tree frame and a data frame.
         self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
@@ -95,20 +91,24 @@ class NovelystTk(MainTk):
         self._dataWindow.pack(expand=True, fill='both')
 
         # Place a title label inside the data window.
-        self._titleLabel = tk.Entry(bd=0, textvariable=self._elementTitle, relief=tk.FLAT)
+        self.elementTitle = tk.StringVar(value='')
+        self._titleLabel = tk.Entry(bd=0, textvariable=self.elementTitle, relief=tk.FLAT)
         self._dataWindow.add(self._titleLabel)
 
         # Place a description window inside the data window.
-        self._descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10)
-        self._dataWindow.add(self._descWindow, minsize=350)
+        self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10)
+        self._dataWindow.add(self.descWindow, minsize=350)
 
         # Place a values window inside the data window.
         self._valuesWindow = tk.Frame()
         self._dataWindow.add(self._valuesWindow, minsize=350)
 
         # Place a notes window inside the data window.
-        self._notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, bg=self._COLOR_NOTE_WINDOWS)
-        self._dataWindow.add(self._notesWindow)
+        self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, bg=self._COLOR_NOTE_WINDOWS)
+        self._dataWindow.add(self.notesWindow)
+
+        self._elementView = ElementView(self, None)
+        # Requires windows and frames initialized
 
         #--- Build the main menu
 
@@ -272,70 +272,39 @@ class NovelystTk(MainTk):
 
     def on_nothing_select(self):
         """Event handler for invalid tree selection."""
-        self._change_selection(None)
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, None)
 
     def on_narrative_select(self):
         """Event handler for narrative tree root selection."""
-        self._change_selection(self.ywPrj)
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ProjectView(self, self.ywPrj)
 
     def on_chapter_select(self, chId):
         """Event handler for chapter selection."""
-        self._change_selection(self.ywPrj.chapters[chId])
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.chapters[chId])
 
     def on_scene_select(self, scId):
         """Event handler for scene selection."""
-        self._change_selection(self.ywPrj.scenes[scId])
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.scenes[scId])
 
     def on_character_select(self, crId):
         """Event handler for character selection."""
-        self._change_selection(self.ywPrj.characters[crId])
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.characters[crId])
 
     def on_location_select(self, lcId):
         """Event handler for location selection."""
-        self._change_selection(self.ywPrj.locations[lcId])
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.locations[lcId])
 
     def on_item_select(self, itId):
         """Event handler for item selection."""
         self._change_selection(self.ywPrj.items[itId])
-        self._elementView.close()
+        self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.items[itId])
-
-    def _change_selection(self, element):
-        """Apply changed values and clear the frame."""
-        self._apply_changes()
-        self._descWindow.delete('1.0', tk.END)
-        desc = ''
-        self._notesWindow.delete('1.0', tk.END)
-        notes = ''
-        self._elementTitle.set('')
-        title = ''
-        if element is not None:
-            if element.title is not None:
-                title = element.title
-            if element.desc is not None:
-                desc = element.desc
-            if hasattr(element, 'sceneNotes'):
-                if element.sceneNotes is not None:
-                    notes = element.sceneNotes
-            elif hasattr(element, 'notes'):
-                if element.notes is not None:
-                    notes = element.notes
-            self._elementTitle.set(title)
-            self._descWindow.insert(tk.END, desc)
-            self._notesWindow.insert(tk.END, notes)
-        self._activeElement = element
 
     def open_project(self, fileName=''):
         """Create a yWriter project instance and read the file.
@@ -418,21 +387,6 @@ class NovelystTk(MainTk):
 
     #--- Methods that change the project
 
-    def _apply_changes(self):
-        """Transfer changes from the entry widgets to the instance variables."""
-        if self._activeElement is not None:
-            title = self._elementTitle.get()
-            if self._activeElement.title != title:
-                self._activeElement.title = title.strip()
-                self.isModified = True
-            desc = self._descWindow.get('1.0', tk.END).strip(' \n')
-            self._activeElement.desc = desc
-            notes = self._notesWindow.get('1.0', tk.END).strip(' \n')
-            if hasattr(self._activeElement, 'sceneNotes'):
-                self._activeElement.sceneNotes = notes
-            elif hasattr(self._activeElement, 'notes'):
-                self._activeElement.notes = notes
-
     def save_project(self, event=None):
         """Save the yWriter project to disk and set 'unchanged' status.
         
@@ -452,7 +406,7 @@ class NovelystTk(MainTk):
         if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Save anyway?'):
             return False
 
-        self._apply_changes()
+        self._elementView.apply_changes(self)
         self.ywPrj.write()
         self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
         self.isModified = False
