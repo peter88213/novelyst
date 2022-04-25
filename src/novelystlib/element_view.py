@@ -11,6 +11,16 @@ class ElementView:
     """A generic class for viewing tree element properties.
     """
 
+    def __init__(self, ui, element):
+        self._element = element
+
+    def apply_changes(self):
+        """Apply changes.
+        
+        This is a stub to be overridden by subclasses.
+        """
+
     def close(self):
-        """Close the view."""
+        """Apply changes and close the view."""
+        self.apply_changes()
         del self

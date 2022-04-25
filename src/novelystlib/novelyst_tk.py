@@ -73,7 +73,7 @@ class NovelystTk(MainTk):
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
         self._activeElement = None
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, None)
         self._elementTitle = tk.StringVar(value='')
 
         # Create an application window with a tree frame and a data frame.
@@ -274,7 +274,7 @@ class NovelystTk(MainTk):
         """Event handler for invalid tree selection."""
         self._change_selection(None)
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, None)
 
     def on_narrative_select(self):
         """Event handler for narrative tree root selection."""
@@ -286,31 +286,31 @@ class NovelystTk(MainTk):
         """Event handler for chapter selection."""
         self._change_selection(self.ywPrj.chapters[chId])
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, self.ywPrj.chapters[chId])
 
     def on_scene_select(self, scId):
         """Event handler for scene selection."""
         self._change_selection(self.ywPrj.scenes[scId])
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, self.ywPrj.scenes[scId])
 
     def on_character_select(self, crId):
         """Event handler for character selection."""
         self._change_selection(self.ywPrj.characters[crId])
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, self.ywPrj.characters[crId])
 
     def on_location_select(self, lcId):
         """Event handler for location selection."""
         self._change_selection(self.ywPrj.locations[lcId])
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, self.ywPrj.locations[lcId])
 
     def on_item_select(self, itId):
         """Event handler for item selection."""
         self._change_selection(self.ywPrj.items[itId])
         self._elementView.close()
-        self._elementView = ElementView()
+        self._elementView = ElementView(self, self.ywPrj.items[itId])
 
     def _change_selection(self, element):
         """Apply changed values and clear the frame."""
