@@ -119,7 +119,7 @@ class NovelystTk(MainTk):
         self._fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
         self._fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
-        self._fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._tv.refresh_tree)
+        self._fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._refresh_tree)
         self._fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
         self._fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self._fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
@@ -199,7 +199,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_LOCK_PROJECT[0], self._lock)
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self._unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self._reload_project)
-        self.root.bind(self._KEY_REFRESH_TREE[0], self._tv.refresh_tree)
+        self.root.bind(self._KEY_REFRESH_TREE[0], self._refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self._save_as)
 
@@ -337,6 +337,10 @@ class NovelystTk(MainTk):
         self.on_nothing_select()
         self.isLocked = False
         super()._close_project()
+
+    def _refresh_tree(self, event=None):
+        self._elementView.apply_changes(self)
+        self._tv.refresh_tree()
 
     def _reload_project(self, event=None):
         """Reload a yWriter project."""

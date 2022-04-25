@@ -234,7 +234,7 @@ class TreeViewer:
                 finally:
                     self._wrCtxtMenu.grab_release()
 
-    def refresh_tree(self, event=None):
+    def refresh_tree(self):
         """Refresh the tree.
         
         Display the tree nodes regarding the way they are read from the file.
@@ -579,23 +579,26 @@ class TreeViewer:
 
     def _on_select_node(self, event):
         """Show info on the right level."""
-        nodeId = self.tree.selection()[0]
-        if nodeId.startswith(self._SC):
-            self._ui.on_scene_select(nodeId[2:])
-        elif nodeId.startswith(self._CH):
-            self._ui.on_chapter_select(nodeId[2:])
-        elif nodeId.startswith(self._PT):
-            self._ui.on_chapter_select(nodeId[2:])
-        elif nodeId.startswith(self.NV_ROOT):
-            self._ui.on_narrative_select()
-        elif nodeId.startswith(self._CR):
-            self._ui.on_character_select(nodeId[2:])
-        elif nodeId.startswith(self._LC):
-            self._ui.on_location_select(nodeId[2:])
-        elif nodeId.startswith(self._IT):
-            self._ui.on_item_select(nodeId[2:])
-        else:
-            self._ui.on_nothing_select()
+        try:
+            nodeId = self.tree.selection()[0]
+            if nodeId.startswith(self._SC):
+                self._ui.on_scene_select(nodeId[2:])
+            elif nodeId.startswith(self._CH):
+                self._ui.on_chapter_select(nodeId[2:])
+            elif nodeId.startswith(self._PT):
+                self._ui.on_chapter_select(nodeId[2:])
+            elif nodeId.startswith(self.NV_ROOT):
+                self._ui.on_narrative_select()
+            elif nodeId.startswith(self._CR):
+                self._ui.on_character_select(nodeId[2:])
+            elif nodeId.startswith(self._LC):
+                self._ui.on_location_select(nodeId[2:])
+            elif nodeId.startswith(self._IT):
+                self._ui.on_item_select(nodeId[2:])
+            else:
+                self._ui.on_nothing_select()
+        except IndexError:
+            pass
 
     def reset_tree(self):
         """Clear the displayed tree."""
