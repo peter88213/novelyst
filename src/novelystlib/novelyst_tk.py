@@ -15,6 +15,8 @@ from pywriter.ui.main_tk import MainTk
 from novelystlib.nv_exporter import NvExporter
 from novelystlib.tree_viewer import TreeViewer
 from novelystlib.yw7_work_file import Yw7WorkFile
+from novelystlib.element_view import ElementView
+from novelystlib.project_view import ProjectView
 
 
 class NovelystTk(MainTk):
@@ -71,6 +73,7 @@ class NovelystTk(MainTk):
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
         self._activeElement = None
+        self._elementView = ElementView()
         self._elementTitle = tk.StringVar(value='')
 
         # Create an application window with a tree frame and a data frame.
@@ -270,55 +273,44 @@ class NovelystTk(MainTk):
     def on_nothing_select(self):
         """Event handler for invalid tree selection."""
         self._change_selection(None)
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def on_narrative_select(self):
         """Event handler for narrative tree root selection."""
         self._change_selection(self.ywPrj)
-        row1Cnt = 1
-        self._renChapters = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberChapters'])
-        renChaptersCheckbox = ttk.Checkbutton(self._valuesWindow, text='Auto number chapters when refreshing the tree',
-                                         variable=self._renChapters, onvalue=True, offvalue=False)
-        renChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._romanChapters = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RomanChapterNumbers'])
-        romanChaptersCheckbox = ttk.Checkbutton(self._valuesWindow, text='Use Roman chapter numbers',
-                                        variable=self._romanChapters, onvalue=True, offvalue=False)
-        romanChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._renWithinParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberWithinParts'])
-        renWithinPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Reset chapter number when starting a new part',
-                                        variable=self._renWithinParts, onvalue=True, offvalue=False)
-        renWithinPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._renParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RenumberParts'])
-        renPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Auto number parts when refreshing the tree',
-                                        variable=self._renParts, onvalue=True, offvalue=False)
-        renPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._romanParts = tk.BooleanVar(value=self.ywPrj.kwVar['Field_RomanPartNumbers'])
-        romanPartsCheckbox = ttk.Checkbutton(self._valuesWindow, text='Use Roman part numbers',
-                                        variable=self._romanParts, onvalue=True, offvalue=False)
-        romanPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        self._elementView.close()
+        self._elementView = ProjectView(self, self.ywPrj)
 
     def on_chapter_select(self, chId):
         """Event handler for chapter selection."""
         self._change_selection(self.ywPrj.chapters[chId])
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def on_scene_select(self, scId):
         """Event handler for scene selection."""
         self._change_selection(self.ywPrj.scenes[scId])
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def on_character_select(self, crId):
         """Event handler for character selection."""
         self._change_selection(self.ywPrj.characters[crId])
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def on_location_select(self, lcId):
         """Event handler for location selection."""
         self._change_selection(self.ywPrj.locations[lcId])
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def on_item_select(self, itId):
         """Event handler for item selection."""
         self._change_selection(self.ywPrj.items[itId])
+        self._elementView.close()
+        self._elementView = ElementView()
 
     def _change_selection(self, element):
         """Apply changed values and clear the frame."""
