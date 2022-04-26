@@ -748,6 +748,7 @@ class TreeViewer:
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Part (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 1
+        self._ui.ywPrj.chapters[chId].kwVar['Field_NoNumber'] = None
         if parent.startswith(self.RS_ROOT):
             self._ui.ywPrj.chapters[chId].chType = 1
         else:
@@ -786,6 +787,7 @@ class TreeViewer:
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Chapter (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 0
+        self._ui.ywPrj.chapters[chId].kwVar['Field_NoNumber'] = None
         if isNotes:
             self._ui.ywPrj.chapters[chId].chType = 1
         else:

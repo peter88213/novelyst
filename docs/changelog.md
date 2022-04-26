@@ -8,7 +8,7 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
-### v0.1.8 Development version
+### v0.1.9 Development version
 
 - Add some chapter and scene settings.
 
