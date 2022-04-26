@@ -16,6 +16,7 @@ from novelystlib.yw7_work_file import Yw7WorkFile
 from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
+from novelystlib.scene_view import SceneView
 
 
 class NovelystTk(MainTk):
@@ -288,7 +289,7 @@ class NovelystTk(MainTk):
     def on_scene_select(self, scId):
         """Event handler for scene selection."""
         self._elementView.close(self)
-        self._elementView = ElementView(self, self.ywPrj.scenes[scId])
+        self._elementView = SceneView(self, self.ywPrj.scenes[scId])
 
     def on_character_select(self, crId):
         """Event handler for character selection."""
