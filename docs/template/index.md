@@ -1,6 +1,6 @@
 The *novelyst* Python program provides a tree view with parts, chapters and scenes for [yWriter](http://spacejock.com/yWriter7.html) projects. I wrote it for my own use to work on my novels in combination with OpenOffice/LibreOffice. 
 
-[Screenshot](Screenshots/screen01.png)
+![Screenshot](Screenshots/screen01.png)
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the yWriter project.
 
