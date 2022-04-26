@@ -127,6 +127,7 @@ class TreeViewer:
         self._nvCtxtMenu.add_command(label='Add Part', command=self.add_part)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self.tree.event_generate('<Delete>', when='tail'))
+        self._nvCtxtMenu.add_command(label='Cancel Part', command=lambda: self.tree.event_generate('<Shift-Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_cascade(label='Set Type', menu=self._typeMenu)
         self._nvCtxtMenu.add_cascade(label='Set Status', menu=self._scStatusMenu)
@@ -170,6 +171,7 @@ class TreeViewer:
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self.tree.bind('<Shift-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
+        self.tree.bind('<Shift-Delete>', self._cancel_part)
         self.tree.bind(kwargs['button_context_menu'], self._open_context_menu)
 
     def _open_context_menu(self, event):
@@ -208,6 +210,10 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
+                if prefix.startswith(self._PT):
+                    self._nvCtxtMenu.entryconfig('Cancel Part', state='normal')
+                else:
+                    self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
@@ -618,6 +624,26 @@ class TreeViewer:
 
     #--- Methods that change the project
 
+    def _cancel_part(self, event):
+        """Remove a part but keep its chapters."""
+        if self._ui.isLocked:
+            return
+        tv = event.widget
+        selection = tv.selection()[0]
+        if not selection.startswith(self._PT):
+            return
+        elemId = selection[2:]
+        candidate = f'Part "{self._ui.ywPrj.chapters[elemId].title}"'
+        if self._ui.ask_yes_no(f'Remove part "{candidate}" and keep the chapters?'):
+            if tv.prev(selection):
+                tv.selection_set(tv.prev(selection))
+            else:
+                tv.selection_set(tv.parent(selection))
+            del self._ui.ywPrj.chapters[elemId]
+            self._ui.ywPrj.srtChapters.remove(elemId)
+            self.refresh_tree()
+            self._update_tree()
+
     def _delete_node(self, event):
         """Delete a node and its children.
         
@@ -757,6 +783,7 @@ class TreeViewer:
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self._update_tree()
+        self.refresh_tree()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
 
@@ -796,6 +823,7 @@ class TreeViewer:
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self._update_tree()
+        self.refresh_tree()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
 

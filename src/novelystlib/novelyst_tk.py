@@ -39,6 +39,7 @@ class NovelystTk(MainTk):
         isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
         isLocked -- bool: ywPrj must not be modified (property with geter and setter).
         treeWindow -- tk window for the project tree.
+        tv -- TreeViewer instance.
     """
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
@@ -85,7 +86,7 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.treeWindow.pack(expand=True, fill='both')
-        self._tv = TreeViewer(self, self.treeWindow, **kwargs)
+        self.tv = TreeViewer(self, self.treeWindow, **kwargs)
 
         #--- Create a data window.
         self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
@@ -130,29 +131,29 @@ class NovelystTk(MainTk):
         # View
         self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
-        self._viewMenu.add_command(label="Expand selected", underline=0, command=lambda: self._tv.open_children(self._tv.tree.selection()[0]))
-        self._viewMenu.add_command(label="Collapse selected", underline=0, command=lambda: self._tv.close_children(self._tv.tree.selection()[0]))
-        self._viewMenu.add_command(label="Expand all", underline=1, command=lambda: self._tv.open_children(''))
-        self._viewMenu.add_command(label="Collapse all", underline=1, command=lambda: self._tv.close_children(''))
+        self._viewMenu.add_command(label="Expand selected", underline=0, command=lambda: self.tv.open_children(self.tv.tree.selection()[0]))
+        self._viewMenu.add_command(label="Collapse selected", underline=0, command=lambda: self.tv.close_children(self.tv.tree.selection()[0]))
+        self._viewMenu.add_command(label="Expand all", underline=1, command=lambda: self.tv.open_children(''))
+        self._viewMenu.add_command(label="Collapse all", underline=1, command=lambda: self.tv.close_children(''))
 
         # Part
         self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
-        self._partMenu.add_command(label='Add', underline=0, command=self._tv.add_part)
+        self._partMenu.add_command(label='Add', underline=0, command=self.tv.add_part)
         self._partMenu.add_separator()
         self._partMenu.add_command(label='Export part descriptions for editing', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_parts'))
 
         # Chapter
         self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
-        self._chapterMenu.add_command(label='Add', underline=0, command=self._tv.add_chapter)
+        self._chapterMenu.add_command(label='Add', underline=0, command=self.tv.add_chapter)
         self._chapterMenu.add_separator()
         self._chapterMenu.add_command(label='Export chapter descriptions for editing', underline=15, command=lambda: self._exporter.run(self.ywPrj, '_chapters'))
 
         # Scene
         self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
-        self._sceneMenu.add_command(label='Add', underline=0, command=self._tv.add_scene)
+        self._sceneMenu.add_command(label='Add', underline=0, command=self.tv.add_scene)
         self._sceneMenu.add_separator()
         self._sceneMenu.add_command(label='Export scene descriptions for editing', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenes'))
         self._sceneMenu.add_command(label='Export scene list (spreadsheet)', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenelist'))
@@ -160,7 +161,7 @@ class NovelystTk(MainTk):
         # Character
         self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
-        self._characterMenu.add_command(label='Add', underline=0, command=lambda: self._tv.add_world_element(self._tv.CR_ROOT))
+        self._characterMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.CR_ROOT))
         self._characterMenu.add_separator()
         self._characterMenu.add_command(label='Export character descriptions for editing', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_characters'))
         self._characterMenu.add_command(label='Export character list (spreadsheet)', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_charlist'))
@@ -168,7 +169,7 @@ class NovelystTk(MainTk):
         # Location
         self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
-        self._locationMenu.add_command(label='Add', underline=0, command=lambda: self._tv.add_world_element(self._tv.LC_ROOT))
+        self._locationMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.LC_ROOT))
         self._locationMenu.add_separator()
         self._locationMenu.add_command(label='Export location descriptions for editing', underline=16, command=lambda: self._exporter.run(self.ywPrj, '_locations'))
         self._locationMenu.add_command(label='Export location list (spreadsheet)', underline=16, command=lambda: self._exporter.run(self.ywPrj, '_loclist'))
@@ -176,7 +177,7 @@ class NovelystTk(MainTk):
         # Item
         self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
-        self._itemMenu.add_command(label='Add', underline=0, command=lambda: self._tv.add_world_element(self._tv.IT_ROOT))
+        self._itemMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.IT_ROOT))
         self._itemMenu.add_separator()
         self._itemMenu.add_command(label='Export item descriptions for editing', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_items'))
         self._itemMenu.add_command(label='Export item list (spreadsheet)', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_itemlist'))
@@ -268,7 +269,7 @@ class NovelystTk(MainTk):
         self._close_project()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         # save windows size and position
-        self._tv.on_quit(self.kwargs)
+        self.tv.on_quit(self.kwargs)
         super().on_quit()
 
     def on_nothing_select(self):
@@ -318,7 +319,7 @@ class NovelystTk(MainTk):
             return False
 
         self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
-        self._tv.build_tree()
+        self.tv.build_tree()
         self.show_status()
         self.isModified = False
         if self.ywPrj.has_lockfile():
@@ -334,14 +335,14 @@ class NovelystTk(MainTk):
             if self.ask_yes_no('Save changes?'):
                 self.save_project()
             self.isModified = False
-        self._tv.reset_tree()
+        self.tv.reset_tree()
         self.on_nothing_select()
         self.isLocked = False
         super()._close_project()
 
     def _refresh_tree(self, event=None):
         self._elementView.apply_changes(self)
-        self._tv.refresh_tree()
+        self.tv.refresh_tree()
 
     def _reload_project(self, event=None):
         """Reload a yWriter project."""

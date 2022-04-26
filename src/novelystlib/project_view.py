@@ -80,7 +80,6 @@ class ProjectView(ElementView):
                     self._element.kwVar[fieldname] = entry
                     ui.isModified = True
 
-        super().apply_changes(ui)
         update_field(self._renChapters, 'Field_RenumberChapters')
         update_field(self._chHdPrefix, 'Field_ChapterHeadingPrefix')
         update_field(self._chHdSuffix, 'Field_ChapterHeadingSuffix')
@@ -90,6 +89,7 @@ class ProjectView(ElementView):
         update_field(self._ptHdPrefix, 'Field_PartHeadingPrefix')
         update_field(self._ptHdSuffix, 'Field_PartHeadingSuffix')
         update_field(self._romanParts, 'Field_RomanPartNumbers')
+        super().apply_changes(ui)
 
     def close(self, ui):
         """Remove widgets from the valuesWindow.

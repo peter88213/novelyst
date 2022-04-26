@@ -29,7 +29,6 @@ class SceneView(ElementView):
         
         Extends the superclass method.
         """
-        super().apply_changes(ui)
         appendToPrev = self._appendToPrev.get()
         if self._element.appendToPrev or appendToPrev:
             if self._element.appendToPrev != appendToPrev:
@@ -40,6 +39,7 @@ class SceneView(ElementView):
             if self._element.sceneNotes != notes:
                 self._element.sceneNotes = notes
                 ui.isModified = True
+        super().apply_changes(ui)
 
     def close(self, ui):
         """Remove widgets from the valuesWindow.
