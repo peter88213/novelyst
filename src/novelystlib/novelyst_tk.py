@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """"Provide a tkinter GUI framework for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
@@ -16,6 +15,7 @@ from novelystlib.tree_viewer import TreeViewer
 from novelystlib.yw7_work_file import Yw7WorkFile
 from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
+from novelystlib.chapter_view import ChapterView
 
 
 class NovelystTk(MainTk):
@@ -96,7 +96,7 @@ class NovelystTk(MainTk):
         self._dataWindow.add(self._titleLabel)
 
         # Place a description window inside the data window.
-        self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10)
+        self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10, padx=5, pady=5)
         self._dataWindow.add(self.descWindow, minsize=350)
 
         # Place a values window inside the data window.
@@ -104,7 +104,7 @@ class NovelystTk(MainTk):
         self._dataWindow.add(self._valuesWindow, minsize=350)
 
         # Place a notes window inside the data window.
-        self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, bg=self._COLOR_NOTE_WINDOWS)
+        self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, padx=5, pady=5, bg=self._COLOR_NOTE_WINDOWS)
         self._dataWindow.add(self.notesWindow)
 
         self._elementView = ElementView(self, None)
@@ -283,7 +283,7 @@ class NovelystTk(MainTk):
     def on_chapter_select(self, chId):
         """Event handler for chapter selection."""
         self._elementView.close(self)
-        self._elementView = ElementView(self, self.ywPrj.chapters[chId])
+        self._elementView = ChapterView(self, self.ywPrj.chapters[chId])
 
     def on_scene_select(self, scId):
         """Event handler for scene selection."""

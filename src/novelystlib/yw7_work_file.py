@@ -145,6 +145,8 @@ class Yw7WorkFile(Yw7File):
                         self.kwVar[field] = None
             for chp in root.iter('CHAPTER'):
                 chId = chp.find('ID').text
+                for field in self._chOptions:
+                    self.chapters[chId].kwVar[field] = None
                 for chFields in chp.findall('Fields'):
                     for field in self._chOptions:
                         option = chFields.find(field)
@@ -154,7 +156,7 @@ class Yw7WorkFile(Yw7File):
                             else:
                                 self.chapters[chId].kwVar[field] = False
                         except:
-                            self.chapters[chId].kwVar[field] = None
+                            pass
 
         # Read the file timestamp.
         try:

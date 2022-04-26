@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """"Provide a class for viewing tree element properties.
 
 Copyright (c) 2022 Peter Triesberger
@@ -37,16 +36,21 @@ class ElementView:
         """Apply changes of element title, description and notes."""
         if self._element is not None:
             title = ui.elementTitle.get()
-            if self._element.title != title:
-                self._element.title = title.strip()
-                ui.isModified = True
+            if title or self._element.title:
+                if self._element.title != title:
+                    self._element.title = title.strip()
+                    ui.isModified = True
             desc = ui.descWindow.get('1.0', tk.END).strip(' \n')
-            self._element.desc = desc
+            if desc or self._element.desc:
+                if self._element.desc != desc:
+                    self._element.desc = desc
+                    ui.isModified = True
             notes = ui.notesWindow.get('1.0', tk.END).strip(' \n')
-            if hasattr(self._element, 'sceneNotes'):
-                self._element.sceneNotes = notes
-            elif hasattr(self._element, 'notes'):
-                self._element.notes = notes
+            if hasattr(self._element, 'notes'):
+                if notes or self._element.notes:
+                    if self._element.notes != notes:
+                        self._element.notes = notes
+                        ui.isModified = True
 
     def close(self, ui):
         """Apply changes and clear the text boxes."""

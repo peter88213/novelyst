@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """"Provide a tkinter tree view class.
 
 Copyright (c) 2022 Peter Triesberger

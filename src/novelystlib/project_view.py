@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """"Provide a class for viewing and editing project properties.
 
 Copyright (c) 2022 Peter Triesberger
@@ -8,6 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import tkinter as tk
 from tkinter import ttk
 from novelystlib.element_view import ElementView
+from novelystlib.label_entry import LabelEntry
 
 
 class ProjectView(ElementView):
@@ -20,75 +20,76 @@ class ProjectView(ElementView):
         Extends the superclass constructor.
         """
         super(). __init__(ui, element)
-        row1Cnt = 1
         self._renChapters = tk.BooleanVar(value=element.kwVar['Field_RenumberChapters'])
         self._renChaptersCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Auto number chapters when refreshing the tree',
                                          variable=self._renChapters, onvalue=True, offvalue=False)
-        self._renChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._chHdPrefixLabel = tk.Label(ui._valuesWindow, text='Chapter heading prefix')
-        self._chHdPrefixLabel.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._renChaptersCheckbox.pack(anchor='w', padx=5, pady=2)
+
         self._chHdPrefix = tk.StringVar(value=element.kwVar['Field_ChapterHeadingPrefix'])
-        self._chHdPrefixEntry = tk.Entry(ui._valuesWindow, textvariable=self._chHdPrefix)
-        self._chHdPrefixEntry.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._chHdSuffixLabel = tk.Label(ui._valuesWindow, text='Chapter heading suffix')
-        self._chHdSuffixLabel.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._chHdPrefixEntry = LabelEntry(ui._valuesWindow, text='Chapter heading prefix', textvariable=self._chHdPrefix)
+        self._chHdPrefixEntry.pack(anchor='w', padx=5, pady=2)
+
         self._chHdSuffix = tk.StringVar(value=element.kwVar['Field_ChapterHeadingSuffix'])
-        self._chHdSuffixEntry = tk.Entry(ui._valuesWindow, textvariable=self._chHdSuffix)
-        self._chHdSuffixEntry.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._chHdSuffixEntry = LabelEntry(ui._valuesWindow, text='Chapter heading suffix', textvariable=self._chHdSuffix)
+        self._chHdSuffixEntry.pack(anchor='w', padx=5, pady=2)
+
         self._romanChapters = tk.BooleanVar(value=element.kwVar['Field_RomanChapterNumbers'])
         self._romanChaptersCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Use Roman chapter numbers',
                                         variable=self._romanChapters, onvalue=True, offvalue=False)
-        self._romanChaptersCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._romanChaptersCheckbox.pack(anchor='w', padx=5, pady=2)
+
         self._renWithinParts = tk.BooleanVar(value=element.kwVar['Field_RenumberWithinParts'])
         self._renWithinPartsCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Reset chapter number when starting a new part',
                                         variable=self._renWithinParts, onvalue=True, offvalue=False)
-        self._renWithinPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._renWithinPartsCheckbox.pack(anchor='w', padx=5, pady=2)
+
         self._renParts = tk.BooleanVar(value=element.kwVar['Field_RenumberParts'])
         self._renPartsCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Auto number parts when refreshing the tree',
                                         variable=self._renParts, onvalue=True, offvalue=False)
-        self._renPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._ptHdPrefixLabel = tk.Label(ui._valuesWindow, text='Part heading prefix')
-        self._ptHdPrefixLabel.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._renPartsCheckbox.pack(anchor='w', padx=5, pady=2)
+
         self._ptHdPrefix = tk.StringVar(value=element.kwVar['Field_PartHeadingPrefix'])
-        self._ptHdPrefixEntry = tk.Entry(ui._valuesWindow, textvariable=self._ptHdPrefix)
-        self._ptHdPrefixEntry.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
-        self._ptHdSuffixLabel = tk.Label(ui._valuesWindow, text='Part heading suffix')
-        self._ptHdSuffixLabel.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._ptHdPrefixEntry = LabelEntry(ui._valuesWindow, text='Part heading prefix', textvariable=self._ptHdPrefix)
+        self._ptHdPrefixEntry.pack(anchor='w', padx=5, pady=2)
+
         self._ptHdSuffix = tk.StringVar(value=element.kwVar['Field_PartHeadingSuffix'])
-        self._ptHdSuffixEntry = tk.Entry(ui._valuesWindow, textvariable=self._ptHdSuffix)
-        self._ptHdSuffixEntry.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
-        row1Cnt += 1
+        self._ptHdSuffixEntry = LabelEntry(ui._valuesWindow, text='Part heading suffix', textvariable=self._ptHdSuffix)
+        self._ptHdSuffixEntry.pack(anchor='w', padx=5, pady=2)
+
         self._romanParts = tk.BooleanVar(value=element.kwVar['Field_RomanPartNumbers'])
         self._romanPartsCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Use Roman part numbers',
                                         variable=self._romanParts, onvalue=True, offvalue=False)
-        self._romanPartsCheckbox.grid(row=row1Cnt, column=1, sticky=tk.W, padx=20)
+        self._romanPartsCheckbox.pack(anchor='w', padx=5, pady=2)
 
     def apply_changes(self, ui):
         """Apply changes.
         
         Extends the superclass method.
         """
+
+        def update_field(tkValue, fieldname):
+            """Update a custom field if changed.
+            
+            Positional arguments:
+                tkValue -- widget variable holding a value that is not None.
+                fieldname -- keyword of a custom field whose value might be None.
+            """
+            entry = tkValue.get()
+            if self._element.kwVar[fieldname] or entry:
+                if self._element.kwVar[fieldname] != entry:
+                    self._element.kwVar[fieldname] = entry
+                    ui.isModified = True
+
         super().apply_changes(ui)
-        self._element.kwVar['Field_RenumberChapters'] = self._renChapters.get()
-        self._element.kwVar['Field_ChapterHeadingPrefix'] = self._chHdPrefix.get()
-        self._element.kwVar['Field_ChapterHeadingSuffix'] = self._chHdSuffix.get()
-        self._element.kwVar['Field_RomanChapterNumbers'] = self._romanChapters.get()
-        self._element.kwVar['Field_RenumberWithinParts'] = self._renWithinParts.get()
-        self._element.kwVar['Field_RenumberParts'] = self._renParts.get()
-        self._element.kwVar['Field_PartHeadingPrefix'] = self._ptHdPrefix.get()
-        self._element.kwVar['Field_PartHeadingSuffix'] = self._ptHdSuffix.get()
-        self._element.kwVar['Field_RomanPartNumbers'] = self._romanParts.get()
+        update_field(self._renChapters, 'Field_RenumberChapters')
+        update_field(self._chHdPrefix, 'Field_ChapterHeadingPrefix')
+        update_field(self._chHdSuffix, 'Field_ChapterHeadingSuffix')
+        update_field(self._romanChapters, 'Field_RomanChapterNumbers')
+        update_field(self._renWithinParts, 'Field_RenumberWithinParts')
+        update_field(self._renParts, 'Field_RenumberParts')
+        update_field(self._ptHdPrefix, 'Field_PartHeadingPrefix')
+        update_field(self._ptHdSuffix, 'Field_PartHeadingSuffix')
+        update_field(self._romanParts, 'Field_RomanPartNumbers')
 
     def close(self, ui):
         """Remove widgets from the valuesWindow.
@@ -96,16 +97,12 @@ class ProjectView(ElementView):
         Extends the superclass method.
         """
         super().close(ui)
-        self._renChaptersCheckbox.grid_remove()
-        self._chHdPrefixLabel.grid_remove()
-        self._chHdPrefixEntry.grid_remove()
-        self._chHdSuffixLabel.grid_remove()
-        self._chHdSuffixEntry.grid_remove()
-        self._romanChaptersCheckbox.grid_remove()
-        self._renWithinPartsCheckbox.grid_remove()
-        self._renPartsCheckbox.grid_remove()
-        self._ptHdPrefixLabel.grid_remove()
-        self._ptHdPrefixEntry.grid_remove()
-        self._ptHdSuffixLabel.grid_remove()
-        self._ptHdSuffixEntry.grid_remove()
-        self._romanPartsCheckbox.grid_remove()
+        self._renChaptersCheckbox.destroy()
+        self._chHdPrefixEntry.destroy()
+        self._chHdSuffixEntry.destroy()
+        self._romanChaptersCheckbox.destroy()
+        self._renWithinPartsCheckbox.destroy()
+        self._renPartsCheckbox.destroy()
+        self._ptHdPrefixEntry.destroy()
+        self._ptHdSuffixEntry.destroy()
+        self._romanPartsCheckbox.destroy()

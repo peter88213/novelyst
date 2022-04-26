@@ -7,6 +7,7 @@ tree_viewer -- provide a tkinter tree view class for novelyst.
 novelyst_tk -- provide a tkinter GUI framework for novelyst.
 element_view -- provide a generic class for viewing tree element properties.
 project_view -- provide a class for viewing and editing project properties.
+chapter_view -- provide a class for viewing and editing chapter properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer
