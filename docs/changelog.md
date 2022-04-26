@@ -8,6 +8,10 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.1.8 Development version
+
+- Add some chapter and scene settings.
+
 ### v0.1.5 Development version
 
 - Save settings for chapter renumbering as custom fields in the yw7 file.
