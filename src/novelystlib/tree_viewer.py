@@ -633,8 +633,7 @@ class TreeViewer:
         if not selection.startswith(self._PT):
             return
         elemId = selection[2:]
-        candidate = f'Part "{self._ui.ywPrj.chapters[elemId].title}"'
-        if self._ui.ask_yes_no(f'Remove part "{candidate}" and keep the chapters?'):
+        if self._ui.ask_yes_no(f'Remove part "{self._ui.ywPrj.chapters[elemId].title}" and keep the chapters?'):
             if tv.prev(selection):
                 tv.selection_set(tv.prev(selection))
             else:

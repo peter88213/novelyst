@@ -8,7 +8,7 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
-### v0.1.10 Development version
+### v0.1.11 Development version
 
 - Add a "Cancel Part" feature that deletes a part while keeping its chapters (Shift-Delete).
 
