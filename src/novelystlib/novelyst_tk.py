@@ -370,7 +370,7 @@ class NovelystTk(MainTk):
                 if self.ywPrj.chapters[chId].isUnused or self.ywPrj.chapters[chId].isTrash:
                     continue
 
-                if self.ywPrj.chapters[chId].chType == 0:
+                if self.ywPrj.chapters[chId].chType == 0 or  self.ywPrj.chapters[chId].oldType == 0:
                     for scId in self.ywPrj.chapters[chId].srtScenes:
                         if self.ywPrj.scenes[scId].isUnused:
                             continue
