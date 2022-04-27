@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.2.0 Alpha release
+
+- Add "Open with yWriter" feature.
+- Provide Windows registry setup for "Open with novelyst" in the .yw7 Explorer context menu.
+
+Based on PyWriter v5.4.3
+
 ### v0.1.11 Development version
 
 - Add a "Cancel Part" feature that deletes a part while keeping its chapters (Shift-Delete).

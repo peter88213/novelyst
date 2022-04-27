@@ -10,6 +10,7 @@ from tkinter import scrolledtext
 from tkinter import filedialog
 from pywriter.pywriter_globals import ERROR
 from pywriter.ui.main_tk import MainTk
+from pywriter.file.doc_open import open_document
 from novelystlib.nv_exporter import NvExporter
 from novelystlib.tree_viewer import TreeViewer
 from novelystlib.yw7_work_file import Yw7WorkFile
@@ -44,6 +45,7 @@ class NovelystTk(MainTk):
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
+    _KEY_YWRITER = ('<Control-Alt-y>', 'Ctrl-Alt-Y')
     _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
     _KEY_REFRESH_TREE = ('<F5>', 'F5')
     _KEY_SAVE_PROJECT = ('<Control-s>', 'Ctrl-S')
@@ -121,6 +123,7 @@ class NovelystTk(MainTk):
         self._fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
         self._fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
         self._fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
+        self._fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self._yWriter)
         self._fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._refresh_tree)
         self._fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
         self._fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
@@ -201,6 +204,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_LOCK_PROJECT[0], self._lock)
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self._unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self._reload_project)
+        self.root.bind(self._KEY_YWRITER[0], self._yWriter)
         self.root.bind(self._KEY_REFRESH_TREE[0], self._refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self._save_as)
@@ -263,6 +267,11 @@ class NovelystTk(MainTk):
         if self.ywPrj.has_changed_on_disk():
             if self.ask_yes_no(f'File has changed on disk. Reload?'):
                 self.open_project(self.ywPrj.filePath)
+
+    def _yWriter(self, event=None):
+        self.save_project()
+        self._lock()
+        open_document(self.ywPrj.filePath)
 
     def on_quit(self, event=None):
         """Save keyword arguments before exiting the program.."""
@@ -346,6 +355,10 @@ class NovelystTk(MainTk):
 
     def _reload_project(self, event=None):
         """Reload a yWriter project."""
+        if self.ywPrj.is_locked():
+            self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
+            return
+
         if self.isModified and not self.ask_yes_no('Discard changes and reload the project?'):
             return
 
@@ -482,6 +495,8 @@ class NovelystTk(MainTk):
 
         self._fileMenu.entryconfig('Lock', state='disabled')
         self._fileMenu.entryconfig('Unlock', state='disabled')
+        self._fileMenu.entryconfig('Open with yWriter', state='disabled')
+        self._fileMenu.entryconfig('Refresh Tree', state='disabled')
         self._fileMenu.entryconfig('Reload', state='disabled')
         self._fileMenu.entryconfig('Save', state='disabled')
         self._fileMenu.entryconfig('Save as...', state='disabled')
@@ -502,6 +517,8 @@ class NovelystTk(MainTk):
         self._mainMenu.entryconfig('Export', state='normal')
 
         self._fileMenu.entryconfig('Lock', state='normal')
+        self._fileMenu.entryconfig('Open with yWriter', state='normal')
+        self._fileMenu.entryconfig('Refresh Tree', state='normal')
         self._fileMenu.entryconfig('Reload', state='normal')
         self._fileMenu.entryconfig('Save', state='normal')
         self._fileMenu.entryconfig('Save as...', state='normal')

@@ -19,7 +19,6 @@ except ModuleNotFoundError:
     print('The tkinter module is missing. Please install the tk support package for your python3 version.')
     sys.exit(1)
 
-
 APPNAME = 'novelyst'
 VERSION = ' @release'
 APP = f'{APPNAME}.pyw'
@@ -42,11 +41,40 @@ On Linux, create a launcher on your desktop. With xfce for instance, the launche
 python3 '$Apppath' %F
 '''
 
+SET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\Open with novelyst]
+[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\Open with novelyst\\command]
+@="\\"${PYTHON}\\" \\"${SCRIPT}\\" \\"%1\\""
+
+'''
+
+RESET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\Open with novelyst]
+
+'''
 
 root = Tk()
 processInfo = Label(root, text='')
 message = []
 
+
+def make_context_menu(installPath):
+    """Generate ".reg" files to extend the yWriter context menu."""
+
+    def save_reg_file(filePath, template, mapping):
+        """Save a registry file."""
+        with open(filePath, 'w', encoding='utf-8') as f:
+            f.write(template.safe_substitute(mapping))
+        output(f'Creating "{os.path.normpath(filePath)}"')
+
+    python = sys.executable.replace('\\', '\\\\')
+    instPath = installPath.replace('/', '\\\\')
+    script = f'{instPath}\\\\{APP}'
+    mapping = dict(PYTHON=python, SCRIPT=script)
+    save_reg_file(f'{installPath}/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
+    save_reg_file(f'{installPath}/rem_context_menu.reg', Template(RESET_CONTEXT_MENU), {})
 
 
 def output(text):
@@ -71,6 +99,7 @@ def open_folder(installDir):
             except:
                 pass
 
+
 def install(pywriterPath):
     """Install the script."""
 
@@ -85,7 +114,7 @@ def install(pywriterPath):
     try:
         # Move an existing installation to the new place, if necessary.
         oldInst = os.getenv('APPDATA').replace('\\', '/')
-        oldInstDir =  f'{oldInst}/pyWriter/{APPNAME}'
+        oldInstDir = f'{oldInst}/pyWriter/{APPNAME}'
         os.replace(oldInstDir, installDir)
         output(f'Moving "{oldInstDir}" to "{installDir}"')
     except:
@@ -118,6 +147,10 @@ def install(pywriterPath):
                     output(f'Keeping "{file.name}"')
     except:
         pass
+
+    # Generate registry entries for the context menu (Windows only).
+    if os.name == 'nt':
+        make_context_menu(installDir)
 
     # Display a success message.
     mapping = {'Appname': APPNAME, 'Apppath': f'{installDir}/{APP}'}
