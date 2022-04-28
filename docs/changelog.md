@@ -8,6 +8,15 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.2.1 Alpha release
+
+Add new functions to
+
+- promote a chapter to a part,
+- demote a part to a chapter
+
+Based on PyWriter v5.4.3
+
 ### v0.2.0 Alpha release
 
 - Add "Open with yWriter" feature.

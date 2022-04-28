@@ -61,6 +61,10 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
+    _KEY_CANCEL_PART = '<Shift-Delete>'
+    _KEY_DEMOTE_PART = '<Control-d>'
+    _KEY_PROMOTE_CHAPTER = '<Control-p>'
+
     def __init__(self, ui, window, **kwargs):
         """Put a text box to the GUI main window.
         
@@ -124,10 +128,12 @@ class TreeViewer:
         self._nvCtxtMenu = tk.Menu(self.tree, tearoff=0)
         self._nvCtxtMenu.add_command(label='Add Scene', command=self.add_scene)
         self._nvCtxtMenu.add_command(label='Add Chapter', command=self.add_chapter)
+        self._nvCtxtMenu.add_command(label='Promote Chapter', command=lambda: self.tree.event_generate(self._KEY_PROMOTE_CHAPTER, when='tail'))
         self._nvCtxtMenu.add_command(label='Add Part', command=self.add_part)
+        self._nvCtxtMenu.add_command(label='Demote Part', command=lambda: self.tree.event_generate(self._KEY_DEMOTE_PART, when='tail'))
+        self._nvCtxtMenu.add_command(label='Cancel Part', command=lambda: self.tree.event_generate(self._KEY_CANCEL_PART, when='tail'))
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label='Delete', command=lambda: self.tree.event_generate('<Delete>', when='tail'))
-        self._nvCtxtMenu.add_command(label='Cancel Part', command=lambda: self.tree.event_generate('<Shift-Delete>', when='tail'))
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_cascade(label='Set Type', menu=self._typeMenu)
         self._nvCtxtMenu.add_cascade(label='Set Status', menu=self._scStatusMenu)
@@ -171,7 +177,9 @@ class TreeViewer:
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self.tree.bind('<Shift-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
-        self.tree.bind('<Shift-Delete>', self._cancel_part)
+        self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
+        self.tree.bind(self._KEY_DEMOTE_PART, self._demote_part)
+        self.tree.bind(self._KEY_PROMOTE_CHAPTER, self._promote_chapter)
         self.tree.bind(kwargs['button_context_menu'], self._open_context_menu)
 
     def _open_context_menu(self, event):
@@ -212,8 +220,14 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
                 if prefix.startswith(self._PT):
                     self._nvCtxtMenu.entryconfig('Cancel Part', state='normal')
+                    self._nvCtxtMenu.entryconfig('Demote Part', state='normal')
                 else:
                     self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
+                if prefix.startswith(self._CH):
+                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='normal')
+                else:
+                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
@@ -640,6 +654,34 @@ class TreeViewer:
                 tv.selection_set(tv.parent(selection))
             del self._ui.ywPrj.chapters[elemId]
             self._ui.ywPrj.srtChapters.remove(elemId)
+            self.refresh_tree()
+            self._update_tree()
+
+    def _promote_chapter(self, event):
+        """Make a chapter a part."""
+        if self._ui.isLocked:
+            return
+        tv = event.widget
+        selection = tv.selection()[0]
+        if not selection.startswith(self._CH):
+            return
+        elemId = selection[2:]
+        if self._ui.ask_yes_no(f'Promote chapter "{self._ui.ywPrj.chapters[elemId].title}" to part?'):
+            self._ui.ywPrj.chapters[elemId].chLevel = 1
+            self.refresh_tree()
+            self._update_tree()
+
+    def _demote_part(self, event):
+        """Make a part a chapter."""
+        if self._ui.isLocked:
+            return
+        tv = event.widget
+        selection = tv.selection()[0]
+        if not selection.startswith(self._PT):
+            return
+        elemId = selection[2:]
+        if self._ui.ask_yes_no(f'Demote part "{self._ui.ywPrj.chapters[elemId].title}" to chapter?'):
+            self._ui.ywPrj.chapters[elemId].chLevel = 0
             self.refresh_tree()
             self._update_tree()
 
