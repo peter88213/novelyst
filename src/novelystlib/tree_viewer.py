@@ -62,8 +62,8 @@ class TreeViewer:
     # Root of the Items subtree
 
     _KEY_CANCEL_PART = '<Shift-Delete>'
-    _KEY_DEMOTE_PART = '<Control-d>'
-    _KEY_PROMOTE_CHAPTER = '<Control-p>'
+    _KEY_DEMOTE_PART = '<Shift-Right>'
+    _KEY_PROMOTE_CHAPTER = '<Shift-Left>'
 
     def __init__(self, ui, window, **kwargs):
         """Put a text box to the GUI main window.
