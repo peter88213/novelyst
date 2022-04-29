@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.2.3 Alpha release
+
+- Add a "Tags" entry.
+- Fix a bug in enabling/disabling tree context menu commands.
+- Display tags the same way as yWriter.
+
+Based on PyWriter v5.4.3
+
 ### v0.2.2 Alpha release
 
 Change key bindings

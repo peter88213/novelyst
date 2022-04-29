@@ -23,6 +23,8 @@ class SceneView(ElementView):
         self._appendToPrevCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Append to previous scene',
                                          variable=self._appendToPrev, onvalue=True, offvalue=False)
         self._appendToPrevCheckbox.pack(anchor='w', padx=5, pady=2)
+        if element.sceneNotes is not None:
+            ui.notesWindow.insert(tk.END, element.sceneNotes)
 
     def apply_changes(self, ui):
         """Apply changes.

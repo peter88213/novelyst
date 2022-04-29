@@ -231,26 +231,26 @@ class NovelystTk(MainTk):
 
     @isLocked.setter
     def isLocked(self, setFlag):
-        if setFlag and not self._internalLockFlag:
-            if self.isModified:
+        if setFlag:
+            if self.isModified and not self._internalLockFlag:
                 if self.ask_yes_no('Save and lock?'):
                     self.save_project()
                 else:
                     return
 
             self._internalLockFlag = True
+            self._pathBar.config(bg=self.kwargs['color_locked_bg'])
+            self._pathBar.config(fg=self.kwargs['color_locked_fg'])
             self._fileMenu.entryconfig('Save', state='disabled')
             self._fileMenu.entryconfig('Lock', state='disabled')
             self._fileMenu.entryconfig('Unlock', state='normal')
-            self._pathBar.config(bg=self.kwargs['color_locked_bg'])
-            self._pathBar.config(fg=self.kwargs['color_locked_fg'])
-        elif self._internalLockFlag:
+        else:
             self._internalLockFlag = False
+            self._pathBar.config(bg=self.root.cget('background'))
+            self._pathBar.config(fg='black')
             self._fileMenu.entryconfig('Save', state='normal')
             self._fileMenu.entryconfig('Lock', state='normal')
             self._fileMenu.entryconfig('Unlock', state='disabled')
-            self._pathBar.config(bg=self.root.cget('background'))
-            self._pathBar.config(fg='black')
 
     def _lock(self, event=None):
         if self.ywPrj.filePath is not None:
@@ -259,6 +259,9 @@ class NovelystTk(MainTk):
             if self.isLocked:
                 self.ywPrj.lock()
                 # make it persistent
+                return True
+
+        return False
 
     def _unlock(self, event=None):
         self.isLocked = False
@@ -270,8 +273,8 @@ class NovelystTk(MainTk):
 
     def _yWriter(self, event=None):
         self.save_project()
-        self._lock()
-        open_document(self.ywPrj.filePath)
+        if self._lock():
+            open_document(self.ywPrj.filePath)
 
     def on_quit(self, event=None):
         """Save keyword arguments before exiting the program.."""

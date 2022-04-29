@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import tkinter as tk
+from novelystlib.label_entry import LabelEntry
 
 
 class ElementView:
@@ -22,15 +23,20 @@ class ElementView:
                 title = element.title
             if element.desc is not None:
                 desc = element.desc
-            if hasattr(element, 'sceneNotes'):
-                if element.sceneNotes is not None:
-                    notes = element.sceneNotes
-            elif hasattr(element, 'notes'):
+            if hasattr(element, 'tags'):
+                if element.tags is not None:
+                    tags = ui.tv._TAG_SEPARATOR.join(element.tags)
+                else:
+                    tags = ''
+                self._tags = tk.StringVar(value=tags)
+                self._tagsEntry = LabelEntry(ui._valuesWindow, text='Tags', textvariable=self._tags)
+                self._tagsEntry.pack(anchor='w', padx=5, pady=2)
+
+            if hasattr(element, 'notes'):
                 if element.notes is not None:
-                    notes = element.notes
+                    ui.notesWindow.insert(tk.END, element.notes)
         ui.elementTitle.set(title)
         ui.descWindow.insert(tk.END, desc)
-        ui.notesWindow.insert(tk.END, notes)
 
     def apply_changes(self, ui):
         """Apply changes of element title, description and notes."""
@@ -51,6 +57,16 @@ class ElementView:
                     if self._element.notes != notes:
                         self._element.notes = notes
                         ui.isModified = True
+            if hasattr(self._element, 'tags'):
+                if self._element.tags:
+                    elementTags = ui.tv._TAG_SEPARATOR.join(self._element.tags)
+                else:
+                    elementTags = None
+                newTags = self._tags.get()
+                if elementTags or newTags:
+                    if newTags != elementTags:
+                        self._element.tags = newTags.split(ui.tv._TAG_SEPARATOR)
+                        ui.isModified = True
 
     def close(self, ui):
         """Apply changes and clear the text boxes."""
@@ -58,4 +74,6 @@ class ElementView:
         ui.elementTitle.set('')
         ui.descWindow.delete('1.0', tk.END)
         ui.notesWindow.delete('1.0', tk.END)
+        if hasattr(self._element, 'tags'):
+            self._tagsEntry.destroy()
         del self

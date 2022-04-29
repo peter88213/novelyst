@@ -61,6 +61,8 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
+    _TAG_SEPARATOR = ';'
+
     _KEY_CANCEL_PART = '<Shift-Delete>'
     _KEY_DEMOTE_PART = '<Shift-Right>'
     _KEY_PROMOTE_CHAPTER = '<Shift-Left>'
@@ -197,6 +199,9 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
                 elif prefix.startswith(self.NV_ROOT):
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
@@ -204,6 +209,9 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
+                    self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
                 elif prefix.startswith(self.RS_ROOT):
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
                     self._nvCtxtMenu.entryconfig('Set Type', state='disabled')
@@ -211,6 +219,9 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='disabled')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
+                    self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
+                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
                 else:
                     self._nvCtxtMenu.entryconfig('Delete', state='normal')
                     self._nvCtxtMenu.entryconfig('Set Type', state='normal')
@@ -218,16 +229,16 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
-                if prefix.startswith(self._PT):
-                    self._nvCtxtMenu.entryconfig('Cancel Part', state='normal')
-                    self._nvCtxtMenu.entryconfig('Demote Part', state='normal')
-                else:
-                    self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
-                    self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
-                if prefix.startswith(self._CH):
-                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='normal')
-                else:
-                    self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
+                    if prefix.startswith(self._PT):
+                        self._nvCtxtMenu.entryconfig('Cancel Part', state='normal')
+                        self._nvCtxtMenu.entryconfig('Demote Part', state='normal')
+                    else:
+                        self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
+                        self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
+                    if prefix.startswith(self._CH):
+                        self._nvCtxtMenu.entryconfig('Promote Chapter', state='normal')
+                    else:
+                        self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
@@ -413,7 +424,7 @@ class TreeViewer:
         except:
             columns.append('N/A')
         try:
-            columns.append(','.join(self._ui.ywPrj.scenes[scId].tags))
+            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.scenes[scId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
@@ -473,7 +484,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(','.join(self._ui.ywPrj.characters[crId].tags))
+            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.characters[crId].tags))
         except:
             columns.append('')
         if self._ui.ywPrj.characters[crId].isMajor:
@@ -488,7 +499,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(','.join(self._ui.ywPrj.locations[lcId].tags))
+            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.locations[lcId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
@@ -499,7 +510,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(','.join(self._ui.ywPrj.items[itId].tags))
+            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.items[itId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
