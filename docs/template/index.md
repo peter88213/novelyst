@@ -13,7 +13,7 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 - *novelyst* reads and writes yWriter 7 project files.
 - The entire project is displayed in a tree, with branches for the narrative, characters, locations, and items.
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters.
-- There is also a "Research" branch that contains all the "Notes type" chapters and parts. This can be exported to a separate ODT document. 
+- There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
 
 ## Requirements
