@@ -1,10 +1,11 @@
 """"Provide a tkinter GUI framework for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
-For further information see https://github.com/peter88213/yw-viewer
+For further information see https://github.com/peter88213/novelyst
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
+import sys
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import filedialog
@@ -18,6 +19,11 @@ from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
 from novelystlib.scene_view import SceneView
+
+pluginPath = f'{sys.path[0]}/plugin'
+if os.path.isdir(pluginPath):
+    sys.path.append(pluginPath)
+    from plugin import plugins
 
 
 class NovelystTk(MainTk):
@@ -77,7 +83,7 @@ class NovelystTk(MainTk):
         self._exporter = NvExporter(self)
 
         # Create an application window with a tree frame and a data frame.
-        self._appWindow = tk.PanedWindow(self._mainWindow, sashrelief=tk.RAISED)
+        self._appWindow = tk.PanedWindow(self.mainWindow, sashrelief=tk.RAISED)
         self._appWindow.pack(expand=True, fill='both')
         self._treeFrame = tk.Frame(self._appWindow)
         kw = {'width':kwargs['tree_frame_width']}
@@ -117,77 +123,77 @@ class NovelystTk(MainTk):
         #--- Build the main menu
 
         # Files
-        self._fileMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='File', underline=0, menu=self._fileMenu)
-        self._fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self._new_project)
-        self._fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
-        self._fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
-        self._fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
-        self._fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self._yWriter)
-        self._fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._refresh_tree)
-        self._fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
-        self._fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
-        self._fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
-        self._fileMenu.add_command(label='Close', underline=0, command=self._close_project)
-        self._fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
+        self.fileMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='File', underline=0, menu=self.fileMenu)
+        self.fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self._new_project)
+        self.fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
+        self.fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
+        self.fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
+        self.fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self._yWriter)
+        self.fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._refresh_tree)
+        self.fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
+        self.fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
+        self.fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
+        self.fileMenu.add_command(label='Close', underline=0, command=self.close_project)
+        self.fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
 
         # View
-        self._viewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='View', menu=self._viewMenu)
+        self._viewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='View', menu=self._viewMenu)
         self._viewMenu.add_command(label="Expand selected", underline=0, command=lambda: self.tv.open_children(self.tv.tree.selection()[0]))
         self._viewMenu.add_command(label="Collapse selected", underline=0, command=lambda: self.tv.close_children(self.tv.tree.selection()[0]))
         self._viewMenu.add_command(label="Expand all", underline=1, command=lambda: self.tv.open_children(''))
         self._viewMenu.add_command(label="Collapse all", underline=1, command=lambda: self.tv.close_children(''))
 
         # Part
-        self._partMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Part', menu=self._partMenu)
+        self._partMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Part', menu=self._partMenu)
         self._partMenu.add_command(label='Add', underline=0, command=self.tv.add_part)
         self._partMenu.add_separator()
         self._partMenu.add_command(label='Export part descriptions for editing', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_parts'))
 
         # Chapter
-        self._chapterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
+        self._chapterMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Chapter', menu=self._chapterMenu)
         self._chapterMenu.add_command(label='Add', underline=0, command=self.tv.add_chapter)
         self._chapterMenu.add_separator()
         self._chapterMenu.add_command(label='Export chapter descriptions for editing', underline=15, command=lambda: self._exporter.run(self.ywPrj, '_chapters'))
 
         # Scene
-        self._sceneMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
+        self._sceneMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Scene', menu=self._sceneMenu)
         self._sceneMenu.add_command(label='Add', underline=0, command=self.tv.add_scene)
         self._sceneMenu.add_separator()
         self._sceneMenu.add_command(label='Export scene descriptions for editing', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenes'))
         self._sceneMenu.add_command(label='Export scene list (spreadsheet)', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenelist'))
 
         # Character
-        self._characterMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Character', menu=self._characterMenu)
+        self._characterMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Character', menu=self._characterMenu)
         self._characterMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.CR_ROOT))
         self._characterMenu.add_separator()
         self._characterMenu.add_command(label='Export character descriptions for editing', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_characters'))
         self._characterMenu.add_command(label='Export character list (spreadsheet)', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_charlist'))
 
         # Location
-        self._locationMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Location', menu=self._locationMenu)
+        self._locationMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Location', menu=self._locationMenu)
         self._locationMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.LC_ROOT))
         self._locationMenu.add_separator()
         self._locationMenu.add_command(label='Export location descriptions for editing', underline=16, command=lambda: self._exporter.run(self.ywPrj, '_locations'))
         self._locationMenu.add_command(label='Export location list (spreadsheet)', underline=16, command=lambda: self._exporter.run(self.ywPrj, '_loclist'))
 
         # Item
-        self._itemMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Item', menu=self._itemMenu)
+        self._itemMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Item', menu=self._itemMenu)
         self._itemMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.IT_ROOT))
         self._itemMenu.add_separator()
         self._itemMenu.add_command(label='Export item descriptions for editing', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_items'))
         self._itemMenu.add_command(label='Export item list (spreadsheet)', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_itemlist'))
 
         # Export
-        self._exportMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Export', menu=self._exportMenu)
+        self._exportMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Export', menu=self._exportMenu)
         self._exportMenu.add_command(label='Manuscript for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_manuscript'))
         self._exportMenu.add_command(label='Notes chapters for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_notes'))
         self._exportMenu.add_separator()
@@ -197,7 +203,7 @@ class NovelystTk(MainTk):
         self._exportMenu.add_command(label='Brief synopsis (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_brf_synopsis'))
         self._exportMenu.add_command(label='Cross references (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_xref'))
 
-        self._disable_menu()
+        self.disable_menu()
 
         #--- Event bindings.
         self.root.bind(self._KEY_NEW_PROJECT[0], self._new_project)
@@ -209,6 +215,10 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self._save_as)
 
+        #--- Initialize plugins.
+        for p in plugins:
+            p(self)
+
     @property
     def isModified(self):
         return self._internalModificationFlag
@@ -217,13 +227,13 @@ class NovelystTk(MainTk):
     def isModified(self, setFlag):
         if setFlag:
             self._internalModificationFlag = True
-            self._pathBar.config(bg=self.kwargs['color_modified_bg'])
-            self._pathBar.config(fg=self.kwargs['color_modified_fg'])
+            self.pathBar.config(bg=self.kwargs['color_modified_bg'])
+            self.pathBar.config(fg=self.kwargs['color_modified_fg'])
         else:
             self._internalModificationFlag = False
             if not self.isLocked:
-                self._pathBar.config(bg=self.root.cget('background'))
-                self._pathBar.config(fg='black')
+                self.pathBar.config(bg=self.root.cget('background'))
+                self.pathBar.config(fg='black')
 
     @property
     def isLocked(self):
@@ -239,18 +249,18 @@ class NovelystTk(MainTk):
                     return
 
             self._internalLockFlag = True
-            self._pathBar.config(bg=self.kwargs['color_locked_bg'])
-            self._pathBar.config(fg=self.kwargs['color_locked_fg'])
-            self._fileMenu.entryconfig('Save', state='disabled')
-            self._fileMenu.entryconfig('Lock', state='disabled')
-            self._fileMenu.entryconfig('Unlock', state='normal')
+            self.pathBar.config(bg=self.kwargs['color_locked_bg'])
+            self.pathBar.config(fg=self.kwargs['color_locked_fg'])
+            self.fileMenu.entryconfig('Save', state='disabled')
+            self.fileMenu.entryconfig('Lock', state='disabled')
+            self.fileMenu.entryconfig('Unlock', state='normal')
         else:
             self._internalLockFlag = False
-            self._pathBar.config(bg=self.root.cget('background'))
-            self._pathBar.config(fg='black')
-            self._fileMenu.entryconfig('Save', state='normal')
-            self._fileMenu.entryconfig('Lock', state='normal')
-            self._fileMenu.entryconfig('Unlock', state='disabled')
+            self.pathBar.config(bg=self.root.cget('background'))
+            self.pathBar.config(fg='black')
+            self.fileMenu.entryconfig('Save', state='normal')
+            self.fileMenu.entryconfig('Lock', state='normal')
+            self.fileMenu.entryconfig('Unlock', state='disabled')
 
     def _lock(self, event=None):
         if self.ywPrj.filePath is not None:
@@ -278,7 +288,7 @@ class NovelystTk(MainTk):
 
     def on_quit(self, event=None):
         """Save keyword arguments before exiting the program.."""
-        self._close_project()
+        self.close_project()
         self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
         # save windows size and position
         self.tv.on_quit(self.kwargs)
@@ -330,7 +340,7 @@ class NovelystTk(MainTk):
         if not super().open_project(fileName):
             return False
 
-        self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
+        self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
         self.tv.build_tree()
         self.show_status()
         self.isModified = False
@@ -338,7 +348,7 @@ class NovelystTk(MainTk):
             self.isLocked = True
         return True
 
-    def _close_project(self, event=None):
+    def close_project(self, event=None):
         """Clear the text box.
         
         Extends the superclass method.
@@ -350,7 +360,7 @@ class NovelystTk(MainTk):
         self.tv.reset_tree()
         self.on_nothing_select()
         self.isLocked = False
-        super()._close_project()
+        super().close_project()
 
     def _refresh_tree(self, event=None):
         self._elementView.apply_changes(self)
@@ -430,7 +440,7 @@ class NovelystTk(MainTk):
 
         self._elementView.apply_changes(self)
         self.ywPrj.write()
-        self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
+        self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
         self.isModified = False
         self._restore_status(event)
         self.kwargs['yw_last_open'] = self.ywPrj.filePath
@@ -439,7 +449,7 @@ class NovelystTk(MainTk):
     def _new_project(self, event=None):
         """Create a yWriter project instance."""
         if self.ywPrj is not None:
-            self._close_project()
+            self.close_project()
         fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension='.yw7')
         if fileName:
             self.ywPrj = Yw7WorkFile(fileName)
@@ -452,8 +462,8 @@ class NovelystTk(MainTk):
             else:
                 authorView = 'Unknown author'
             self.root.title(f'{titleView} by {authorView} - {self._title}')
-            self._show_path(os.path.normpath(fileName))
-            self._enable_menu()
+            self.show_path(os.path.normpath(fileName))
+            self.enable_menu()
             self.build_tree()
             self.show_status()
             self.isModified = True
@@ -473,7 +483,7 @@ class NovelystTk(MainTk):
                     self.set_info_how(message)
                 else:
                     self._unlock()
-                    self._show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
+                    self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
                     self.isModified = False
                     self._restore_status(event)
                     self.kwargs['yw_last_open'] = self.ywPrj.filePath
@@ -481,50 +491,50 @@ class NovelystTk(MainTk):
 
         return False
 
-    def _disable_menu(self):
+    def disable_menu(self):
         """Disable menu entries when no project is open.
         
         Extends the superclass method.      
         """
-        super()._disable_menu()
-        self._mainMenu.entryconfig('View', state='disabled')
-        self._mainMenu.entryconfig('Part', state='disabled')
-        self._mainMenu.entryconfig('Chapter', state='disabled')
-        self._mainMenu.entryconfig('Scene', state='disabled')
-        self._mainMenu.entryconfig('Character', state='disabled')
-        self._mainMenu.entryconfig('Location', state='disabled')
-        self._mainMenu.entryconfig('Item', state='disabled')
-        self._mainMenu.entryconfig('Export', state='disabled')
+        super().disable_menu()
+        self.mainMenu.entryconfig('View', state='disabled')
+        self.mainMenu.entryconfig('Part', state='disabled')
+        self.mainMenu.entryconfig('Chapter', state='disabled')
+        self.mainMenu.entryconfig('Scene', state='disabled')
+        self.mainMenu.entryconfig('Character', state='disabled')
+        self.mainMenu.entryconfig('Location', state='disabled')
+        self.mainMenu.entryconfig('Item', state='disabled')
+        self.mainMenu.entryconfig('Export', state='disabled')
 
-        self._fileMenu.entryconfig('Lock', state='disabled')
-        self._fileMenu.entryconfig('Unlock', state='disabled')
-        self._fileMenu.entryconfig('Open with yWriter', state='disabled')
-        self._fileMenu.entryconfig('Refresh Tree', state='disabled')
-        self._fileMenu.entryconfig('Reload', state='disabled')
-        self._fileMenu.entryconfig('Save', state='disabled')
-        self._fileMenu.entryconfig('Save as...', state='disabled')
+        self.fileMenu.entryconfig('Lock', state='disabled')
+        self.fileMenu.entryconfig('Unlock', state='disabled')
+        self.fileMenu.entryconfig('Open with yWriter', state='disabled')
+        self.fileMenu.entryconfig('Refresh Tree', state='disabled')
+        self.fileMenu.entryconfig('Reload', state='disabled')
+        self.fileMenu.entryconfig('Save', state='disabled')
+        self.fileMenu.entryconfig('Save as...', state='disabled')
 
-    def _enable_menu(self):
+    def enable_menu(self):
         """Enable menu entries when a project is open.
         
         Extends the superclass method.
         """
-        super()._enable_menu()
-        self._mainMenu.entryconfig('View', state='normal')
-        self._mainMenu.entryconfig('Part', state='normal')
-        self._mainMenu.entryconfig('Chapter', state='normal')
-        self._mainMenu.entryconfig('Scene', state='normal')
-        self._mainMenu.entryconfig('Character', state='normal')
-        self._mainMenu.entryconfig('Location', state='normal')
-        self._mainMenu.entryconfig('Item', state='normal')
-        self._mainMenu.entryconfig('Export', state='normal')
+        super().enable_menu()
+        self.mainMenu.entryconfig('View', state='normal')
+        self.mainMenu.entryconfig('Part', state='normal')
+        self.mainMenu.entryconfig('Chapter', state='normal')
+        self.mainMenu.entryconfig('Scene', state='normal')
+        self.mainMenu.entryconfig('Character', state='normal')
+        self.mainMenu.entryconfig('Location', state='normal')
+        self.mainMenu.entryconfig('Item', state='normal')
+        self.mainMenu.entryconfig('Export', state='normal')
 
-        self._fileMenu.entryconfig('Lock', state='normal')
-        self._fileMenu.entryconfig('Open with yWriter', state='normal')
-        self._fileMenu.entryconfig('Refresh Tree', state='normal')
-        self._fileMenu.entryconfig('Reload', state='normal')
-        self._fileMenu.entryconfig('Save', state='normal')
-        self._fileMenu.entryconfig('Save as...', state='normal')
+        self.fileMenu.entryconfig('Lock', state='normal')
+        self.fileMenu.entryconfig('Open with yWriter', state='normal')
+        self.fileMenu.entryconfig('Refresh Tree', state='normal')
+        self.fileMenu.entryconfig('Reload', state='normal')
+        self.fileMenu.entryconfig('Save', state='normal')
+        self.fileMenu.entryconfig('Save as...', state='normal')
 
     def _build_main_menu(self):
         """Unused; overrides the superclass template method."""

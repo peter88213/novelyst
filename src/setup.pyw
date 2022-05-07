@@ -125,8 +125,11 @@ def install(pywriterPath):
     with os.scandir(installDir) as files:
         for file in files:
             if not 'config' in file.name:
-                os.remove(file)
-                output(f'Removing "{file.name}"')
+                try:
+                    os.remove(file)
+                    output(f'Removing "{file.name}"')
+                except PermissionError:
+                    pass
 
     # Install the new version.
     copyfile(APP, f'{installDir}/{APP}')
@@ -148,7 +151,18 @@ def install(pywriterPath):
     except:
         pass
 
-    # Generate registry entries for the context menu (Windows only).
+    #--- Create a plugin directory.
+
+    pluginDir = f'{installDir}/plugin'
+    output(f'Creating "{os.path.normpath(pluginDir)}"')
+    os.makedirs(pluginDir, exist_ok=True)
+    packageFile = f'{pluginDir}/__init__.py'
+    if not os.path.isfile(packageFile):
+        with open(packageFile, 'w') as f:
+            f.write('plugins = []')
+            output(f'Creating "{packageFile}"')
+
+    #--- Generate registry entries for the context menu (Windows only).
     if os.name == 'nt':
         make_context_menu(installDir)
 

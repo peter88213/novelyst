@@ -3,6 +3,7 @@
 	<name>Wryter</name>
 	<comment></comment>
 	<projects>
+		<project>aeon2yw</project>
 		<project>PyWriter</project>
 	</projects>
 	<buildSpec>
