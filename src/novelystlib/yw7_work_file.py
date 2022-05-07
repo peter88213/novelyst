@@ -27,6 +27,9 @@ class Yw7WorkFile(Yw7File):
     Public properties:
         fileDate -- str: ISO formatted file date (read-only)
         
+    Public instance variables:
+        timestamp -- file timestamp
+        
     This extends the superclass with a timestamp and a locking capability.
     """
     _LOCKFILE_PREFIX = '.LOCK.'
@@ -44,7 +47,7 @@ class Yw7WorkFile(Yw7File):
         Extends the superclass constructor.
         """
         super().__init__(filePath)
-        self._timestamp = None
+        self.timestamp = None
 
         # Configure part/chapter numbering
         self._prjOptions = (
@@ -66,8 +69,8 @@ class Yw7WorkFile(Yw7File):
 
     @property
     def fileDate(self):
-        if self._timestamp is not None:
-            return datetime.fromtimestamp(self._timestamp).replace(microsecond=0).isoformat(sep=' ')
+        if self.timestamp is not None:
+            return datetime.fromtimestamp(self.timestamp).replace(microsecond=0).isoformat(sep=' ')
         else:
             return 'Never'
 
@@ -108,7 +111,7 @@ class Yw7WorkFile(Yw7File):
     def has_changed_on_disk(self):
         """Return True if the yw project file has changed since last opened."""
         try:
-            if self._timestamp != os.path.getmtime(self.filePath):
+            if self.timestamp != os.path.getmtime(self.filePath):
                 return True
             else:
                 return False
@@ -160,7 +163,7 @@ class Yw7WorkFile(Yw7File):
 
         # Read the file timestamp.
         try:
-            self._timestamp = os.path.getmtime(self.filePath)
+            self.timestamp = os.path.getmtime(self.filePath)
         except:
             self.timestamp = None
         return message
@@ -226,7 +229,7 @@ class Yw7WorkFile(Yw7File):
         """Extend the superclass method."""
         message = super().write()
         if not message.startswith(ERROR):
-            self._timestamp = os.path.getmtime(self.filePath)
+            self.timestamp = os.path.getmtime(self.filePath)
         return message
 
     def renumber_chapters(self):
