@@ -84,6 +84,7 @@ class NovelystTk(MainTk):
         Extends the superclass constructor.
         """
         self.kwargs = kwargs
+        self._plugins = []
         super().__init__(colTitle, **kwargs)
         rootWidth = int(kwargs['root_geometry'].split('x', maxsplit=1)[0])
         self._chapterMenu = None
@@ -225,10 +226,11 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self.save_as)
 
-        #--- Initialize plugins.
+        #--- Initialize _plugins.
         try:
-            for p in plugins:
-                p(self)
+            for pClass in plugins:
+                pObj = pClass(self)
+                self._plugins.append(pObj)
         except NameError:
             pass
 
@@ -531,6 +533,12 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig('Save', state='disabled')
         self.fileMenu.entryconfig('Save as...', state='disabled')
 
+        for p in self._plugins:
+            try:
+                p.disable_menu()
+            except:
+                pass
+
     def enable_menu(self):
         """Enable menu entries when a project is open.
         
@@ -552,6 +560,12 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig('Reload', state='normal')
         self.fileMenu.entryconfig('Save', state='normal')
         self.fileMenu.entryconfig('Save as...', state='normal')
+
+        for p in self._plugins:
+            try:
+                p.enable_menu()
+            except:
+                pass
 
     def _build_main_menu(self):
         """Unused; overrides the superclass template method."""
