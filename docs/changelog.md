@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.4.0 Alpha release
+
+- Implement a plugin framework.
+
+Based on PyWriter v5.6.0
+
 ### v0.2.3 Alpha release
 
 - Add a "Tags" entry.

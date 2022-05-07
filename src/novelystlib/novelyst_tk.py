@@ -30,17 +30,27 @@ class NovelystTk(MainTk):
     """A tkinter GUI class for yWriter tree view.
 
     Public methods:
-        open_project -- Create a yWriter project instance and read the file.
-        save_project -- Save the yWriter project to disk and set 'unchanged' status.
-        on_quit(event=None) -- Save keyword arguments before exiting the program.
-        on_nothing-select -- Event handler for invalid tree selection.
+        lock() -- Lock the project.
+        unlock() -- Unlock the project.
+        launch_yWriter() -- Launch yWriter with the current project. 
+        on_quit() -- Save keyword arguments before exiting the program.
+        on_nothing-select() -- Event handler for invalid tree selection.
         on_narrative_select -- Event handler for novel tree root selection.
-        on_chapter_select -- Event handler for chapter selection.
-        on_scene_select -- Event handler for scene selection.
-        on_character_select -- Event handler for character selection.
-        on_location_select -- Event handler for location selection.
-        on_item_select -- Event handler for item selection.
-        show_status -- Display project statistics on the status bar.
+        on_chapter_select() -- Event handler for chapter selection.
+        on_scene_select() -- Event handler for scene selection.
+        on_character_select() -- Event handler for character selection.
+        on_location_select() -- Event handler for location selection.
+        on_item_select() -- Event handler for item selection.
+        open_project -- Create a yWriter project instance and read the file.
+        close_project() -- Close the yWriter project without saving and reset the user interface.        
+        refresh_tree() -- apply changes and refresh the tree.
+        reload_project() -- Discard changes and reload the project.
+        show_status(message) -- Display project statistics on the status bar.
+        save_project() -- Save the yWriter project to disk and set 'unchanged' status.
+        new_project() -- Create a yWriter project instance.
+        save_as() -- Rename the yWriter file and save it to disk.
+        disable_menu() -- disable menu entries when no project is open.
+        enable_menu() -- enable menu entries when a project is open.
 
     Public instance variables:
         isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
@@ -125,15 +135,15 @@ class NovelystTk(MainTk):
         # Files
         self.fileMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
         self.mainMenu.add_cascade(label='File', underline=0, menu=self.fileMenu)
-        self.fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self._new_project)
+        self.fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self.new_project)
         self.fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
-        self.fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self._lock)
-        self.fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self._unlock)
-        self.fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self._yWriter)
-        self.fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self._refresh_tree)
-        self.fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self._reload_project)
+        self.fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
+        self.fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self.unlock)
+        self.fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self.launch_yWriter)
+        self.fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)
+        self.fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self.reload_project)
         self.fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
-        self.fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self._save_as)
+        self.fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self.save_as)
         self.fileMenu.add_command(label='Close', underline=0, command=self.close_project)
         self.fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
 
@@ -206,18 +216,21 @@ class NovelystTk(MainTk):
         self.disable_menu()
 
         #--- Event bindings.
-        self.root.bind(self._KEY_NEW_PROJECT[0], self._new_project)
-        self.root.bind(self._KEY_LOCK_PROJECT[0], self._lock)
-        self.root.bind(self._KEY_UNLOCK_PROJECT[0], self._unlock)
-        self.root.bind(self._KEY_RELOAD_PROJECT[0], self._reload_project)
-        self.root.bind(self._KEY_YWRITER[0], self._yWriter)
-        self.root.bind(self._KEY_REFRESH_TREE[0], self._refresh_tree)
+        self.root.bind(self._KEY_NEW_PROJECT[0], self.new_project)
+        self.root.bind(self._KEY_LOCK_PROJECT[0], self.lock)
+        self.root.bind(self._KEY_UNLOCK_PROJECT[0], self.unlock)
+        self.root.bind(self._KEY_RELOAD_PROJECT[0], self.reload_project)
+        self.root.bind(self._KEY_YWRITER[0], self.launch_yWriter)
+        self.root.bind(self._KEY_REFRESH_TREE[0], self.refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
-        self.root.bind(self._KEY_SAVE_AS[0], self._save_as)
+        self.root.bind(self._KEY_SAVE_AS[0], self.save_as)
 
         #--- Initialize plugins.
-        for p in plugins:
-            p(self)
+        try:
+            for p in plugins:
+                p(self)
+        except NameError:
+            pass
 
     @property
     def isModified(self):
@@ -262,7 +275,8 @@ class NovelystTk(MainTk):
             self.fileMenu.entryconfig('Lock', state='normal')
             self.fileMenu.entryconfig('Unlock', state='disabled')
 
-    def _lock(self, event=None):
+    def lock(self, event=None):
+        """Lock the project."""
         if self.ywPrj.filePath is not None:
             self.isLocked = True
             # actually, this is a setter method with conditions
@@ -273,7 +287,8 @@ class NovelystTk(MainTk):
 
         return False
 
-    def _unlock(self, event=None):
+    def unlock(self, event=None):
+        """Unlock the project."""
         self.isLocked = False
         self.ywPrj.unlock()
         # make it persistent
@@ -281,9 +296,10 @@ class NovelystTk(MainTk):
             if self.ask_yes_no(f'File has changed on disk. Reload?'):
                 self.open_project(self.ywPrj.filePath)
 
-    def _yWriter(self, event=None):
+    def launch_yWriter(self, event=None):
+        """Launch yWriter with the current project."""
         self.save_project()
-        if self._lock():
+        if self.lock():
             open_document(self.ywPrj.filePath)
 
     def on_quit(self, event=None):
@@ -362,12 +378,13 @@ class NovelystTk(MainTk):
         self.isLocked = False
         super().close_project()
 
-    def _refresh_tree(self, event=None):
+    def refresh_tree(self, event=None):
+        """Apply changes and refresh the tree."""
         self._elementView.apply_changes(self)
         self.tv.refresh_tree()
 
-    def _reload_project(self, event=None):
-        """Reload a yWriter project."""
+    def reload_project(self, event=None):
+        """Discard changes and reload the project."""
         if self.ywPrj.is_locked():
             self.set_info_how(f'{ERROR}yWriter seems to be open. Please close first.')
             return
@@ -442,11 +459,11 @@ class NovelystTk(MainTk):
         self.ywPrj.write()
         self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
         self.isModified = False
-        self._restore_status(event)
+        self.restore_status(event)
         self.kwargs['yw_last_open'] = self.ywPrj.filePath
         return True
 
-    def _new_project(self, event=None):
+    def new_project(self, event=None):
         """Create a yWriter project instance."""
         if self.ywPrj is not None:
             self.close_project()
@@ -468,7 +485,7 @@ class NovelystTk(MainTk):
             self.show_status()
             self.isModified = True
 
-    def _save_as(self, event=None):
+    def save_as(self, event=None):
         """Rename the yWriter file and save it to disk.
         
         Return True on success, otherwise return False.
@@ -482,10 +499,10 @@ class NovelystTk(MainTk):
                 if message.startswith(ERROR):
                     self.set_info_how(message)
                 else:
-                    self._unlock()
+                    self.unlock()
                     self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} (last saved on {self.ywPrj.fileDate})')
                     self.isModified = False
-                    self._restore_status(event)
+                    self.restore_status(event)
                     self.kwargs['yw_last_open'] = self.ywPrj.filePath
                     return True
 
