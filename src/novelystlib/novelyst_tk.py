@@ -6,6 +6,8 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 import sys
+import glob
+import importlib
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import filedialog
@@ -20,10 +22,19 @@ from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
 from novelystlib.scene_view import SceneView
 
+# Import plugins from the "plugin" subdirectory.
+plugins = []
 pluginPath = f'{sys.path[0]}/plugin'
 if os.path.isdir(pluginPath):
     sys.path.append(pluginPath)
-    from plugin import plugins
+    files = glob.glob(f'{pluginPath}/*.py')
+    for file in files:
+        moduleName = os.path.split(file)[1][:-3]
+        module = importlib.import_module(moduleName)
+        try:
+            plugins.append(module.Plugin)
+        except AttributeError:
+            pass
 
 
 class NovelystTk(MainTk):
