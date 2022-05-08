@@ -5,6 +5,7 @@
 	<projects>
 		<project>aeon2yw</project>
 		<project>PyWriter</project>
+		<project>yw-timeline</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

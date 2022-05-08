@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.4.3 Alpha release
+
+- Remove multiple characters/locations/items (as created due to a bug by yw-timeline) when reading .yw7 files.
+
+Based on PyWriter v5.6.1
+
 ### v0.4.2 Alpha release
 
 - Extend the API.

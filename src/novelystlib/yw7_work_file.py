@@ -127,6 +127,22 @@ class Yw7WorkFile(Yw7File):
         Extends the superclass method.
         """
         message = super().read()
+        # Fix multiple characters/locations/items.
+        srtCharacters = []
+        for crId in self.srtCharacters:
+            if not crId in srtCharacters:
+                srtCharacters.append(crId)
+        self.srtCharacters = srtCharacters
+        srtLocations = []
+        for lcId in self.srtLocations:
+            if not lcId in srtLocations:
+                srtLocations.append(lcId)
+        self.srtLocations = srtLocations
+        srtItems = []
+        for itId in self.srtItems:
+            if not itId in srtItems:
+                srtItems.append(itId)
+        self.srtItems = srtItems
         if not message.startswith(ERROR):
             # Read custom fields.
             root = self.tree.getroot()
