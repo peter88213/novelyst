@@ -15,6 +15,7 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters.
 - There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
+- *novelyst's* functionality can be extended by plugins, e.g. for [Timeline](https://peter88213.github.io/yw-timeline/) or [Aeon Timeline 2](https://peter88213.github.io/aeon2yw/).
 
 ## Requirements
 
