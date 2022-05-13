@@ -67,6 +67,8 @@ class ElementView:
                     if newTags != elementTags:
                         self._element.tags = newTags.split(ui.tv._TAG_SEPARATOR)
                         ui.isModified = True
+        if ui.isModified:
+            ui.tv._update_tree()
 
     def close(self, ui):
         """Apply changes and clear the text boxes."""

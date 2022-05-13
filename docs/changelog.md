@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.6.1 Alpha release
+
+- The scene viewpoint can be changed.
+
+Based on PyWriter v5.6.1
+
 ### v0.6.0 Alpha release
 
 - Change the way plugins are imported. `__init__.py` isn't required any longer.
