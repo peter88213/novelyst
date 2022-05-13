@@ -10,7 +10,7 @@ See the [GitHub "features" project](https://github.com/peter88213/novelyst/proje
 
 ### v0.6.0 Alpha release
 
-- Change the way plugins are imported. __init__.py isn't required any longer.
+- Change the way plugins are imported. `__init__.py` isn't required any longer.
 
 Based on PyWriter v5.6.1
 

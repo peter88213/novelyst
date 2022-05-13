@@ -24,8 +24,6 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 
 ## Download and install
 
-NOTE: This project is in an early stage of development and is not yet fully functional.
-
 [Download the latest release (version 0.6.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.6.0.zip)
 
 - Unzip the downloaded zipfile "novelyst_v0.6.0.zip" into a new folder.
