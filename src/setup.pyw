@@ -156,11 +156,6 @@ def install(pywriterPath):
     pluginDir = f'{installDir}/plugin'
     output(f'Creating "{os.path.normpath(pluginDir)}"')
     os.makedirs(pluginDir, exist_ok=True)
-    packageFile = f'{pluginDir}/__init__.py'
-    if not os.path.isfile(packageFile):
-        with open(packageFile, 'w') as f:
-            f.write('plugins = []')
-            output(f'Creating "{packageFile}"')
 
     #--- Generate registry entries for the context menu (Windows only).
     if os.name == 'nt':
