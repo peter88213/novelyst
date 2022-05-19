@@ -25,7 +25,7 @@ class ElementView:
                 desc = element.desc
             if hasattr(element, 'tags'):
                 if element.tags is not None:
-                    tags = ui.tv._TAG_SEPARATOR.join(element.tags)
+                    tags = ui.tv._LIST_SEPARATOR.join(element.tags)
                 else:
                     tags = ''
                 self._tags = tk.StringVar(value=tags)
@@ -59,13 +59,13 @@ class ElementView:
                         ui.isModified = True
             if hasattr(self._element, 'tags'):
                 if self._element.tags:
-                    elementTags = ui.tv._TAG_SEPARATOR.join(self._element.tags)
+                    elementTags = ui.tv._LIST_SEPARATOR.join(self._element.tags)
                 else:
                     elementTags = None
                 newTags = self._tags.get()
                 if elementTags or newTags:
                     if newTags != elementTags:
-                        self._element.tags = newTags.split(ui.tv._TAG_SEPARATOR)
+                        self._element.tags = newTags.split(ui.tv._LIST_SEPARATOR)
                         ui.isModified = True
         if ui.isModified:
             ui.tv._update_tree()

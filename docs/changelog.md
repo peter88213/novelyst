@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.6.2 Alpha release
+
+- Show chapter viewpoints.
+
+Based on PyWriter v5.6.1
+
 ### v0.6.1 Alpha release
 
 - The scene viewpoint can be changed.

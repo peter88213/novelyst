@@ -61,7 +61,7 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
-    _TAG_SEPARATOR = ';'
+    _LIST_SEPARATOR = ';'
 
     _KEY_CANCEL_PART = '<Shift-Delete>'
     _KEY_DEMOTE_PART = '<Shift-Right>'
@@ -424,7 +424,7 @@ class TreeViewer:
         except:
             columns.append('N/A')
         try:
-            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.scenes[scId].tags))
+            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.scenes[scId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
@@ -443,6 +443,24 @@ class TreeViewer:
                         continue
                     wordCount += self._ui.ywPrj.scenes[scId].wordCount
             return wordCount
+
+        def collect_viewpoints(chId):
+            """Return a string with semicolon-separated viewpoint character names."""
+            vpNames = []
+            if self._ui.ywPrj.chapters[chId].chType == 0:
+                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
+                    if self._ui.ywPrj.scenes[scId].isTodoScene:
+                        continue
+                    if self._ui.ywPrj.scenes[scId].isNotesScene:
+                        continue
+                    try:
+                        crId = self._ui.ywPrj.scenes[scId].characters[0]
+                        viewpoint = self._ui.ywPrj.characters[crId].title
+                        if not viewpoint in vpNames:
+                            vpNames.append(viewpoint)
+                    except TypeError:
+                        pass
+            return self._LIST_SEPARATOR.join(vpNames)
 
         title = self._ui.ywPrj.chapters[chId].title
         columns = []
@@ -476,6 +494,9 @@ class TreeViewer:
                 i += 1
                 wordCount += count_words(c)
         columns.append(wordCount)
+        columns.append('')
+        # Status is empty
+        columns.append(collect_viewpoints(chId))
         return title, columns, tuple(nodeTags)
 
     def _set_character_display(self, crId):
@@ -484,7 +505,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.characters[crId].tags))
+            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.characters[crId].tags))
         except:
             columns.append('')
         if self._ui.ywPrj.characters[crId].isMajor:
@@ -499,7 +520,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.locations[lcId].tags))
+            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.locations[lcId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
@@ -510,7 +531,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._TAG_SEPARATOR.join(self._ui.ywPrj.items[itId].tags))
+            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.items[itId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
