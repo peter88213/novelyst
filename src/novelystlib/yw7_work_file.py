@@ -23,6 +23,7 @@ class Yw7WorkFile(Yw7File):
         write() -- write file if not locked, and get timestamp.
         read() -- read file and get timestamp.
         renumber_chapters() -- Modify chapter headings.
+        remove_custom_fields() -- Remove custom fields from the yWriter file.
         
     Public properties:
         fileDate -- str: ISO formatted file date (read-only)
@@ -66,6 +67,9 @@ class Yw7WorkFile(Yw7File):
         self._chOptions = (
             'Field_NoNumber',
             )
+        self._chSettings = ()
+        self._scOptions = ()
+        self._scSettings = ()
 
     @property
     def fileDate(self):
@@ -336,3 +340,40 @@ class Yw7WorkFile(Yw7File):
                     isModified = True
 
         return isModified
+
+    def reset_custom_variables(self):
+        """Set custom keyword variables to an empty string.
+        
+        Thus the write() method will remove the associated custom fields
+        from the .yw7 XML file. 
+        Return True, if a keyword variable has changed.
+        """
+        hasChanged = False
+        for field in self._prjOptions:
+            if self.kwVar[field]:
+                self.kwVar[field] = False
+                hasChanged = True
+        for field in self._prjSettings:
+            if self.kwVar[field]:
+                self.kwVar[field] = ''
+                hasChanged = True
+        for chId in self.chapters:
+            for field in self._chOptions:
+                if self.chapters[chId].kwVar[field]:
+                    self.chapters[chId].kwVar[field] = False
+                    hasChanged = True
+            for field in self._chSettings:
+                if self.chapters[chId].kwVar[field]:
+                    self.chapters[chId].kwVar[field] = ''
+                    hasChanged = True
+        for scId in self.scenes:
+            for field in self._scOptions:
+                if self.scenes[scId].kwVar[field]:
+                    self.scenes[scId].kwVar[field] = False
+                    hasChanged = True
+            for field in self._scSettings:
+                if self.scenes[scId].kwVar[field]:
+                    self.scenes[scId].kwVar[field] = ''
+                    hasChanged = True
+        return hasChanged
+

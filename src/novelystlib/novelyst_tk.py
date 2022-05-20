@@ -149,13 +149,16 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label='File', underline=0, menu=self.fileMenu)
         self.fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self.new_project)
         self.fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
+        self.fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self.reload_project)
+        self.fileMenu.add_separator()
+        self.fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)
         self.fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
         self.fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self.unlock)
         self.fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self.launch_yWriter)
-        self.fileMenu.add_command(label='Refresh Tree', underline=8, accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)
-        self.fileMenu.add_command(label='Reload', underline=0, accelerator=self._KEY_RELOAD_PROJECT[1], command=self.reload_project)
+        self.fileMenu.add_separator()
         self.fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self.fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self.save_as)
+        self.fileMenu.add_command(label='Remove custom fields', command=self.remove_custom_fields)
         self.fileMenu.add_command(label='Close', underline=0, command=self.close_project)
         self.fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
 
@@ -449,6 +452,15 @@ class NovelystTk(MainTk):
 
     #--- Methods that change the project
 
+    def remove_custom_fields(self, event=None):
+        """Remove custom fields from the yWriter file and save."""
+        if self.ywPrj is not None:
+            if self.ask_yes_no('Remove novelyst project settings and save?'):
+                self.tv.tree.selection_set('')
+                self.on_nothing_select()
+                if self.ywPrj.reset_custom_variables():
+                    self.set_info_how(self.ywPrj.write())
+
     def save_project(self, event=None):
         """Save the yWriter project to disk and set 'unchanged' status.
         
@@ -536,11 +548,12 @@ class NovelystTk(MainTk):
         self.mainMenu.entryconfig('Item', state='disabled')
         self.mainMenu.entryconfig('Export', state='disabled')
 
+        self.fileMenu.entryconfig('Reload', state='disabled')
+        self.fileMenu.entryconfig('Refresh Tree', state='disabled')
         self.fileMenu.entryconfig('Lock', state='disabled')
         self.fileMenu.entryconfig('Unlock', state='disabled')
         self.fileMenu.entryconfig('Open with yWriter', state='disabled')
-        self.fileMenu.entryconfig('Refresh Tree', state='disabled')
-        self.fileMenu.entryconfig('Reload', state='disabled')
+        self.fileMenu.entryconfig('Remove custom fields', state='disabled')
         self.fileMenu.entryconfig('Save', state='disabled')
         self.fileMenu.entryconfig('Save as...', state='disabled')
 
@@ -565,10 +578,11 @@ class NovelystTk(MainTk):
         self.mainMenu.entryconfig('Item', state='normal')
         self.mainMenu.entryconfig('Export', state='normal')
 
+        self.fileMenu.entryconfig('Reload', state='normal')
+        self.fileMenu.entryconfig('Refresh Tree', state='normal')
         self.fileMenu.entryconfig('Lock', state='normal')
         self.fileMenu.entryconfig('Open with yWriter', state='normal')
-        self.fileMenu.entryconfig('Refresh Tree', state='normal')
-        self.fileMenu.entryconfig('Reload', state='normal')
+        self.fileMenu.entryconfig('Remove custom fields', state='normal')
         self.fileMenu.entryconfig('Save', state='normal')
         self.fileMenu.entryconfig('Save as...', state='normal')
 
