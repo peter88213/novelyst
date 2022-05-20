@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/novelyst
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import tkinter as tk
+from tkinter import scrolledtext
 from tkinter import ttk
 from novelystlib.element_view import ElementView
 from novelystlib.label_combo import LabelCombo
@@ -23,9 +24,9 @@ class SceneView(ElementView):
 
         # "Append to previous scene" checkbox.
         self._appendToPrev = tk.BooleanVar(value=element.appendToPrev)
-        self._appendToPrevCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Append to previous scene',
+        self._appendToPrevCheckbox = ttk.Checkbutton(self._valuesFrame, text='Append to previous scene',
                                          variable=self._appendToPrev, onvalue=True, offvalue=False)
-        self._appendToPrevCheckbox.pack(anchor='w', padx=5, pady=2)
+        self._appendToPrevCheckbox.pack(anchor=tk.W, pady=2)
 
         # "Notes" window.
         if element.sceneNotes is not None:
@@ -40,8 +41,52 @@ class SceneView(ElementView):
         else:
             vp = ''
         self._viewpoint = tk.StringVar(value=vp)
-        self._characterCombobox = LabelCombo(ui._valuesWindow, text='Viewpoint', textvariable=self._viewpoint, values=charList)
-        self._characterCombobox.pack(anchor='w', padx=5, pady=2)
+        self._characterCombobox = LabelCombo(self._valuesFrame, text='Viewpoint', textvariable=self._viewpoint, values=charList)
+        self._characterCombobox.pack(anchor=tk.W, pady=2)
+
+        # "Action/Reaction Scene" radiobuttons.
+        if element.isReactionScene:
+            pacingType = 1
+        else:
+            pacingType = 0
+        self._isReactionScene = tk.IntVar(value=pacingType)
+        pacingFrame = tk.Frame(self._valuesFrame)
+        pacingFrame.pack(anchor=tk.W)
+        tk.Radiobutton(pacingFrame, text='Action scene',
+                                         variable=self._isReactionScene, value=0, command=self._set_action_scene).pack(side=tk.LEFT, anchor=tk.W, pady=2)
+
+        tk.Radiobutton(pacingFrame, text='Reaction scene',
+                                         variable=self._isReactionScene, value=1, command=self._set_reaction_scene).pack(anchor=tk.W, pady=2)
+
+        # Place a "Goal/Reaction" window inside the frame.
+        self._goalLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
+        self._goalLabel.pack(fill=tk.X)
+        self._goalWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
+        self._goalWindow.pack(fill=tk.X)
+        if element.goal:
+            self._goalWindow.insert(tk.END, element.goal)
+
+        # Place a "Conflict/Dilemma" window inside the frame.
+        self._conflictLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
+        self._conflictLabel.pack(fill=tk.X)
+        self._conflictWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
+        self._conflictWindow.pack(fill=tk.X)
+        if element.conflict:
+            self._conflictWindow.insert(tk.END, element.conflict)
+
+        # Place an "Outcome/Choice" window inside the frame.
+        self._outcomeLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
+        self._outcomeLabel.pack(fill=tk.X)
+        self._outcomeWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
+        self._outcomeWindow.pack(fill=tk.X)
+        if element.outcome:
+            self._outcomeWindow.insert(tk.END, element.outcome)
+
+        # Configure the labels.
+        if pacingType == 0:
+            self._set_action_scene()
+        else:
+            self._set_reaction_scene()
 
     def apply_changes(self, ui):
         """Apply changes.
@@ -83,13 +128,41 @@ class SceneView(ElementView):
                 self._element.characters.append(newVpId)
                 ui.isModified = True
 
+        # Pacing type
+        isReactionScene = self._isReactionScene.get() == 1
+        if self._element.isReactionScene != isReactionScene:
+            self._element.isReactionScene = isReactionScene
+            ui.isModified = True
+
+        # Goal/Reaction
+        goal = self._goalWindow.get('1.0', tk.END).strip(' \n')
+        if goal or self._element.goal:
+            if self._element.goal != goal:
+                self._element.goal = goal
+                ui.isModified = True
+
+        # Conflict/Dilemma
+        conflict = self._conflictWindow.get('1.0', tk.END).strip(' \n')
+        if conflict or self._element.conflict:
+            if self._element.conflict != conflict:
+                self._element.conflict = conflict
+                ui.isModified = True
+
+        # Outcome/Choice
+        outcome = self._outcomeWindow.get('1.0', tk.END).strip(' \n')
+        if outcome or self._element.outcome:
+            if self._element.outcome != outcome:
+                self._element.outcome = outcome
+                ui.isModified = True
+
         super().apply_changes(ui)
 
-    def close(self, ui):
-        """Remove widgets from the valuesWindow.
-        
-        Extends the superclass method.
-        """
-        super().close(ui)
-        self._appendToPrevCheckbox.destroy()
-        self._characterCombobox.destroy()
+    def _set_action_scene(self, event=None):
+        self._goalLabel.config(text='Goal')
+        self._conflictLabel.config(text='Conflict')
+        self._outcomeLabel.config(text='Outcome')
+
+    def _set_reaction_scene(self, event=None):
+        self._goalLabel.config(text='Reaction')
+        self._conflictLabel.config(text='Dilemma')
+        self._outcomeLabel.config(text='Choice')

@@ -15,7 +15,5 @@ class LabelEntry(tk.Frame):
     def __init__(self, parent, text, textvariable):
         super().__init__(parent)
         self.pack(fill=tk.X)
-        lbl = tk.Label(self, text=text, anchor='w')
-        lbl.pack(side=tk.LEFT)
-        entry = tk.Entry(self, textvariable=textvariable)
-        entry.pack(side=tk.LEFT, fill=tk.X, padx=5)
+        tk.Label(self, text=text, anchor=tk.W).pack(side=tk.LEFT)
+        tk.Entry(self, textvariable=textvariable).pack(side=tk.LEFT, fill=tk.X, padx=5)

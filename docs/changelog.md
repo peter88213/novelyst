@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.8.0 Beta release
+
+- Add Character Bio and Goals entry.
+- Add Scene pacing data entry.
+
+Based on PyWriter v5.6.1
+
 ### v0.6.3 Alpha release
 
 - Add "Remove custom fields" option. 

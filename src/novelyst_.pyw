@@ -39,6 +39,7 @@ SETTINGS = dict(
     status_width=50,
     vp_width=70,
     tags_width=100,
+    pacing_width=40,
     sizer_width=40,
 )
 OPTIONS = {}

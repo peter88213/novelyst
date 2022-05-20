@@ -14,29 +14,25 @@ class ElementView:
 
     def __init__(self, ui, element):
         """Display element title, description and notes."""
+        self._valuesFrame = tk.Frame(ui._valuesWindow)
+        self._valuesFrame.pack(fill=tk.X)
         self._element = element
-        title = ''
-        desc = ''
-        notes = ''
         if element is not None:
             if element.title is not None:
-                title = element.title
+                ui.elementTitle.set(element.title)
             if element.desc is not None:
-                desc = element.desc
+                ui.descWindow.insert(tk.END, element.desc)
             if hasattr(element, 'tags'):
                 if element.tags is not None:
                     tags = ui.tv._LIST_SEPARATOR.join(element.tags)
                 else:
                     tags = ''
                 self._tags = tk.StringVar(value=tags)
-                self._tagsEntry = LabelEntry(ui._valuesWindow, text='Tags', textvariable=self._tags)
-                self._tagsEntry.pack(anchor='w', padx=5, pady=2)
-
+                self._tagsEntry = LabelEntry(self._valuesFrame, text='Tags', textvariable=self._tags)
+                self._tagsEntry.pack(anchor=tk.W, pady=2)
             if hasattr(element, 'notes'):
                 if element.notes is not None:
                     ui.notesWindow.insert(tk.END, element.notes)
-        ui.elementTitle.set(title)
-        ui.descWindow.insert(tk.END, desc)
 
     def apply_changes(self, ui):
         """Apply changes of element title, description and notes."""
@@ -76,6 +72,5 @@ class ElementView:
         ui.elementTitle.set('')
         ui.descWindow.delete('1.0', tk.END)
         ui.notesWindow.delete('1.0', tk.END)
-        if hasattr(self._element, 'tags'):
-            self._tagsEntry.destroy()
+        self._valuesFrame.destroy()
         del self

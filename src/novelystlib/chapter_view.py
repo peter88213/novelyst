@@ -21,9 +21,9 @@ class ChapterView(ElementView):
         super(). __init__(ui, element)
         if not element.isTrash:
             self._noNumber = tk.BooleanVar(value=element.kwVar['Field_NoNumber'])
-            self._noNumberCheckbox = ttk.Checkbutton(ui._valuesWindow, text='Do not auto-number this chapter',
+            self._noNumberCheckbox = ttk.Checkbutton(self._valuesFrame, text='Do not auto-number this chapter',
                                              variable=self._noNumber, onvalue=True, offvalue=False)
-            self._noNumberCheckbox.pack(anchor='w', padx=5, pady=2)
+            self._noNumberCheckbox.pack(anchor='w', pady=2)
 
     def apply_changes(self, ui):
         """Apply changes.
@@ -48,13 +48,3 @@ class ChapterView(ElementView):
             update_field(self._noNumber, 'Field_NoNumber')
         super().apply_changes(ui)
 
-    def close(self, ui):
-        """Remove widgets from the valuesWindow.
-        
-        Extends the superclass method.
-        """
-        super().close(ui)
-        try:
-            self._noNumberCheckbox.destroy()
-        except:
-            pass

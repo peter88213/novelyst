@@ -21,6 +21,7 @@ from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
 from novelystlib.scene_view import SceneView
+from novelystlib.character_view import CharacterView
 
 # Import plugins from the "plugin" subdirectory.
 plugins = []
@@ -133,7 +134,7 @@ class NovelystTk(MainTk):
 
         # Place a values window inside the data window.
         self._valuesWindow = tk.Frame()
-        self._dataWindow.add(self._valuesWindow, minsize=350)
+        self._dataWindow.add(self._valuesWindow, minsize=400)
 
         # Place a notes window inside the data window.
         self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, padx=5, pady=5, bg=self._COLOR_NOTE_WINDOWS)
@@ -349,7 +350,7 @@ class NovelystTk(MainTk):
     def on_character_select(self, crId):
         """Event handler for character selection."""
         self._elementView.close(self)
-        self._elementView = ElementView(self, self.ywPrj.characters[crId])
+        self._elementView = CharacterView(self, self.ywPrj.characters[crId])
 
     def on_location_select(self, lcId):
         """Event handler for location selection."""

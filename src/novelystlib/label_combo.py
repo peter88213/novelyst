@@ -16,8 +16,7 @@ class LabelCombo(tk.Frame):
     def __init__(self, parent, text, textvariable, values):
         super().__init__(parent)
         self.pack(fill=tk.X)
-        lbl = tk.Label(self, text=text, anchor='w')
-        lbl.pack(side=tk.LEFT)
+        tk.Label(self, text=text, anchor=tk.W).pack(side=tk.LEFT)
         self.combo = ttk.Combobox(self, textvariable=textvariable, values=values)
         self.combo.pack(side=tk.LEFT, fill=tk.X, padx=5)
 

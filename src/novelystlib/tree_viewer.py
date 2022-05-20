@@ -36,6 +36,7 @@ class TreeViewer:
         ('Status', 'status_width'),
         ('Viewpoint', 'vp_width'),
         ('Tags', 'tags_width'),
+        ('A/R', 'pacing_width'),
         ('', 'sizer_width'),
         )
     _PT = 'pt'
@@ -427,6 +428,10 @@ class TreeViewer:
             columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.scenes[scId].tags))
         except:
             columns.append('')
+        if self._ui.ywPrj.scenes[scId].isReactionScene:
+            columns.append('R')
+        else:
+            columns.append('A')
         return title, columns, tuple(nodeTags)
 
     def _set_chapter_display(self, chId):
