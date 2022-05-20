@@ -8,6 +8,16 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.10.1 Beta release
+
+- Fix a bug in item selection handler.
+- Add "AKA" entry.
+- Add character "Full name" entry.
+- Resize the description text box.
+- Expand labeled widgets.
+
+Based on PyWriter v5.6.1
+
 ### v0.10.0 Beta release
 
 - Add scene date/time/duration display.

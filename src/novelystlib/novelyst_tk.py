@@ -129,8 +129,8 @@ class NovelystTk(MainTk):
         self._dataWindow.add(self._titleLabel)
 
         # Place a description window inside the data window.
-        self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=20, width=10, padx=5, pady=5)
-        self._dataWindow.add(self.descWindow, minsize=350)
+        self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=15, width=10, padx=5, pady=5)
+        self._dataWindow.add(self.descWindow, minsize=250)
 
         # Place a values window inside the data window.
         self._valuesWindow = tk.Frame()
@@ -359,7 +359,6 @@ class NovelystTk(MainTk):
 
     def on_item_select(self, itId):
         """Event handler for item selection."""
-        self._change_selection(self.ywPrj.items[itId])
         self._elementView.close(self)
         self._elementView = ElementView(self, self.ywPrj.items[itId])
 

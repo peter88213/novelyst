@@ -7,6 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import tkinter as tk
 from tkinter import scrolledtext
 from novelystlib.element_view import ElementView
+from novelystlib.label_entry import LabelEntry
 
 
 class CharacterView(ElementView):
@@ -19,6 +20,15 @@ class CharacterView(ElementView):
         Extends the superclass constructor.
         """
         super(). __init__(ui, element)
+
+        # Place a "Full name" entry inside the frame.
+        if element.fullName is not None:
+            fullName = element.fullName
+        else:
+            fullName = ''
+        self._fullName = tk.StringVar(value=fullName)
+        self._fullNameEntry = LabelEntry(self._valuesFrame, text='Full name', textvariable=self._fullName)
+        self._fullNameEntry.pack(anchor=tk.W, pady=2)
 
         # Place a "Bio" window inside the frame.
         tk.Label(self._valuesFrame, text='Bio', anchor=tk.W).pack(fill=tk.X)
@@ -39,6 +49,12 @@ class CharacterView(ElementView):
         
         Extends the superclass method.
         """
+        fullName = self._fullName.get()
+        if fullName or self._element.fullName:
+            if self._element.fullName != fullName:
+                self._element.fullName = fullName.strip()
+                ui.isModified = True
+
         bio = self._bioWindow.get('1.0', tk.END).strip(' \n')
         if bio or self._element.bio:
             if self._element.bio != bio:
