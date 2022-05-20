@@ -40,6 +40,9 @@ SETTINGS = dict(
     vp_width=70,
     tags_width=100,
     pacing_width=40,
+    date_width=70,
+    time_width=40,
+    duration_width=55,
     sizer_width=40,
 )
 OPTIONS = {}

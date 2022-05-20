@@ -37,6 +37,9 @@ class TreeViewer:
         ('Viewpoint', 'vp_width'),
         ('Tags', 'tags_width'),
         ('A/R', 'pacing_width'),
+        ('Date', 'date_width'),
+        ('Time', 'time_width'),
+        ('Duration', 'duration_width'),
         ('', 'sizer_width'),
         )
     _PT = 'pt'
@@ -432,6 +435,50 @@ class TreeViewer:
             columns.append('R')
         else:
             columns.append('A')
+
+        # Create a combined scDate information.
+        if self._ui.ywPrj.scenes[scId].date is not None and self._ui.ywPrj.scenes[scId].date != Scene.NULL_DATE:
+            cmbDate = self._ui.ywPrj.scenes[scId].date
+        else:
+            if self._ui.ywPrj.scenes[scId].day is not None:
+                cmbDate = f'Day {self._ui.ywPrj.scenes[scId].day}'
+            else:
+                cmbDate = ''
+        columns.append(cmbDate)
+
+        # Create a combined time information.
+        if self._ui.ywPrj.scenes[scId].time is not None and self._ui.ywPrj.scenes[scId].date != Scene.NULL_DATE:
+            cmbTime = self._ui.ywPrj.scenes[scId].time.rsplit(':', 1)[0]
+        else:
+            if self._ui.ywPrj.scenes[scId].hour or self._ui.ywPrj.scenes[scId].minute:
+                if self._ui.ywPrj.scenes[scId].hour:
+                    scHour = self._ui.ywPrj.scenes[scId].hour
+                else:
+                    scHour = '00'
+                if self._ui.ywPrj.scenes[scId].minute:
+                    scMinute = self._ui.ywPrj.scenes[scId].minute
+                else:
+                    scMinute = '00'
+                cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
+            else:
+                cmbTime = ''
+        columns.append(cmbTime)
+
+        # Create a combined duration information.
+        if self._ui.ywPrj.scenes[scId].lastsDays is not None and self._ui.ywPrj.scenes[scId].lastsDays != '0':
+            days = f'{self._ui.ywPrj.scenes[scId].lastsDays}d '
+        else:
+            days = ''
+        if self._ui.ywPrj.scenes[scId].lastsHours is not None and self._ui.ywPrj.scenes[scId].lastsHours != '0':
+            hours = f'{self._ui.ywPrj.scenes[scId].lastsHours}h '
+        else:
+            hours = ''
+        if self._ui.ywPrj.scenes[scId].lastsMinutes is not None and self._ui.ywPrj.scenes[scId].lastsMinutes != '0':
+            minutes = f'{self._ui.ywPrj.scenes[scId].lastsMinutes}min'
+        else:
+            minutes = ''
+        columns.append(f'{days}{hours}{minutes}')
+
         return title, columns, tuple(nodeTags)
 
     def _set_chapter_display(self, chId):
