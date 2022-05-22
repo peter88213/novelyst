@@ -13,10 +13,10 @@ class LabelCombo(tk.Frame):
     https://stackoverflow.com/questions/54584673/how-to-keep-tkinter-button-on-same-row-as-label-and-entry-box
     """
 
-    def __init__(self, parent, text, textvariable, values):
+    def __init__(self, parent, text, textvariable, values, lblWidth=10):
         super().__init__(parent)
         self.pack(fill=tk.X)
-        tk.Label(self, text=text, anchor=tk.W).pack(side=tk.LEFT)
+        tk.Label(self, text=text, anchor=tk.W, width=lblWidth).pack(side=tk.LEFT)
         self.combo = ttk.Combobox(self, textvariable=textvariable, values=values)
         self.combo.pack(side=tk.LEFT, fill=tk.X, padx=5, expand=True)
 

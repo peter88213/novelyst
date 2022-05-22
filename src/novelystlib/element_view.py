@@ -11,6 +11,7 @@ from novelystlib.label_entry import LabelEntry
 class ElementView:
     """A generic class for viewing tree element properties.
     """
+    _LBL_X = 10
 
     def __init__(self, ui, element):
         """Display element title, description and notes."""

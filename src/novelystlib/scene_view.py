@@ -9,11 +9,14 @@ from tkinter import scrolledtext
 from tkinter import ttk
 from novelystlib.element_view import ElementView
 from novelystlib.label_combo import LabelCombo
+from novelystlib.label_entry import LabelEntry
 
 
 class SceneView(ElementView):
     """A class for viewing and editing scene properties.
     """
+    _GCO_Y = 1
+    # height of the Goals/Conflict/Outcome text boxes
 
     def __init__(self, ui, element):
         """Show the element's properties.
@@ -58,29 +61,35 @@ class SceneView(ElementView):
         tk.Radiobutton(pacingFrame, text='Reaction scene',
                                          variable=self._isReactionScene, value=1, command=self._set_reaction_scene).pack(anchor=tk.W, pady=2)
 
-        # Place a "Goal/Reaction" window inside the frame.
-        self._goalLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
-        self._goalLabel.pack(fill=tk.X)
-        self._goalWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
-        self._goalWindow.pack(fill=tk.X)
+        # Place a "Goal/Reaction" window inside its own frame.
+        goalFrame = tk.Frame(self._valuesFrame)
+        self._goalLabel = tk.Label(goalFrame, text='', anchor=tk.W, width=self._LBL_X)
+        self._goalLabel.pack(side=tk.LEFT)
+        self._goalWindow = scrolledtext.ScrolledText(goalFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._goalWindow.pack(fill=tk.X, side=tk.LEFT)
         if element.goal:
             self._goalWindow.insert(tk.END, element.goal)
+        goalFrame.pack(anchor=tk.W)
 
-        # Place a "Conflict/Dilemma" window inside the frame.
-        self._conflictLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
-        self._conflictLabel.pack(fill=tk.X)
-        self._conflictWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
-        self._conflictWindow.pack(fill=tk.X)
+        # Place a "Conflict/Dilemma" window inside its own frame.
+        conflictFrame = tk.Frame(self._valuesFrame)
+        self._conflictLabel = tk.Label(conflictFrame, text='', anchor=tk.W, width=self._LBL_X)
+        self._conflictLabel.pack(side=tk.LEFT)
+        self._conflictWindow = scrolledtext.ScrolledText(conflictFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._conflictWindow.pack(fill=tk.X, side=tk.LEFT)
         if element.conflict:
             self._conflictWindow.insert(tk.END, element.conflict)
+        conflictFrame.pack(anchor=tk.W)
 
-        # Place an "Outcome/Choice" window inside the frame.
-        self._outcomeLabel = tk.Label(self._valuesFrame, text='', anchor=tk.W)
-        self._outcomeLabel.pack(fill=tk.X)
-        self._outcomeWindow = scrolledtext.ScrolledText(self._valuesFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=2, width=10, padx=5, pady=5)
-        self._outcomeWindow.pack(fill=tk.X)
+        # Place an "Outcome/Choice" window inside its own frame.
+        outcomeFrame = tk.Frame(self._valuesFrame)
+        self._outcomeLabel = tk.Label(outcomeFrame, text='', anchor=tk.W, width=self._LBL_X)
+        self._outcomeLabel.pack(side=tk.LEFT)
+        self._outcomeWindow = scrolledtext.ScrolledText(outcomeFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._outcomeWindow.pack(fill=tk.X, side=tk.LEFT)
         if element.outcome:
             self._outcomeWindow.insert(tk.END, element.outcome)
+        outcomeFrame.pack(anchor=tk.W)
 
         # Configure the labels.
         if pacingType == 0:

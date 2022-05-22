@@ -26,11 +26,11 @@ class ProjectView(ElementView):
         self._renChaptersCheckbox.pack(anchor='w', pady=2)
 
         self._chHdPrefix = tk.StringVar(value=element.kwVar['Field_ChapterHeadingPrefix'])
-        self._chHdPrefixEntry = LabelEntry(self._valuesFrame, text='Chapter heading prefix', textvariable=self._chHdPrefix)
+        self._chHdPrefixEntry = LabelEntry(self._valuesFrame, text='Chapter heading prefix', textvariable=self._chHdPrefix, lblWidth=20)
         self._chHdPrefixEntry.pack(anchor='w', pady=2)
 
         self._chHdSuffix = tk.StringVar(value=element.kwVar['Field_ChapterHeadingSuffix'])
-        self._chHdSuffixEntry = LabelEntry(self._valuesFrame, text='Chapter heading suffix', textvariable=self._chHdSuffix)
+        self._chHdSuffixEntry = LabelEntry(self._valuesFrame, text='Chapter heading suffix', textvariable=self._chHdSuffix, lblWidth=20)
         self._chHdSuffixEntry.pack(anchor='w', pady=2)
 
         self._romanChapters = tk.BooleanVar(value=element.kwVar['Field_RomanChapterNumbers'])
@@ -49,11 +49,11 @@ class ProjectView(ElementView):
         self._renPartsCheckbox.pack(anchor='w', pady=2)
 
         self._ptHdPrefix = tk.StringVar(value=element.kwVar['Field_PartHeadingPrefix'])
-        self._ptHdPrefixEntry = LabelEntry(self._valuesFrame, text='Part heading prefix', textvariable=self._ptHdPrefix)
+        self._ptHdPrefixEntry = LabelEntry(self._valuesFrame, text='Part heading prefix', textvariable=self._ptHdPrefix, lblWidth=20)
         self._ptHdPrefixEntry.pack(anchor='w', pady=2)
 
         self._ptHdSuffix = tk.StringVar(value=element.kwVar['Field_PartHeadingSuffix'])
-        self._ptHdSuffixEntry = LabelEntry(self._valuesFrame, text='Part heading suffix', textvariable=self._ptHdSuffix)
+        self._ptHdSuffixEntry = LabelEntry(self._valuesFrame, text='Part heading suffix', textvariable=self._ptHdSuffix, lblWidth=20)
         self._ptHdSuffixEntry.pack(anchor='w', pady=2)
 
         self._romanParts = tk.BooleanVar(value=element.kwVar['Field_RomanPartNumbers'])

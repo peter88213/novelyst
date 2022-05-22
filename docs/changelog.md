@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.10.2 Beta release
+
+- Adjust entry fields.
+- Extend reading and writing custom keyword variables for features to come.
+
+Based on PyWriter v5.6.1
+
 ### v0.10.1 Beta release
 
 - Fix a bug in item selection handler.
