@@ -36,6 +36,27 @@ class Yw7WorkFile(Yw7File):
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
 
+    # Configure part/chapter numbering
+    _PRJ_OPTIONS = (
+        'Field_RenumberChapters',
+        'Field_RenumberParts',
+        'Field_RenumberWithinParts',
+        'Field_RomanChapterNumbers',
+        'Field_RomanPartNumbers',
+        )
+    _PRJ_SETTINGS = (
+        'Field_ChapterHeadingPrefix',
+        'Field_ChapterHeadingSuffix',
+        'Field_PartHeadingPrefix',
+        'Field_PartHeadingSuffix',
+        )
+    _CHP_OPTIONS = (
+        'Field_NoNumber',
+        )
+    _SCN_SETTINGS = (
+        'Field_SceneStrands',
+        )
+
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables.
         
@@ -49,31 +70,6 @@ class Yw7WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self.timestamp = None
-
-        # Configure part/chapter numbering
-        self._prjOptions = (
-            'Field_RenumberChapters',
-            'Field_RenumberParts',
-            'Field_RenumberWithinParts',
-            'Field_RomanChapterNumbers',
-            'Field_RomanPartNumbers',
-            )
-        self._prjSettings = (
-            'Field_ChapterHeadingPrefix',
-            'Field_ChapterHeadingSuffix',
-            'Field_PartHeadingPrefix',
-            'Field_PartHeadingSuffix',
-            )
-        self._chOptions = (
-            'Field_NoNumber',
-            )
-        self._chSettings = (
-            )
-        self._scOptions = (
-            )
-        self._scSettings = (
-            'Field_SceneStrands',
-            )
 
     @property
     def fileDate(self):
@@ -151,73 +147,6 @@ class Yw7WorkFile(Yw7File):
             if not itId in srtItems:
                 srtItems.append(itId)
         self.srtItems = srtItems
-        if not message.startswith(ERROR):
-            #--- Read project custom fields.
-            root = self.tree.getroot()
-            prj = root.find('PROJECT')
-            for prjFields in prj.findall('Fields'):
-                for field in self._prjOptions:
-                    try:
-                        if prjFields.find(field).text == '1':
-                            self.kwVar[field] = True
-                        else:
-                            self.kwVar[field] = False
-                    except:
-                        self.kwVar[field] = None
-
-                for field in self._prjSettings:
-                    try:
-                        self.kwVar[field] = prjFields.find(field).text
-                    except:
-                        self.kwVar[field] = None
-
-            #--- Read chapter custom fields.
-            for chp in root.iter('CHAPTER'):
-                chId = chp.find('ID').text
-                for field in self._chOptions:
-                    self.chapters[chId].kwVar[field] = None
-                for field in self._chSettings:
-                    self.chapters[chId].kwVar[field] = None
-                for chFields in chp.findall('Fields'):
-                    for field in self._chOptions:
-                        option = chFields.find(field)
-                        try:
-                            if option.text == '1':
-                                self.chapters[chId].kwVar[field] = True
-                            else:
-                                self.chapters[chId].kwVar[field] = False
-                        except:
-                            pass
-                    for field in self._chSettings:
-                        setting = chFields.find(field)
-                        try:
-                            self.chapters[chId].kwVar[field] = setting.text
-                        except:
-                            self.chapters[chId].kwVar[field] = None
-
-            #--- Read scene custom fields.
-            for scn in root.iter('SCENE'):
-                scId = scn.find('ID').text
-                for field in self._scOptions:
-                    self.scenes[scId].kwVar[field] = None
-                for field in self._scSettings:
-                    self.scenes[scId].kwVar[field] = None
-                for scFields in scn.findall('Fields'):
-                    for field in self._scOptions:
-                        option = scFields.find(field)
-                        try:
-                            if option.text == '1':
-                                self.scenes[scId].kwVar[field] = True
-                            else:
-                                self.scenes[scId].kwVar[field] = False
-                        except:
-                            pass
-                    for field in self._scSettings:
-                        setting = scFields.find(field)
-                        try:
-                            self.scenes[scId].kwVar[field] = setting.text
-                        except:
-                            self.scenes[scId].kwVar[field] = None
 
         #--- Read the file timestamp.
         try:
@@ -225,107 +154,6 @@ class Yw7WorkFile(Yw7File):
         except:
             self.timestamp = None
         return message
-
-    def _build_element_tree(self):
-        """Modify the yWriter project attributes of an existing xml element tree.
-
-        Extends the superclass method.
-        """
-        super()._build_element_tree()
-        root = self.tree.getroot()
-
-        #--- Write project custom fields.
-        xmlPrj = root.find('PROJECT')
-        prjFields = xmlPrj.find('Fields')
-        if prjFields is None:
-            prjFields = ET.SubElement(xmlPrj, 'Fields')
-        for field in self._prjOptions:
-            if self.kwVar[field]:
-                try:
-                    prjFields.find(field).text = '1'
-                except(AttributeError):
-                    ET.SubElement(prjFields, field).text = '1'
-            else:
-                try:
-                    prjFields.remove(prjFields.find(field))
-                except:
-                    pass
-        for field in self._prjSettings:
-            setting = self.kwVar[field]
-            if setting:
-                try:
-                    prjFields.find(field).text = setting
-                except(AttributeError):
-                    ET.SubElement(prjFields, field).text = setting
-            else:
-                try:
-                    prjFields.remove(prjFields.find(field))
-                except:
-                    pass
-
-        #--- Write chapter custom fields.
-        for chp in root.iter('CHAPTER'):
-            chId = chp.find('ID').text
-            chFields = chp.find('Fields')
-            for field in self._chOptions:
-                if field in self.chapters[chId].kwVar and self.chapters[chId].kwVar[field]:
-                    if chFields is None:
-                        chFields = ET.SubElement(chp, 'Fields')
-                    try:
-                        chFields.find(field).text = '1'
-                    except(AttributeError):
-                        ET.SubElement(chFields, field).text = '1'
-                elif chFields is not None:
-                    try:
-                        chFields.remove(chFields.find(field))
-                    except:
-                        pass
-            for field in self._chSettings:
-                if field in self.chapters[chId].kwVar and self.chapters[chId].kwVar[field]:
-                    if chFields is None:
-                        chFields = ET.SubElement(chp, 'Fields')
-                    try:
-                        chFields.find(field).text = self.chapters[chId].kwVar[field]
-                    except(AttributeError):
-                        ET.SubElement(chFields, field).text = self.chapters[chId].kwVar[field]
-                elif chFields is not None:
-                    try:
-                        chFields.remove(chFields.find(field))
-                    except:
-                        pass
-
-        #--- Write scene custom fields.
-        for scn in root.iter('SCENE'):
-            scId = scn.find('ID').text
-            scFields = scn.find('Fields')
-            for field in self._scOptions:
-                if field in self.scenes[scId].kwVar and self.scenes[scId].kwVar[field]:
-                    if scFields is None:
-                        scFields = ET.SubElement(scn, 'Fields')
-                    try:
-                        scFields.find(field).text = '1'
-                    except(AttributeError):
-                        ET.SubElement(scFields, field).text = '1'
-                elif scFields is not None:
-                    try:
-                        scFields.remove(scFields.find(field))
-                    except:
-                        pass
-            for field in self._scSettings:
-                if field in self.scenes[scId].kwVar and self.scenes[scId].kwVar[field]:
-                    if scFields is None:
-                        scFields = ET.SubElement(scn, 'Fields')
-                    try:
-                        scFields.find(field).text = self.scenes[scId].kwVar[field]
-                    except(AttributeError):
-                        ET.SubElement(scFields, field).text = self.scenes[scId].kwVar[field]
-                elif scFields is not None:
-                    try:
-                        scFields.remove(scFields.find(field))
-                    except:
-                        pass
-        indent(root)
-        self.tree = ET.ElementTree(root)
 
     def write(self):
         """Extend the superclass method."""
@@ -422,40 +250,4 @@ class Yw7WorkFile(Yw7File):
                     isModified = True
 
         return isModified
-
-    def reset_custom_variables(self):
-        """Set custom keyword variables to an empty string.
-        
-        Thus the write() method will remove the associated custom fields
-        from the .yw7 XML file. 
-        Return True, if a keyword variable has changed.
-        """
-        hasChanged = False
-        for field in self._prjOptions:
-            if self.kwVar[field]:
-                self.kwVar[field] = False
-                hasChanged = True
-        for field in self._prjSettings:
-            if self.kwVar[field]:
-                self.kwVar[field] = ''
-                hasChanged = True
-        for chId in self.chapters:
-            for field in self._chOptions:
-                if self.chapters[chId].kwVar[field]:
-                    self.chapters[chId].kwVar[field] = False
-                    hasChanged = True
-            for field in self._chSettings:
-                if self.chapters[chId].kwVar[field]:
-                    self.chapters[chId].kwVar[field] = ''
-                    hasChanged = True
-        for scId in self.scenes:
-            for field in self._scOptions:
-                if self.scenes[scId].kwVar[field]:
-                    self.scenes[scId].kwVar[field] = False
-                    hasChanged = True
-            for field in self._scSettings:
-                if self.scenes[scId].kwVar[field]:
-                    self.scenes[scId].kwVar[field] = ''
-                    hasChanged = True
-        return hasChanged
 
