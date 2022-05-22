@@ -35,15 +35,6 @@ class SceneView(ElementView):
         if element.sceneNotes is not None:
             ui.notesWindow.insert(tk.END, element.sceneNotes)
 
-        # Place a "Strands" entry (if any) inside the frame.
-        if element.kwVar['Field_SceneStrands']:
-            strands = element.kwVar['Field_SceneStrands']
-        else:
-            strands = ''
-        self._strands = tk.StringVar(value=strands)
-        self._strandsEntry = LabelEntry(self._valuesFrame, text='Strands', textvariable=self._strands)
-        self._strandsEntry.pack(anchor=tk.W, pady=2)
-
         # "Scene viewpoint" combobox.
         charList = []
         for crId in ui.ywPrj.srtCharacters:
@@ -106,6 +97,15 @@ class SceneView(ElementView):
         else:
             self._set_reaction_scene()
 
+        # Place a "Strands" entry (if any) inside the frame.
+        if element.kwVar['Field_SceneStrands']:
+            strands = element.kwVar['Field_SceneStrands']
+        else:
+            strands = ''
+        self._strands = tk.StringVar(value=strands)
+        self._strandsEntry = LabelEntry(self._valuesFrame, text='Strands', textvariable=self._strands)
+        self._strandsEntry.pack(anchor=tk.W, pady=2)
+
     def apply_changes(self, ui):
         """Apply changes.
         
@@ -123,13 +123,6 @@ class SceneView(ElementView):
         if notes or self._element.sceneNotes:
             if self._element.sceneNotes != notes:
                 self._element.sceneNotes = notes
-                ui.isModified = True
-
-        # Strands the scene belongs to.
-        strands = self._strands.get()
-        if self._element.kwVar['Field_SceneStrands'] or strands:
-            if self._element.kwVar['Field_SceneStrands'] != strands:
-                self._element.kwVar['Field_SceneStrands'] = strands
                 ui.isModified = True
 
         # Scene viewpoint.
@@ -178,6 +171,13 @@ class SceneView(ElementView):
         if outcome or self._element.outcome:
             if self._element.outcome != outcome:
                 self._element.outcome = outcome
+                ui.isModified = True
+
+        # Strands the scene belongs to.
+        strands = self._strands.get()
+        if self._element.kwVar['Field_SceneStrands'] or strands:
+            if self._element.kwVar['Field_SceneStrands'] != strands:
+                self._element.kwVar['Field_SceneStrands'] = strands
                 ui.isModified = True
 
         super().apply_changes(ui)
