@@ -72,6 +72,7 @@ class Yw7WorkFile(Yw7File):
         self._scOptions = (
             )
         self._scSettings = (
+            'Field_SceneStrands',
             )
 
     @property

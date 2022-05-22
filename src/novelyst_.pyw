@@ -43,6 +43,7 @@ SETTINGS = dict(
     date_width=70,
     time_width=40,
     duration_width=55,
+    strands_width=55,
     sizer_width=40,
 )
 OPTIONS = {}
