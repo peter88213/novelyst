@@ -40,7 +40,7 @@ class TreeViewer:
         ('Date', 'date_width'),
         ('Time', 'time_width'),
         ('Duration', 'duration_width'),
-        ('Strands', 'strands_width'),
+        ('Arcs', 'arcs_width'),
         ('', 'sizer_width'),
         )
     _PT = 'pt'
@@ -480,12 +480,12 @@ class TreeViewer:
             minutes = ''
         columns.append(f'{days}{hours}{minutes}')
 
-        # Display strands the scene belongs to.
-        strands = self._ui.ywPrj.scenes[scId].kwVar['Field_SceneStrands']
-        if strands is None:
+        # Display arcs the scene belongs to.
+        arcs = self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs']
+        if arcs is None:
             columns.append('')
         else:
-            columns.append(strands)
+            columns.append(arcs)
 
         return title, columns, tuple(nodeTags)
 
@@ -994,7 +994,7 @@ class TreeViewer:
         elif parentChapter.isUnused:
             self._ui.ywPrj.scenes[scId].isnused = True
         # Edit status = Outline
-        self._ui.ywPrj.scenes[scId].kwVar['Field_SceneStrands'] = None
+        self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs'] = None
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self._update_tree()

@@ -50,7 +50,7 @@ class Yw7WorkFile(Yw7File):
         'Field_NoNumber',
         )
     _SCN_KWVAR = (
-        'Field_SceneStrands',
+        'Field_SceneArcs',
         )
 
     def __init__(self, filePath, **kwargs):

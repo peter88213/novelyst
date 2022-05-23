@@ -97,14 +97,14 @@ class SceneView(ElementView):
         else:
             self._set_reaction_scene()
 
-        # Place a "Strands" entry (if any) inside the frame.
-        if element.kwVar['Field_SceneStrands']:
-            strands = element.kwVar['Field_SceneStrands']
+        # Place a "Arcs" entry (if any) inside the frame.
+        if element.kwVar['Field_SceneArcs']:
+            arcs = element.kwVar['Field_SceneArcs']
         else:
-            strands = ''
-        self._strands = tk.StringVar(value=strands)
-        self._strandsEntry = LabelEntry(self._valuesFrame, text='Strands', textvariable=self._strands)
-        self._strandsEntry.pack(anchor=tk.W, pady=2)
+            arcs = ''
+        self._arcs = tk.StringVar(value=arcs)
+        self._arcsEntry = LabelEntry(self._valuesFrame, text='Arcs', textvariable=self._arcs)
+        self._arcsEntry.pack(anchor=tk.W, pady=2)
 
     def apply_changes(self, ui):
         """Apply changes.
@@ -173,8 +173,8 @@ class SceneView(ElementView):
                 self._element.outcome = outcome
                 ui.isModified = True
 
-        # Strands the scene belongs to.
-        if self._update_field_str(self._strands, 'Field_SceneStrands'):
+        # Arcs the scene belongs to.
+        if self._update_field_str(self._arcs, 'Field_SceneArcs'):
             ui.isModified = True
 
         super().apply_changes(ui)
