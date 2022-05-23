@@ -20,7 +20,8 @@ class ChapterView(ElementView):
         """
         super(). __init__(ui, element)
         if not element.isTrash:
-            self._noNumber = tk.BooleanVar(value=element.kwVar['Field_NoNumber'])
+            noNumber = element.kwVar['Field_NoNumber'] == '1'
+            self._noNumber = tk.BooleanVar(value=noNumber)
             self._noNumberCheckbox = ttk.Checkbutton(self._valuesFrame, text='Do not auto-number this chapter',
                                              variable=self._noNumber, onvalue=True, offvalue=False)
             self._noNumberCheckbox.pack(anchor='w', pady=2)
@@ -31,20 +32,8 @@ class ChapterView(ElementView):
         Extends the superclass method.
         """
 
-        def update_field(tkValue, fieldname):
-            """Update a custom field if changed.
-            
-            Positional arguments:
-                tkValue -- widget variable holding a value that is not None.
-                fieldname -- keyword of a custom field whose value might be None.
-            """
-            entry = tkValue.get()
-            if self._element.kwVar[fieldname] or entry:
-                if self._element.kwVar[fieldname] != entry:
-                    self._element.kwVar[fieldname] = entry
-                    ui.isModified = True
-
         if not self._element.isTrash:
-            update_field(self._noNumber, 'Field_NoNumber')
+            if self._update_field_bool(self._noNumber, 'Field_NoNumber'):
+                ui.isModified = True
         super().apply_changes(ui)
 

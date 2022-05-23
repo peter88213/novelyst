@@ -506,7 +506,7 @@ class NovelystTk(MainTk):
             self.root.title(f'{titleView} by {authorView} - {self._title}')
             self.show_path(os.path.normpath(fileName))
             self.enable_menu()
-            self.build_tree()
+            self.tv.build_tree()
             self.show_status()
             self.isModified = True
 

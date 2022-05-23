@@ -174,11 +174,8 @@ class SceneView(ElementView):
                 ui.isModified = True
 
         # Strands the scene belongs to.
-        strands = self._strands.get()
-        if self._element.kwVar['Field_SceneStrands'] or strands:
-            if self._element.kwVar['Field_SceneStrands'] != strands:
-                self._element.kwVar['Field_SceneStrands'] = strands
-                ui.isModified = True
+        if self._update_field_str(self._strands, 'Field_SceneStrands'):
+            ui.isModified = True
 
         super().apply_changes(ui)
 

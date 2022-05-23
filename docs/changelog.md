@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.12.0 Beta release
+
+- Fix a bug where new projects cannot be created.
+- Add Author entry.
+- Assign scenes to strands.
+
+Based on PyWriter v5.8.0
+
 ### v0.10.2 Beta release
 
 - Adjust entry fields.

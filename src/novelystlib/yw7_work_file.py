@@ -5,11 +5,9 @@ For further information see https://github.com/peter88213/PyWriter
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
-import xml.etree.ElementTree as ET
 from datetime import datetime
 from pywriter.pywriter_globals import ERROR
 from pywriter.yw.yw7_file import Yw7File
-from pywriter.yw.xml_indent import indent
 
 
 class Yw7WorkFile(Yw7File):
@@ -37,23 +35,21 @@ class Yw7WorkFile(Yw7File):
     _LOCKFILE_SUFFIX = '#'
 
     # Configure part/chapter numbering
-    _PRJ_OPTIONS = (
+    _PRJ_KWVAR = (
         'Field_RenumberChapters',
         'Field_RenumberParts',
         'Field_RenumberWithinParts',
         'Field_RomanChapterNumbers',
         'Field_RomanPartNumbers',
-        )
-    _PRJ_SETTINGS = (
         'Field_ChapterHeadingPrefix',
         'Field_ChapterHeadingSuffix',
         'Field_PartHeadingPrefix',
         'Field_PartHeadingSuffix',
         )
-    _CHP_OPTIONS = (
+    _CHP_KWVAR = (
         'Field_NoNumber',
         )
-    _SCN_SETTINGS = (
+    _SCN_KWVAR = (
         'Field_SceneStrands',
         )
 

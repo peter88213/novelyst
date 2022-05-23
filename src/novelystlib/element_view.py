@@ -54,6 +54,42 @@ class ElementView:
                 if element.notes is not None:
                     ui.notesWindow.insert(tk.END, element.notes)
 
+    def _update_field_str(self, tkValue, fieldname):
+        """Update a custom field and return True if changed. 
+               
+        Positional arguments:
+            tkValue -- widget variable holding a string that is not None.
+            fieldname -- keyword of a custom field whose value might be None.
+        """
+        entry = tkValue.get()
+        if self._element.kwVar[fieldname] or entry:
+            if self._element.kwVar[fieldname] != entry:
+                self._element.kwVar[fieldname] = entry
+                return True
+        return False
+
+    def _update_field_bool(self, tkValue, fieldname):
+        """Update a custom field and return True if changed.
+        
+        Positional arguments:
+            tkValue -- widget variable holding a boolean value.
+            fieldname -- keyword of a custom field.
+            
+        Custom field value convention:
+        '1' means True
+        None means False 
+        """
+        entry = tkValue.get()
+        if entry:
+            value = '1'
+        else:
+            value = None
+        if self._element.kwVar[fieldname] or value:
+            if self._element.kwVar[fieldname] != value:
+                self._element.kwVar[fieldname] = value
+                return True
+        return False
+
     def apply_changes(self, ui):
         """Apply changes of element title, description and notes."""
         if self._element is not None:
