@@ -22,6 +22,7 @@ from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
 from novelystlib.scene_view import SceneView
+from novelystlib.arc_view import ArcView
 from novelystlib.character_view import CharacterView
 
 # Import plugins from the "plugin" subdirectory.
@@ -347,7 +348,7 @@ class NovelystTk(MainTk):
         """Event handler for scene selection."""
         self._elementView.close(self)
         if self.ywPrj.scenes[scId].isTodoScene:
-            self._elementView = BasicView(self, self.ywPrj.scenes[scId])
+            self._elementView = ArcView(self, self.ywPrj.scenes[scId])
         elif self.ywPrj.scenes[scId].isNotesScene:
             self._elementView = BasicView(self, self.ywPrj.scenes[scId])
         else:

@@ -105,7 +105,7 @@ class SceneView(BasicView):
         else:
             self._set_reaction_scene()
 
-        # Place a "Arcs" entry (if any) inside the frame.
+        # Place an "Arcs" entry (if any) inside the frame.
         if element.kwVar['Field_SceneArcs']:
             arcs = element.kwVar['Field_SceneArcs']
         else:
