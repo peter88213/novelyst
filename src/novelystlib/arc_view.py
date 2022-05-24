@@ -46,7 +46,7 @@ class ArcView(BasicView):
 
     def _removeArcRef(self, arc, ui):
         """Remove arc reference from all scenes"""
-        if arc and ui.ask_yes_no(f'This will remove all scenes from the "{arc}" story arc.\nContinue?'):
+        if arc and ui.ask_yes_no(f'Remove all scenes from the "{arc}" story arc?'):
             for scId in self._scenesAssigned:
                 if ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs']:
                     newArcs = []
