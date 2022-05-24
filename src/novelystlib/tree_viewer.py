@@ -66,8 +66,6 @@ class TreeViewer:
     IT_ROOT = f'wr{_IT}'
     # Root of the Items subtree
 
-    _LIST_SEPARATOR = ';'
-
     _KEY_CANCEL_PART = '<Shift-Delete>'
     _KEY_DEMOTE_PART = '<Shift-Right>'
     _KEY_PROMOTE_CHAPTER = '<Shift-Left>'
@@ -341,15 +339,11 @@ class TreeViewer:
                 title, columns, nodeTags = self._set_chapter_display(chId)
                 chapterNode = self.tree.insert(parentNode, 'end', f'{self._CH}{chId}', text=title, values=columns, tags=nodeTags)
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                if self._ui.ywPrj.chapters[chId].chType == 2 and self._ui.ywPrj.chapters[chId].title == self._ARCS_TITLE:
-                    title, columns, nodeTags = self._set_arc_display(scId)
+                title, columns, nodeTags = self._set_scene_display(scId)
+                if inChapter:
                     parentNode = chapterNode
                 else:
-                    title, columns, nodeTags = self._set_scene_display(scId)
-                    if inChapter:
-                        parentNode = chapterNode
-                    else:
-                        parentNode = partNode
+                    parentNode = partNode
                 self.tree.insert(parentNode, 'end', f'{self._SC}{scId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
@@ -379,7 +373,7 @@ class TreeViewer:
                 if childNode.startswith(self._SC):
                     scId = childNode[2:]
                     self._ui.ywPrj.chapters[chId].srtScenes.append(scId)
-                    if self._ui.ywPrj.chapters[chId].title == self._ARCS_TITLE:
+                    if self._ui.ywPrj.scenes[scId].isTodoScene:
                         title, columns, nodeTags = self._set_arc_display(scId)
                     else:
                         title, columns, nodeTags = self._set_scene_display(scId)
@@ -421,8 +415,7 @@ class TreeViewer:
         columns = []
         nodeTags = []
         if self._ui.ywPrj.scenes[scId].isTodoScene:
-            nodeTags.append('todo')
-            return title, columns, tuple(nodeTags)
+            return self._set_arc_display(scId)
 
         if self._ui.ywPrj.scenes[scId].isNotesScene:
             nodeTags.append('notes')
@@ -439,7 +432,7 @@ class TreeViewer:
         except:
             columns.append('N/A')
         try:
-            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.scenes[scId].tags))
+            columns.append(';'.join(self._ui.ywPrj.scenes[scId].tags))
         except:
             columns.append('')
         if self._ui.ywPrj.scenes[scId].isReactionScene:
@@ -506,20 +499,21 @@ class TreeViewer:
         nodeTags = []
         nodeTags.append('todo')
         arc = self._ui.ywPrj.scenes[arcId].kwVar['Field_SceneArcs']
-        wordCount = 0
-        for scId in self._ui.ywPrj.scenes:
-            if self._ui.ywPrj.scenes[scId].isTodoScene:
-                continue
-            if self._ui.ywPrj.scenes[scId].isNotesScene:
-                continue
-            if self._ui.ywPrj.scenes[scId].isUnused:
-                continue
-            try:
-                if arc in self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs']:
-                    wordCount += self._ui.ywPrj.scenes[scId].wordCount
-            except TypeError:
-                pass
-        columns.append(wordCount)
+        if arc:
+            wordCount = 0
+            for scId in self._ui.ywPrj.scenes:
+                if self._ui.ywPrj.scenes[scId].isTodoScene:
+                    continue
+                if self._ui.ywPrj.scenes[scId].isNotesScene:
+                    continue
+                if self._ui.ywPrj.scenes[scId].isUnused:
+                    continue
+                try:
+                    if arc in self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs']:
+                        wordCount += self._ui.ywPrj.scenes[scId].wordCount
+                except TypeError:
+                    pass
+            columns.append(wordCount)
         return title, columns, tuple(nodeTags)
 
     def _set_chapter_display(self, chId):
@@ -553,7 +547,7 @@ class TreeViewer:
                             vpNames.append(viewpoint)
                     except TypeError:
                         pass
-            return self._LIST_SEPARATOR.join(vpNames)
+            return ';'.join(vpNames)
 
         title = self._ui.ywPrj.chapters[chId].title
         columns = []
@@ -598,7 +592,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.characters[crId].tags))
+            columns.append(';'.join(self._ui.ywPrj.characters[crId].tags))
         except:
             columns.append('')
         if self._ui.ywPrj.characters[crId].isMajor:
@@ -613,7 +607,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.locations[lcId].tags))
+            columns.append(';'.join(self._ui.ywPrj.locations[lcId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
@@ -624,7 +618,7 @@ class TreeViewer:
         columns = ['', '', '']
         nodeTags = []
         try:
-            columns.append(self._LIST_SEPARATOR.join(self._ui.ywPrj.items[itId].tags))
+            columns.append(';'.join(self._ui.ywPrj.items[itId].tags))
         except:
             columns.append('')
         return title, columns, tuple(nodeTags)
