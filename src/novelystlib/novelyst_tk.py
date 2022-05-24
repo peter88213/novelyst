@@ -17,6 +17,7 @@ from pywriter.file.doc_open import open_document
 from novelystlib.nv_exporter import NvExporter
 from novelystlib.tree_viewer import TreeViewer
 from novelystlib.yw7_work_file import Yw7WorkFile
+from novelystlib.basic_view import BasicView
 from novelystlib.element_view import ElementView
 from novelystlib.project_view import ProjectView
 from novelystlib.chapter_view import ChapterView
@@ -140,7 +141,7 @@ class NovelystTk(MainTk):
         self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, padx=5, pady=5, bg=self._COLOR_NOTE_WINDOWS)
         self._dataWindow.add(self.notesWindow)
 
-        self._elementView = ElementView(self, None)
+        self._elementView = BasicView(self, None)
         # Requires windows and frames initialized
 
         #--- Build the main menu
@@ -330,7 +331,7 @@ class NovelystTk(MainTk):
     def on_nothing_select(self):
         """Event handler for invalid tree selection."""
         self._elementView.close(self)
-        self._elementView = ElementView(self, None)
+        self._elementView = BasicView(self, None)
 
     def on_narrative_select(self):
         """Event handler for narrative tree root selection."""
@@ -345,7 +346,12 @@ class NovelystTk(MainTk):
     def on_scene_select(self, scId):
         """Event handler for scene selection."""
         self._elementView.close(self)
-        self._elementView = SceneView(self, self.ywPrj.scenes[scId])
+        if self.ywPrj.scenes[scId].isTodoScene:
+            self._elementView = BasicView(self, self.ywPrj.scenes[scId])
+        elif self.ywPrj.scenes[scId].isNotesScene:
+            self._elementView = BasicView(self, self.ywPrj.scenes[scId])
+        else:
+            self._elementView = SceneView(self, self.ywPrj.scenes[scId])
 
     def on_character_select(self, crId):
         """Event handler for character selection."""

@@ -7,12 +7,12 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import ttk
-from novelystlib.element_view import ElementView
+from novelystlib.basic_view import BasicView
 from novelystlib.label_combo import LabelCombo
 from novelystlib.label_entry import LabelEntry
 
 
-class SceneView(ElementView):
+class SceneView(BasicView):
     """A class for viewing and editing scene properties.
     """
     _GCO_Y = 1
@@ -24,6 +24,14 @@ class SceneView(ElementView):
         Extends the superclass constructor.
         """
         super(). __init__(ui, element)
+        # Place a "Tags" entry inside the frame.
+        if element.tags is not None:
+            tags = ui.tv._LIST_SEPARATOR.join(element.tags)
+        else:
+            tags = ''
+        self._tags = tk.StringVar(value=tags)
+        self._tagsEntry = LabelEntry(self._valuesFrame, text='Tags', textvariable=self._tags)
+        self._tagsEntry.pack(anchor=tk.W, pady=2)
 
         # "Append to previous scene" checkbox.
         self._appendToPrev = tk.BooleanVar(value=element.appendToPrev)

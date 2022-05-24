@@ -6,10 +6,10 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import tkinter as tk
 from tkinter import ttk
-from novelystlib.element_view import ElementView
+from novelystlib.element_view import BasicView
 
 
-class ChapterView(ElementView):
+class ChapterView(BasicView):
     """A class for viewing and editing chapter properties.
     """
 

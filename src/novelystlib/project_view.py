@@ -6,11 +6,11 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import tkinter as tk
 from tkinter import ttk
-from novelystlib.element_view import ElementView
+from novelystlib.element_view import BasicView
 from novelystlib.label_entry import LabelEntry
 
 
-class ProjectView(ElementView):
+class ProjectView(BasicView):
     """A class for viewing and editing project properties.
     """
 

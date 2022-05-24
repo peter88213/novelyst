@@ -72,6 +72,9 @@ class TreeViewer:
     _KEY_DEMOTE_PART = '<Shift-Right>'
     _KEY_PROMOTE_CHAPTER = '<Shift-Left>'
 
+    _ARCS_TITLE = 'Arcs'
+    # Title of the chapter containing the arc definitions
+
     def __init__(self, ui, window, **kwargs):
         """Put a text box to the GUI main window.
         
@@ -338,11 +341,15 @@ class TreeViewer:
                 title, columns, nodeTags = self._set_chapter_display(chId)
                 chapterNode = self.tree.insert(parentNode, 'end', f'{self._CH}{chId}', text=title, values=columns, tags=nodeTags)
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                title, columns, nodeTags = self._set_scene_display(scId)
-                if inChapter:
+                if self._ui.ywPrj.chapters[chId].chType == 2 and self._ui.ywPrj.chapters[chId].title == self._ARCS_TITLE:
+                    title, columns, nodeTags = self._set_arc_display(scId)
                     parentNode = chapterNode
                 else:
-                    parentNode = partNode
+                    title, columns, nodeTags = self._set_scene_display(scId)
+                    if inChapter:
+                        parentNode = chapterNode
+                    else:
+                        parentNode = partNode
                 self.tree.insert(parentNode, 'end', f'{self._SC}{scId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
@@ -372,7 +379,10 @@ class TreeViewer:
                 if childNode.startswith(self._SC):
                     scId = childNode[2:]
                     self._ui.ywPrj.chapters[chId].srtScenes.append(scId)
-                    title, columns, nodeTags = self._set_scene_display(scId)
+                    if self._ui.ywPrj.chapters[chId].title == self._ARCS_TITLE:
+                        title, columns, nodeTags = self._set_arc_display(scId)
+                    else:
+                        title, columns, nodeTags = self._set_scene_display(scId)
                 elif childNode.startswith(self._CR):
                     crId = childNode[2:]
                     self._ui.ywPrj.srtCharacters.append(crId)
@@ -487,6 +497,29 @@ class TreeViewer:
         else:
             columns.append(arcs)
 
+        return title, columns, tuple(nodeTags)
+
+    def _set_arc_display(self, arcId):
+        """Configure arc formatting and columns."""
+        title = self._ui.ywPrj.scenes[arcId].title
+        columns = []
+        nodeTags = []
+        nodeTags.append('todo')
+        arc = self._ui.ywPrj.scenes[arcId].kwVar['Field_SceneArcs']
+        wordCount = 0
+        for scId in self._ui.ywPrj.scenes:
+            if self._ui.ywPrj.scenes[scId].isTodoScene:
+                continue
+            if self._ui.ywPrj.scenes[scId].isNotesScene:
+                continue
+            if self._ui.ywPrj.scenes[scId].isUnused:
+                continue
+            try:
+                if arc in self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs']:
+                    wordCount += self._ui.ywPrj.scenes[scId].wordCount
+            except TypeError:
+                pass
+        columns.append(wordCount)
         return title, columns, tuple(nodeTags)
 
     def _set_chapter_display(self, chId):
