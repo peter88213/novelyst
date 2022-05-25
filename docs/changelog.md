@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.0 Beta release
+
+- Extend the API for a new scene editor plugin.
+
+Based on PyWriter v5.8.0
+
 ### v0.12.0 Beta release
 
 - Fix a bug where new projects cannot be created.
