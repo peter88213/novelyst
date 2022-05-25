@@ -43,27 +43,27 @@ class TreeViewer:
         ('Arcs', 'arcs_width'),
         ('', 'sizer_width'),
         )
-    _PT = 'pt'
+    PART_PREFIX = 'pt'
     # Part node ID prefix
-    _CH = 'ch'
+    CHAPTER_PREFIX = 'ch'
     # Chapter node ID prefix
-    _SC = 'sc'
+    SCENE_PREFIX = 'sc'
     # Scene node ID prefix
-    _CR = 'cr'
+    CHARACTER_PREFIX = 'cr'
     # Character node ID prefix
-    _LC = 'lc'
+    LOCATION_PREFIX = 'lc'
     # Location node ID prefix
-    _IT = 'it'
+    ITEM_PREFIX = 'it'
     # Item node ID prefix
     NV_ROOT = 'nv'
     # Root of the Narrative subtree
     RS_ROOT = 'rs'
     # Root of the Research subtree
-    CR_ROOT = f'wr{_CR}'
+    CR_ROOT = f'wr{CHARACTER_PREFIX}'
     # Root of the Characters subtree
-    LC_ROOT = f'wr{_LC}'
+    LC_ROOT = f'wr{LOCATION_PREFIX}'
     # Root of the Locations subtree
-    IT_ROOT = f'wr{_IT}'
+    IT_ROOT = f'wr{ITEM_PREFIX}'
     # Root of the Items subtree
 
     _KEY_CANCEL_PART = '<Shift-Delete>'
@@ -196,7 +196,7 @@ class TreeViewer:
             self.tree.focus_set()
             self.tree.selection_set(row)
             prefix = row[:2]
-            if prefix in (self.NV_ROOT, self.RS_ROOT, self._PT, self._CH, self._SC):
+            if prefix in (self.NV_ROOT, self.RS_ROOT, self.PART_PREFIX, self.CHAPTER_PREFIX, self.SCENE_PREFIX):
                 # Context is narrative/part/chapter/scene.
                 if self._ui.isLocked:
                     self._nvCtxtMenu.entryconfig('Delete', state='disabled')
@@ -235,13 +235,13 @@ class TreeViewer:
                     self._nvCtxtMenu.entryconfig('Add Scene', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Chapter', state='normal')
                     self._nvCtxtMenu.entryconfig('Add Part', state='normal')
-                    if prefix.startswith(self._PT):
+                    if prefix.startswith(self.PART_PREFIX):
                         self._nvCtxtMenu.entryconfig('Cancel Part', state='normal')
                         self._nvCtxtMenu.entryconfig('Demote Part', state='normal')
                     else:
                         self._nvCtxtMenu.entryconfig('Cancel Part', state='disabled')
                         self._nvCtxtMenu.entryconfig('Demote Part', state='disabled')
-                    if prefix.startswith(self._CH):
+                    if prefix.startswith(self.CHAPTER_PREFIX):
                         self._nvCtxtMenu.entryconfig('Promote Chapter', state='normal')
                     else:
                         self._nvCtxtMenu.entryconfig('Promote Chapter', state='disabled')
@@ -249,7 +249,7 @@ class TreeViewer:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
                     self._nvCtxtMenu.grab_release()
-            elif prefix in ('wr', self._CR, self._LC, self._IT):
+            elif prefix in ('wr', self.CHARACTER_PREFIX, self.LOCATION_PREFIX, self.ITEM_PREFIX):
                 # Context is character/location/item.
                 if self._ui.isLocked:
                     self._wrCtxtMenu.entryconfig('Add', state='disabled')
@@ -261,7 +261,7 @@ class TreeViewer:
                         self._wrCtxtMenu.entryconfig('Delete', state='disabled')
                     else:
                         self._wrCtxtMenu.entryconfig('Delete', state='normal')
-                    if (prefix.startswith(self._CR) or  row.endswith(self._CR)) and not self._ui.isLocked:
+                    if (prefix.startswith(self.CHARACTER_PREFIX) or  row.endswith(self.CHARACTER_PREFIX)) and not self._ui.isLocked:
                         self._wrCtxtMenu.entryconfig('Set Status', state='normal')
                     else:
                         self._wrCtxtMenu.entryconfig('Set Status', state='disabled')
@@ -286,13 +286,13 @@ class TreeViewer:
                     if not self._ui.ywPrj.scenes[scId].isNotesScene:
                         self._ui.ywPrj.scenes[scId].isNotesScene = True
                         isModified = True
-                        modifiedNodes.append(f'{self._SC}{scId}')
+                        modifiedNodes.append(f'{self.SCENE_PREFIX}{scId}')
                 elif chType == 2:
                     if not self._ui.ywPrj.scenes[scId].isTodoScene:
                         self._ui.ywPrj.scenes[scId].isTodoScene = True
                         self._ui.ywPrj.scenes[scId].isNotesScene = False
                         isModified = True
-                        modifiedNodes.append(f'{self._SC}{scId}')
+                        modifiedNodes.append(f'{self.SCENE_PREFIX}{scId}')
         self.build_tree()
         self._ui.isModified = isModified
         for node in modifiedNodes:
@@ -309,7 +309,7 @@ class TreeViewer:
         inNotesPart = False
         for chId in self._ui.ywPrj.srtChapters:
             if self._ui.ywPrj.chapters[chId].isTrash:
-                self._trashNode = f'{self._CH}{chId}'
+                self._trashNode = f'{self.CHAPTER_PREFIX}{chId}'
                 inPart = False
             if self._ui.ywPrj.chapters[chId].chLevel == 1:
                 # Part begins.
@@ -323,7 +323,7 @@ class TreeViewer:
                     inNotesPart = False
                     parent = self.NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                partNode = self.tree.insert(parent, 'end', f'{self._PT}{chId}', text=title, values=columns, tags=nodeTags, open=True)
+                partNode = self.tree.insert(parent, 'end', f'{self.PART_PREFIX}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             else:
                 # Chapter begins.
                 inChapter = True
@@ -337,32 +337,32 @@ class TreeViewer:
                 else:
                     parentNode = self.NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                chapterNode = self.tree.insert(parentNode, 'end', f'{self._CH}{chId}', text=title, values=columns, tags=nodeTags)
+                chapterNode = self.tree.insert(parentNode, 'end', f'{self.CHAPTER_PREFIX}{chId}', text=title, values=columns, tags=nodeTags)
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
                 title, columns, nodeTags = self._set_scene_display(scId)
                 if inChapter:
                     parentNode = chapterNode
                 else:
                     parentNode = partNode
-                self.tree.insert(parentNode, 'end', f'{self._SC}{scId}', text=title, values=columns, tags=nodeTags)
+                self.tree.insert(parentNode, 'end', f'{self.SCENE_PREFIX}{scId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build character tree.
         self.tree.insert('', 'end', self.CR_ROOT, text='Characters', tags='root', open=False)
         for crId in self._ui.ywPrj.srtCharacters:
             title, columns, nodeTags = self._set_character_display(crId)
-            self.tree.insert(self.CR_ROOT, 'end', f'{self._CR}{crId}', text=title, values=columns, tags=nodeTags)
+            self.tree.insert(self.CR_ROOT, 'end', f'{self.CHARACTER_PREFIX}{crId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build location tree.
         self.tree.insert('', 'end', self.LC_ROOT, text='Locations', tags='root', open=False)
         for lcId in self._ui.ywPrj.srtLocations:
             title, columns, nodeTags = self._set_location_display(lcId)
-            self.tree.insert(self.LC_ROOT, 'end', f'{self._LC}{lcId}', text=title, values=columns, tags=nodeTags)
+            self.tree.insert(self.LC_ROOT, 'end', f'{self.LOCATION_PREFIX}{lcId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build item tree.
         self.tree.insert('', 'end', self.IT_ROOT, text='Items', tags='root', open=False)
         for itId in self._ui.ywPrj.srtItems:
             title, columns, nodeTags = self._set_item_display(itId)
-            self.tree.insert(self.IT_ROOT, 'end', f'{self._IT}{itId}', text=title, values=columns, tags=nodeTags)
+            self.tree.insert(self.IT_ROOT, 'end', f'{self.ITEM_PREFIX}{itId}', text=title, values=columns, tags=nodeTags)
 
     def _update_tree(self):
         """Rebuild the sorted lists."""
@@ -370,22 +370,22 @@ class TreeViewer:
         def update_node(node, chId):
             """Recursive tree builder."""
             for childNode in self.tree.get_children(node):
-                if childNode.startswith(self._SC):
+                if childNode.startswith(self.SCENE_PREFIX):
                     scId = childNode[2:]
                     self._ui.ywPrj.chapters[chId].srtScenes.append(scId)
                     if self._ui.ywPrj.scenes[scId].isTodoScene:
                         title, columns, nodeTags = self._set_arc_display(scId)
                     else:
                         title, columns, nodeTags = self._set_scene_display(scId)
-                elif childNode.startswith(self._CR):
+                elif childNode.startswith(self.CHARACTER_PREFIX):
                     crId = childNode[2:]
                     self._ui.ywPrj.srtCharacters.append(crId)
                     title, columns, nodeTags = self._set_character_display(crId)
-                elif childNode.startswith(self._LC):
+                elif childNode.startswith(self.LOCATION_PREFIX):
                     lcId = childNode[2:]
                     self._ui.ywPrj.srtLocations.append(lcId)
                     title, columns, nodeTags = self._set_location_display(lcId)
-                elif childNode.startswith(self._IT):
+                elif childNode.startswith(self.ITEM_PREFIX):
                     itId = childNode[2:]
                     self._ui.ywPrj.srtItems.append(itId)
                     title, columns, nodeTags = self._set_item_display(itId)
@@ -627,7 +627,7 @@ class TreeViewer:
         """Recursively set scene or chapter type (Normal/Notes/Todo/Unused)."""
         if self._ui.isLocked:
             return
-        if node.startswith(self._SC):
+        if node.startswith(self.SCENE_PREFIX):
             scene = self._ui.ywPrj.scenes[node[2:]]
             if newType == 3:
                 scene.isUnused = True
@@ -645,7 +645,7 @@ class TreeViewer:
                 scene.isUnused = False
                 scene.isTodoScene = False
                 scene.isNotesScene = False
-        elif node.startswith(self._CH) or node.startswith(self._PT):
+        elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX):
             self.tree.item(node, open=True)
             chapter = self._ui.ywPrj.chapters[node[2:]]
             if newType == 3:
@@ -667,9 +667,9 @@ class TreeViewer:
         """Recursively set scene editing status (Outline/Draft..)."""
         if self._ui.isLocked:
             return
-        if node.startswith(self._SC):
+        if node.startswith(self.SCENE_PREFIX):
             self._ui.ywPrj.scenes[node[2:]].status = scnStatus
-        elif node.startswith(self._CH) or node.startswith(self._PT) or node.startswith(self.NV_ROOT):
+        elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
             self.tree.item(node, open=True)
             # Go one level down.
             for childNode in self.tree.get_children(node):
@@ -685,9 +685,9 @@ class TreeViewer:
         if self._ui.isLocked:
             return
         node = self.tree.selection()[0]
-        if node.startswith(self._CR):
+        if node.startswith(self.CHARACTER_PREFIX):
             self._ui.ywPrj.characters[node[2:]].isMajor = chrStatus
-        elif node.endswith(self._CR):
+        elif node.endswith(self.CHARACTER_PREFIX):
             # Go one level down.
             for childNode in self.tree.get_children(node):
                 self._set_chr_status(childNode, chrStatus)
@@ -707,11 +707,11 @@ class TreeViewer:
         # tv.item(targetNode, open=True)
         if node[:2] == targetNode[:2]:
             tv.move(node, tv.parent(targetNode), tv.index(targetNode))
-        elif node.startswith(self._SC) and targetNode.startswith(self._CH) and not tv.get_children(targetNode):
+        elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.CHAPTER_PREFIX) and not tv.get_children(targetNode):
             tv.move(node, targetNode, 0)
-        elif node.startswith(self._SC) and targetNode.startswith(self._PT):
+        elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.PART_PREFIX):
             tv.move(node, targetNode, 0)
-        elif node.startswith(self._CH) and targetNode.startswith(self._PT) and not tv.get_children(targetNode):
+        elif node.startswith(self.CHAPTER_PREFIX) and targetNode.startswith(self.PART_PREFIX) and not tv.get_children(targetNode):
             tv.move(node, targetNode, tv.index(targetNode))
         self._update_tree()
 
@@ -719,19 +719,19 @@ class TreeViewer:
         """Show info on the right level."""
         try:
             nodeId = self.tree.selection()[0]
-            if nodeId.startswith(self._SC):
+            if nodeId.startswith(self.SCENE_PREFIX):
                 self._ui.on_scene_select(nodeId[2:])
-            elif nodeId.startswith(self._CH):
+            elif nodeId.startswith(self.CHAPTER_PREFIX):
                 self._ui.on_chapter_select(nodeId[2:])
-            elif nodeId.startswith(self._PT):
+            elif nodeId.startswith(self.PART_PREFIX):
                 self._ui.on_chapter_select(nodeId[2:])
             elif nodeId.startswith(self.NV_ROOT):
                 self._ui.on_narrative_select()
-            elif nodeId.startswith(self._CR):
+            elif nodeId.startswith(self.CHARACTER_PREFIX):
                 self._ui.on_character_select(nodeId[2:])
-            elif nodeId.startswith(self._LC):
+            elif nodeId.startswith(self.LOCATION_PREFIX):
                 self._ui.on_location_select(nodeId[2:])
-            elif nodeId.startswith(self._IT):
+            elif nodeId.startswith(self.ITEM_PREFIX):
                 self._ui.on_item_select(nodeId[2:])
             else:
                 self._ui.on_nothing_select()
@@ -763,7 +763,7 @@ class TreeViewer:
             return
         tv = event.widget
         selection = tv.selection()[0]
-        if not selection.startswith(self._PT):
+        if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
         if self._ui.ask_yes_no(f'Remove part "{self._ui.ywPrj.chapters[elemId].title}" and keep the chapters?'):
@@ -782,7 +782,7 @@ class TreeViewer:
             return
         tv = event.widget
         selection = tv.selection()[0]
-        if not selection.startswith(self._CH):
+        if not selection.startswith(self.CHAPTER_PREFIX):
             return
         elemId = selection[2:]
         if self._ui.ask_yes_no(f'Promote chapter "{self._ui.ywPrj.chapters[elemId].title}" to part?'):
@@ -796,7 +796,7 @@ class TreeViewer:
             return
         tv = event.widget
         selection = tv.selection()[0]
-        if not selection.startswith(self._PT):
+        if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
         if self._ui.ask_yes_no(f'Demote part "{self._ui.ywPrj.chapters[elemId].title}" to chapter?'):
@@ -814,7 +814,7 @@ class TreeViewer:
 
         def waste_scenes(node):
             """Move all scenes under the node to the 'trash bin'."""
-            if node.startswith(self._SC):
+            if node.startswith(self.SCENE_PREFIX):
                 # Move scene.
                 tv.move(node, self._trashNode, 0)
             else:
@@ -828,17 +828,17 @@ class TreeViewer:
         tv = event.widget
         selection = tv.selection()[0]
         elemId = selection[2:]
-        if selection.startswith(self._SC):
+        if selection.startswith(self.SCENE_PREFIX):
             candidate = f'Scene "{self._ui.ywPrj.scenes[elemId].title}"'
-        elif selection.startswith(self._CH):
+        elif selection.startswith(self.CHAPTER_PREFIX):
             candidate = f'Chapter "{self._ui.ywPrj.chapters[elemId].title}"'
-        elif selection.startswith(self._PT):
+        elif selection.startswith(self.PART_PREFIX):
             candidate = f'Part "{self._ui.ywPrj.chapters[elemId].title}"'
-        elif selection.startswith(self._CR):
+        elif selection.startswith(self.CHARACTER_PREFIX):
             candidate = f'Character "{self._ui.ywPrj.characters[elemId].title}"'
-        elif selection.startswith(self._LC):
+        elif selection.startswith(self.LOCATION_PREFIX):
             candidate = f'Location "{self._ui.ywPrj.locations[elemId].title}"'
-        elif selection.startswith(self._IT):
+        elif selection.startswith(self.ITEM_PREFIX):
             candidate = f'Item "{self._ui.ywPrj.items[elemId].title}"'
         else:
             return
@@ -855,7 +855,7 @@ class TreeViewer:
                 for scId in self._ui.ywPrj.chapters[elemId].srtScenes:
                     del self._ui.ywPrj.scenes[scId]
                 del self._ui.ywPrj.chapters[elemId]
-            elif selection.startswith(self._CR):
+            elif selection.startswith(self.CHARACTER_PREFIX):
                 # Delete a character and remove references.
                 tv.delete(selection)
                 del self._ui.ywPrj.characters[elemId]
@@ -864,7 +864,7 @@ class TreeViewer:
                         self._ui.ywPrj.scenes[scId].characters.remove(elemId)
                     except:
                         pass
-            elif selection.startswith(self._LC):
+            elif selection.startswith(self.LOCATION_PREFIX):
                 # Delete a location and remove references.
                 tv.delete(selection)
                 del self._ui.ywPrj.locations[elemId]
@@ -873,7 +873,7 @@ class TreeViewer:
                         self._ui.ywPrj.scenes[scId].locations.remove(elemId)
                     except:
                         pass
-            elif selection.startswith(self._IT):
+            elif selection.startswith(self.ITEM_PREFIX):
                 # Delete an item and remove references.
                 tv.delete(selection)
                 del self._ui.ywPrj.items[elemId]
@@ -890,9 +890,9 @@ class TreeViewer:
                     self._ui.ywPrj.chapters[trashId] = Chapter()
                     self._ui.ywPrj.chapters[trashId].title = "Trash"
                     self._ui.ywPrj.chapters[trashId].isTrash = True
-                    self._trashNode = f'{self._CH}{trashId}'
+                    self._trashNode = f'{self.CHAPTER_PREFIX}{trashId}'
                     self.tree.insert(self.NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
-                if selection.startswith(self._SC):
+                if selection.startswith(self.SCENE_PREFIX):
                     if self.tree.parent(selection) == self._trashNode:
                         # Remove scene, if already in trash bin.
                         tv.delete(selection)
@@ -918,19 +918,19 @@ class TreeViewer:
             selection = ''
         parent = self.NV_ROOT
         index = 0
-        if selection.startswith(self._SC):
+        if selection.startswith(self.SCENE_PREFIX):
             selection = self.tree.parent(selection)
-        if selection.startswith(self._CH):
+        if selection.startswith(self.CHAPTER_PREFIX):
             index = self.tree.index(selection) + 1
             selection = self.tree.parent(selection)
-        if selection.startswith(self._PT):
+        if selection.startswith(self.PART_PREFIX):
             index = self.tree.index(selection) + 1
             parent = self.tree.parent(selection)
         elif selection.startswith(self.RS_ROOT):
             index = 0
             parent = self.RS_ROOT
         chId = create_id(self._ui.ywPrj.chapters)
-        newNode = f'{self._PT}{chId}'
+        newNode = f'{self.PART_PREFIX}{chId}'
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Part (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 1
@@ -958,19 +958,19 @@ class TreeViewer:
         parent = self.NV_ROOT
         isNotes = False
         index = 0
-        if selection.startswith(self._SC):
+        if selection.startswith(self.SCENE_PREFIX):
             parent = self.tree.parent(selection)
             selection = self.tree.parent(selection)
-        if selection.startswith(self._CH):
+        if selection.startswith(self.CHAPTER_PREFIX):
             parent = self.tree.parent(selection)
             index = self.tree.index(selection) + 1
-        elif selection.startswith(self._PT):
+        elif selection.startswith(self.PART_PREFIX):
             parent = selection
         # Inherit part type, if "Notes"
         if self.tree.parent(parent).startswith(self.RS_ROOT):
             isNotes = True
         chId = create_id(self._ui.ywPrj.chapters)
-        newNode = f'{self._CH}{chId}'
+        newNode = f'{self.CHAPTER_PREFIX}{chId}'
         self._ui.ywPrj.chapters[chId] = Chapter()
         self._ui.ywPrj.chapters[chId].title = f'New Chapter (ID{chId})'
         self._ui.ywPrj.chapters[chId].chLevel = 0
@@ -997,18 +997,18 @@ class TreeViewer:
             return
 
         index = 0
-        if selection.startswith(self._SC):
+        if selection.startswith(self.SCENE_PREFIX):
             parent = self.tree.parent(selection)
             index = self.tree.index(selection) + 1
-        elif selection.startswith(self._CH):
+        elif selection.startswith(self.CHAPTER_PREFIX):
             parent = selection
-        elif selection.startswith(self._PT):
+        elif selection.startswith(self.PART_PREFIX):
             parent = selection
         else:
             return
 
         scId = create_id(self._ui.ywPrj.scenes)
-        newNode = f'{self._SC}{scId}'
+        newNode = f'{self.SCENE_PREFIX}{scId}'
         self._ui.ywPrj.scenes[scId] = Scene()
         self._ui.ywPrj.scenes[scId].title = f'New Scene (ID{scId})'
         self._ui.ywPrj.scenes[scId].status = 1
@@ -1043,33 +1043,33 @@ class TreeViewer:
             return
         if selection is None:
             selection = self.tree.selection()[0]
-        if self._CR in selection:
+        if self.CHARACTER_PREFIX in selection:
             # Add a character.
             crId = create_id(self._ui.ywPrj.characters)
-            newNode = f'{self._CR}{crId}'
+            newNode = f'{self.CHARACTER_PREFIX}{crId}'
             self._ui.ywPrj.characters[crId] = Character()
             self._ui.ywPrj.characters[crId].title = f'New Character (ID{crId})'
             title, columns, nodeTags = self._set_character_display(crId)
             root = self.CR_ROOT
-            prefix = self._CR
-        elif self._LC in selection:
+            prefix = self.CHARACTER_PREFIX
+        elif self.LOCATION_PREFIX in selection:
             # Add a location.
             lcId = create_id(self._ui.ywPrj.locations)
-            newNode = f'{self._LC}{lcId}'
+            newNode = f'{self.LOCATION_PREFIX}{lcId}'
             self._ui.ywPrj.locations[lcId] = WorldElement()
             self._ui.ywPrj.locations[lcId].title = f'New Location (ID{lcId})'
             title, columns, nodeTags = self._set_location_display(lcId)
             root = self.LC_ROOT
-            prefix = self._LC
-        elif self._IT in selection:
+            prefix = self.LOCATION_PREFIX
+        elif self.ITEM_PREFIX in selection:
             # Add an item.
             itId = create_id(self._ui.ywPrj.items)
-            newNode = f'{self._IT}{itId}'
+            newNode = f'{self.ITEM_PREFIX}{itId}'
             self._ui.ywPrj.items[itId] = WorldElement()
             self._ui.ywPrj.items[itId].title = f'New Item (ID{itId})'
             title, columns, nodeTags = self._set_item_display(itId)
             root = self.IT_ROOT
-            prefix = self._IT
+            prefix = self.ITEM_PREFIX
         else:
             return
 
