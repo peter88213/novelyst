@@ -12,7 +12,8 @@ See the [GitHub "features" project](https://github.com/peter88213/novelyst/proje
 
 - Fix a bug where new projects cannot be created.
 - Add Author entry.
-- Assign scenes to strands.
+- Assign scenes to arcs.
+- Use "Todo" type scenes for defining arcs.
 
 Based on PyWriter v5.8.0
 
