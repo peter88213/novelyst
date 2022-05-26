@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.2 Beta release
+
+- Fix a bug where the application cannot be closed.
+
+Based on PyWriter v5.8.0
+
 ### v0.14.1 Beta release
 
 - Extend the API for a new [scene editor plugin](https://github.com/peter88213/novelyst_editor).

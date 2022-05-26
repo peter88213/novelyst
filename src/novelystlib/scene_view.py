@@ -26,7 +26,7 @@ class SceneView(BasicView):
         super(). __init__(ui, element)
         # Place a "Tags" entry inside the frame.
         if element.tags is not None:
-            tags = ui.tv._LIST_SEPARATOR.join(element.tags)
+            tags = ';'.join(element.tags)
         else:
             tags = ''
         self._tags = tk.StringVar(value=tags)

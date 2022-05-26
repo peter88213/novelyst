@@ -19,7 +19,7 @@ class ElementView(BasicView):
         super(). __init__(ui, element)
         # Place a "Tags" entry inside the frame.
         if element.tags is not None:
-            tags = ui.tv._LIST_SEPARATOR.join(element.tags)
+            tags = ';'.join(element.tags)
         else:
             tags = ''
         self._tags = tk.StringVar(value=tags)
@@ -39,13 +39,13 @@ class ElementView(BasicView):
         """Apply changes of element title, description and notes."""
         if self._element is not None:
             if self._element.tags:
-                elementTags = ui.tv._LIST_SEPARATOR.join(self._element.tags)
+                elementTags = ';'.join(self._element.tags)
             else:
                 elementTags = None
             newTags = self._tags.get()
             if elementTags or newTags:
                 if newTags != elementTags:
-                    self._element.tags = newTags.split(ui.tv._LIST_SEPARATOR)
+                    self._element.tags = newTags.split(';')
                     ui.isModified = True
             aka = self._aka.get()
             if aka or self._element.aka:

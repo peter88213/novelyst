@@ -4,7 +4,7 @@ The *novelyst* Python program provides a tree view with parts, chapters and scen
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the yWriter project.
 
-Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
+Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
 
 The purpose of *novelyst* is to allow yWriter projects to be edited quickly and easily with OpenOffice. For this purpose there are the appropriate export functions, the possibility to change the chapter structure (which cannot be done with OpenOffice), and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
 
@@ -24,9 +24,9 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 
 ## Download and install
 
-[Download the latest release (version 0.14.1)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.14.1.zip)
+[Download the latest release (version 0.14.2)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.14.2.zip)
 
-- Unzip the downloaded zipfile "novelyst_v0.14.1.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v0.14.2.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Open "README.md" for usage instructions.
