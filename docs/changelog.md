@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.3 Beta release
+
+- Extend API by making all NovelystTk frames "public".
+
+Based on PyWriter v5.8.0
+
 ### v0.14.2 Beta release
 
 - Fix a bug where the application cannot be closed.

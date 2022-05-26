@@ -15,7 +15,7 @@ class BasicView:
         """Display element title, description and notes."""
 
         # Place a frame that can be easily deleted into the Values window.
-        self._valuesFrame = tk.Frame(ui._valuesWindow)
+        self._valuesFrame = tk.Frame(ui.valuesWindow)
         self._valuesFrame.pack(fill=tk.X)
         self._element = element
         if element is not None:

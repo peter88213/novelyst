@@ -76,39 +76,39 @@ class NovelystTk(MainTk):
         self._exporter = NvExporter(self)
 
         # Create an application window with a tree frame and a data frame.
-        self._appWindow = tk.PanedWindow(self.mainWindow, sashrelief=tk.RAISED)
-        self._appWindow.pack(expand=True, fill='both')
-        self._treeFrame = tk.Frame(self._appWindow)
+        self.appWindow = tk.PanedWindow(self.mainWindow, sashrelief=tk.RAISED)
+        self.appWindow.pack(expand=True, fill='both')
+        self.treeFrame = tk.Frame(self.appWindow)
         kw = {'width':kwargs['tree_frame_width']}
-        self._appWindow.add(self._treeFrame, **kw)
-        self._dataFrame = tk.Frame(self._appWindow)
-        self._appWindow.add(self._dataFrame, minsize=350)
+        self.appWindow.add(self.treeFrame, **kw)
+        self.dataFrame = tk.Frame(self.appWindow)
+        self.appWindow.add(self.dataFrame, minsize=350)
 
         # Create a novel tree window.
-        self.treeWindow = tk.PanedWindow(self._treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self.treeWindow = tk.PanedWindow(self.treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.treeWindow.pack(expand=True, fill='both')
         self.tv = TreeViewer(self, self.treeWindow, **kwargs)
 
         #--- Create a data window.
-        self._dataWindow = tk.PanedWindow(self._dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
-        self._dataWindow.pack(expand=True, fill='both')
+        self.dataWindow = tk.PanedWindow(self.dataFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
+        self.dataWindow.pack(expand=True, fill='both')
 
         # Place a title label inside the data window.
         self.elementTitle = tk.StringVar(value='')
         self._titleLabel = tk.Entry(bd=0, textvariable=self.elementTitle, relief=tk.FLAT)
-        self._dataWindow.add(self._titleLabel)
+        self.dataWindow.add(self._titleLabel)
 
         # Place a description window inside the data window.
         self.descWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=15, width=10, padx=5, pady=5)
-        self._dataWindow.add(self.descWindow, minsize=250)
+        self.dataWindow.add(self.descWindow, minsize=250)
 
         # Place a values window inside the data window.
-        self._valuesWindow = tk.Frame()
-        self._dataWindow.add(self._valuesWindow, minsize=400)
+        self.valuesWindow = tk.Frame()
+        self.dataWindow.add(self.valuesWindow, minsize=400)
 
         # Place a notes window inside the data window.
         self.notesWindow = scrolledtext.ScrolledText(wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, padx=5, pady=5, bg=self._COLOR_NOTE_WINDOWS)
-        self._dataWindow.add(self.notesWindow)
+        self.dataWindow.add(self.notesWindow)
 
         self._elementView = BasicView(self, None)
         # Requires windows and frames initialized
@@ -292,7 +292,7 @@ class NovelystTk(MainTk):
     def on_quit(self, event=None):
         """Save keyword arguments before exiting the program.."""
         self.close_project()
-        self.kwargs['tree_frame_width'] = self._treeFrame.winfo_width()
+        self.kwargs['tree_frame_width'] = self.treeFrame.winfo_width()
         # save windows size and position
         self.tv.on_quit(self.kwargs)
         super().on_quit()

@@ -24,9 +24,9 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 
 ## Download and install
 
-[Download the latest release (version 0.14.2)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.14.2.zip)
+[Download the latest release (version 0.14.3)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.14.3.zip)
 
-- Unzip the downloaded zipfile "novelyst_v0.14.2.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v0.14.3.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Open "README.md" for usage instructions.
