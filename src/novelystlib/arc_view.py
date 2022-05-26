@@ -10,8 +10,7 @@ from novelystlib.label_entry import LabelEntry
 
 
 class ArcView(BasicView):
-    """A class for viewing and editing story arc properties.
-    """
+    """Class for viewing and editing story arc properties."""
 
     def __init__(self, ui, element):
         """Show the element's properties.

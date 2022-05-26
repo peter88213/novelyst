@@ -1,4 +1,4 @@
-""""Provide a class for viewing and editing scene properties.
+""""Provide a tkinter based class for viewing and editing scene properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -13,8 +13,7 @@ from novelystlib.label_entry import LabelEntry
 
 
 class SceneView(BasicView):
-    """A class for viewing and editing scene properties.
-    """
+    """Class for viewing and editing scene properties."""
     _GCO_Y = 1
     # height of the Goals/Conflict/Outcome text boxes
 

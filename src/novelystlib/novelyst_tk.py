@@ -41,47 +41,7 @@ if os.path.isdir(pluginPath):
 
 
 class NovelystTk(MainTk):
-    """A tkinter GUI class for yWriter tree view.
-
-    Public methods:
-        lock() -- Lock the project.
-        unlock() -- Unlock the project.
-        launch_yWriter() -- Launch yWriter with the current project. 
-        on_quit() -- Save keyword arguments before exiting the program.
-        on_nothing-select() -- Event handler for invalid tree selection.
-        on_narrative_select -- Event handler for novel tree root selection.
-        on_chapter_select() -- Event handler for chapter selection.
-        on_scene_select() -- Event handler for scene selection.
-        on_character_select() -- Event handler for character selection.
-        on_location_select() -- Event handler for location selection.
-        on_item_select() -- Event handler for item selection.
-        open_project -- Create a yWriter project instance and read the file.
-        close_project() -- Close the yWriter project without saving and reset the user interface.        
-        refresh_tree() -- apply changes and refresh the tree.
-        reload_project() -- Discard changes and reload the project.
-        show_status(message) -- Display project statistics on the status bar.
-        save_project() -- Save the yWriter project to disk and set 'unchanged' status.
-        new_project() -- Create a yWriter project instance.
-        save_as() -- Rename the yWriter file and save it to disk.
-        disable_menu() -- disable menu entries when no project is open.
-        enable_menu() -- enable menu entries when a project is open.
-
-    Public instance variables:
-        kwargs -- dict: keyword argunents passed on initialisation.
-        treeWindow -- tk.PanedWindow: window where the novel tree is displayed.
-        tv -- TreeViewer: novel tree viewer instance.
-        fileMenu -- tk.Menu: "File" submenu in main menu.
-        elementTitle -- tk.StringVar: title of the selected element. 
-        descWindow -- ScrolledText: description textbox.
-        chapterMenu -- tkMenu: "Chapter" submenu in main menu. 
-        sceneMenu -- tkMenu: "Scene" submenu in main menu. 
-        treeWindow -- tk window for the project tree.
-        tv -- TreeViewer instance.
-        
-    Public properties:
-        isModified -- bool: ywPrj has unsaved modification (property with geter and setter).
-        isLocked -- bool: ywPrj must not be modified (property with geter and setter).
-   """
+    """tkinter GUI framework for novelyst."""
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')

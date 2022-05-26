@@ -1,4 +1,4 @@
-""""Provide a class for viewing and editing project properties.
+""""Provide a tkinter based class for viewing and editing project properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -11,8 +11,7 @@ from novelystlib.label_entry import LabelEntry
 
 
 class ProjectView(BasicView):
-    """A class for viewing and editing project properties.
-    """
+    """Class for viewing and editing project properties."""
 
     def __init__(self, ui, element):
         """Show the element's properties.

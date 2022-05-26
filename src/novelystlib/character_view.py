@@ -11,8 +11,7 @@ from novelystlib.label_entry import LabelEntry
 
 
 class CharacterView(ElementView):
-    """A class for viewing and editing character properties.
-    """
+    """Class for viewing and editing character properties."""
 
     def __init__(self, ui, element):
         """Show the element's properties.

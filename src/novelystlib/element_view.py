@@ -1,4 +1,4 @@
-""""Provide a class for viewing world element properties.
+""""Provide a tkinter based class for viewing world element properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -10,8 +10,7 @@ from novelystlib.basic_view import BasicView
 
 
 class ElementView(BasicView):
-    """A class for viewing world element properties.
-    """
+    """Class for viewing world element properties."""
     _LBL_X = 10
 
     def __init__(self, ui, element):

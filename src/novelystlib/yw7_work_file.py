@@ -13,23 +13,7 @@ from pywriter.yw.yw7_file import Yw7File
 class Yw7WorkFile(Yw7File):
     """yWriter 7 project file representation.
 
-    Public methods: 
-        lock() -- create a non-yWriter lockfile.
-        unlock() -- delete the non-yWriter lockfile, if any.
-        has_lockfile() -- return True if a non-yWriter lockfile exists.
-        has_changed_on_disk() -- return True if the yw project file has changed since last opened.
-        write() -- write file if not locked, and get timestamp.
-        read() -- read file and get timestamp.
-        renumber_chapters() -- Modify chapter headings.
-        remove_custom_fields() -- Remove custom fields from the yWriter file.
-        
-    Public properties:
-        fileDate -- str: ISO formatted file date (read-only)
-        
-    Public instance variables:
-        timestamp -- file timestamp
-        
-    This extends the superclass with a timestamp and a locking capability.
+    Extends the superclass with a timestamp and a locking capability.
     """
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'

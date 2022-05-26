@@ -1,4 +1,4 @@
-""""Provide a tkinter tree view class.
+""""Provide a tkinter based widget for yWriter tree view.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -15,22 +15,7 @@ from pywriter.model.world_element import WorldElement
 
 
 class TreeViewer:
-    """A tkinter class for yWriter tree view.
-    
-    Public methods:
-        build_tree -- Create and display the tree.
-        reset_tree -- Clear the displayed tree.
-        open_children -- Recursively open children nodes.
-        close_children -- Recursively close children nodes.
-        add_part -- Add a Part node to the tree and create an instance.
-        add_chapter -- Add a Chapter node to the tree and create an instance.
-        add_scene -- Add a Scene node to the tree and create an instance.
-        add_world_element -- Add a Character/Location/Item node to the tree and create an instance.
-        on_quit -- Write column width to the applicaton's keyword arguments.
-    
-    Public instance variables:
-        tree -- tk Treeview instance.   
-    """
+    """Widget for yWriter tree view."""
     _COLUMNS = (
         ('Words', 'wc_width'),
         ('Status', 'status_width'),

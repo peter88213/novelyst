@@ -10,8 +10,7 @@ from novelystlib.element_view import BasicView
 
 
 class ChapterView(BasicView):
-    """A class for viewing and editing chapter properties.
-    """
+    """Class for viewing and editing chapter properties."""
 
     def __init__(self, ui, element):
         """Show the element's properties.

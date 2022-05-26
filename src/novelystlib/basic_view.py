@@ -8,8 +8,7 @@ import tkinter as tk
 
 
 class BasicView:
-    """A generic class for viewing tree element properties.
-    """
+    """Generic class for viewing tree element properties."""
     _LBL_X = 10
 
     def __init__(self, ui, element):

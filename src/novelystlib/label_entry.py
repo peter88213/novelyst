@@ -1,4 +1,4 @@
-""""Provide a tkinter entry box with a label.
+""""Provide a tkinter based entry box with a label.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -8,7 +8,9 @@ import tkinter as tk
 
 
 class LabelEntry(tk.Frame):
-    """Credit goes to user stovfl on stackoverflow
+    """Entry box with a label.
+    
+    Credit goes to user stovfl on stackoverflow
     https://stackoverflow.com/questions/54584673/how-to-keep-tkinter-button-on-same-row-as-label-and-entry-box
     """
 

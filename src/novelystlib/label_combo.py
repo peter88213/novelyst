@@ -1,4 +1,4 @@
-""""Provide a tkinter combobox with a label.
+""""Provide a tkinter based combobox with a label.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -9,7 +9,9 @@ from tkinter import ttk
 
 
 class LabelCombo(tk.Frame):
-    """Credit goes to user stovfl on stackoverflow
+    """Combobox with a label.
+    
+    Credit goes to user stovfl on stackoverflow
     https://stackoverflow.com/questions/54584673/how-to-keep-tkinter-button-on-same-row-as-label-and-entry-box
     """
 

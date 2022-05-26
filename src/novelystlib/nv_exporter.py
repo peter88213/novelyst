@@ -29,25 +29,7 @@ from pywriter.ods.ods_scenelist import OdsSceneList
 
 
 class NvExporter:
-    """Base class for Novel file conversion.
-
-    Public methods:
-        convert(sourceFile, targetFile) -- Convert sourceFile into targetFile.
-        export_from_yw(sourceFile, targetFile) -- Convert from yWriter project to other file format.
-        run(sourcePath, **kwargs) -- create source and target objects and run conversion.
-    
-    Instance variables:
-        ui -- User interface reference.
-        newFile -- str: path to the target file in case of success.   
-
-    Class constants:
-        EXPORT_TARGET_CLASSES -- list of FileExport subclasses to which export is possible.
-
-    All lists are empty and meant to be overridden by subclasses.
-
-    Instance variables:
-        exportTargetFactory -- ExportTargetFactory.
-    """
+    """Base class for Novel file conversion."""
     EXPORT_TARGET_CLASSES = [OdtProof,
                              OdtManuscript,
                              OdtBriefSynopsis,
