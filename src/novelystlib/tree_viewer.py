@@ -701,7 +701,6 @@ class TreeViewer:
         self._update_tree()
 
     def _on_select_node(self, event):
-        """Show info on the right level."""
         try:
             nodeId = self.tree.selection()[0]
             if nodeId.startswith(self.SCENE_PREFIX):

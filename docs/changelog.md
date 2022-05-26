@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.4 Beta release
+
+- Add a middle window. Its width is controlled by its children, if any.
+- Make the right window fixed width.
+
+Based on PyWriter v5.8.0
+
 ### v0.14.3 Beta release
 
 - Extend API by making all NovelystTk frames "public".

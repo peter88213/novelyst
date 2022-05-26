@@ -75,14 +75,16 @@ class NovelystTk(MainTk):
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
 
-        # Create an application window with a tree frame and a data frame.
-        self.appWindow = tk.PanedWindow(self.mainWindow, sashrelief=tk.RAISED)
+        # Create an application window with a tree frame, a middle frame, and a data frame.
+        self.appWindow = tk.Frame(self.mainWindow)
         self.appWindow.pack(expand=True, fill='both')
         self.treeFrame = tk.Frame(self.appWindow)
-        kw = {'width':kwargs['tree_frame_width']}
-        self.appWindow.add(self.treeFrame, **kw)
-        self.dataFrame = tk.Frame(self.appWindow)
-        self.appWindow.add(self.dataFrame, minsize=350)
+        self.treeFrame.pack(side=tk.LEFT, expand=True, fill='both')
+        self.middleFrame = tk.Frame(self.appWindow)
+        self.middleFrame.pack(side=tk.LEFT, expand=False, fill='both')
+        self.dataFrame = tk.Frame(self.appWindow, width=350)
+        self.dataFrame.pack_propagate(0)
+        self.dataFrame.pack(expand=True, fill='both')
 
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self.treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
