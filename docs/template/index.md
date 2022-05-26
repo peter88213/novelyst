@@ -4,7 +4,7 @@ The *novelyst* Python program provides a tree view with parts, chapters and scen
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the yWriter project.
 
-Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
+Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
 
 The purpose of *novelyst* is to allow yWriter projects to be edited quickly and easily with OpenOffice. For this purpose there are the appropriate export functions, the possibility to change the chapter structure (which cannot be done with OpenOffice), and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
 
@@ -15,7 +15,7 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters.
 - There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
-- *novelyst's* functionality can be extended by plugins, e.g. for [Timeline](https://peter88213.github.io/yw-timeline/) or [Aeon Timeline 2](https://peter88213.github.io/aeon2yw/).
+- *novelyst's* functionality can be extended by plugins, e.g. for [Timeline](https://peter88213.github.io/yw-timeline/) or [Aeon Timeline 2](https://peter88213.github.io/aeon2yw/). There is also a [simple scene editor](https://peter88213.github.io/novelyst_editor/) available.
 
 ## Requirements
 
