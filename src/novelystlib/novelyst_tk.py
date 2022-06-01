@@ -138,10 +138,11 @@ class NovelystTk(MainTk):
         # View
         self.viewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
         self.mainMenu.add_cascade(label='View', menu=self.viewMenu)
-        self.viewMenu.add_command(label="Expand selected", underline=0, command=lambda: self.tv.open_children(self.tv.tree.selection()[0]))
-        self.viewMenu.add_command(label="Collapse selected", underline=0, command=lambda: self.tv.close_children(self.tv.tree.selection()[0]))
-        self.viewMenu.add_command(label="Expand all", underline=1, command=lambda: self.tv.open_children(''))
-        self.viewMenu.add_command(label="Collapse all", underline=1, command=lambda: self.tv.close_children(''))
+        self.viewMenu.add_command(label='Chapter level', underline=8, command=lambda: self.tv.show_chapters(self.tv.NV_ROOT))
+        self.viewMenu.add_command(label='Expand selected', underline=0, command=lambda: self.tv.open_children(self.tv.tree.selection()[0]))
+        self.viewMenu.add_command(label='Collapse selected', underline=0, command=lambda: self.tv.close_children(self.tv.tree.selection()[0]))
+        self.viewMenu.add_command(label='Expand all', underline=1, command=lambda: self.tv.open_children(''))
+        self.viewMenu.add_command(label='Collapse all', underline=1, command=lambda: self.tv.close_children(''))
 
         # Part
         self.partMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)

@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.5 Beta release
+
+- Expand the Narrative subtree when opening a project.
+- Add a View option "Chapter level".
+
+Based on PyWriter v5.10.0
+
 ### v0.14.4 Beta release
 
 - Add a middle window. Its width is controlled by its children, if any.

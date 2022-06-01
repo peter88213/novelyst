@@ -131,6 +131,7 @@ class TreeViewer:
         self._nvCtxtMenu.add_cascade(label='Set Type', menu=self._typeMenu)
         self._nvCtxtMenu.add_cascade(label='Set Status', menu=self._scStatusMenu)
         self._nvCtxtMenu.add_separator()
+        self._nvCtxtMenu.add_command(label='Chapter level', command=lambda: self.show_chapters(self.NV_ROOT))
         self._nvCtxtMenu.add_command(label='Expand', command=lambda: self.open_children(self.tree.selection()[0]))
         self._nvCtxtMenu.add_command(label='Collapse', command=lambda: self.close_children(self.tree.selection()[0]))
         self._nvCtxtMenu.add_command(label='Expand all', command=lambda: self.open_children(''))
@@ -322,7 +323,7 @@ class TreeViewer:
                 else:
                     parentNode = self.NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId)
-                chapterNode = self.tree.insert(parentNode, 'end', f'{self.CHAPTER_PREFIX}{chId}', text=title, values=columns, tags=nodeTags)
+                chapterNode = self.tree.insert(parentNode, 'end', f'{self.CHAPTER_PREFIX}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
                 title, columns, nodeTags = self._set_scene_display(scId)
                 if inChapter:
@@ -738,6 +739,15 @@ class TreeViewer:
         self.tree.item(parent, open=False)
         for child in self.tree.get_children(parent):
             self.close_children(child)
+
+    def show_chapters(self, parent):
+        """Open Narrative/part nodes and close chapter nodes."""
+        if parent.startswith(self.CHAPTER_PREFIX):
+            self.tree.item(parent, open=False)
+        else:
+            self.tree.item(parent, open=True)
+            for child in self.tree.get_children(parent):
+                self.show_chapters(child)
 
     #--- Methods that change the project
 
