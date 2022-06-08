@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.6 Beta release
+
+- Make the data frame width configurable.
+
+Based on PyWriter v5.10.0
+
 ### v0.14.5 Beta release
 
 - Expand the Narrative subtree when opening a project.

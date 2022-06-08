@@ -60,6 +60,7 @@ class NovelystTk(MainTk):
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
             tree_frame_width -- int: width of the chapter frame.
+            data_frame_width -- int: width of the data frame.
             color_locked_bg -- str: tk color name for Footer background when locked.
             color_locked_fg -- str: tk color name for Footer foreground when locked.
             color_modified_bg -- str: tk color name for Footer background when modified.
@@ -82,7 +83,7 @@ class NovelystTk(MainTk):
         self.treeFrame.pack(side=tk.LEFT, expand=True, fill='both')
         self.middleFrame = tk.Frame(self.appWindow)
         self.middleFrame.pack(side=tk.LEFT, expand=False, fill='both')
-        self.dataFrame = tk.Frame(self.appWindow, width=350)
+        self.dataFrame = tk.Frame(self.appWindow, width=kwargs['data_frame_width'])
         self.dataFrame.pack_propagate(0)
         self.dataFrame.pack(expand=True, fill='both')
 

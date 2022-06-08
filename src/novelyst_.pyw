@@ -20,6 +20,7 @@ SETTINGS = dict(
     root_geometry='1200x800',
     button_context_menu='<Button-3>',
     tree_frame_width=800,
+    data_frame_width=350,
     color_chapter='green',
     color_unused='gray',
     color_notes='blue',
