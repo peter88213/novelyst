@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.14.7 Beta release
+
+- Do not lock the project when exporting "export only" documents.
+
+Based on PyWriter v5.10.2
+
 ### v0.14.6 Beta release
 
 - Make the data frame width configurable.

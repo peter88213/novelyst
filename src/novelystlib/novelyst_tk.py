@@ -199,9 +199,9 @@ class NovelystTk(MainTk):
         self.exportMenu.add_separator()
         self.exportMenu.add_command(label='Manuscript with visible structure tags for proof reading', underline=43, command=lambda: self._exporter.run(self.ywPrj, '_proof'))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label='Manuscript without tags (export only)', underline=25, command=lambda: self._exporter.run(self.ywPrj, ''))
-        self.exportMenu.add_command(label='Brief synopsis (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_brf_synopsis'))
-        self.exportMenu.add_command(label='Cross references (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_xref'))
+        self.exportMenu.add_command(label='Manuscript without tags (export only)', underline=25, command=lambda: self._exporter.run(self.ywPrj, '', False))
+        self.exportMenu.add_command(label='Brief synopsis (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_brf_synopsis', False))
+        self.exportMenu.add_command(label='Cross references (export only)', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_xref', False))
 
         self.disable_menu()
 

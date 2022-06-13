@@ -61,14 +61,14 @@ class NvExporter:
         self.newFile = None
         # Also indicates successful conversion.
 
-    def run(self, source, suffix):
+    def run(self, source, suffix, lock=True):
         """Create a target object and run conversion.
 
         Positional arguments: 
             source -- Yw7File instance.
             suffix -- str: Target file name suffix.
         """
-        if not self.ui.isLocked:
+        if lock and not self.ui.isLocked:
             self.ui.isLocked = True
         kwargs = {'suffix':suffix}
         message, __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
