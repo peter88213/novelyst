@@ -119,7 +119,7 @@ class NovelystTk(MainTk):
         #--- Build the main menu
 
         # Files
-        self.fileMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.fileMenu = tk.Menu(self.mainMenu, title='Files', tearoff=0)
         self.mainMenu.add_cascade(label='File', underline=0, menu=self.fileMenu)
         self.fileMenu.add_command(label='New', underline=0, accelerator=self._KEY_NEW_PROJECT[1], command=self.new_project)
         self.fileMenu.add_command(label='Open...', underline=0, accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
@@ -137,7 +137,7 @@ class NovelystTk(MainTk):
         self.fileMenu.add_command(label='Exit', underline=1, accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
 
         # View
-        self.viewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.viewMenu = tk.Menu(self.mainMenu, title='View', tearoff=0)
         self.mainMenu.add_cascade(label='View', menu=self.viewMenu)
         self.viewMenu.add_command(label='Chapter level', underline=8, command=lambda: self.tv.show_chapters(self.tv.NV_ROOT))
         self.viewMenu.add_command(label='Expand selected', underline=0, command=lambda: self.tv.open_children(self.tv.tree.selection()[0]))
@@ -146,37 +146,42 @@ class NovelystTk(MainTk):
         self.viewMenu.add_command(label='Collapse all', underline=1, command=lambda: self.tv.close_children(''))
 
         # Part
-        self.partMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.partMenu = tk.Menu(self.mainMenu, title='Part', tearoff=0)
         self.mainMenu.add_cascade(label='Part', menu=self.partMenu)
         self.partMenu.add_command(label='Add', underline=0, command=self.tv.add_part)
         self.partMenu.add_separator()
         self.partMenu.add_command(label='Export part descriptions for editing', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_parts'))
 
         # Chapter
-        self.chapterMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.chapterMenu = tk.Menu(self.mainMenu, title='Chapter', tearoff=0)
         self.mainMenu.add_cascade(label='Chapter', menu=self.chapterMenu)
         self.chapterMenu.add_command(label='Add', underline=0, command=self.tv.add_chapter)
         self.chapterMenu.add_separator()
         self.chapterMenu.add_command(label='Export chapter descriptions for editing', underline=15, command=lambda: self._exporter.run(self.ywPrj, '_chapters'))
 
         # Scene
-        self.sceneMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.sceneMenu = tk.Menu(self.mainMenu, title='Scene', tearoff=0)
         self.mainMenu.add_cascade(label='Scene', menu=self.sceneMenu)
         self.sceneMenu.add_command(label='Add', underline=0, command=self.tv.add_scene)
+        self.sceneMenu.add_separator()
+        self.sceneMenu.add_cascade(label='Set Type', menu=self.tv._typeMenu)
+        self.sceneMenu.add_cascade(label='Set Status', menu=self.tv._scStatusMenu)
         self.sceneMenu.add_separator()
         self.sceneMenu.add_command(label='Export scene descriptions for editing', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenes'))
         self.sceneMenu.add_command(label='Export scene list (spreadsheet)', underline=13, command=lambda: self._exporter.run(self.ywPrj, '_scenelist'))
 
         # Character
-        self.characterMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.characterMenu = tk.Menu(self.mainMenu, title='Character', tearoff=0)
         self.mainMenu.add_cascade(label='Character', menu=self.characterMenu)
         self.characterMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.CR_ROOT))
+        self.characterMenu.add_separator()
+        self.characterMenu.add_cascade(label='Set Status', menu=self.tv._crStatusMenu)
         self.characterMenu.add_separator()
         self.characterMenu.add_command(label='Export character descriptions for editing', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_characters'))
         self.characterMenu.add_command(label='Export character list (spreadsheet)', underline=17, command=lambda: self._exporter.run(self.ywPrj, '_charlist'))
 
         # Location
-        self.locationMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.locationMenu = tk.Menu(self.mainMenu, title='Location', tearoff=0)
         self.mainMenu.add_cascade(label='Location', menu=self.locationMenu)
         self.locationMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.LC_ROOT))
         self.locationMenu.add_separator()
@@ -184,7 +189,7 @@ class NovelystTk(MainTk):
         self.locationMenu.add_command(label='Export location list (spreadsheet)', underline=16, command=lambda: self._exporter.run(self.ywPrj, '_loclist'))
 
         # Item
-        self.itemMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.itemMenu = tk.Menu(self.mainMenu, title='Item', tearoff=0)
         self.mainMenu.add_cascade(label='Item', menu=self.itemMenu)
         self.itemMenu.add_command(label='Add', underline=0, command=lambda: self.tv.add_world_element(self.tv.IT_ROOT))
         self.itemMenu.add_separator()
@@ -192,7 +197,7 @@ class NovelystTk(MainTk):
         self.itemMenu.add_command(label='Export item list (spreadsheet)', underline=12, command=lambda: self._exporter.run(self.ywPrj, '_itemlist'))
 
         # Export
-        self.exportMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.exportMenu = tk.Menu(self.mainMenu, title='Export', tearoff=0)
         self.mainMenu.add_cascade(label='Export', menu=self.exportMenu)
         self.exportMenu.add_command(label='Manuscript for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_manuscript'))
         self.exportMenu.add_command(label='Notes chapters for editing', underline=0, command=lambda: self._exporter.run(self.ywPrj, '_notes'))

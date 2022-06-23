@@ -86,7 +86,7 @@ class TreeViewer:
         self._ui = ui
 
         # Create a novel tree.
-        self.tree = ttk.Treeview(window, selectmode='browse')
+        self.tree = ttk.Treeview(window, selectmode='extended')
         scrollY = ttk.Scrollbar(window, orient="vertical", command=self.tree.yview)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
         self.tree.configure(yscrollcommand=scrollY.set)
@@ -104,18 +104,18 @@ class TreeViewer:
 
         #--- Create a scene type submenu.
         self._typeMenu = tk.Menu(self.tree, tearoff=0)
-        self._typeMenu.add_command(label='Normal', command=lambda: self._set_type(self.tree.selection()[0], 0))
-        self._typeMenu.add_command(label='Notes', command=lambda: self._set_type(self.tree.selection()[0], 1))
-        self._typeMenu.add_command(label='Todo', command=lambda: self._set_type(self.tree.selection()[0], 2))
-        self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self.tree.selection()[0], 3))
+        self._typeMenu.add_command(label='Normal', command=lambda: self._set_type(self.tree.selection(), 0))
+        self._typeMenu.add_command(label='Notes', command=lambda: self._set_type(self.tree.selection(), 1))
+        self._typeMenu.add_command(label='Todo', command=lambda: self._set_type(self.tree.selection(), 2))
+        self._typeMenu.add_command(label='Unused', command=lambda: self._set_type(self.tree.selection(), 3))
 
         #--- Create a scene scene status submenu.
         self._scStatusMenu = tk.Menu(self.tree, tearoff=0)
-        self._scStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self.tree.selection()[0], 1))
-        self._scStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self.tree.selection()[0], 2))
-        self._scStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self.tree.selection()[0], 3))
-        self._scStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self.tree.selection()[0], 4))
-        self._scStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self.tree.selection()[0], 5))
+        self._scStatusMenu.add_command(label='Outline', command=lambda: self._set_scn_status(self.tree.selection(), 1))
+        self._scStatusMenu.add_command(label='Draft', command=lambda: self._set_scn_status(self.tree.selection(), 2))
+        self._scStatusMenu.add_command(label='1st Edit', command=lambda: self._set_scn_status(self.tree.selection(), 3))
+        self._scStatusMenu.add_command(label='2nd Edit', command=lambda: self._set_scn_status(self.tree.selection(), 4))
+        self._scStatusMenu.add_command(label='Done', command=lambda: self._set_scn_status(self.tree.selection(), 5))
 
         #--- Create a narrative context menu.
         self._nvCtxtMenu = tk.Menu(self.tree, tearoff=0)
@@ -169,7 +169,7 @@ class TreeViewer:
 
         #--- Event bindings.
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
-        self.tree.bind('<Shift-B1-Motion>', self._move_node)
+        self.tree.bind('<Alt-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
         self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
         self.tree.bind(self._KEY_DEMOTE_PART, self._demote_part)
@@ -609,79 +609,99 @@ class TreeViewer:
             columns.append('')
         return title, columns, tuple(nodeTags)
 
-    def _set_type(self, node, newType):
+    def _set_type(self, nodes, newType):
         """Recursively set scene or chapter type (Normal/Notes/Todo/Unused)."""
         if self._ui.isLocked:
             return
-        if node.startswith(self.SCENE_PREFIX):
-            scene = self._ui.ywPrj.scenes[node[2:]]
-            if newType == 3:
-                scene.isUnused = True
-                scene.isTodoScene = False
-                scene.isNotesScene = False
-            elif newType == 2:
-                scene.isUnused = False
-                scene.isTodoScene = True
-                scene.isNotesScene = False
-            elif newType == 1:
-                scene.isUnused = False
-                scene.isTodoScene = False
-                scene.isNotesScene = True
-            else:
-                scene.isUnused = False
-                scene.isTodoScene = False
-                scene.isNotesScene = False
-        elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX):
-            self.tree.item(node, open=True)
-            chapter = self._ui.ywPrj.chapters[node[2:]]
-            if newType == 3:
-                chapter.isUnused = True
-                chapter.chType = 0
-            else:
-                chapter.chType = newType
-                chapter.isUnused = False
-            # Go one level down.
-            for childNode in self.tree.get_children(node):
-                self._set_type(childNode, newType)
-        else:
-            # Do nothing, avoid tree update.
-            return
 
-        self._update_tree()
+        has_changed = False
+        for node in nodes:
+            if node.startswith(self.SCENE_PREFIX):
+                scene = self._ui.ywPrj.scenes[node[2:]]
+                if newType == 3:
+                    if not scene.isUnused:
+                        scene.isUnused = True
+                        scene.isTodoScene = False
+                        scene.isNotesScene = False
+                        has_changed = True
+                elif newType == 2:
+                    if not scene.isTodoScene:
+                        scene.isUnused = False
+                        scene.isTodoScene = True
+                        scene.isNotesScene = False
+                        has_changed = True
+                elif newType == 1:
+                    if not scene.isNotesScene:
+                        scene.isUnused = False
+                        scene.isTodoScene = False
+                        scene.isNotesScene = True
+                        has_changed = True
+                else:
+                    if scene.isUnused:
+                        scene.isUnused = False
+                        has_changed = True
+                    if scene.isTodoScene:
+                        scene.isTodoScene = False
+                        has_changed = True
+                    if scene.isNotesScene:
+                        scene.isNotesScene = False
+                        has_changed = True
+            elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX):
+                self.tree.item(node, open=True)
+                chapter = self._ui.ywPrj.chapters[node[2:]]
+                if newType == 3:
+                    if not chapter.isUnused:
+                        chapter.isUnused = True
+                        chapter.chType = 0
+                        has_changed = True
+                elif chapter.chType != newType:
+                    chapter.chType = newType
+                    chapter.isUnused = False
+                    has_changed = True
 
-    def _set_scn_status(self, node, scnStatus):
+                # Go one level down.
+                self._set_type(self.tree.get_children(node), newType)
+        if has_changed:
+            self._update_tree()
+
+    def _set_scn_status(self, nodes, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
         if self._ui.isLocked:
             return
-        if node.startswith(self.SCENE_PREFIX):
-            self._ui.ywPrj.scenes[node[2:]].status = scnStatus
-        elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
-            self.tree.item(node, open=True)
-            # Go one level down.
-            for childNode in self.tree.get_children(node):
-                self._set_scn_status(childNode, scnStatus)
-        else:
-            # Do nothing, avoid tree update.
-            return
 
-        self._update_tree()
+        has_changed = False
+        for node in nodes:
+            if node.startswith(self.SCENE_PREFIX):
+                if  self._ui.ywPrj.scenes[node[2:]].status != scnStatus:
+                    self._ui.ywPrj.scenes[node[2:]].status = scnStatus
+                    has_changed = True
+            elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
+                self.tree.item(node, open=True)
+
+                # Go one level down.
+                self._set_scn_status(self.tree.get_children(node), scnStatus)
+        if has_changed:
+            self._update_tree()
 
     def _set_chr_status(self, chrStatus):
         """Set character status (Major/Minor)."""
         if self._ui.isLocked:
             return
-        node = self.tree.selection()[0]
-        if node.startswith(self.CHARACTER_PREFIX):
-            self._ui.ywPrj.characters[node[2:]].isMajor = chrStatus
-        elif node.endswith(self.CHARACTER_PREFIX):
-            # Go one level down.
-            for childNode in self.tree.get_children(node):
-                self._set_chr_status(childNode, chrStatus)
-        else:
-            # Do nothing, avoid tree update.
-            return
 
-        self._update_tree()
+        has_changed = False
+        nodes = self.tree.selection()
+        for node in nodes:
+            if node.startswith(self.CHARACTER_PREFIX):
+                if self._ui.ywPrj.characters[node[2:]].isMajor != chrStatus:
+                    self._ui.ywPrj.characters[node[2:]].isMajor = chrStatus
+                    has_changed = True
+            elif node.endswith(self.CHARACTER_PREFIX):
+                # Go one level down.
+                for childNode in self.tree.get_children(node):
+                    self._set_chr_status(childNode, chrStatus)
+                has_changed = True
+        if has_changed:
+            self._update_tree()
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""
@@ -820,86 +840,86 @@ class TreeViewer:
         if self._ui.isLocked:
             return
         tv = event.widget
-        selection = tv.selection()[0]
-        elemId = selection[2:]
-        if selection.startswith(self.SCENE_PREFIX):
-            candidate = f'Scene "{self._ui.ywPrj.scenes[elemId].title}"'
-        elif selection.startswith(self.CHAPTER_PREFIX):
-            candidate = f'Chapter "{self._ui.ywPrj.chapters[elemId].title}"'
-        elif selection.startswith(self.PART_PREFIX):
-            candidate = f'Part "{self._ui.ywPrj.chapters[elemId].title}"'
-        elif selection.startswith(self.CHARACTER_PREFIX):
-            candidate = f'Character "{self._ui.ywPrj.characters[elemId].title}"'
-        elif selection.startswith(self.LOCATION_PREFIX):
-            candidate = f'Location "{self._ui.ywPrj.locations[elemId].title}"'
-        elif selection.startswith(self.ITEM_PREFIX):
-            candidate = f'Item "{self._ui.ywPrj.items[elemId].title}"'
-        else:
-            return
-
-        if self._ui.ask_yes_no(f'Delete {candidate}?'):
-            if tv.prev(selection):
-                tv.selection_set(tv.prev(selection))
-            else:
-                tv.selection_set(tv.parent(selection))
-            if selection == self._trashNode:
-                # Remove the "trash bin".
-                tv.delete(selection)
-                self._trashNode = None
-                for scId in self._ui.ywPrj.chapters[elemId].srtScenes:
-                    del self._ui.ywPrj.scenes[scId]
-                del self._ui.ywPrj.chapters[elemId]
+        for  selection in tv.selection():
+            elemId = selection[2:]
+            if selection.startswith(self.SCENE_PREFIX):
+                candidate = f'Scene "{self._ui.ywPrj.scenes[elemId].title}"'
+            elif selection.startswith(self.CHAPTER_PREFIX):
+                candidate = f'Chapter "{self._ui.ywPrj.chapters[elemId].title}"'
+            elif selection.startswith(self.PART_PREFIX):
+                candidate = f'Part "{self._ui.ywPrj.chapters[elemId].title}"'
             elif selection.startswith(self.CHARACTER_PREFIX):
-                # Delete a character and remove references.
-                tv.delete(selection)
-                del self._ui.ywPrj.characters[elemId]
-                for scId in self._ui.ywPrj.scenes:
-                    try:
-                        self._ui.ywPrj.scenes[scId].characters.remove(elemId)
-                    except:
-                        pass
+                candidate = f'Character "{self._ui.ywPrj.characters[elemId].title}"'
             elif selection.startswith(self.LOCATION_PREFIX):
-                # Delete a location and remove references.
-                tv.delete(selection)
-                del self._ui.ywPrj.locations[elemId]
-                for scId in self._ui.ywPrj.scenes:
-                    try:
-                        self._ui.ywPrj.scenes[scId].locations.remove(elemId)
-                    except:
-                        pass
+                candidate = f'Location "{self._ui.ywPrj.locations[elemId].title}"'
             elif selection.startswith(self.ITEM_PREFIX):
-                # Delete an item and remove references.
-                tv.delete(selection)
-                del self._ui.ywPrj.items[elemId]
-                for scId in self._ui.ywPrj.scenes:
-                    try:
-                        self._ui.ywPrj.scenes[scId].items.remove(elemId)
-                    except:
-                        pass
+                candidate = f'Item "{self._ui.ywPrj.items[elemId].title}"'
             else:
-                # Part/chapter/scene selected.
-                if self._trashNode is None:
-                    # Create a "trash bin"; use the first free chapter ID.
-                    trashId = create_id(self._ui.ywPrj.chapters)
-                    self._ui.ywPrj.chapters[trashId] = Chapter()
-                    self._ui.ywPrj.chapters[trashId].title = "Trash"
-                    self._ui.ywPrj.chapters[trashId].isTrash = True
-                    self._trashNode = f'{self.CHAPTER_PREFIX}{trashId}'
-                    self.tree.insert(self.NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
-                if selection.startswith(self.SCENE_PREFIX):
-                    if self.tree.parent(selection) == self._trashNode:
-                        # Remove scene, if already in trash bin.
-                        tv.delete(selection)
-                        del self._ui.ywPrj.scenes[elemId]
-                    else:
-                        # Move scene to the "trash bin".
-                        waste_scenes(selection)
+                return
+
+            if self._ui.ask_yes_no(f'Delete {candidate}?'):
+                if tv.prev(selection):
+                    tv.selection_set(tv.prev(selection))
                 else:
-                    # Delete part/chapter and move child scenes to the "trash bin".
-                    waste_scenes(selection)
+                    tv.selection_set(tv.parent(selection))
+                if selection == self._trashNode:
+                    # Remove the "trash bin".
                     tv.delete(selection)
-                # Make sure the whole "trash bin" is unused.
-                self._set_type(self._trashNode, 3)
+                    self._trashNode = None
+                    for scId in self._ui.ywPrj.chapters[elemId].srtScenes:
+                        del self._ui.ywPrj.scenes[scId]
+                    del self._ui.ywPrj.chapters[elemId]
+                elif selection.startswith(self.CHARACTER_PREFIX):
+                    # Delete a character and remove references.
+                    tv.delete(selection)
+                    del self._ui.ywPrj.characters[elemId]
+                    for scId in self._ui.ywPrj.scenes:
+                        try:
+                            self._ui.ywPrj.scenes[scId].characters.remove(elemId)
+                        except:
+                            pass
+                elif selection.startswith(self.LOCATION_PREFIX):
+                    # Delete a location and remove references.
+                    tv.delete(selection)
+                    del self._ui.ywPrj.locations[elemId]
+                    for scId in self._ui.ywPrj.scenes:
+                        try:
+                            self._ui.ywPrj.scenes[scId].locations.remove(elemId)
+                        except:
+                            pass
+                elif selection.startswith(self.ITEM_PREFIX):
+                    # Delete an item and remove references.
+                    tv.delete(selection)
+                    del self._ui.ywPrj.items[elemId]
+                    for scId in self._ui.ywPrj.scenes:
+                        try:
+                            self._ui.ywPrj.scenes[scId].items.remove(elemId)
+                        except:
+                            pass
+                else:
+                    # Part/chapter/scene selected.
+                    if self._trashNode is None:
+                        # Create a "trash bin"; use the first free chapter ID.
+                        trashId = create_id(self._ui.ywPrj.chapters)
+                        self._ui.ywPrj.chapters[trashId] = Chapter()
+                        self._ui.ywPrj.chapters[trashId].title = "Trash"
+                        self._ui.ywPrj.chapters[trashId].isTrash = True
+                        self._trashNode = f'{self.CHAPTER_PREFIX}{trashId}'
+                        self.tree.insert(self.NV_ROOT, 'end', self._trashNode, text='Trash', tags='unused', open=True)
+                    if selection.startswith(self.SCENE_PREFIX):
+                        if self.tree.parent(selection) == self._trashNode:
+                            # Remove scene, if already in trash bin.
+                            tv.delete(selection)
+                            del self._ui.ywPrj.scenes[elemId]
+                        else:
+                            # Move scene to the "trash bin".
+                            waste_scenes(selection)
+                    else:
+                        # Delete part/chapter and move child scenes to the "trash bin".
+                        waste_scenes(selection)
+                        tv.delete(selection)
+                    # Make sure the whole "trash bin" is unused.
+                    self._set_type(self._trashNode, 3)
             self._update_tree()
 
     def add_part(self):

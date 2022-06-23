@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.16.0 Beta release
+
+- Enable multiple nodes selection.
+- Move nodes using "Alt" instead of "Shift".
+- When changing type or status, set "changed" only in case of actual changes.
+
+Based on PyWriter v5.12.0
+
 ### v0.14.7 Beta release
 
 - Do not lock the project when exporting "export only" documents.

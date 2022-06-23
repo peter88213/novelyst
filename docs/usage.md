@@ -23,7 +23,7 @@ You can either
 
 #### Move parts, chapters, and scenes
 
-Drag and drop while pressing the **Shift** key. Be aware, there is no "Undo" feature. 
+Drag and drop while pressing the **Alt** key. Be aware, there is no "Undo" feature. 
 - When moving a normal chapter from the narrative to the "Research" branch, be sure to
   change its type to "Notes".
 
