@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.16.3 Beta release
+
+- Make the treeview colors display properly on all computers.
+
+Based on PyWriter v5.16.1
+
 ### v0.16.2 Beta release
 
 - Fix word counting considering ellipses.
