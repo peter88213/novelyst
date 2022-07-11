@@ -128,7 +128,7 @@ def install(pywriterPath):
                 try:
                     os.remove(file)
                     output(f'Removing "{file.name}"')
-                except PermissionError:
+                except:
                     pass
 
     # Install the new version.
