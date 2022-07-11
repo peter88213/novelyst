@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.16.4 Beta release
+
+- Fix setup script for Linux.
+- Undo changes of v0.16.3
+- Change requirements: Needs Python 3.9.10+
+
+Based on PyWriter v5.16.1
+
 ### v0.16.3 Beta release
 
 - Make the treeview colors display properly with Python versions prior to 3.9.10 on Windows.

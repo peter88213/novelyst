@@ -9,7 +9,6 @@ import sys
 import glob
 import importlib
 import tkinter as tk
-from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 from pywriter.pywriter_globals import ERROR
@@ -91,14 +90,6 @@ class NovelystTk(MainTk):
         # Create a novel tree window.
         self.treeWindow = tk.PanedWindow(self.treeFrame, orient=tk.VERTICAL, sashrelief=tk.RAISED)
         self.treeWindow.pack(expand=True, fill='both')
-        
-        # Make the treeview colors display properly; see:
-        # https://stackoverflow.com/questions/56331001/python-tkinter-treeview-colors-are-not-updating
-        style = ttk.Style()
-        actualTheme = style.theme_use()
-        style.theme_create('dummy', parent=actualTheme)
-        style.theme_use('dummy')
-        
         self.tv = TreeViewer(self, self.treeWindow, **kwargs)
 
         #--- Create a data window.

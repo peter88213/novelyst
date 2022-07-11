@@ -19,7 +19,7 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 
 ## Requirements
 
-- [Python 3.6+](https://www.python.org). 
+- [Python 3.9.10+](https://www.python.org). 
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
 
 ## Download and install

@@ -19,14 +19,14 @@ The purpose of *novelyst* is to allow yWriter projects to be edited quickly and 
 
 ## Requirements
 
-- [Python 3.6+](https://www.python.org). 
+- [Python 3.9.10+](https://www.python.org). 
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
 
 ## Download and install
 
-[Download the latest release (version 0.16.3)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.16.3.zip)
+[Download the latest release (version 0.16.4)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.16.4.zip)
 
-- Unzip the downloaded zipfile "novelyst_v0.16.3.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v0.16.4.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Open "README.md" for usage instructions.
