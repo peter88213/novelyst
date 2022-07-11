@@ -10,7 +10,7 @@ See the [GitHub "features" project](https://github.com/peter88213/novelyst/proje
 
 ### v0.16.3 Beta release
 
-- Make the treeview colors display properly on all computers.
+- Make the treeview colors display properly with Python versions prior to 3.9.10 on Windows.
 
 Based on PyWriter v5.16.1
 
