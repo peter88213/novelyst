@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.18.0 Extend File menu
+
+- Add "Open Project folder" file menu entry.
+
+Based on PyWriter v5.18.0
+
 ### v0.16.5 Improved setup
 
 - Catch exceptions in the setup script.

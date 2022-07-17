@@ -46,6 +46,7 @@ class NovelystTk(MainTk):
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
     _KEY_YWRITER = ('<Control-Alt-y>', 'Ctrl-Alt-Y')
+    _KEY_FOLDER = ('<Control-p>', 'Ctrl-P')
     _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
     _KEY_REFRESH_TREE = ('<F5>', 'F5')
     _KEY_SAVE_PROJECT = ('<Control-s>', 'Ctrl-S')
@@ -129,6 +130,7 @@ class NovelystTk(MainTk):
         self.fileMenu.add_command(label='Lock', underline=0, accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
         self.fileMenu.add_command(label='Unlock', underline=0, accelerator=self._KEY_UNLOCK_PROJECT[1], command=self.unlock)
         self.fileMenu.add_command(label='Open with yWriter', underline=10, accelerator=self._KEY_YWRITER[1], command=self.launch_yWriter)
+        self.fileMenu.add_command(label='Open Project folder', underline=5, accelerator=self._KEY_FOLDER[1], command=self.open_folder)
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label='Save', underline=0, accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self.fileMenu.add_command(label='Save as...', underline=5, accelerator=self._KEY_SAVE_AS[1], command=self.save_as)
@@ -216,6 +218,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self.unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self.reload_project)
         self.root.bind(self._KEY_YWRITER[0], self.launch_yWriter)
+        self.root.bind(self._KEY_FOLDER[0], self.open_folder)
         self.root.bind(self._KEY_REFRESH_TREE[0], self.refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
         self.root.bind(self._KEY_SAVE_AS[0], self.save_as)
@@ -297,6 +300,23 @@ class NovelystTk(MainTk):
         self.save_project()
         if self.lock():
             open_document(self.ywPrj.filePath)
+
+    def open_folder(self, event=None):
+        """Open the project folder."""
+        projectDir, __ = os.path.split(self.ywPrj.filePath)
+        try:
+            os.startfile(os.path.normpath(projectDir))
+            # Windows
+        except:
+            try:
+                os.system('xdg-open "%s"' % os.path.normpath(projectDir))
+                # Linux
+            except:
+                try:
+                    os.system('open "%s"' % os.path.normpath(projectDir))
+                    # Mac
+                except:
+                    pass
 
     def on_quit(self, event=None):
         """Save keyword arguments before exiting the program.."""
@@ -543,6 +563,7 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig('Lock', state='disabled')
         self.fileMenu.entryconfig('Unlock', state='disabled')
         self.fileMenu.entryconfig('Open with yWriter', state='disabled')
+        self.fileMenu.entryconfig('Open Project folder', state='disabled')
         self.fileMenu.entryconfig('Remove custom fields', state='disabled')
         self.fileMenu.entryconfig('Save', state='disabled')
         self.fileMenu.entryconfig('Save as...', state='disabled')
@@ -572,6 +593,7 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig('Refresh Tree', state='normal')
         self.fileMenu.entryconfig('Lock', state='normal')
         self.fileMenu.entryconfig('Open with yWriter', state='normal')
+        self.fileMenu.entryconfig('Open Project folder', state='normal')
         self.fileMenu.entryconfig('Remove custom fields', state='normal')
         self.fileMenu.entryconfig('Save', state='normal')
         self.fileMenu.entryconfig('Save as...', state='normal')
