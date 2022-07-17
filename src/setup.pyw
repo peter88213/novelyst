@@ -183,7 +183,11 @@ if __name__ == '__main__':
 
     # Run the installation.
     homePath = str(Path.home()).replace('\\', '/')
-    install(f'{homePath}/.pywriter/')
+    pywriterPath = f'{homePath}/.pywriter/'
+    try:
+        install(pywriterPath)
+    except Exception as ex:
+        output(str(ex))
 
     # Show options: open installation folders or quit.
     root.openButton = Button(text="Open installation folder", command=lambda: open_folder(f'{homePath}/.pywriter/{APPNAME}'))
