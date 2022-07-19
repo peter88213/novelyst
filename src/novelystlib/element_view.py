@@ -16,6 +16,7 @@ class ElementView(BasicView):
     def __init__(self, ui, element):
         """Display element title, description and notes."""
         super(). __init__(ui, element)
+
         # Place a "Tags" entry inside the frame.
         if element.tags is not None:
             tags = ';'.join(element.tags)

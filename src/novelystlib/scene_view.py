@@ -118,6 +118,16 @@ class SceneView(BasicView):
         
         Extends the superclass method.
         """
+        if self._element.tags:
+            elementTags = ';'.join(self._element.tags)
+        else:
+            elementTags = None
+        newTags = self._tags.get()
+        if elementTags or newTags:
+            if newTags != elementTags:
+                self._element.tags = newTags.split(';')
+                ui.isModified = True
+
         # Append to previous scene.
         appendToPrev = self._appendToPrev.get()
         if self._element.appendToPrev or appendToPrev:

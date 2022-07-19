@@ -396,12 +396,12 @@ class NovelystTk(MainTk):
             except:
                 pass
 
+        self.on_nothing_select()
         if self.isModified:
             if self.ask_yes_no('Save changes?'):
                 self.save_project()
             self.isModified = False
         self.tv.reset_tree()
-        self.on_nothing_select()
         self.isLocked = False
         super().close_project()
 

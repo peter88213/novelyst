@@ -19,6 +19,10 @@ class ProjectView(BasicView):
         
         Extends the superclass constructor.
         """
+
+        def set_initial_wc():
+            self._wordCountStart.set(ui.wordCount)
+
         super(). __init__(ui, element)
         self._authorName = tk.StringVar(value=element.authorName)
         self._authorNameEntry = LabelEntry(self._valuesFrame, text='Author', textvariable=self._authorName, lblWidth=20)
@@ -73,6 +77,9 @@ class ProjectView(BasicView):
         self._wordCountStart = tk.IntVar(value=element.wordCountStart)
         self._wordCountStartEntry = LabelEntry(self._valuesFrame, text='Starting count', textvariable=self._wordCountStart, lblWidth=20)
         self._wordCountStartEntry.pack(anchor='w', pady=2)
+
+        setInitialWcButton = tk.Button(self._valuesFrame, text='Set actual wordcount as start', command=set_initial_wc)
+        setInitialWcButton.pack(anchor='w', pady=2)
 
         self._wordTarget = tk.IntVar(value=element.wordTarget)
         self._wordTargetEntry = LabelEntry(self._valuesFrame, text='Words to write', textvariable=self._wordTarget, lblWidth=20)
