@@ -77,6 +77,7 @@ class NovelystTk(MainTk):
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
         self.wordCount = 0
+        self._reload = False
 
         # Create an application window with a tree frame, a middle frame, and a data frame.
         self.appWindow = tk.Frame(self.mainWindow)
@@ -395,13 +396,15 @@ class NovelystTk(MainTk):
                 p.on_quit()
             except:
                 pass
-
         self.on_nothing_select()
-        if self.isModified:
+        # this closes the current element view after checking for modifications
+        if self.isModified and not self._reload:
             if self.ask_yes_no('Save changes?'):
                 self.save_project()
-            self.isModified = False
         self.tv.reset_tree()
+        # this removes all children from the tree
+        self.isModified = False
+        self._reload = False
         self.isLocked = False
         super().close_project()
 
@@ -422,7 +425,7 @@ class NovelystTk(MainTk):
         if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no('File has changed on disk. Reload anyway?'):
             return
 
-        self.isModified = False
+        self._reload = True
         # This is to avoid another question when closing the project
         self.open_project(self.ywPrj.filePath)
         # Includes closing
