@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from novelystlib.element_view import BasicView
 from novelystlib.label_entry import LabelEntry
+from novelystlib.label_disp import LabelDisp
 
 
 class ProjectView(BasicView):
@@ -69,6 +70,18 @@ class ProjectView(BasicView):
                                         variable=self._romanParts, onvalue=True, offvalue=False)
         self._romanPartsCheckbox.pack(anchor='w', pady=2)
 
+        self._wordCountStart = tk.IntVar(value=element.wordCountStart)
+        self._wordCountStartEntry = LabelEntry(self._valuesFrame, text='Starting count', textvariable=self._wordCountStart, lblWidth=20)
+        self._wordCountStartEntry.pack(anchor='w', pady=2)
+
+        self._wordTarget = tk.IntVar(value=element.wordTarget)
+        self._wordTargetEntry = LabelEntry(self._valuesFrame, text='Words to write', textvariable=self._wordTarget, lblWidth=20)
+        self._wordTargetEntry.pack(anchor='w', pady=2)
+
+        wordsWritten = tk.StringVar(value=ui.wordCount - element.wordCountStart)
+        wordsWrittenDisp = LabelDisp(self._valuesFrame, text='Words written', textvariable=wordsWritten, lblWidth=20)
+        wordsWrittenDisp.pack(anchor='w', pady=2)
+
     def apply_changes(self, ui):
         """Apply changes.
         
@@ -97,5 +110,25 @@ class ProjectView(BasicView):
                 ui.isModified = True
         if self._update_field_bool(self._romanParts, 'Field_RomanPartNumbers'):
                 ui.isModified = True
+        try:
+            entry = self._wordTarget.get()
+            # entry must be an integer
+            if self._element.wordTarget or entry:
+                if self._element.wordTarget != entry:
+                    self._element.wordTarget = entry
+                    ui.isModified = True
+        except:
+            # entry is no integer
+            pass
+        try:
+            entry = self._wordCountStart.get()
+            # entry must be an integer
+            if self._element.wordCountStart or entry:
+                if self._element.wordCountStart != entry:
+                    self._element.wordCountStart = entry
+                    ui.isModified = True
+        except:
+            # entry is no integer
+            pass
         super().apply_changes(ui)
 

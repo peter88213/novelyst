@@ -7,6 +7,7 @@ chapter_view -- provide a class for viewing and editing chapter properties.
 character_view -- provide a class for viewing and editing character properties.
 element_view -- provide a tkinter based class for viewing world element properties.
 label_combo -- provide a tkinter based combobox with a label.
+label_disp -- provide a tkinter based display box with a label.
 label_entry -- provide a tkinter entry box with a label.
 novelyst_tk -- provide a tkinter GUI framework for novelyst.
 nv_exporter -- provide a converter class for yWriter export.

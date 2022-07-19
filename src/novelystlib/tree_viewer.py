@@ -398,6 +398,8 @@ class TreeViewer:
     def _set_scene_display(self, scId):
         """Configure scene formatting and columns."""
         title = self._ui.ywPrj.scenes[scId].title
+        if not title:
+            title = 'Unnamed'
         columns = []
         nodeTags = []
         if self._ui.ywPrj.scenes[scId].isTodoScene:
@@ -481,6 +483,8 @@ class TreeViewer:
     def _set_arc_display(self, arcId):
         """Configure arc formatting and columns."""
         title = self._ui.ywPrj.scenes[arcId].title
+        if not title:
+            title = 'Unnamed'
         columns = []
         nodeTags = []
         nodeTags.append('todo')
@@ -536,6 +540,8 @@ class TreeViewer:
             return ';'.join(vpNames)
 
         title = self._ui.ywPrj.chapters[chId].title
+        if not title:
+            title = 'Unnamed'
         columns = []
         nodeTags = []
         if self._ui.ywPrj.chapters[chId].chType == 1:
@@ -575,6 +581,8 @@ class TreeViewer:
     def _set_character_display(self, crId):
         """Configure character formatting and columns."""
         title = self._ui.ywPrj.characters[crId].title
+        if not title:
+            title = 'Unnamed'
         columns = ['', '', '']
         nodeTags = []
         try:
@@ -590,6 +598,8 @@ class TreeViewer:
     def _set_location_display(self, lcId):
         """Configure location formatting and columns."""
         title = self._ui.ywPrj.locations[lcId].title
+        if not title:
+            title = 'Unnamed'
         columns = ['', '', '']
         nodeTags = []
         try:
@@ -601,6 +611,8 @@ class TreeViewer:
     def _set_item_display(self, itId):
         """Configure item formatting and columns."""
         title = self._ui.ywPrj.items[itId].title
+        if not title:
+            title = 'Unnamed'
         columns = ['', '', '']
         nodeTags = []
         try:

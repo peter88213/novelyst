@@ -6,8 +6,10 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 from datetime import datetime
+import xml.etree.ElementTree as ET
 from pywriter.pywriter_globals import ERROR
 from pywriter.yw.yw7_file import Yw7File
+from pywriter.yw.xml_indent import indent
 
 
 class Yw7WorkFile(Yw7File):
@@ -50,6 +52,8 @@ class Yw7WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self.timestamp = None
+        self.wordCountStart = 0
+        self.wordTarget = 0
 
     @property
     def fileDate(self):
@@ -111,6 +115,22 @@ class Yw7WorkFile(Yw7File):
         Extends the superclass method.
         """
         message = super().read()
+
+        #--- Read word target data.
+        if not message.startswith(ERROR):
+            root = self.tree.getroot()
+            prj = root.find('PROJECT')
+            if prj.find('WordCountStart') is not None:
+                try:
+                    self.wordCountStart = int(prj.find('WordCountStart').text)
+                except:
+                    self.wordCountStart = 0
+            if prj.find('WordTarget') is not None:
+                try:
+                    self.wordTarget = int(prj.find('WordTarget').text)
+                except:
+                    self.wordTarget = 0
+
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
         for crId in self.srtCharacters:
@@ -135,8 +155,26 @@ class Yw7WorkFile(Yw7File):
             self.timestamp = None
         return message
 
+    def _build_element_tree(self):
+        """Extends the superclass method."""
+        super()._build_element_tree()
+
+        #--- Write word target data.
+        root = self.tree.getroot()
+        xmlPrj = root.find('PROJECT')
+        try:
+            xmlPrj.find('WordCountStart').text = str(self.wordCountStart)
+        except(AttributeError):
+            ET.SubElement(xmlPrj, 'WordCountStart').text = str(self.wordCountStart)
+        try:
+            xmlPrj.find('WordTarget').text = str(self.wordTarget)
+        except(AttributeError):
+            ET.SubElement(xmlPrj, 'WordTarget').text = str(self.wordTarget)
+        indent(root)
+        self.tree = ET.ElementTree(root)
+
     def write(self):
-        """Extend the superclass method."""
+        """Extends the superclass method."""
         message = super().write()
         if not message.startswith(ERROR):
             self.timestamp = os.path.getmtime(self.filePath)

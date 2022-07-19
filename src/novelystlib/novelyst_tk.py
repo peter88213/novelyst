@@ -76,6 +76,7 @@ class NovelystTk(MainTk):
         self._internalModificationFlag = False
         self._internalLockFlag = False
         self._exporter = NvExporter(self)
+        self.wordCount = 0
 
         # Create an application window with a tree frame, a middle frame, and a data frame.
         self.appWindow = tk.Frame(self.mainWindow)
@@ -458,6 +459,7 @@ class NovelystTk(MainTk):
                 else:
                     chapterCount += 1
             message = f'{partCount} parts, {chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
+            self.wordCount = wordCount
         super().show_status(message)
 
     #--- Methods that change the project
