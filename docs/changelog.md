@@ -8,6 +8,17 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
 
+### v0.20.0 Bugfix and word count target
+
+- Fix scene tag update.
+- Fix a bug where the application cannot be closed properly when exiting
+from an edited element view.
+- Display Word count target and start count.
+- Display words written percentage.
+- Add "Set actual wordcount as start" button to ProjectView.
+
+Based on PyWriter v5.18.1
+
 ### v0.18.1 Update setup script
 
 - Change the working dir to the script dir on startup in order to avoid "file not found" error.
