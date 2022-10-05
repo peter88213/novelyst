@@ -41,5 +41,5 @@ The icons are made using the free *Pusab* font by Ryoichi Tsunekawa, [Flat-it](h
 
 This is Open Source software, and *novelyst* is licenced under GPLv3. See the
 [GNU General Public License website](https://www.gnu.org/licenses/gpl-3.0.en.html) for more
-details, or consult the [LICENSE](https://github.com/peter88213/novelyst/blob/main/LICENSE.md) file.
+details, or consult the [LICENSE](https://github.com/peter88213/novelyst/blob/main/LICENSE) file.
 
