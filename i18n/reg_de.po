@@ -1,0 +1,18 @@
+# novelyst Dictionary
+# Copyright (C) 2022 Peter Triesberger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.22.0\n"
+"POT-Creation-Date: 2022-08-12 22:57:29\n"
+"PO-Revision-Date: 2022-08-12 23:00:00\n"
+"Last-Translator: Peter Triesberger\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: PyWriter pgettext.py 0.3\n"
+
+
+msgid "Open with novelyst"
+msgstr "Mit novelyst öffnen"

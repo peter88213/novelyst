@@ -1,0 +1,702 @@
+# novelyst Dictionary (English-German)
+# Copyright (C) 2022 Peter Triesberger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"POT-Creation-Date: 2022-10-05 15:21:15\n"
+"PO-Revision-Date: 2022-10-05 15:21:15\n"
+"Last-Translator: Peter Triesberger\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "1st Edit"
+msgstr "1. Überarbeitung"
+
+msgid "2nd Edit"
+msgstr "2. Überarbeitung"
+
+msgid "A"
+msgstr "A"
+
+msgid "A/R"
+msgstr "A/R"
+
+msgid "AKA"
+msgstr "alias"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Action canceled by user"
+msgstr "Vorgang vom Benutzer abgebrochen"
+
+msgid "Action/Reaction"
+msgstr "Aktion/Reaktion"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add Chapter"
+msgstr "Kapitel hinzufügen"
+
+msgid "Add Part"
+msgstr "Teil hinzufügen"
+
+msgid "Add Scene"
+msgstr "Abschnitt hinzufügen"
+
+msgid "Append to previous scene"
+msgstr "An den vorherigen Abschnitt anhängen"
+
+msgid "Arc reference"
+msgstr "Handlungsbogen-Referenz"
+
+msgid "Arcs"
+msgstr "Bögen"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Auto number chapters when refreshing the tree"
+msgstr "Kapitel automatisch nummerieren"
+
+msgid "Auto number parts when refreshing the tree"
+msgstr "Teile automatisch nummerieren"
+
+msgid "Bio"
+msgstr "Biographie"
+
+msgid "Brief synopsis"
+msgstr "Kurzzusammenfassung"
+
+msgid "Brief synopsis (export only)"
+msgstr "Kurzzusammenfassung (nur Export)"
+
+msgid "C"
+msgstr "B"
+
+msgid "Can not process file"
+msgstr "Kann Datei nicht verarbeiten"
+
+msgid "Cancel Part"
+msgstr "Teilung aufheben"
+
+msgid "Cannot create directory"
+msgstr "Kann Verzeichnis nicht erzeugen"
+
+msgid "Cannot create file"
+msgstr "Kann Datei nicht erzeugen"
+
+msgid "Cannot overwrite file"
+msgstr "Kann Datei nicht überschreiben"
+
+msgid "Cannot save: The project must have at least one chapter or part"
+msgstr "Speichern nicht möglich: Das Projekt muss mindestens ein Kapitel haben"
+
+msgid "Cannot write file"
+msgstr "Kann Datei nicht schreiben"
+
+msgid "Chapter"
+msgstr "Kapitel"
+
+msgid "Chapter descriptions"
+msgstr "Kapitelbeschreibungen"
+
+msgid "Chapter level"
+msgstr "Kapitelebene anzeigen"
+
+msgid "Chapter number prefix"
+msgstr "Präfix Kapitelnummer"
+
+msgid "Chapter number suffix"
+msgstr "Suffix Kapitelnummer"
+
+msgid "Character"
+msgstr "Figur"
+
+msgid "Character descriptions"
+msgstr "Figurenbeschreibungen"
+
+msgid "Character list"
+msgstr "Figurenliste"
+
+msgid "Characters"
+msgstr "Figuren"
+
+msgid "Characters/locations/items data files"
+msgstr "Figuren/Schauplätze/Gegenstände-Datendateien"
+
+msgid "Choice"
+msgstr "Wahl"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Collapse"
+msgstr "Einklappen"
+
+msgid "Collapse all"
+msgstr "Alle einklappen"
+
+msgid "Collapse selected"
+msgstr "Ausgewählte einklappen"
+
+msgid "Coloring mode"
+msgstr "Farbgebungsmodus"
+
+msgid "Conflict"
+msgstr "Konflikt"
+
+msgid "Created {0} on {1}."
+msgstr "{0} erzeugt am {1}."
+
+msgid "Cross reference"
+msgstr "Querverweise"
+
+msgid "Cross references (export only)"
+msgstr "Querverweise (nur Export)"
+
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+msgid "Custom Conflict"
+msgstr "Benutzerdef. Konflikt"
+
+msgid "Custom Goal"
+msgstr "Benutzerdef. Ziel"
+
+msgid "Custom Outcome"
+msgstr "Benutzerdef. Ausgang"
+
+msgid "Custom chara Bio"
+msgstr "Benutzerdef. Biographie"
+
+msgid "Custom chara Goals"
+msgstr "Benutzerdef. Ziele"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Day"
+msgstr "Tag"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Delete file"
+msgstr "Lösche Datei"
+
+msgid "Delete {}?"
+msgstr "{} löschen?"
+
+msgid "Demote Part"
+msgstr "Teil herabstufen"
+
+msgid "Demote part \"{}\" to chapter?"
+msgstr "Teil \"{}\" zum Kapitel herabstufen?"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Dilemma"
+msgstr "Dilemma"
+
+msgid "Discard changes and reload the project?"
+msgstr "Änderungen verwerfen und das Projekt neu laden?"
+
+msgid "Do not auto-number this chapter"
+msgstr "Dieses Kapitel nicht automatisch nummerieren"
+
+msgid "Do not auto-number this part"
+msgstr "Diesen Teil nicht automatisch nummerieren"
+
+msgid "Document \"{0}\" (last saved on {1}) already exists.\nOpen this file instead of overwriting it?"
+msgstr "Dokument \"{0}\" (zuletzt gespeichert: {1}) exitiert bereits.\nDiese Datei öffnen, statt sie zu überschreiben?"
+
+msgid "Document \"{}\" created. Open now?"
+msgstr "Dokument \"{}\" erzeugt. Jetzt öffnen?"
+
+msgid "Done"
+msgstr "Fertiggestellt"
+
+msgid "Draft"
+msgstr "Entwurf"
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Editable manuscript"
+msgstr "Manuskript zum Bearbeiten"
+
+msgid "Exit"
+msgstr "Beenden"
+
+msgid "Expand"
+msgstr "Aufklappen"
+
+msgid "Expand all"
+msgstr "Alles aufklappen"
+
+msgid "Expand selected"
+msgstr "Ausgewählte aufklappen"
+
+msgid "Export"
+msgstr "Exportieren"
+
+msgid "Export chapter descriptions for editing"
+msgstr "Kapitelbeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export character descriptions for editing"
+msgstr "Figurenbeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export character list (spreadsheet)"
+msgstr "Figurenliste exportieren (Tabelle)"
+
+msgid "Export item descriptions for editing"
+msgstr "Gegenstandsbeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export item list (spreadsheet)"
+msgstr "Gegenstandsliste exportieren (Tabelle)"
+
+msgid "Export location descriptions for editing"
+msgstr "Schauplatzbeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export location list (spreadsheet)"
+msgstr "Schauplatzliste exportieren (Tabelle)"
+
+msgid "Export part descriptions for editing"
+msgstr "Teilebeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export scene descriptions for editing"
+msgstr "Abschnittsbeschreibungen zum Bearbeiten exportieren"
+
+msgid "Export scene list (spreadsheet)"
+msgstr "Abschnittsliste exportieren (Tabelle)"
+
+msgid "Export type is not supported"
+msgstr "Exporttyp nicht unterstützt"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "File has changed on disk. Reload anyway?"
+msgstr "Die Datei wurde auf der Festplatte geändert. Trotzdem laden?"
+
+msgid "File has changed on disk. Reload?"
+msgstr "Die Datei wurde auf der Festplatte geändert. Neu laden?"
+
+msgid "File has changed on disk. Save anyway?"
+msgstr "Die Datei wurde auf der Festplatte geändert. Trotzdem speichern?"
+
+msgid "File is write protected"
+msgstr "Datei ist schreibgeschützt"
+
+msgid "File written"
+msgstr "Datei gespeichert"
+
+msgid "Full name"
+msgstr "Vollst. Name"
+
+msgid "Goal"
+msgstr "Ziel"
+
+msgid "Goals"
+msgstr "Ziele"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Home page"
+msgstr "Homepage"
+
+msgid "Input rejected"
+msgstr "Eingabe abgelehnt"
+
+msgid "Installed plugins"
+msgstr "Installierte Plugins"
+
+msgid "Item"
+msgstr "Gegenstand"
+
+msgid "Item descriptions"
+msgstr "Gegenstandsbeschreibungen"
+
+msgid "Item list"
+msgstr "Gegenstandsliste"
+
+msgid "Items"
+msgstr "Gegenstände"
+
+msgid "Location"
+msgstr "Schauplatz"
+
+msgid "Location descriptions"
+msgstr "Schauplatzbeschreibungen"
+
+msgid "Location list"
+msgstr "Schauplatzliste"
+
+msgid "Locations"
+msgstr "Schauplätze"
+
+msgid "Lock"
+msgstr "Sperren"
+
+msgid "Major Character"
+msgstr "Hauptfigur"
+
+msgid "Manuscript for editing"
+msgstr "Manuskript zum Bearbeiten"
+
+msgid "Manuscript with visible structure tags for proof reading"
+msgstr "Manuskript mit sichtbaren Markierungen zum Korrekturlesen"
+
+msgid "Manuscript without tags (export only)"
+msgstr "Manuskript ohne Markierungen (nur Export)"
+
+msgid "Minor Character"
+msgstr "Nebenfigur"
+
+msgid "Module"
+msgstr "Modul"
+
+msgid "N"
+msgstr "N"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Narrative"
+msgstr "Handlung"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "New Chapter"
+msgstr "Neues Kapitel"
+
+msgid "New Character"
+msgstr "Neue Figur"
+
+msgid "New Item"
+msgstr "Neuer Gegenstand"
+
+msgid "New Location"
+msgstr "Neuer Schauplatz"
+
+msgid "New Note"
+msgstr "Neue Notiz"
+
+msgid "New Part"
+msgstr "Neuer Teil"
+
+msgid "New Scene"
+msgstr "Neuer Abschnitt"
+
+msgid "No description"
+msgstr "Keine Beschreibung"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Notes"
+msgstr "Notizen"
+
+msgid "Notes chapters"
+msgstr "Notizen-Kapitel"
+
+msgid "Notes chapters for editing"
+msgstr "Notizen-Kapitel zum Bearbeiten"
+
+msgid "Novel"
+msgstr "Roman"
+
+msgid "Number of scenes"
+msgstr "Anzahl Abschnitte"
+
+msgid "Online help"
+msgstr "Online-Hilfe"
+
+msgid "Open Project folder"
+msgstr "Projektordner öffnen"
+
+msgid "Open with yWriter"
+msgstr "Mit yWriter öffnen"
+
+msgid "Open..."
+msgstr "Öffnen..."
+
+msgid "Opened existing {0} (last saved on {1})"
+msgstr "Bestehende(s) {0} geöffnet (zuletzt gespeichert: {1})"
+
+msgid "Outcome"
+msgstr "Ausgang"
+
+msgid "Outline"
+msgstr "Gliederung"
+
+msgid "Part"
+msgstr "Teil"
+
+msgid "Part descriptions"
+msgstr "Teilebeschreibungen"
+
+msgid "Part number prefix"
+msgstr "Präfix Teilenummer"
+
+msgid "Part number suffix"
+msgstr "Suffix Teilenummer"
+
+msgid "Planning"
+msgstr "Planung"
+
+msgid "Plugin Manager"
+msgstr "Plugin-Manager"
+
+msgid "Position"
+msgstr "Position"
+
+msgid "Program settings"
+msgstr "Programmeinstellungen"
+
+msgid "Project note"
+msgstr "Projektnotiz"
+
+msgid "Project notes"
+msgstr "Projektnotizen"
+
+msgid "Project settings"
+msgstr "Projekteinstellungen"
+
+msgid "Promote Chapter"
+msgstr "Kapitel hochstufen"
+
+msgid "Promote chapter \"{}\" to part?"
+msgstr "Kapitel \"{}\" zum Teil hochstufen?"
+
+msgid "R"
+msgstr "R"
+
+msgid "Reaction"
+msgstr "Reaktion"
+
+msgid "Refresh Tree"
+msgstr "Baum aktualisieren"
+
+msgid "Relationships"
+msgstr "Beziehungen"
+
+msgid "Reload"
+msgstr "Neu laden"
+
+msgid "Remove all scenes from the story arc"
+msgstr "Alle Abschnitte vom Handlungsbogen entfernen"
+
+msgid "Remove custom fields"
+msgstr "Zusatzfelder löschen"
+
+msgid "Remove novelyst project settings and save?"
+msgstr "Novelyst-Projekteinstellungen löschen und speichern?"
+
+msgid "Remove part \"{}\" and keep the chapters?"
+msgstr "Teil \"{}\" löschen und die Kapitel behalten?"
+
+msgid "Remove scene assignments"
+msgstr "Abschnittszuordnungen löschen"
+
+msgid "Research"
+msgstr "Recherche"
+
+msgid "Reset chapter number when starting a new part"
+msgstr "Kapitelnummerierung per Teil"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Save and lock?"
+msgstr "Speichern und sperren?"
+
+msgid "Save as..."
+msgstr "Speichern unter..."
+
+msgid "Save changes?"
+msgstr "Änderungen speichern?"
+
+msgid "Save word count"
+msgstr "Wortzählung speichern"
+
+msgid "Scene"
+msgstr "Abschnitt"
+
+msgid "Scene descriptions"
+msgstr "Abschnittsbeschreibungen"
+
+msgid "Scene list"
+msgstr "Abschnittsliste"
+
+msgid "Set Status"
+msgstr "Status setzen"
+
+msgid "Set Style"
+msgstr "Stil bestimmen"
+
+msgid "Set Type"
+msgstr "Typ wählen"
+
+msgid "Set actual wordcount as start"
+msgstr "Aktuelle Wortzahl als Anfangswert setzen"
+
+msgid "Show list"
+msgstr "Liste anzeigen"
+
+msgid "Show markup"
+msgstr "Markup anzeigen"
+
+msgid "Starting count"
+msgstr "Anfangswert"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Style"
+msgstr "Stil"
+
+msgid "Tagged manuscript for proofing"
+msgstr "Manuskript mit Markierungen zum Überarbeiten"
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "The plugin remains active until next start."
+msgstr "Das Plugin bleibt bis zum nächsten Start aktiv."
+
+msgid "Time"
+msgstr "Zeit"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Todo"
+msgstr "Planung"
+
+msgid "Todo chapters"
+msgstr "Planungs-Kapitel"
+
+msgid "Todo chapters for editing"
+msgstr "Planungs-Kapitel zum Bearbeiten"
+
+msgid "Toggle \"Contents\" window"
+msgstr "Textspalte anzeigen/verbergen"
+
+msgid "Tools"
+msgstr "Extras"
+
+msgid "Trash"
+msgstr "Papierkorb"
+
+msgid "Unknown author"
+msgstr "Unbekannter Autor"
+
+msgid "Unlock"
+msgstr "Entsperren"
+
+msgid "Unnamed"
+msgstr "Unbenannt"
+
+msgid "Untitled yWriter project"
+msgstr "yWriter-Projekt ohne Titel"
+
+msgid "Unused"
+msgstr "Unbenutzt"
+
+msgid "Use Roman chapter numbers"
+msgstr "Römische Kapitelnummern"
+
+msgid "Use Roman part numbers"
+msgstr "Römische Teilenummern"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Viewpoint"
+msgstr "Perspektive"
+
+msgid "Words"
+msgstr "Wörter"
+
+msgid "Words to write"
+msgstr "Wörter zu schreiben"
+
+msgid "Words written"
+msgstr "Wörter geschrieben"
+
+msgid "Wrong name"
+msgstr "Falscher Name"
+
+msgid "by"
+msgstr "von"
+
+msgid "deleted"
+msgstr "gelöscht"
+
+msgid "descriptive"
+msgstr "beschreibend"
+
+msgid "explaining"
+msgstr "erklärend"
+
+msgid "last saved on"
+msgstr "zuletzt gespeichert:"
+
+msgid "manuscript"
+msgstr "Manuskript"
+
+msgid "none"
+msgstr "keiner"
+
+msgid "novelyst API"
+msgstr "novelyst API"
+
+msgid "staged"
+msgstr "szenisch"
+
+msgid "status"
+msgstr "Status"
+
+msgid "style"
+msgstr "Stil"
+
+msgid "summarizing"
+msgstr "zusammenfassend"
+
+msgid "unknown"
+msgstr "unbekannt"
+
+msgid "yWriter 7 project"
+msgstr "yWriter 7-Projekt"
+
+msgid "yWriter XML data files"
+msgstr "yWriter XML-Datendateien"
+
+msgid "yWriter seems to be open. Please close first"
+msgstr "yWriter scheint offen zu sein. Bitte schließen"
+
+msgid "{0} (last saved on {1})"
+msgstr "{0} (zuletzt gespeichert: {1})"
+
+msgid "{0} parts, {1} chapters, {2} scenes, {3} words"
+msgstr "{0} Teile, {1} Kapitel, {2} Abschnitte, {3} Wörter"
+
