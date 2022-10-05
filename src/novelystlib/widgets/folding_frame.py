@@ -17,9 +17,10 @@ class FoldingFrame(ttk.Frame):
     def __init__(self, parent, buttonText, command, **kw):
         super().__init__(parent, **kw)
         self.buttonText = buttonText
-        self._toggleButton = tk.Button(parent, bd=0, relief=tk.FLAT, anchor=tk.W, command=command)
+        self._toggleButton = ttk.Label(parent)
         self._toggleButton['text'] = f'{self._PREFIX_HIDE}{self.buttonText}'
-        self._toggleButton.pack(fill=tk.X)
+        self._toggleButton.pack(fill=tk.X, pady=2)
+        self._toggleButton.bind('<Button-1>', command)
 
     def show(self, event=None):
         self._toggleButton['text'] = f'{self._PREFIX_SHOW}{self.buttonText}'
