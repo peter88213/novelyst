@@ -1,10 +1,10 @@
-"""Package for yWriter tree view.
+"""Package for novelyst tree view.
 
 Modules:
 contents_viewer -- Provide a tkinter text box class for "contents" viewing.
 novelyst_tk -- Provide a tkinter GUI framework for novelyst.
 plugin_collection -- Provide a plugin registry class for novelyst.
-tree_viewer -- Provide a tkinter based yWriter tree view.
+tree_viewer -- Provide a tkinter based novelyst tree view.
 
 Packages:
 converter -- Modules for novelyst file conversion.

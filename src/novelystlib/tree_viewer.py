@@ -1,4 +1,4 @@
-""""Provide a tkinter based yWriter tree view.
+""""Provide a tkinter based novelyst tree view.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -18,7 +18,7 @@ from pywriter.model.world_element import WorldElement
 
 
 class TreeViewer(ttk.Frame):
-    """Widget for yWriter tree view."""
+    """Widget for novelyst tree view."""
     _COLUMNS = [
         (_('Words'), 'wc_width', 'wc'),
         (_('Viewpoint'), 'vp_width', 'vp'),

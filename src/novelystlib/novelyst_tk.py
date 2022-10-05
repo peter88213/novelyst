@@ -610,7 +610,7 @@ class NovelystTk(MainTk):
     #--- Methods that change the project
 
     def remove_custom_fields(self, event=None):
-        """Remove custom fields from the yWriter file and save."""
+        """Remove custom fields from the .yw7 file and save."""
         if self.ywPrj is not None:
             if self.ask_yes_no(_('Remove novelyst project settings and save?')):
                 self.tv.tree.selection_set('')
@@ -619,7 +619,7 @@ class NovelystTk(MainTk):
                     self.set_info_how(self.ywPrj.write())
 
     def open_project(self, fileName=''):
-        """Create a yWriter project instance and read the file.
+        """Create a novelyst project instance and read the file.
         
         Display project title, description and status.
         Return True on success, otherwise return False.
@@ -638,7 +638,7 @@ class NovelystTk(MainTk):
         return True
 
     def new_project(self, event=None):
-        """Create a yWriter project instance."""
+        """Create a novelyst project instance."""
         if self.ywPrj is not None:
             self.close_project()
         fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension='.yw7')
@@ -647,7 +647,7 @@ class NovelystTk(MainTk):
             if self.ywPrj.title:
                 titleView = self.ywPrj.title
             else:
-                titleView = _('Untitled yWriter project')
+                titleView = _('Untitled novelyst project')
             if self.ywPrj.authorName:
                 authorView = self.ywPrj.authorName
             else:
@@ -680,7 +680,7 @@ class NovelystTk(MainTk):
         super().close_project()
 
     def save_project(self, event=None):
-        """Save the yWriter project to disk and set 'unchanged' status.
+        """Save the novelyst project to disk and set 'unchanged' status.
         
         Return True on success, otherwise return False.
         """
@@ -707,7 +707,7 @@ class NovelystTk(MainTk):
         return True
 
     def save_as(self, event=None):
-        """Rename the yWriter file and save it to disk.
+        """Rename the .yw7 file and save it to disk.
         
         Return True on success, otherwise return False.
         """

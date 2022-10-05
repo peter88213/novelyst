@@ -2,7 +2,7 @@
 
 --- 
 
-The *novelyst* Python program provides a tree view for yWriter projects.
+The *novelyst* Python program provides a tree view for *.yw7* novel projects.
 
 ## Usage
 
@@ -11,14 +11,14 @@ The included installation script prompts you to create a shortcut on the desktop
 You can either
 
 - launch the program by double-clicking on the shortcut icon, or
-- launch the program by dragging a yWriter project file and dropping it on the shortcut icon.
+- launch the program by dragging a *.yw7* project file and dropping it on the shortcut icon.
 
 
 ### Operation
 
-#### Open a yWriter project
+#### Open a novelyst project
 
-- If no yWriter project is specified by dragging and dropping on the program icon,
+- If no novelyst project is specified by dragging and dropping on the program icon,
   the latest project selected is preset. You can change it with **File > Open** or **Ctrl-O**.
 
 #### Move parts, chapters, and scenes
@@ -59,12 +59,12 @@ that scenes within a "Notes", "Unused", or "To do" chapters are of the same type
 - When refreshing the tree, "Normal type" chapters in the *Research* tree are moved to the *Narrative* tree.
 - When refreshing the tree, parts and chapters are renumbered according to the settings. 
 
-#### Reload the yWriter project
+#### Reload the novelyst project
 
 - You can reload the project with **File > Reload** or **Ctrl-R**.
 - If the project has changed on disk since last opened, you will get a warning.
 
-#### Save the yWriter project
+#### Save the novelyst project
 
 - You can save the project with **File > Save** or **Ctrl-S**.
 - If the project is open in yWriter, you will be asked to exit yWriter first.

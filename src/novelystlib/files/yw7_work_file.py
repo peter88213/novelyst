@@ -1,4 +1,4 @@
-"""Provide a class for yWriter 7 project editing.
+"""Provide a class for novelyst project editing.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
@@ -14,7 +14,7 @@ from pywriter.yw.xml_indent import indent
 
 
 class Yw7WorkFile(Yw7File):
-    """yWriter 7 project file representation.
+    """novelyst project file representation.
     
     Public methods:
         count_words() -- return a tuple of word count totals.

@@ -1,6 +1,6 @@
 """"Provide a tkinter Rich Text box class.
 
-Provide special tags for yWriter.
+Provide special tags for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -15,7 +15,7 @@ class TextBox(tk.Text):
     """
 
     def __init__(self, master=None, **kw):
-        """Define some tags for yWriter-specific colors.
+        """Define some tags for novelyst-specific colors.
         
         Copied from tkinter.scrolledtext and modified (use ttk widgets).
         Extends the supeclass constructor.

@@ -1,4 +1,4 @@
-""""Provide a tkinter Text box class with a change flag.
+""""Provide a tkinter Rich Text box class with novelyst-specific highlighting.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -9,7 +9,7 @@ from pywriter.ui.rich_text_tk import RichTextTk
 
 
 class RichTextYw(RichTextTk):
-    """A text box applying yWriter formatting.
+    """A text box applying novelyst formatting.
     """
     H1_NOTES_TAG = 'h1Notes'
     H1_TODO_TAG = 'h1Todo'
@@ -25,7 +25,7 @@ class RichTextYw(RichTextTk):
     UNUSED_TAG = 'unused'
 
     def __init__(self, *args, **kwargs):
-        """Define some tags for yWriter-specific colors.
+        """Define some tags for novelyst-specific colors.
         
         Extends the supeclass constructor
         """

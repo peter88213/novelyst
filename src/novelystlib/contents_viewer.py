@@ -12,7 +12,7 @@ from novelystlib.widgets.rich_text_yw import RichTextYw
 
 
 class ContentsViewer:
-    """A tkinter text box class for yWriter file viewing.
+    """A tkinter text box class for novelyst file viewing.
     
     Public methods:
         view_text(taggedText) -- load tagged text into the text box.

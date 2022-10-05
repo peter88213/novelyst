@@ -1,4 +1,4 @@
-"""Provide a converter class for yWriter reports.
+"""Provide a converter class for novelyst reports.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -15,7 +15,7 @@ from novelystlib.files.html_items import HtmlItems
 
 
 class NvReporter:
-    """Converter class for yWriter HTML reports.
+    """Converter class for novelyst HTML reports.
     
     The HTML files are placed in a temporary directory 
     specified by the user interface's tempDir attribute, if any. 

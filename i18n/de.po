@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
-"POT-Creation-Date: 2022-10-05 15:21:15\n"
-"PO-Revision-Date: 2022-10-05 15:21:15\n"
+"POT-Creation-Date: 2022-10-05 20:11:38\n"
+"PO-Revision-Date: 2022-10-05 20:11:39\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -612,6 +612,9 @@ msgstr "Entsperren"
 
 msgid "Unnamed"
 msgstr "Unbenannt"
+
+msgid "Untitled novelyst project"
+msgstr "novelyst-Projekt ohne Titel"
 
 msgid "Untitled yWriter project"
 msgstr "yWriter-Projekt ohne Titel"

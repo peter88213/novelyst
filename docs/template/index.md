@@ -1,4 +1,4 @@
-The *novelyst* Python program provides a tree view with parts, chapters and scenes for novel projects. I wrote it for my own use to work on my novels in combination with OpenOffice/LibreOffice. 
+The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. I wrote it for my own use to work on my novels in combination with OpenOffice/LibreOffice. 
 
 ![Screenshot](Screenshots/compare.png)
 
