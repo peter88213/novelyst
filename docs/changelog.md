@@ -6,7 +6,7 @@
 
 ### Planned features
 
-See the [GitHub "features" project](https://github.com/peter88213/novelyst/projects/1).
+See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
 ### v1.0.1
 
