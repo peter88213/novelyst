@@ -55,9 +55,9 @@ There are some more examples in the release's *add-on* folder, such as a theme c
 
 As far as I can tell, *novelyst* runs fast and reliably under Windows and Linux. It should also under other operating systems for which there is a reasonably up-to-date *Python 3* installation. 
 
-I use the program myself for serious work, but the user documentation is a bit sketchy, and I can't promise support either. 
+I use the program myself for serious work, but the user documentation is a bit sketchy, and I can't promise support either. So if you're curious, the best way is to explore the feature set yourself with a test project.
 
-As it is the case for *yWriter*, novelyst* applies to an even greater extent that it organizes the text without worrying about formatting and layout issues. For this, users are assumed to have the necessary knowledge of *OpenOffice* or *LibreOffice*.
+As it is the case for *yWriter*, *novelyst* applies to an even greater extent that it organizes the text without worrying about formatting and layout issues. For this, users are assumed to have the necessary knowledge of *OpenOffice* or *LibreOffice*.
 
 ## Download and install
 
@@ -66,6 +66,7 @@ As it is the case for *yWriter*, novelyst* applies to an even greater extent tha
 - Unzip the downloaded zipfile "novelyst_v1.0.1.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
+- Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.
 - Open "README.md" for usage instructions.
 
 ### Note for Linux users
