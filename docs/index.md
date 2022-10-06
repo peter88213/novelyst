@@ -1,4 +1,4 @@
-The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. I wrote it for my own use to work on my novels in combination with OpenOffice/LibreOffice. 
+The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. I wrote it for my own use to work on my novels in combination with *OpenOffice* or *LibreOffice*. 
 
 ![Screenshot](Screenshots/screen01.png)
 
@@ -13,10 +13,9 @@ With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) an
 - There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
 - A text viewer window can be toggled on and off.
-- There is a wide range of ODF-type file export for OpenOffice and LibreOffice.
+- There is a wide range of ODF-type file export for *OpenOffice* and *LibreOffice*.
 - Several reports can be presented in list form. 
 - The application is ready for internationalization with GNU gettext. A German localization is provided. 
-
 
 ## What's the difference to yWriter?
 
@@ -26,7 +25,7 @@ When structuring a novel, *novelyst* builds on the concept of *yWriter*, and ext
 
 Please note that *novelyst* is not intended to compete with or replace *yWriter*. Quite deliberately, *novelyst* does not support many of *yWriter's* unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
 
-The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. For this purpose there are the appropriate export functions, the possibility to change the chapter structure (which cannot be done with *LO/OO Writer*), and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
+The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story and ensuring a smooth workflow. For this purpose there are the appropriate export functions and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
 
 - Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or any number of story arcs. Especially when revising a large novel, this can be quite useful. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
@@ -49,6 +48,16 @@ There are some more examples in the release's *add-on* folder, such as a theme c
 
 - [Python 3.9.10+](https://www.python.org). 
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
+- Either [LibreOffice](https://www.libreoffice.org/) with the [yw-cnv extension](https://peter88213.github.io/yw-cnv), 
+- or [OpenOffice] with the [pywoo extension](https://peter88213.github.io/pywoo)(https://www.openoffice.org)
+
+## General note about the fitness for use
+
+As far as I can tell, *novelyst* runs fast and reliably under Windows and Linux. It should also under other operating systems for which there is a reasonably up-to-date *Python 3* installation. 
+
+I use the program myself for serious work, but the user documentation is a bit sketchy, and I can't promise support either. 
+
+As it is the case for *yWriter*, *novelyst* applies to an even greater extent that it organizes the text without worrying about formatting and layout issues. For this, users are assumed to have the necessary knowledge of *OpenOffice* or *LibreOffice*.
 
 ## Download and install
 
