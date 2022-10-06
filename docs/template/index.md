@@ -1,10 +1,9 @@
 The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. I wrote it for my own use to work on my novels in combination with OpenOffice/LibreOffice. 
 
-![Screenshot](Screenshots/compare.png)
+![Screenshot](Screenshots/screen01.png)
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the project.
 
-![Screenshot](Screenshots/screen01.png)
 
 ## Features
 
@@ -14,7 +13,24 @@ With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) an
 - There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
 - A text viewer window can be toggled on and off.
+- There is a wide range of ODF-type file export for OpenOffice and LibreOffice.
+- Several reports can be presented in list form. 
 - The application is ready for internationalization with GNU gettext. A German localization is provided. 
+
+
+yWriter can be started with the current project from within the program. Here is a comparison with yWriter that illustrates the differences in presentation:
+
+![Screenshot](Screenshots/compare.png)
+
+Please note that *novelyst* is not intended to compete with or replace yWriter. Quite deliberately, *novelyst* does not support many of yWriter's unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
+
+The purpose of *novelyst* is to allow yWriter projects to be edited quickly and easily with OpenOffice. For this purpose there are the appropriate export functions, the possibility to change the chapter structure (which cannot be done with OpenOffice), and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
+
+Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or any number of story arcs. 
+
+In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
+
+The character data "Bio" and "Goals" can be renamed. The necessary data is stored along in the *.yw7* file without breaking the compatibility to yWriter.
 
 ## Plugins
 
