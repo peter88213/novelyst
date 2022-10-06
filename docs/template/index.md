@@ -25,7 +25,7 @@ When structuring a novel, *novelyst* builds on the concept of *yWriter*, and ext
 
 Please note that *novelyst* is not intended to compete with or replace *yWriter*. Quite deliberately, *novelyst* does not support many of *yWriter's* unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
 
-The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story,and ensuring a smooth workflow. For this purpose,  there are the appropriate export functions and a simple locking mechanism that gives enough freedom, so that the user remains responsible for making sure that nothing gets mixed up.
+The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story, and ensuring a smooth workflow. For this purpose,  there are the appropriate export functions and a simple locking mechanism that gives enough freedom, so that the user remains responsible for making sure that nothing gets mixed up.
 
 - Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or any number of story arcs. Especially when revising a large novel, this can be quite useful. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
