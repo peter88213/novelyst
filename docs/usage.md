@@ -16,10 +16,17 @@ You can either
 
 ### Operation
 
-#### Open a novelyst project
+#### Open a novel project
 
-- If no novelyst project is specified by dragging and dropping on the program icon,
+- If no novel project is specified by dragging and dropping on the program icon,
   the latest project selected is preset. You can change it with **File > Open** or **Ctrl-O**.
+
+#### Create a new novel project
+
+- You can create a new project with **File > New** or **Ctrl-N**. This will close the current project
+  and open a file dialog asking for the location and file name of the project to create.
+- Once you specified a valid file path, a blank project appears. You have to add at least one chapter 
+  before you can save it to disk. This is required for yWriter compatibility.
 
 #### Move parts, chapters, and scenes
 
@@ -59,12 +66,12 @@ that scenes within a "Notes", "Unused", or "To do" chapters are of the same type
 - When refreshing the tree, "Normal type" chapters in the *Research* tree are moved to the *Narrative* tree.
 - When refreshing the tree, parts and chapters are renumbered according to the settings. 
 
-#### Reload the novelyst project
+#### Reload the novel project
 
 - You can reload the project with **File > Reload** or **Ctrl-R**.
 - If the project has changed on disk since last opened, you will get a warning.
 
-#### Save the novelyst project
+#### Save the novel project
 
 - You can save the project with **File > Save** or **Ctrl-S**.
 - If the project is open in yWriter, you will be asked to exit yWriter first.
@@ -72,7 +79,7 @@ that scenes within a "Notes", "Unused", or "To do" chapters are of the same type
 - It is recommended to refresh the tree (see above) before saving. So you can see how 
   it will look after reloading. 
 
-#### Close the ywriter project
+#### Close the novel project
 
 - You can close the project without exiting the program with **File > Close**.
 - When closing the project, you will be asked for saving the project, if it has changed.
