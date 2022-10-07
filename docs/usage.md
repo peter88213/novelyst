@@ -83,3 +83,37 @@ that scenes within a "Notes", "Unused", or "To do" chapters are of the same type
 - You can exit with **File > Exit** of **Ctrl-Q**.
 - When exiting the program, you will be asked for saving the project, if it has changed.
 
+### Reports
+
+You can have *novelyst* generate a variety of reports. These are list-formatted HTML files, 
+displayed with your system's web browser. They are temporary files, auto-deleted on program exit.
+If needed, you can have your web browser save or print them.
+
+### ODF export
+
+The same *export* functions are used here as are implemented as *import* functions in the 
+*LibreOffice*/*OpenOffice* *yWriter import/export* extensions.
+
+Please refer to the extension's help text. 
+
+
+### A note about formatting text
+
+It is assumed that very few types of text markup are needed for a novel text:
+
+- *Emphasized* (shown as italics).
+- *Strongly emphasized' (shown as bold).
+- *Citation* (paragraph visually distinguished from body text).
+
+When exporting to ODT format, *novelyst* replaces these formattings as follows: 
+
+- Text with `[i]Italic markup[/i]` is formatted as *Emphasized*.
+- Text with `[b]Bold markup[/b]` is formatted as *Strong emphasized*. 
+- Paragraphs starting with `> ` are formatted as *Quote*.
+
+## License
+
+This is Open Source software, and *novelyst* is licenced under GPLv3. See the
+[GNU General Public License website](https://www.gnu.org/licenses/gpl-3.0.en.html) for more
+details, or consult the [LICENSE](https://github.com/peter88213/novelyst/blob/main/LICENSE) file.
+
