@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/PyWriter
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
+import locale
 from datetime import datetime
 from datetime import date
 import xml.etree.ElementTree as ET
@@ -41,6 +42,8 @@ class Yw7WorkFile(Yw7File):
         'Field_CustomChrBio',
         'Field_CustomChrGoals',
         'Field_SaveWordCount',
+        'Field_LanguageCode',
+        'Field_CountryCode',
         )
     _CHP_KWVAR = (
         'Field_NoNumber',
@@ -70,6 +73,9 @@ class Yw7WorkFile(Yw7File):
         self.timestamp = None
         self.wordCountStart = 0
         self.wordTarget = 0
+        sysLng, sysCtr = locale.getdefaultlocale()[0].split('_')
+        self.kwVar['Field_LanguageCode'] = sysLng
+        self.kwVar['Field_CountryCode'] = sysCtr
 
     @property
     def fileDate(self):
@@ -179,6 +185,10 @@ class Yw7WorkFile(Yw7File):
             self.timestamp = os.path.getmtime(self.filePath)
         except:
             self.timestamp = None
+
+        #--- If no reasonable looking locale is set, set the system locale.
+        self.check_locale()
+
         return message
 
     def _build_element_tree(self):
@@ -380,4 +390,24 @@ class Yw7WorkFile(Yw7File):
             if self.chapters[chId].chType != 0:
                 for scId in self.chapters[chId].srtScenes:
                     self.scenes[scId].scType = self.chapters[chId].chType
+
+    def check_locale(self):
+        """Check the document's locale (language code and country code).
+        
+        If a reasonable looking locale is set, return True, 
+        otherwise set the system locale and return False.        
+        """
+        try:
+            docLng = self.kwVar['Field_LanguageCode']
+            if len(docLng) == 2:
+                docCtr = self.kwVar['Field_CountryCode']
+                if len(docCtr) == 2:
+                    return True
+
+        except:
+            pass
+        sysLng, sysCtr = locale.getdefaultlocale()[0].split('_')
+        self.kwVar['Field_LanguageCode'] = sysLng
+        self.kwVar['Field_CountryCode'] = sysCtr
+        return False
 

@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0.1\n"
-"POT-Creation-Date: 2022-10-07 11:02:39\n"
+"Project-Id-Version: 1.1.0\n"
+"POT-Creation-Date: 2022-10-08 21:24:34\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -150,6 +150,9 @@ msgid "Coloring mode"
 msgstr ""
 
 msgid "Conflict"
+msgstr ""
+
+msgid "Country code"
 msgstr ""
 
 msgid "Created {0} on {1}."
@@ -330,6 +333,9 @@ msgid "Item list"
 msgstr ""
 
 msgid "Items"
+msgstr ""
+
+msgid "Language code"
 msgstr ""
 
 msgid "Location"
@@ -614,7 +620,7 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-msgid "Untitled novelyst project"
+msgid "Untitled project"
 msgstr ""
 
 msgid "Untitled yWriter project"
@@ -645,6 +651,9 @@ msgid "Words to write"
 msgstr ""
 
 msgid "Words written"
+msgstr ""
+
+msgid "Writing progress"
 msgstr ""
 
 msgid "Wrong name"

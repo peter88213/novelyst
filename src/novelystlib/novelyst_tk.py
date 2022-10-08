@@ -647,7 +647,7 @@ class NovelystTk(MainTk):
             if self.ywPrj.title:
                 titleView = self.ywPrj.title
             else:
-                titleView = _('Untitled novelyst project')
+                titleView = _('Untitled project')
             if self.ywPrj.authorName:
                 authorView = self.ywPrj.authorName
             else:

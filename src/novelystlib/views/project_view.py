@@ -33,35 +33,18 @@ class ProjectView(BasicView):
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
-        #--- Word count related settings.
-
-        # 'Set actual wordcount as start' button.
-        ttk.Button(self._elementInfoWindow, text=_('Set actual wordcount as start'),
-                  command=self._set_initial_wc).pack(pady=2)
-
-        # 'Words to write' entry.
-        self._wordTarget = tk.IntVar()
-        LabelEntry(self._elementInfoWindow, text=_('Words to write'),
-                   textvariable=self._wordTarget, lblWidth=20).pack(anchor='w', pady=2)
-
-        # 'Starting count' entry.
-        self._wordCountStart = tk.IntVar()
-        LabelEntry(self._elementInfoWindow, text=_('Starting count'),
-                   textvariable=self._wordCountStart, lblWidth=20).pack(anchor='w', pady=2)
-
-        # 'Words written' display.
-        self._wordsWritten = MyStringVar()
-        self._wordTarget.trace_add('write', self._update_wordsWritten)
-        self._wordCountStart.trace_add('write', self._update_wordsWritten)
-        LabelDisp(self._elementInfoWindow, text=_('Words written'),
-                  textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w', pady=2)
-
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
-
         #--- "Project settings" frame.
         self._settingsFrame = FoldingFrame(self._elementInfoWindow, _('Project settings'), self._toggle_settingsFrame)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        # Language and country code.
+        self._languageCode = MyStringVar()
+        LabelEntry(self._settingsFrame, text=_('Language code'),
+                   textvariable=self._languageCode, lblWidth=20).pack(anchor='w', pady=2)
+        self._countryCode = MyStringVar()
+        LabelEntry(self._settingsFrame, text=_('Country code'),
+                   textvariable=self._countryCode, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Auto number chapters...' checkbox.
         self._renChapters = tk.BooleanVar(value=False)
@@ -143,6 +126,32 @@ class ProjectView(BasicView):
         ttk.Checkbutton(self._settingsFrame, text=_('Save word count'),
                         variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
+        #--- "Writing progress" frame.
+        self._progressFrame = FoldingFrame(self._elementInfoWindow, _('Writing progress'), self._toggle_progressFrame)
+
+        # 'Words to write' entry.
+        self._wordTarget = tk.IntVar()
+        LabelEntry(self._progressFrame, text=_('Words to write'),
+                   textvariable=self._wordTarget, lblWidth=20).pack(anchor='w', pady=2)
+
+        # 'Starting count' entry.
+        self._wordCountStart = tk.IntVar()
+        LabelEntry(self._progressFrame, text=_('Starting count'),
+                   textvariable=self._wordCountStart, lblWidth=20).pack(anchor='w', pady=2)
+
+        # 'Set actual wordcount as start' button.
+        ttk.Button(self._progressFrame, text=_('Set actual wordcount as start'),
+                  command=self._set_initial_wc).pack(pady=2)
+
+        # 'Words written' display.
+        self._wordsWritten = MyStringVar()
+        self._wordTarget.trace_add('write', self._update_wordsWritten)
+        self._wordCountStart.trace_add('write', self._update_wordsWritten)
+        LabelDisp(self._progressFrame, text=_('Words written'),
+                  textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w', pady=2)
+
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
     def set_data(self, element):
         """Update the widgets with element's data.
         
@@ -153,21 +162,19 @@ class ProjectView(BasicView):
         #--- Author entry.
         self._authorName.set(self._element.authorName)
 
-        #--- Word count related settings.
-
-        # 'Words to write' entry.
-        self._wordTarget.set(self._element.wordTarget)
-
-        # 'Starting count' entry.
-        self._wordCountStart.set(self._element.wordCountStart)
-
         #--- "Project settings" frame.
         if self._ui.kwargs['show_project_settings']:
             self._settingsFrame.show()
         else:
             self._settingsFrame.hide()
 
-        # 'Auto number chapters...' checkbox.
+        # 'Language code' entry.
+        self._languageCode.set(self._element.kwVar.get('Field_LanguageCode', ''))
+
+        # 'Country code' entry.
+        self._countryCode.set(self._element.kwVar.get('Field_CountryCode', ''))
+
+        # 'Auto number chapters' checkbox.
         renChapters = self._element.kwVar.get('Field_RenumberChapters', None) == '1'
         self._renChapters.set(renChapters)
 
@@ -218,6 +225,18 @@ class ProjectView(BasicView):
         saveWordCount = self._element.kwVar.get('Field_SaveWordCount', None) == '1'
         self._saveWordCount.set(saveWordCount)
 
+        #--- "Writing progress" frame.
+        if self._ui.kwargs['show_writing_progress']:
+            self._progressFrame.show()
+        else:
+            self._progressFrame.hide()
+
+        # 'Words to write' entry.
+        self._wordTarget.set(self._element.wordTarget)
+
+        # 'Starting count' entry.
+        self._wordCountStart.set(self._element.wordCountStart)
+
     def apply_changes(self):
         """Apply changes.
         
@@ -239,37 +258,64 @@ class ProjectView(BasicView):
                 self._ui.isModified = True
                 self._ui.set_title()
 
-        # Project settings
+        #--- Project settings
+        if self._update_field_str(self._languageCode, 'Field_LanguageCode'):
+            if self._element.check_locale():
+                self._ui.isModified = True
+            else:
+                self._languageCode.set(self._element.kwVar['Field_LanguageCode'])
+
+        if self._update_field_str(self._countryCode, 'Field_CountryCode'):
+            if self._element.check_locale():
+                self._ui.isModified = True
+            else:
+                self._countryCode.set(self._element.kwVar['Field_CountryCode'])
+
         if self._update_field_bool(self._renChapters, 'Field_RenumberChapters'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._chHdPrefix, 'Field_ChapterHeadingPrefix'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._chHdSuffix, 'Field_ChapterHeadingSuffix'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_bool(self._romanChapters, 'Field_RomanChapterNumbers'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_bool(self._renWithinParts, 'Field_RenumberWithinParts'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_bool(self._renParts, 'Field_RenumberParts'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._ptHdPrefix, 'Field_PartHeadingPrefix'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._ptHdSuffix, 'Field_PartHeadingSuffix'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_bool(self._romanParts, 'Field_RomanPartNumbers'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._customGoal, 'Field_CustomGoal'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._customConflict, 'Field_CustomConflict'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._customOutcome, 'Field_CustomOutcome'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._customChrBio, 'Field_CustomChrBio'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_str(self._customChrGoals, 'Field_CustomChrGoals'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         if self._update_field_bool(self._saveWordCount, 'Field_SaveWordCount'):
-                self._ui.isModified = True
+            self._ui.isModified = True
+
         try:
             entry = self._wordTarget.get()
             # entry must be an integer
@@ -310,6 +356,18 @@ class ProjectView(BasicView):
         else:
             self._settingsFrame.show()
             self._ui.kwargs['show_project_settings'] = True
+
+    def _toggle_progressFrame(self, event=None):
+        """Hide/show the "Project settings" frame.
+        
+        Callback procedure for the FoldingFrame's button.
+        """
+        if self._ui.kwargs['show_writing_progress']:
+            self._progressFrame.hide()
+            self._ui.kwargs['show_writing_progress'] = False
+        else:
+            self._progressFrame.show()
+            self._ui.kwargs['show_writing_progress'] = True
 
     def _update_wordsWritten(self, n, m, x):
         """Calculate the percentage of written words.
