@@ -391,23 +391,3 @@ class Yw7WorkFile(Yw7File):
                 for scId in self.chapters[chId].srtScenes:
                     self.scenes[scId].scType = self.chapters[chId].chType
 
-    def check_locale(self):
-        """Check the document's locale (language code and country code).
-        
-        If a reasonable looking locale is set, return True, 
-        otherwise set the system locale and return False.        
-        """
-        try:
-            docLng = self.kwVar['Field_LanguageCode']
-            if len(docLng) == 2:
-                docCtr = self.kwVar['Field_CountryCode']
-                if len(docCtr) == 2:
-                    return True
-
-        except:
-            pass
-        sysLng, sysCtr = locale.getdefaultlocale()[0].split('_')
-        self.kwVar['Field_LanguageCode'] = sysLng
-        self.kwVar['Field_CountryCode'] = sysCtr
-        return False
-
