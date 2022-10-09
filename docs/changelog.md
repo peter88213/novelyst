@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.2.0
+
+- Fix a regression where a new project cannot be created due to a renamed variable.
+- Put the project's writing progress data in a folding frame.
+- Add entries for the document's language and country codes.
+
+Based on PyWriter v7.8.0
+
 ### v1.0.1
 
 - Make the "folding frames" look better when applying themes.

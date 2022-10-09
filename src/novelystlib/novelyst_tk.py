@@ -644,15 +644,7 @@ class NovelystTk(MainTk):
         fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension='.yw7')
         if fileName:
             self.ywPrj = Yw7WorkFile(fileName)
-            if self.ywPrj.title:
-                titleView = self.ywPrj.title
-            else:
-                titleView = _('Untitled project')
-            if self.ywPrj.authorName:
-                authorView = self.ywPrj.authorName
-            else:
-                authorView = _('Unknown author')
-            self.root.title(f'{titleView} {_("by")} {authorView} - {self.title}')
+            self.set_title()
             self.show_path(os.path.normpath(fileName))
             self.enable_menu()
             self.tv.build_tree()
@@ -728,9 +720,6 @@ class NovelystTk(MainTk):
                     return True
 
         return False
-
-    def set_title(self):
-        self.root.title(f'{self.ywPrj.title} {_("by")} {self.ywPrj.authorName} - {self.title}')
 
     def edit_settings(self, event=None):
         """Open a toplevel window to edit the program settings."""

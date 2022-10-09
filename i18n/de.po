@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.2\n"
-"POT-Creation-Date: 2022-10-09 20:21:17\n"
-"PO-Revision-Date: 2022-10-09 20:21:17\n"
+"POT-Creation-Date: 2022-10-09 20:45:46\n"
+"PO-Revision-Date: 2022-10-09 20:45:46\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -621,9 +621,6 @@ msgstr "Unbenannt"
 
 msgid "Untitled project"
 msgstr "Projekt ohne Titel"
-
-msgid "Untitled yWriter project"
-msgstr "yWriter-Projekt ohne Titel"
 
 msgid "Unused"
 msgstr "Unbenutzt"

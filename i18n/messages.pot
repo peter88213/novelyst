@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.2\n"
-"POT-Creation-Date: 2022-10-09 20:21:17\n"
+"POT-Creation-Date: 2022-10-09 20:45:46\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -621,9 +621,6 @@ msgid "Unnamed"
 msgstr ""
 
 msgid "Untitled project"
-msgstr ""
-
-msgid "Untitled yWriter project"
 msgstr ""
 
 msgid "Unused"
