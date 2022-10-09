@@ -652,7 +652,7 @@ class NovelystTk(MainTk):
                 authorView = self.ywPrj.authorName
             else:
                 authorView = _('Unknown author')
-            self.root.title(f'{titleView} {_("by")} {authorView} - {self._title}')
+            self.root.title(f'{titleView} {_("by")} {authorView} - {self.title}')
             self.show_path(os.path.normpath(fileName))
             self.enable_menu()
             self.tv.build_tree()
