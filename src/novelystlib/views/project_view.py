@@ -259,17 +259,19 @@ class ProjectView(BasicView):
                 self._ui.set_title()
 
         #--- Project settings
-        if self._update_field_str(self._languageCode, 'Field_LanguageCode'):
-            if self._element.check_locale():
-                self._ui.isModified = True
-            else:
-                self._languageCode.set(self._element.kwVar['Field_LanguageCode'])
-
-        if self._update_field_str(self._countryCode, 'Field_CountryCode'):
-            if self._element.check_locale():
-                self._ui.isModified = True
-            else:
-                self._countryCode.set(self._element.kwVar['Field_CountryCode'])
+        language = self._element.kwVar['Field_LanguageCode']
+        country = self._element.kwVar['Field_CountryCode']
+        self._update_field_str(self._languageCode, 'Field_LanguageCode')
+        self._update_field_str(self._countryCode, 'Field_CountryCode')
+        self._element.check_locale()
+        if language != self._element.kwVar['Field_LanguageCode']:
+            self._ui.isModified = True
+        else:
+            self._languageCode.set(self._element.kwVar['Field_LanguageCode'])
+        if country != self._element.kwVar['Field_CountryCode']:
+            self._ui.isModified = True
+        else:
+            self._countryCode.set(self._element.kwVar['Field_CountryCode'])
 
         if self._update_field_bool(self._renChapters, 'Field_RenumberChapters'):
             self._ui.isModified = True

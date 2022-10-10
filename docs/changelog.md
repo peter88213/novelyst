@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.2.1
+
+- Support "no document language" settings.
+
+Based on PyWriter v7.10.2
+
 ### v1.2.0
 
 - Fix a regression where a new project cannot be created due to a renamed variable.
