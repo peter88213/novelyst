@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.3.2
+
+- Make sure to apply changes before creating a report or exporting a document.
+
+Based on PyWriter v7.11.4
+
 ### v1.3.1
 
 Introduce a notation for assigning text passages to another language/country. This is mainly for spell checking in Office Writer.

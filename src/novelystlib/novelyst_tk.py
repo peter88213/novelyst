@@ -212,14 +212,14 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Part'), menu=self.partMenu)
         self.partMenu.add_command(label=_('Add'), command=self.tv.add_part)
         self.partMenu.add_separator()
-        self.partMenu.add_command(label=_('Export part descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_parts'))
+        self.partMenu.add_command(label=_('Export part descriptions for editing'), command=lambda: self._export_document('_parts'))
 
         # Chapter
         self.chapterMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Chapter'), menu=self.chapterMenu)
         self.chapterMenu.add_command(label=_('Add'), command=self.tv.add_chapter)
         self.chapterMenu.add_separator()
-        self.chapterMenu.add_command(label=_('Export chapter descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_chapters'))
+        self.chapterMenu.add_command(label=_('Export chapter descriptions for editing'), command=lambda: self._export_document('_chapters'))
 
         # Scene
         self.sceneMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -231,8 +231,8 @@ class NovelystTk(MainTk):
         self.sceneMenu.add_separator()
         self.sceneMenu.add_cascade(label=_('Set Style'), menu=self.tv.scStyleMenu)
         self.sceneMenu.add_separator()
-        self.sceneMenu.add_command(label=_('Export scene descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_scenes'))
-        self.sceneMenu.add_command(label=_('Export scene list (spreadsheet)'), command=lambda: self._exporter.run(self.ywPrj, '_scenelist'))
+        self.sceneMenu.add_command(label=_('Export scene descriptions for editing'), command=lambda: self._export_document('_scenes'))
+        self.sceneMenu.add_command(label=_('Export scene list (spreadsheet)'), command=lambda: self._export_document('_scenelist'))
 
         # Character
         self.characterMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -241,49 +241,49 @@ class NovelystTk(MainTk):
         self.characterMenu.add_separator()
         self.characterMenu.add_cascade(label=_('Set Status'), menu=self.tv.crStatusMenu)
         self.characterMenu.add_separator()
-        self.characterMenu.add_command(label=_('Export character descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_characters'))
-        self.characterMenu.add_command(label=_('Export character list (spreadsheet)'), command=lambda: self._exporter.run(self.ywPrj, '_charlist'))
-        self.characterMenu.add_command(label=_('Show list'), command=lambda: self._reporter.run(self.ywPrj, '_character_report'))
+        self.characterMenu.add_command(label=_('Export character descriptions for editing'), command=lambda: self._export_document('_characters'))
+        self.characterMenu.add_command(label=_('Export character list (spreadsheet)'), command=lambda: self._export_document('_charlist'))
+        self.characterMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_character_report'))
 
         # Location
         self.locationMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Locations'), menu=self.locationMenu)
         self.locationMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(self.tv.LC_ROOT))
         self.locationMenu.add_separator()
-        self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_locations'))
-        self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self._exporter.run(self.ywPrj, '_loclist'))
-        self.locationMenu.add_command(label=_('Show list'), command=lambda: self._reporter.run(self.ywPrj, '_location_report'))
+        self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self._export_document('_locations'))
+        self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self._export_document('_loclist'))
+        self.locationMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_location_report'))
 
         # Item
         self.itemMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
         self.itemMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(self.tv.IT_ROOT))
         self.itemMenu.add_separator()
-        self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self._exporter.run(self.ywPrj, '_items'))
-        self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self._exporter.run(self.ywPrj, '_itemlist'))
-        self.itemMenu.add_command(label=_('Show list'), command=lambda: self._reporter.run(self.ywPrj, '_item_report'))
+        self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self._export_document('_items'))
+        self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self._export_document('_itemlist'))
+        self.itemMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_item_report'))
 
         # Project notes
         self.prjNoteMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Project notes'), menu=self.prjNoteMenu)
         self.prjNoteMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(self.tv.PN_ROOT))
         self.prjNoteMenu.add_separator()
-        self.prjNoteMenu.add_command(label=_('Show list'), command=lambda: self._reporter.run(self.ywPrj, '_projectnote_report'))
+        self.prjNoteMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_projectnote_report'))
 
         # Export
         self.exportMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Export'), menu=self.exportMenu)
-        self.exportMenu.add_command(label=_('Manuscript for editing'), command=lambda: self._exporter.run(self.ywPrj, '_manuscript'))
-        self.exportMenu.add_command(label=_('Notes chapters for editing'), command=lambda: self._exporter.run(self.ywPrj, '_notes'))
-        self.exportMenu.add_command(label=_('Todo chapters for editing'), command=lambda: self._exporter.run(self.ywPrj, '_todo'))
+        self.exportMenu.add_command(label=_('Manuscript for editing'), command=lambda: self._export_document('_manuscript'))
+        self.exportMenu.add_command(label=_('Notes chapters for editing'), command=lambda: self._export_document('_notes'))
+        self.exportMenu.add_command(label=_('Todo chapters for editing'), command=lambda: self._export_document('_todo'))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Manuscript with visible structure tags for proof reading'), command=lambda: self._exporter.run(self.ywPrj, '_proof'))
+        self.exportMenu.add_command(label=_('Manuscript with visible structure tags for proof reading'), command=lambda: self._export_document('_proof'))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Manuscript without tags (export only)'), command=lambda: self._exporter.run(self.ywPrj, '', lock=False))
-        self.exportMenu.add_command(label=_('Brief synopsis (export only)'), command=lambda: self._exporter.run(self.ywPrj, '_brf_synopsis', lock=False))
-        self.exportMenu.add_command(label=_('Cross references (export only)'), command=lambda: self._exporter.run(self.ywPrj, '_xref', lock=False))
+        self.exportMenu.add_command(label=_('Manuscript without tags (export only)'), command=lambda: self._export_document('', lock=False))
+        self.exportMenu.add_command(label=_('Brief synopsis (export only)'), command=lambda: self._export_document('_brf_synopsis', lock=False))
+        self.exportMenu.add_command(label=_('Cross references (export only)'), command=lambda: self._export_document('_xref', lock=False))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Characters/locations/items data files'), command=lambda: self._exporter.run(self.ywPrj, '_data', lock=False, show=False))
+        self.exportMenu.add_command(label=_('Characters/locations/items data files'), command=lambda: self._export_document('_data', lock=False, show=False))
 
         # Tools
         self.toolsMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -734,4 +734,12 @@ class NovelystTk(MainTk):
         __, x, y = self.root.geometry().split('+')
         windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
         PluginManager(self, windowGeometry)
+
+    def _export_document(self, suffix):
+        self._elementView.apply_changes()
+        self._exporter.run(self.ywPrj, suffix)
+
+    def _show_report(self, suffix):
+        self._elementView.apply_changes()
+        self._reporter.run(self.ywPrj, suffix)
 
