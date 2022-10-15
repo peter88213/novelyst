@@ -5,7 +5,6 @@ For further information see https://github.com/peter88213/PyWriter
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
-import locale
 from datetime import datetime
 from datetime import date
 import xml.etree.ElementTree as ET
@@ -73,9 +72,7 @@ class Yw7WorkFile(Yw7File):
         self.timestamp = None
         self.wordCountStart = 0
         self.wordTarget = 0
-        sysLng, sysCtr = locale.getdefaultlocale()[0].split('_')
-        self.kwVar['Field_LanguageCode'] = sysLng
-        self.kwVar['Field_CountryCode'] = sysCtr
+        self.check_locale()
 
     @property
     def fileDate(self):

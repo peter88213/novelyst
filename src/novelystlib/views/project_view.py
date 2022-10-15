@@ -169,10 +169,10 @@ class ProjectView(BasicView):
             self._settingsFrame.hide()
 
         # 'Language code' entry.
-        self._languageCode.set(self._element.kwVar.get('Field_LanguageCode', ''))
+        self._languageCode.set(self._element.languageCode)
 
         # 'Country code' entry.
-        self._countryCode.set(self._element.kwVar.get('Field_CountryCode', ''))
+        self._countryCode.set(self._element.countryCode)
 
         # 'Auto number chapters' checkbox.
         renChapters = self._element.kwVar.get('Field_RenumberChapters', None) == '1'
@@ -259,19 +259,25 @@ class ProjectView(BasicView):
                 self._ui.set_title()
 
         #--- Project settings
-        language = self._element.kwVar['Field_LanguageCode']
-        country = self._element.kwVar['Field_CountryCode']
-        self._update_field_str(self._languageCode, 'Field_LanguageCode')
-        self._update_field_str(self._countryCode, 'Field_CountryCode')
+        language = self._element.languageCode
+        newLanguage = self._languageCode.get()
+        if self._element.languageCode or newLanguage:
+            if self._element.languageCode != newLanguage:
+                self._element.languageCode = newLanguage
+        country = self._element.countryCode
+        newCountry = self._countryCode.get()
+        if self._element.countryCode or newCountry:
+            if self._element.countryCode != newCountry:
+                self._element.countryCode = newCountry
         self._element.check_locale()
-        if language != self._element.kwVar['Field_LanguageCode']:
+        if language != self._element.languageCode:
             self._ui.isModified = True
         else:
-            self._languageCode.set(self._element.kwVar['Field_LanguageCode'])
-        if country != self._element.kwVar['Field_CountryCode']:
+            self._languageCode.set(self._element.languageCode)
+        if country != self._element.countryCode:
             self._ui.isModified = True
         else:
-            self._countryCode.set(self._element.kwVar['Field_CountryCode'])
+            self._countryCode.set(self._element.countryCode)
 
         if self._update_field_bool(self._renChapters, 'Field_RenumberChapters'):
             self._ui.isModified = True
