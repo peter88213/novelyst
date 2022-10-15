@@ -61,6 +61,7 @@ class NvReporter:
             if not dirname:
                 dirname = '.'
         target.filePath = f'{dirname}/{filename}'
+
         message = target.merge(source)
         if message.startswith(ERROR):
             self.ui.set_info_how(message)

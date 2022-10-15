@@ -72,9 +72,9 @@ class NvExporter:
         Positional arguments: 
             source -- Yw7File instance.
             suffix -- str: Target file name suffix.
+            lock -- boolean: Lock the project, if True.
+            show -- boolean: After document creation, ask if open it with Office.
         """
-        if lock and not self.ui.isLocked:
-            self.ui.isLocked = True
         kwargs = {'suffix':suffix}
         message, __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
         if message.startswith(ERROR):
@@ -103,10 +103,14 @@ class NvExporter:
         message = target.write()
         if message.startswith(ERROR):
             self.ui.set_info_how(message)
-        else:
-            targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
-            self.ui.set_info_how(_('Created {0} on {1}.').format(target.DESCRIPTION, targetFileDate))
-            if show:
-                if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(target.filePath))):
-                    open_document(target.filePath)
+            return
+
+        # Successfully created a new document.
+        if lock and not self.ui.isLocked:
+            self.ui.isLocked = True
+        targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
+        self.ui.set_info_how(_('Created {0} on {1}.').format(target.DESCRIPTION, targetFileDate))
+        if show:
+            if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(target.filePath))):
+                open_document(target.filePath)
 

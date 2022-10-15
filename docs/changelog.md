@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.3.3 Bugfix release
+
+- Fix a regression from v1.3.2 where some document types are not exported.
+- When exporting a re-importable document, lock the project only on success.
+
+Based on PyWriter v7.11.4
+
 ### v1.3.2
 
 - Make sure to apply changes before creating a report or exporting a document.

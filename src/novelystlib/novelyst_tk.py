@@ -735,9 +735,9 @@ class NovelystTk(MainTk):
         windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
         PluginManager(self, windowGeometry)
 
-    def _export_document(self, suffix):
+    def _export_document(self, suffix, **kwargs):
         self._elementView.apply_changes()
-        self._exporter.run(self.ywPrj, suffix)
+        self._exporter.run(self.ywPrj, suffix, **kwargs)
 
     def _show_report(self, suffix):
         self._elementView.apply_changes()
