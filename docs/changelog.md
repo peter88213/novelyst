@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.4.0
+
+- Replace the custom fields by project variables. Thus make language/country accessible in yWriter.
+- Fix a bug in PyWriter where empty codes are replaced with "no locale" instead of "system locale".
+
+Based on PyWriter v7.12.2
+
 ### v1.3.3 Bugfix release
 
 - Fix a regression from v1.3.2 where some document types are not exported.
