@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.4.0\n"
-"POT-Creation-Date: 2022-10-15 12:52:32\n"
-"PO-Revision-Date: 2022-10-15 12:52:32\n"
+"Project-Id-Version: 1.4.1\n"
+"POT-Creation-Date: 2022-10-18 22:30:34\n"
+"PO-Revision-Date: 2022-10-18 22:30:34\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -66,6 +66,9 @@ msgstr "Kapitel automatisch nummerieren"
 
 msgid "Auto number parts when refreshing the tree"
 msgstr "Teile automatisch nummerieren"
+
+msgid "Auto numbering"
+msgstr "Automatische Nummerierung"
 
 msgid "Bio"
 msgstr "Biographie"
@@ -222,6 +225,9 @@ msgstr "Dokument \"{0}\" (zuletzt gespeichert: {1}) exitiert bereits.\nDiese Dat
 
 msgid "Document \"{}\" created. Open now?"
 msgstr "Dokument \"{}\" erzeugt. Jetzt öffnen?"
+
+msgid "Document language"
+msgstr "Sprache des Dokuments"
 
 msgid "Done"
 msgstr "Fertiggestellt"
@@ -478,9 +484,6 @@ msgstr "Projektnotiz"
 msgid "Project notes"
 msgstr "Projektnotizen"
 
-msgid "Project settings"
-msgstr "Projekteinstellungen"
-
 msgid "Promote Chapter"
 msgstr "Kapitel hochstufen"
 
@@ -516,6 +519,9 @@ msgstr "Teil \"{}\" löschen und die Kapitel behalten?"
 
 msgid "Remove scene assignments"
 msgstr "Abschnittszuordnungen löschen"
+
+msgid "Renamings"
+msgstr "Umbenennungen"
 
 msgid "Research"
 msgstr "Recherche"

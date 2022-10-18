@@ -33,101 +33,109 @@ class ProjectView(BasicView):
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
-        #--- "Project settings" frame.
-        self._settingsFrame = FoldingFrame(self._elementInfoWindow, _('Project settings'), self._toggle_settingsFrame)
+        #--- "Language settings" frame.
+        self._languageFrame = FoldingFrame(self._elementInfoWindow, _('Document language'), self._toggle_languageFrame)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # Language and country code.
         self._languageCode = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Language code'),
+        LabelEntry(self._languageFrame, text=_('Language code'),
                    textvariable=self._languageCode, lblWidth=20).pack(anchor='w', pady=2)
         self._countryCode = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Country code'),
+        LabelEntry(self._languageFrame, text=_('Country code'),
                    textvariable=self._countryCode, lblWidth=20).pack(anchor='w', pady=2)
+
+        #--- "Auto numbering" frame.
+        self._numberingFrame = FoldingFrame(self._elementInfoWindow, _('Auto numbering'), self._toggle_numberingFrame)
+
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # 'Auto number chapters...' checkbox.
         self._renChapters = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self._settingsFrame, text=_('Auto number chapters when refreshing the tree'),
+        ttk.Checkbutton(self._numberingFrame, text=_('Auto number chapters when refreshing the tree'),
                         variable=self._renChapters, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         # 'Chapter number prefix' entry.
         self._chHdPrefix = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Chapter number prefix'),
+        LabelEntry(self._numberingFrame, text=_('Chapter number prefix'),
                    textvariable=self._chHdPrefix, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Chapter number suffix' entry.
         self._chHdSuffix = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Chapter number suffix'),
+        LabelEntry(self._numberingFrame, text=_('Chapter number suffix'),
                    textvariable=self._chHdSuffix, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Use Roman chapter numbers' checkbox.
         self._romanChapters = tk.BooleanVar()
-        ttk.Checkbutton(self._settingsFrame, text=_('Use Roman chapter numbers'),
+        ttk.Checkbutton(self._numberingFrame, text=_('Use Roman chapter numbers'),
                         variable=self._romanChapters, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         # 'Reset chapter number..." checkbox
         self._renWithinParts = tk.BooleanVar()
-        ttk.Checkbutton(self._settingsFrame, text=_('Reset chapter number when starting a new part'),
+        ttk.Checkbutton(self._numberingFrame, text=_('Reset chapter number when starting a new part'),
                         variable=self._renWithinParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         # 'Auto number parts' checkbox.
         self._renParts = tk.BooleanVar()
-        ttk.Checkbutton(self._settingsFrame, text=_('Auto number parts when refreshing the tree'),
+        ttk.Checkbutton(self._numberingFrame, text=_('Auto number parts when refreshing the tree'),
                         variable=self._renParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         # 'Part number prefix' entry.
         self._ptHdPrefix = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Part number prefix'),
+        LabelEntry(self._numberingFrame, text=_('Part number prefix'),
                    textvariable=self._ptHdPrefix, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Part number suffix' entry.
         self._ptHdSuffix = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Part number suffix'),
+        LabelEntry(self._numberingFrame, text=_('Part number suffix'),
                    textvariable=self._ptHdSuffix, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Use Roman part numbers' checkbox.
         self._romanParts = tk.BooleanVar()
-        ttk.Checkbutton(self._settingsFrame, text=_('Use Roman part numbers'), variable=self._romanParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+        ttk.Checkbutton(self._numberingFrame, text=_('Use Roman part numbers'), variable=self._romanParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
-        ttk.Separator(self._settingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        #--- "Renamings" frame.
+        self._renamingsFrame = FoldingFrame(self._elementInfoWindow, _('Renamings'), self._toggle_renamingsFrame)
 
-        # 'Use Roman part numbers' checkbox.
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        # 'Custom Goal' checkbox.
         self._customGoal = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Custom Goal'),
+        LabelEntry(self._renamingsFrame, text=_('Custom Goal'),
                    textvariable=self._customGoal, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Custom Conflict' entry.
         self._customConflict = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Custom Conflict'),
+        LabelEntry(self._renamingsFrame, text=_('Custom Conflict'),
                    textvariable=self._customConflict, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Custom Outcome' entry.
         self._customOutcome = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Custom Outcome'),
+        LabelEntry(self._renamingsFrame, text=_('Custom Outcome'),
                    textvariable=self._customOutcome, lblWidth=20).pack(anchor='w', pady=2)
 
-        ttk.Separator(self._settingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._renamingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # 'Custom Bio' entry.
         self._customChrBio = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Custom chara Bio'),
+        LabelEntry(self._renamingsFrame, text=_('Custom chara Bio'),
                    textvariable=self._customChrBio, lblWidth=20).pack(anchor='w', pady=2)
 
         # 'Custom chara Goals' entry.
         self._customChrGoals = MyStringVar()
-        LabelEntry(self._settingsFrame, text=_('Custom chara Goals'),
+        LabelEntry(self._renamingsFrame, text=_('Custom chara Goals'),
                    textvariable=self._customChrGoals, lblWidth=20).pack(anchor='w', pady=2)
-
-        ttk.Separator(self._settingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
-
-        # 'Save word count' entry.
-        self._saveWordCount = tk.BooleanVar()
-        ttk.Checkbutton(self._settingsFrame, text=_('Save word count'),
-                        variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         #--- "Writing progress" frame.
         self._progressFrame = FoldingFrame(self._elementInfoWindow, _('Writing progress'), self._toggle_progressFrame)
+
+        # 'Save word count' entry.
+        self._saveWordCount = tk.BooleanVar()
+        ttk.Checkbutton(self._progressFrame, text=_('Save word count'),
+                        variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+
+        ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # 'Words to write' entry.
         self._wordTarget = tk.IntVar()
@@ -163,10 +171,10 @@ class ProjectView(BasicView):
         self._authorName.set(self._element.authorName)
 
         #--- "Project settings" frame.
-        if self._ui.kwargs['show_project_settings']:
-            self._settingsFrame.show()
+        if self._ui.kwargs['show_language_settings']:
+            self._languageFrame.show()
         else:
-            self._settingsFrame.hide()
+            self._languageFrame.hide()
 
         # 'Language code' entry.
         self._languageCode.set(self._element.languageCode)
@@ -353,20 +361,44 @@ class ProjectView(BasicView):
         """
         self._wordCountStart.set(self._ui.wordCount)
 
-    def _toggle_settingsFrame(self, event=None):
-        """Hide/show the "Project settings" frame.
+    def _toggle_languageFrame(self, event=None):
+        """Hide/show the "Document language" frame.
         
         Callback procedure for the FoldingFrame's button.
         """
-        if self._ui.kwargs['show_project_settings']:
-            self._settingsFrame.hide()
-            self._ui.kwargs['show_project_settings'] = False
+        if self._ui.kwargs['show_language_settings']:
+            self._languageFrame.hide()
+            self._ui.kwargs['show_language_settings'] = False
         else:
-            self._settingsFrame.show()
-            self._ui.kwargs['show_project_settings'] = True
+            self._languageFrame.show()
+            self._ui.kwargs['show_language_settings'] = True
+
+    def _toggle_numberingFrame(self, event=None):
+        """Hide/show the "Auto numbering" frame.
+        
+        Callback procedure for the FoldingFrame's button.
+        """
+        if self._ui.kwargs['show_auto_numbering']:
+            self._numberingFrame.hide()
+            self._ui.kwargs['show_auto_numbering'] = False
+        else:
+            self._numberingFrame.show()
+            self._ui.kwargs['show_auto_numbering'] = True
+
+    def _toggle_renamingsFrame(self, event=None):
+        """Hide/show the "Renamings" frame.
+        
+        Callback procedure for the FoldingFrame's button.
+        """
+        if self._ui.kwargs['show_renamings']:
+            self._renamingsFrame.hide()
+            self._ui.kwargs['show_renamings'] = False
+        else:
+            self._renamingsFrame.show()
+            self._ui.kwargs['show_renamings'] = True
 
     def _toggle_progressFrame(self, event=None):
-        """Hide/show the "Project settings" frame.
+        """Hide/show the "Writing progress" frame.
         
         Callback procedure for the FoldingFrame's button.
         """

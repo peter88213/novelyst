@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.4.0\n"
-"POT-Creation-Date: 2022-10-15 12:52:32\n"
+"Project-Id-Version: 1.4.1\n"
+"POT-Creation-Date: 2022-10-18 22:30:34\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -66,6 +66,9 @@ msgid "Auto number chapters when refreshing the tree"
 msgstr ""
 
 msgid "Auto number parts when refreshing the tree"
+msgstr ""
+
+msgid "Auto numbering"
 msgstr ""
 
 msgid "Bio"
@@ -222,6 +225,9 @@ msgid "Document \"{0}\" (last saved on {1}) already exists.\nOpen this file inst
 msgstr ""
 
 msgid "Document \"{}\" created. Open now?"
+msgstr ""
+
+msgid "Document language"
 msgstr ""
 
 msgid "Done"
@@ -479,9 +485,6 @@ msgstr ""
 msgid "Project notes"
 msgstr ""
 
-msgid "Project settings"
-msgstr ""
-
 msgid "Promote Chapter"
 msgstr ""
 
@@ -516,6 +519,9 @@ msgid "Remove part \"{}\" and keep the chapters?"
 msgstr ""
 
 msgid "Remove scene assignments"
+msgstr ""
+
+msgid "Renamings"
 msgstr ""
 
 msgid "Research"
