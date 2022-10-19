@@ -12,7 +12,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from pywriter.ui.main_tk import MainTk
-from pywriter.file.doc_open import open_document
 from pywriter.ui.set_icon_tk import *
 from novelystlib.contents_viewer import ContentsViewer
 from novelystlib.converter.nv_exporter import NvExporter
@@ -42,7 +41,6 @@ class NovelystTk(MainTk):
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
-    _KEY_YWRITER = ('<Control-Alt-y>', 'Ctrl-Alt-Y')
     _KEY_FOLDER = ('<Control-p>', 'Ctrl-P')
     _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
     _KEY_REFRESH_TREE = ('<F5>', 'F5')
@@ -187,7 +185,6 @@ class NovelystTk(MainTk):
         self.fileMenu.add_command(label=_('Refresh Tree'), accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)
         self.fileMenu.add_command(label=_('Lock'), accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
         self.fileMenu.add_command(label=_('Unlock'), accelerator=self._KEY_UNLOCK_PROJECT[1], command=self.unlock)
-        self.fileMenu.add_command(label=_('Open with yWriter'), accelerator=self._KEY_YWRITER[1], command=self.launch_yWriter)
         self.fileMenu.add_command(label=_('Open Project folder'), accelerator=self._KEY_FOLDER[1], command=self.open_projectFolder)
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label=_('Save'), accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
@@ -304,7 +301,6 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_LOCK_PROJECT[0], self.lock)
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self.unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self.reload_project)
-        self.root.bind(self._KEY_YWRITER[0], self.launch_yWriter)
         self.root.bind(self._KEY_FOLDER[0], self.open_projectFolder)
         self.root.bind(self._KEY_REFRESH_TREE[0], self.refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
@@ -382,12 +378,6 @@ class NovelystTk(MainTk):
             self.middleFrame.pack_forget()
         else:
             self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
-
-    def launch_yWriter(self, event=None):
-        """Launch yWriter with the current project."""
-        self.save_project()
-        if self.lock():
-            open_document(self.ywPrj.filePath)
 
     def open_projectFolder(self, event=None):
         """Open the project folder."""
@@ -566,7 +556,6 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Refresh Tree'), state='disabled')
         self.fileMenu.entryconfig(_('Lock'), state='disabled')
         self.fileMenu.entryconfig(_('Unlock'), state='disabled')
-        self.fileMenu.entryconfig(_('Open with yWriter'), state='disabled')
         self.fileMenu.entryconfig(_('Open Project folder'), state='disabled')
         self.fileMenu.entryconfig(_('Remove custom fields'), state='disabled')
         self.fileMenu.entryconfig(_('Save'), state='disabled')
@@ -593,7 +582,6 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Reload'), state='normal')
         self.fileMenu.entryconfig(_('Refresh Tree'), state='normal')
         self.fileMenu.entryconfig(_('Lock'), state='normal')
-        self.fileMenu.entryconfig(_('Open with yWriter'), state='normal')
         self.fileMenu.entryconfig(_('Open Project folder'), state='normal')
         self.fileMenu.entryconfig(_('Remove custom fields'), state='normal')
         self.fileMenu.entryconfig(_('Save'), state='normal')

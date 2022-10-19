@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.4.1\n"
-"POT-Creation-Date: 2022-10-18 22:30:34\n"
-"PO-Revision-Date: 2022-10-18 22:30:34\n"
+"Project-Id-Version: 1.5.0\n"
+"POT-Creation-Date: 2022-10-19 09:41:27\n"
+"PO-Revision-Date: 2022-10-19 09:41:27\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -438,9 +438,6 @@ msgstr "Online-Hilfe"
 
 msgid "Open Project folder"
 msgstr "Projektordner öffnen"
-
-msgid "Open with yWriter"
-msgstr "Mit yWriter öffnen"
 
 msgid "Open..."
 msgstr "Öffnen..."

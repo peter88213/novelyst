@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.5.0
+
+- Remove the "Open with yWriter" command.
+- Provide a yWriter launcher plugin instead.
+
+Based on PyWriter v7.13.1
+
 ### v1.4.1
 
 - Reorganize the project settings.

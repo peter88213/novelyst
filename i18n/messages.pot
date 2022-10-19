@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.4.1\n"
-"POT-Creation-Date: 2022-10-18 22:30:34\n"
+"Project-Id-Version: 1.5.0\n"
+"POT-Creation-Date: 2022-10-19 09:41:27\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -438,9 +438,6 @@ msgid "Online help"
 msgstr ""
 
 msgid "Open Project folder"
-msgstr ""
-
-msgid "Open with yWriter"
 msgstr ""
 
 msgid "Open..."

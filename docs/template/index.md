@@ -19,7 +19,7 @@ With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) an
 
 ## What's the difference to yWriter?
 
-When structuring a novel, *novelyst* builds on the concept of *yWriter*, and extends it in a compatible way. Just in case, *yWriter* can even be started with the current project from within the program. Here is a comparison with *yWriter* that illustrates the differences in presentation:
+When structuring a novel, *novelyst* builds on the concept of *yWriter*, and extends it in a compatible way. If the appropriate plugin is installed, *yWriter* can even be started with the current project from within the program. Here is a comparison with *yWriter* that illustrates the differences in presentation:
 
 ![Screenshot](Screenshots/compare.png)
 
@@ -42,7 +42,7 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 - [An Aeon Timeline 2 plugin](https://peter88213.github.io/novelyst_aeon2/)
 - [A theme changer](https://peter88213.github.io/novelyst_themes/)
 
-There are some more examples in the release's *add-on* folder, such as a theme changer, or an experimental "dark theme" installer.
+There are some more examples in the release's *add-on* folder, such as a yWriter launcher, a theme changer, or an experimental "dark theme" installer.
 
 ## Requirements
 
