@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.5.0\n"
-"POT-Creation-Date: 2022-10-19 09:41:27\n"
-"PO-Revision-Date: 2022-10-19 09:41:27\n"
+"Project-Id-Version: 1.6.0\n"
+"POT-Creation-Date: 2022-10-20 18:52:15\n"
+"PO-Revision-Date: 2022-10-20 18:52:15\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -432,6 +432,9 @@ msgstr "Roman"
 
 msgid "Number of scenes"
 msgstr "Anzahl Abschnitte"
+
+msgid "Obfuscated text for word count"
+msgstr "Verschleierter Text zur Wortzählung"
 
 msgid "Online help"
 msgstr "Online-Hilfe"

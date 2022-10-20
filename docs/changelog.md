@@ -8,6 +8,17 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.6.0
+
+Count words like in LibreOffice. See:
+https://help.libreoffice.org/latest/en-GB/text/swriter/guide/words_count.html
+
+Document export:
+- Only ask for opening existing documents, if rewritable.
+- Add obfuscated text for word count.
+
+Based on PyWriter v7.14.0
+
 ### v1.5.0
 
 - Remove the "Open with yWriter" command.

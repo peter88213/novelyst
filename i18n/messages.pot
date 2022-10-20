@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.5.0\n"
-"POT-Creation-Date: 2022-10-19 09:41:27\n"
+"Project-Id-Version: 1.6.0\n"
+"POT-Creation-Date: 2022-10-20 18:52:15\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -432,6 +432,9 @@ msgid "Novel"
 msgstr ""
 
 msgid "Number of scenes"
+msgstr ""
+
+msgid "Obfuscated text for word count"
 msgstr ""
 
 msgid "Online help"

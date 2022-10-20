@@ -28,6 +28,7 @@ from pywriter.ods.ods_itemlist import OdsItemList
 from pywriter.ods.ods_scenelist import OdsSceneList
 from pywriter.yw.data_files import DataFiles
 from novelystlib.files.odt_characters_nv import OdtCharactersNv
+from novelystlib.files.wrimo_file import WrimoFile
 from novelystlib.files.html_project_notes import HtmlProjectNotes
 
 
@@ -51,6 +52,7 @@ class NvExporter:
                              OdsItemList,
                              OdsSceneList,
                              DataFiles,
+                             WrimoFile,
                              ]
 
     def __init__(self, ui):
@@ -81,7 +83,7 @@ class NvExporter:
             self.ui.set_info_how(message)
             return
 
-        if os.path.isfile(target.filePath):
+        if lock and os.path.isfile(target.filePath):
             targetFileDate = datetime.fromtimestamp(os.path.getmtime(target.filePath)).replace(microsecond=0).isoformat(sep=' ')
             options = {'default':'no'}
             doOpenExisting = messagebox.askyesnocancel(
