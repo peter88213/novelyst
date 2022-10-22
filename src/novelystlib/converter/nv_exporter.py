@@ -5,7 +5,6 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
-from tkinter import messagebox
 from datetime import datetime
 from pywriter.pywriter_globals import *
 from pywriter.file.doc_open import open_document
@@ -29,7 +28,7 @@ from pywriter.ods.ods_scenelist import OdsSceneList
 from pywriter.yw.data_files import DataFiles
 from novelystlib.files.odt_characters_nv import OdtCharactersNv
 from novelystlib.files.wrimo_file import WrimoFile
-from novelystlib.files.html_project_notes import HtmlProjectNotes
+from novelystlib.widgets import msg_box
 
 
 class NvExporter:
@@ -83,10 +82,10 @@ class NvExporter:
             self.ui.set_info_how(message)
             return
 
-        if lock and os.path.isfile(target.filePath):
+        if os.path.isfile(target.filePath):
             targetFileDate = datetime.fromtimestamp(os.path.getmtime(target.filePath)).replace(microsecond=0).isoformat(sep=' ')
-            options = {'default':'no'}
-            doOpenExisting = messagebox.askyesnocancel(
+            options = {'default':'overwrite'}
+            doOpenExisting = msg_box.openoverwritecancel(
                 self.ui.title, _('Document "{0}" (last saved on {1}) already exists.\nOpen this file instead of overwriting it?').format(os.path.normpath(target.filePath), targetFileDate), **options)
             if doOpenExisting is None:
                 self.ui.set_info_how(f'{ERROR}{_("Action canceled by user")}.')
@@ -95,6 +94,8 @@ class NvExporter:
             elif doOpenExisting:
                 open_document(target.filePath)
                 self.ui.set_info_how(f'{ERROR}{_("Opened existing {0} (last saved on {1})").format(target.DESCRIPTION, targetFileDate)}.')
+                if lock and not self.ui.isLocked:
+                    self.ui.isLocked = True
                 return
 
         message = target.merge(source)
