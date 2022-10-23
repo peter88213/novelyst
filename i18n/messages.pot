@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.6.0\n"
-"POT-Creation-Date: 2022-10-20 18:52:15\n"
+"Project-Id-Version: 1.6.1\n"
+"POT-Creation-Date: 2022-10-23 13:45:48\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -84,6 +84,9 @@ msgid "C"
 msgstr ""
 
 msgid "Can not process file"
+msgstr ""
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Cancel Part"
@@ -219,9 +222,6 @@ msgid "Do not auto-number this chapter"
 msgstr ""
 
 msgid "Do not auto-number this part"
-msgstr ""
-
-msgid "Document \"{0}\" (last saved on {1}) already exists.\nOpen this file instead of overwriting it?"
 msgstr ""
 
 msgid "Document \"{}\" created. Open now?"
@@ -413,6 +413,9 @@ msgstr ""
 msgid "New Scene"
 msgstr ""
 
+msgid "Newer than the project file"
+msgstr ""
+
 msgid "No description"
 msgstr ""
 
@@ -437,10 +440,16 @@ msgstr ""
 msgid "Obfuscated text for word count"
 msgstr ""
 
+msgid "Older than the project file"
+msgstr ""
+
 msgid "Online help"
 msgstr ""
 
 msgid "Open Project folder"
+msgstr ""
+
+msgid "Open existing"
 msgstr ""
 
 msgid "Open..."
@@ -453,6 +462,9 @@ msgid "Outcome"
 msgstr ""
 
 msgid "Outline"
+msgstr ""
+
+msgid "Overwrite"
 msgstr ""
 
 msgid "Part"
@@ -711,6 +723,9 @@ msgid "yWriter seems to be open. Please close first"
 msgstr ""
 
 msgid "{0} (last saved on {1})"
+msgstr ""
+
+msgid "{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?"
 msgstr ""
 
 msgid "{0} parts, {1} chapters, {2} scenes, {3} words"

@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.6.0\n"
-"POT-Creation-Date: 2022-10-20 18:52:15\n"
-"PO-Revision-Date: 2022-10-20 18:52:15\n"
+"Project-Id-Version: 1.6.1\n"
+"POT-Creation-Date: 2022-10-23 13:45:48\n"
+"PO-Revision-Date: 2022-10-23 13:45:48\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +84,9 @@ msgstr "B"
 
 msgid "Can not process file"
 msgstr "Kann Datei nicht verarbeiten"
+
+msgid "Cancel"
+msgstr "Abbruch"
 
 msgid "Cancel Part"
 msgstr "Teilung aufheben"
@@ -219,9 +222,6 @@ msgstr "Dieses Kapitel nicht automatisch nummerieren"
 
 msgid "Do not auto-number this part"
 msgstr "Diesen Teil nicht automatisch nummerieren"
-
-msgid "Document \"{0}\" (last saved on {1}) already exists.\nOpen this file instead of overwriting it?"
-msgstr "Dokument \"{0}\" (zuletzt gespeichert: {1}) exitiert bereits.\nDiese Datei öffnen, statt sie zu überschreiben?"
 
 msgid "Document \"{}\" created. Open now?"
 msgstr "Dokument \"{}\" erzeugt. Jetzt öffnen?"
@@ -412,6 +412,9 @@ msgstr "Neuer Teil"
 msgid "New Scene"
 msgstr "Neuer Abschnitt"
 
+msgid "Newer than the project file"
+msgstr "Neuer als die Projektdatei"
+
 msgid "No description"
 msgstr "Keine Beschreibung"
 
@@ -436,11 +439,17 @@ msgstr "Anzahl Abschnitte"
 msgid "Obfuscated text for word count"
 msgstr "Verschleierter Text zur Wortzählung"
 
+msgid "Older than the project file"
+msgstr "Älter als die Projektdatei"
+
 msgid "Online help"
 msgstr "Online-Hilfe"
 
 msgid "Open Project folder"
 msgstr "Projektordner öffnen"
+
+msgid "Open existing"
+msgstr "Bestehendes öffnen"
 
 msgid "Open..."
 msgstr "Öffnen..."
@@ -453,6 +462,9 @@ msgstr "Ausgang"
 
 msgid "Outline"
 msgstr "Gliederung"
+
+msgid "Overwrite"
+msgstr "Überschreiben"
 
 msgid "Part"
 msgstr "Teil"
@@ -711,6 +723,9 @@ msgstr "yWriter scheint offen zu sein. Bitte schließen"
 
 msgid "{0} (last saved on {1})"
 msgstr "{0} (zuletzt gespeichert: {1})"
+
+msgid "{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?"
+msgstr "{0} gibt es schon.\n{1} (zuletzt gespeichert: {2}).\nDieses Dokument öffnen, statt es zu überschreiben?"
 
 msgid "{0} parts, {1} chapters, {2} scenes, {3} words"
 msgstr "{0} Teile, {1} Kapitel, {2} Abschnitte, {3} Wörter"

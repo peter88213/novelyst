@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.6.1
+
+- Document export: Improve the "Overwrite/Open existing document?" dialog. 
+
+Based on PyWriter v7.14.0
+
 ### v1.6.0
 
 Count words like in LibreOffice. See:
