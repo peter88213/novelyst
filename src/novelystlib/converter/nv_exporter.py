@@ -85,23 +85,24 @@ class NvExporter:
         self._source = source
         self._lock = lock
         self._show = show
+        self._popup = None
+        self._isNewer = False
         kwargs = {'suffix':suffix}
         message, __, self._target = self.exportTargetFactory.make_file_objects(self._source.filePath, **kwargs)
         if message.startswith(ERROR):
             self.ui.set_info_how(message)
             return
 
-        self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
         if os.path.isfile(self._target.filePath):
             self._ask()
         else:
             self._export()
 
     def _export(self):
-        try:
+        """Generate a new document. Overwrite the existing document, if any."""
+        if self._popup is not None:
             self._popup.destroy()
-        except:
-            pass
+
         message = self._target.merge(self._source)
         if message.startswith(ERROR):
             self.ui.set_info_how(message)
@@ -115,40 +116,46 @@ class NvExporter:
         # Successfully created a new document.
         if self._lock and not self.ui.isLocked:
             self.ui.isLocked = True
+        self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
         self.ui.set_info_how(_('Created {0} on {1}.').format(self._target.DESCRIPTION, self._targetFileDate))
         if self._show:
             if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(self._target.filePath))):
                 open_document(self._target.filePath)
 
     def _open_existing(self):
-        try:
+        """Open the existing document instead of overwriting it."""
+        if self._popup is not None:
             self._popup.destroy()
-        except:
-            pass
         open_document(self._target.filePath)
-        self.ui.set_info_how(f'{ERROR}{_("Opened existing {0} (last saved on {1})").format(self._target.DESCRIPTION, self._targetFileDate)}.')
+        if self._isNewer:
+            prefix = ''
+        else:
+            prefix = ERROR
+            # warn the user, if a document is open that might be outdated
+        self.ui.set_info_how(f'{prefix}{_("Opened existing {0} (last saved on {1})").format(self._target.DESCRIPTION, self._targetFileDate)}.')
         if self._lock and not self.ui.isLocked:
             self.ui.isLocked = True
 
     def _cancel(self):
-        try:
+        """Neither overwrite, nor open the existing document. Show a message instead."""
+        if self._popup is not None:
             self._popup.destroy()
-        except:
-            pass
         self.ui.set_info_how(f'{ERROR}{_("Action canceled by user")}.')
 
     def _ask(self):
+        """Ask whether to overwrite or to open the existing document, and do what's necessary."""
         targetTimestamp = os.path.getmtime(self._target.filePath)
         try:
             if  targetTimestamp > self.ui.ywPrj.timestamp:
                 timeStatus = _('Newer than the project file')
+                self._isNewer = True
             else:
                 timeStatus = _('Older than the project file')
         except:
             timeStatus = ''
-        targetFileDate = datetime.fromtimestamp(targetTimestamp).replace(microsecond=0).isoformat(sep=' ')
+        self._targetFileDate = datetime.fromtimestamp(targetTimestamp).replace(microsecond=0).isoformat(sep=' ')
         message = _('{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?').format(
-                    os.path.normpath(self._target.DESCRIPTION), timeStatus, targetFileDate)
+                    os.path.normpath(self._target.DESCRIPTION), timeStatus, self._targetFileDate)
         offset = 300
         __, x, y = self.ui.root.geometry().split('+')
         windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'

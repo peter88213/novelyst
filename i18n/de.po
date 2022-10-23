@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.6.1\n"
-"POT-Creation-Date: 2022-10-23 13:45:48\n"
-"PO-Revision-Date: 2022-10-23 13:45:48\n"
+"Project-Id-Version: 1.6.2\n"
+"POT-Creation-Date: 2022-10-23 16:52:03\n"
+"PO-Revision-Date: 2022-10-23 16:52:03\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -99,6 +99,9 @@ msgstr "Kann Datei nicht erzeugen"
 
 msgid "Cannot overwrite file"
 msgstr "Kann Datei nicht überschreiben"
+
+msgid "Cannot save: The project is locked"
+msgstr "Speichern nicht möglich: Das Projekt ist gesperrt"
 
 msgid "Cannot save: The project must have at least one chapter or part"
 msgstr "Speichern nicht möglich: Das Projekt muss mindestens ein Kapitel haben"

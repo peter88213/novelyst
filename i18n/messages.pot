@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.6.1\n"
-"POT-Creation-Date: 2022-10-23 13:45:48\n"
+"Project-Id-Version: 1.6.2\n"
+"POT-Creation-Date: 2022-10-23 16:52:03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -99,6 +99,9 @@ msgid "Cannot create file"
 msgstr ""
 
 msgid "Cannot overwrite file"
+msgstr ""
+
+msgid "Cannot save: The project is locked"
 msgstr ""
 
 msgid "Cannot save: The project must have at least one chapter or part"

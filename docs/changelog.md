@@ -8,6 +8,16 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.6.2
+
+- Fix a bug where the wrong file date is displayed after opening an existing document.
+- Do not warn the user if an up-to-date existing document is opened.
+- Inform the user if the project cannot be saved due to locking.
+- Refactor.
+- Update docstrings.
+
+Based on PyWriter v7.14.0
+
 ### v1.6.1
 
 - Document export: Improve the "Overwrite/Open existing document?" dialog. 

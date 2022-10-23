@@ -666,6 +666,7 @@ class NovelystTk(MainTk):
         Return True on success, otherwise return False.
         """
         if self.isLocked:
+            self.set_info_how(f'{ERROR}{_("Cannot save: The project is locked")}.')
             return False
 
         if len(self.ywPrj.srtChapters) < 1:
