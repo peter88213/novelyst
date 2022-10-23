@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.6.3
+
+- Fix a bug in odt manuscript export, where the "Quotation" style is not
+applied at scene start.
+
+Based on PyWriter v7.14.1
+
 ### v1.6.2
 
 - Fix a bug where the wrong file date is displayed after opening an existing document.
