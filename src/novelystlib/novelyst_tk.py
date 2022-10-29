@@ -698,9 +698,10 @@ class NovelystTk(MainTk):
         if fileName:
             if self.ywPrj is not None:
                 self.ywPrj.filePath = fileName
-                message = self.ywPrj.write()
-                if message.startswith(ERROR):
-                    self.set_info_how(message)
+                try:
+                    self.ywPrj.write()
+                except Error as ex:
+                    self.set_info_how(f'{ERROR}{str(ex)}')
                 else:
                     self.unlock()
                     self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')

@@ -46,30 +46,26 @@ class NvReporter:
             suffix -- str: Target file name suffix.
         """
         kwargs = {'suffix':suffix}
-        message, __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
-            return
-
-        # Adjust HTML file path to the temp directory, if any
-        # (the target factory sets the project directory; this is overridden here).
-        dirname, filename = os.path.split(target.filePath)
         try:
-            if self.ui.tempDir:
-                dirname = self.ui.tempDir
-        except:
-            if not dirname:
-                dirname = '.'
-        target.filePath = f'{dirname}/{filename}'
-
-        message = target.merge(source)
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
-            return
-
-        message = target.write()
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
+            __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
+        except Error as ex:
+            self.ui.set_info_how(f'{str(ex)}')
         else:
-            open_document(target.filePath)
+            # Adjust HTML file path to the temp directory, if any
+            # (the target factory sets the project directory; this is overridden here).
+            dirname, filename = os.path.split(target.filePath)
+            try:
+                if self.ui.tempDir:
+                    dirname = self.ui.tempDir
+            except:
+                if not dirname:
+                    dirname = '.'
+            target.filePath = f'{dirname}/{filename}'
+            try:
+                target.merge(source)
+                target.write()
+            except Error as ex:
+                self.ui.set_info_how(f'{ERROR}{str(ex)}')
+            else:
+                open_document(target.filePath)
 

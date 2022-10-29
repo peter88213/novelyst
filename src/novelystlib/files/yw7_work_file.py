@@ -130,25 +130,23 @@ class Yw7WorkFile(Yw7File):
     def read(self):
         """Read file, get custom data and timestamp.
         
-        Return a message beginning with the ERROR constant in case of error.
         Extends the superclass method.
         """
-        message = super().read()
+        super().read()
+        root = self.tree.getroot()
+        prj = root.find('PROJECT')
 
         #--- Read word target data.
-        if not message.startswith(ERROR):
-            root = self.tree.getroot()
-            prj = root.find('PROJECT')
-            if prj.find('WordCountStart') is not None:
-                try:
-                    self.wordCountStart = int(prj.find('WordCountStart').text)
-                except:
-                    self.wordCountStart = 0
-            if prj.find('WordTarget') is not None:
-                try:
-                    self.wordTarget = int(prj.find('WordTarget').text)
-                except:
-                    self.wordTarget = 0
+        if prj.find('WordCountStart') is not None:
+            try:
+                self.wordCountStart = int(prj.find('WordCountStart').text)
+            except:
+                self.wordCountStart = 0
+        if prj.find('WordTarget') is not None:
+            try:
+                self.wordTarget = int(prj.find('WordTarget').text)
+            except:
+                self.wordTarget = 0
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
@@ -185,8 +183,6 @@ class Yw7WorkFile(Yw7File):
 
         #--- If no reasonable looking locale is set, set the system locale.
         self.check_locale()
-
-        return message
 
     def _build_element_tree(self):
         """Extends the superclass method."""
@@ -242,10 +238,8 @@ class Yw7WorkFile(Yw7File):
 
     def write(self):
         """Extends the superclass method."""
-        message = super().write()
-        if not message.startswith(ERROR):
-            self.timestamp = os.path.getmtime(self.filePath)
-        return message
+        super().write()
+        self.timestamp = os.path.getmtime(self.filePath)
 
     def renumber_chapters(self):
         """Modify chapter headings."""

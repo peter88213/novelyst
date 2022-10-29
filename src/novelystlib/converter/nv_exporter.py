@@ -88,9 +88,10 @@ class NvExporter:
         self._popup = None
         self._isNewer = False
         kwargs = {'suffix':suffix}
-        message, __, self._target = self.exportTargetFactory.make_file_objects(self._source.filePath, **kwargs)
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
+        try:
+            __, self._target = self.exportTargetFactory.make_file_objects(self._source.filePath, **kwargs)
+        except Error as ex:
+            self.ui.set_info_how(f'{ERROR}{str(ex)}')
             return
 
         if os.path.isfile(self._target.filePath):
@@ -102,25 +103,20 @@ class NvExporter:
         """Generate a new document. Overwrite the existing document, if any."""
         if self._popup is not None:
             self._popup.destroy()
-
-        message = self._target.merge(self._source)
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
-            return
-
-        message = self._target.write()
-        if message.startswith(ERROR):
-            self.ui.set_info_how(message)
-            return
-
-        # Successfully created a new document.
-        if self._lock and not self.ui.isLocked:
-            self.ui.isLocked = True
-        self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
-        self.ui.set_info_how(_('Created {0} on {1}.').format(self._target.DESCRIPTION, self._targetFileDate))
-        if self._show:
-            if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(self._target.filePath))):
-                open_document(self._target.filePath)
+        try:
+            self._target.merge(self._source)
+            self._target.write()
+        except Error as ex:
+            self.ui.set_info_how(f'{ERROR}{str(ex)}')
+        else:
+            # Successfully created a new document.
+            if self._lock and not self.ui.isLocked:
+                self.ui.isLocked = True
+            self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
+            self.ui.set_info_how(_('Created {0} on {1}.').format(self._target.DESCRIPTION, self._targetFileDate))
+            if self._show:
+                if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(self._target.filePath))):
+                    open_document(self._target.filePath)
 
     def _open_existing(self):
         """Open the existing document instead of overwriting it."""
