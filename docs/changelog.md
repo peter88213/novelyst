@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v1.7.0
+
+Code optimization and library update. 
+
+Based on PyWriter v8.0.0
+
 ### v1.6.3
 
 - Fix a bug in odt manuscript export, where the "Quotation" style is not
