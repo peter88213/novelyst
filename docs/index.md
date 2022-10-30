@@ -2,7 +2,7 @@ The *novelyst* Python program provides a tree view with parts, chapters and scen
 
 ![Screenshot](Screenshots/screen01.png)
 
-With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the project.
+With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) and the [lo2yw7 extension for LibreOffice](https://peter88213.github.io/lo2yw7), you can write your edited Office documents back to the project.
 
 
 ## Features
@@ -48,8 +48,9 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 
 - [Python](https://www.python.org/) from version 3.6 to 3.10. Beware: Version 3.11 is not recommended. Under Windows, please use version 3.9.10 or above.
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
-- Either [LibreOffice](https://www.libreoffice.org/) with the [yw-cnv extension](https://peter88213.github.io/yw-cnv), 
-- or [OpenOffice](https://www.openoffice.org) with the [pywoo extension](https://peter88213.github.io/pywoo)
+- Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
+- or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
+
 
 ## General note about the fitness for use
 
@@ -61,9 +62,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 1.7.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v1.7.0.zip)
+[Download the latest release (version 2.0.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v2.0.0.zip)
 
-- Unzip the downloaded zipfile "novelyst_v1.7.0.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v2.0.0.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.

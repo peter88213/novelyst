@@ -11,7 +11,7 @@ Requirements:
 For installation, just copy this file into the 'plugin' subdirectory
 of your novelyst installation folder (e.g. ~/.pywriter/novelyst).
 
-Compatibility: novelyst v1.5 API 
+Compatibility: novelyst v2.0 API 
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -32,7 +32,7 @@ class Plugin():
         
     """
     VERSION = '@release'
-    NOVELYST_API = '1.5'
+    NOVELYST_API = '2.0'
     DESCRIPTION = 'Adds a "yWriter" entry to the "File" menu'
     URL = 'https://peter88213.github.io/novelyst'
 

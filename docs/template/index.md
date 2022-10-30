@@ -2,7 +2,7 @@ The *novelyst* Python program provides a tree view with parts, chapters and scen
 
 ![Screenshot](Screenshots/screen01.png)
 
-With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the project.
+With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) and the [lo2yw7 extension for LibreOffice](https://peter88213.github.io/lo2yw7), you can write your edited Office documents back to the project.
 
 
 ## Features
@@ -48,8 +48,9 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 
 - [Python](https://www.python.org/) from version 3.6 to 3.10. Beware: Version 3.11 is not recommended. Under Windows, please use version 3.9.10 or above.
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
-- Either [LibreOffice](https://www.libreoffice.org/) with the [yw-cnv extension](https://peter88213.github.io/yw-cnv), 
-- or [OpenOffice](https://www.openoffice.org) with the [pywoo extension](https://peter88213.github.io/pywoo)
+- Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
+- or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
+
 
 ## General note about the fitness for use
 

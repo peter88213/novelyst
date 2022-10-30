@@ -8,11 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
-### v1.7.0
+### v2.0.0
 
-Code optimization and library update. 
+- API upgrade: Remove the global ERROR constant.
+- Code optimization and library update.
+- Restore status before creating a report or an export.
 
-Based on PyWriter v8.0.0
+Based on PyWriter v8.0.1
 
 ### v1.6.3
 

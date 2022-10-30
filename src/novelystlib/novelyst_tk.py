@@ -512,7 +512,7 @@ class NovelystTk(MainTk):
     def reload_project(self, event=None):
         """Discard changes and reload the project."""
         if self.ywPrj.is_locked():
-            self.set_info_how(f'{ERROR}{_("yWriter seems to be open. Please close first")}.')
+            self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
             return
 
         if self.isModified and not self.ask_yes_no(_('Discard changes and reload the project?')):
@@ -666,15 +666,15 @@ class NovelystTk(MainTk):
         Return True on success, otherwise return False.
         """
         if self.isLocked:
-            self.set_info_how(f'{ERROR}{_("Cannot save: The project is locked")}.')
+            self.set_info_how(f'!{_("Cannot save: The project is locked")}.')
             return False
 
         if len(self.ywPrj.srtChapters) < 1:
-            self.set_info_how(f'{ERROR}{_("Cannot save: The project must have at least one chapter or part")}.')
+            self.set_info_how(f'!{_("Cannot save: The project must have at least one chapter or part")}.')
             return False
 
         if self.ywPrj.is_locked():
-            self.set_info_how(f'{ERROR}{_("yWriter seems to be open. Please close first")}.')
+            self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
             return False
 
         if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Save anyway?')):
@@ -701,7 +701,7 @@ class NovelystTk(MainTk):
                 try:
                     self.ywPrj.write()
                 except Error as ex:
-                    self.set_info_how(f'{ERROR}{str(ex)}')
+                    self.set_info_how(f'!{str(ex)}')
                 else:
                     self.unlock()
                     self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
@@ -727,10 +727,12 @@ class NovelystTk(MainTk):
         PluginManager(self, windowGeometry)
 
     def _export_document(self, suffix, **kwargs):
+        self.restore_status()
         self._elementView.apply_changes()
         self._exporter.run(self.ywPrj, suffix, **kwargs)
 
     def _show_report(self, suffix):
+        self.restore_status()
         self._elementView.apply_changes()
         self._reporter.run(self.ywPrj, suffix)
 

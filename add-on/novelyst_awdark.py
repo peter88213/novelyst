@@ -15,7 +15,7 @@ The installation routine changes colors; this will take effect after a novelyst 
 To restore the default colors after having uninstalled the plugin, close novelyst,
 and delete the novelyst.ini file in the novelyst/config directory.
 
-Compatibility: novelyst v1.0 API 
+Compatibility: novelyst v2.0 API 
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -31,8 +31,8 @@ from tkinter import messagebox
 
 
 class Plugin():
-    VERSION = '1.0.0'
-    NOVELYST_API = '1.0'
+    VERSION = '2.0.0'
+    NOVELYST_API = '2.0'
     DESCRIPTION = 'Applies the tcl awdark theme, if available'
     URL = 'https://peter88213.github.io/novelyst'
 

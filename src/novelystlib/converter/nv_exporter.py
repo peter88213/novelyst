@@ -91,7 +91,7 @@ class NvExporter:
         try:
             __, self._target = self.exportTargetFactory.make_file_objects(self._source.filePath, **kwargs)
         except Error as ex:
-            self.ui.set_info_how(f'{ERROR}{str(ex)}')
+            self.ui.set_info_how(f'!{str(ex)}')
             return
 
         if os.path.isfile(self._target.filePath):
@@ -107,7 +107,7 @@ class NvExporter:
             self._target.merge(self._source)
             self._target.write()
         except Error as ex:
-            self.ui.set_info_how(f'{ERROR}{str(ex)}')
+            self.ui.set_info_how(f'!{str(ex)}')
         else:
             # Successfully created a new document.
             if self._lock and not self.ui.isLocked:
@@ -126,7 +126,7 @@ class NvExporter:
         if self._isNewer:
             prefix = ''
         else:
-            prefix = ERROR
+            prefix = '!'
             # warn the user, if a document is open that might be outdated
         self.ui.set_info_how(f'{prefix}{_("Opened existing {0} (last saved on {1})").format(self._target.DESCRIPTION, self._targetFileDate)}.')
         if self._lock and not self.ui.isLocked:
@@ -136,7 +136,7 @@ class NvExporter:
         """Neither overwrite, nor open the existing document. Show a message instead."""
         if self._popup is not None:
             self._popup.destroy()
-        self.ui.set_info_how(f'{ERROR}{_("Action canceled by user")}.')
+        self.ui.set_info_how(f'!{_("Action canceled by user")}.')
 
     def _ask(self):
         """Ask whether to overwrite or to open the existing document, and do what's necessary."""

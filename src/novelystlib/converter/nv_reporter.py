@@ -65,7 +65,7 @@ class NvReporter:
                 target.merge(source)
                 target.write()
             except Error as ex:
-                self.ui.set_info_how(f'{ERROR}{str(ex)}')
+                self.ui.set_info_how(f'!{str(ex)}')
             else:
                 open_document(target.filePath)
 

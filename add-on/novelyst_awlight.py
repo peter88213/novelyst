@@ -11,7 +11,7 @@ Installation:
 - Make sure there's a 'themes' subdirectory in your novelyst installation folder. 
 - Put the 'awthemes' folder into the 'themes' directory. 
 
-Compatibility: novelyst v1.0 API 
+Compatibility: novelyst v2.0 API 
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -26,8 +26,8 @@ import sys
 
 
 class Plugin():
-    VERSION = '1.0.0'
-    NOVELYST_API = '1.0'
+    VERSION = '2.0.0'
+    NOVELYST_API = '2.0'
     DESCRIPTION = 'Applies the tcl awlight theme, if available'
     URL = 'https://peter88213.github.io/novelyst'
 
