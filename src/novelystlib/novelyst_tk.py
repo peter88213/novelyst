@@ -681,12 +681,16 @@ class NovelystTk(MainTk):
             return False
 
         self._elementView.apply_changes()
-        self.ywPrj.write()
-        self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
-        self.isModified = False
-        self.restore_status(event)
-        self.kwargs['yw_last_open'] = self.ywPrj.filePath
-        return True
+        try:
+            self.ywPrj.write()
+        except Error as ex:
+            self.set_info_how(f'!{str(ex)}')
+        else:
+            self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
+            self.isModified = False
+            self.restore_status(event)
+            self.kwargs['yw_last_open'] = self.ywPrj.filePath
+            return True
 
     def save_as(self, event=None):
         """Rename the .yw7 file and save it to disk.
