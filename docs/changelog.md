@@ -8,7 +8,7 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
-### v2.0.1
+### v2.0.2
 
 - Fix a bug where attempting to save a write-protected file raises an uncaught exception.
 - API upgrade: Remove the global ERROR constant.
