@@ -8,14 +8,15 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
-### v2.0.2
+### v2.0.3
 
 - Fix a bug where attempting to save a write-protected file raises an uncaught exception.
 - API upgrade: Remove the global ERROR constant.
 - Code optimization and library update.
 - Restore status before creating a report or an export.
+- Assign "no language" to the chapter/scene markers for the  proof reading document.
 
-Based on PyWriter v8.0.2
+Based on PyWriter v8.0.4
 
 ### v1.6.3
 
