@@ -14,12 +14,12 @@ class SettingsWindow(tk.Toplevel):
 
     COLORING_MODES = [_('none'), _('status'), _('style')]
 
-    def __init__(self, tv, ui, windowGeometry, **kw):
+    def __init__(self, tv, ui, size, **kw):
         self._tv = tv
         self._ui = ui
         super().__init__(**kw)
         self.title(_('Program settings'))
-        self.geometry(windowGeometry)
+        self.geometry(size)
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)

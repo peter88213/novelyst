@@ -13,11 +13,11 @@ from pywriter.pywriter_globals import *
 
 class PluginManager(tk.Toplevel):
 
-    def __init__(self, ui, windowGeometry, **kw):
+    def __init__(self, ui, size, **kw):
         self._ui = ui
         super().__init__(**kw)
         self.title(f'{_("Installed plugins")} - novelyst @release')
-        self.geometry(windowGeometry)
+        self.geometry(size)
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)
