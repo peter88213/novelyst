@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>novelyst_aeon2</project>
+		<project>novelyst_collection</project>
 		<project>novelyst_editor</project>
 		<project>novelyst_themes</project>
 		<project>novelyst_timeline</project>
