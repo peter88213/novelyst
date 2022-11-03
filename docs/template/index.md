@@ -37,6 +37,7 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 *novelyst's* functionality can be extended by plugins. Here are some examples:
 
 - [A simple "markup" scene editor](https://peter88213.github.io/novelyst_editor/)
+- [A book/series collection manager](https://peter88213.github.io/novelyst_collection/)
 - [A simple "rich text" scene editor](https://peter88213.github.io/novelyst_rich_editor/)
 - [A Timeline plugin](https://peter88213.github.io/novelyst_timeline/)
 - [An Aeon Timeline 2 plugin](https://peter88213.github.io/novelyst_aeon2/)
