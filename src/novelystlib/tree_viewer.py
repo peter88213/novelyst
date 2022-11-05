@@ -350,7 +350,7 @@ class TreeViewer(ttk.Frame):
         for node in modifiedNodes:
             self.tree.see(node)
 
-    def update_prjStructure(self):
+    def update_prj_structure(self):
         """Iterate the tree and rebuild the sorted lists."""
 
         def serialize_tree(node, chId, scnPos=0):
@@ -871,7 +871,7 @@ class TreeViewer(ttk.Frame):
                 # Go one level down.
                 self._set_type(self.tree.get_children(node), newType)
         if has_changed:
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _set_scn_status(self, nodes, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
@@ -890,7 +890,7 @@ class TreeViewer(ttk.Frame):
                 # Go one level down.
                 self._set_scn_status(self.tree.get_children(node), scnStatus)
         if has_changed:
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _set_scn_style(self, nodes, sceneStyle):
         """Set scene narrative mode (Scene/Description/summary)."""
@@ -909,7 +909,7 @@ class TreeViewer(ttk.Frame):
                 # Go one level down.
                 self._set_scn_style(self.tree.get_children(node), sceneStyle)
         if has_changed:
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _set_chr_status(self, chrStatus):
         """Set character status (Major/Minor)."""
@@ -929,7 +929,7 @@ class TreeViewer(ttk.Frame):
                     self._set_chr_status(childNode, chrStatus)
                 has_changed = True
         if has_changed:
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""
@@ -951,7 +951,7 @@ class TreeViewer(ttk.Frame):
             tv.move(node, targetNode, 0)
         elif node.startswith(self.CHAPTER_PREFIX) and targetNode.startswith(self.PART_PREFIX) and not tv.get_children(targetNode):
             tv.move(node, targetNode, tv.index(targetNode))
-        self.update_prjStructure()
+        self.update_prj_structure()
 
     def open_children(self, parent):
         """Recursively show children nodes."""
@@ -993,7 +993,7 @@ class TreeViewer(ttk.Frame):
             del self._ui.ywPrj.chapters[elemId]
             self._ui.ywPrj.srtChapters.remove(elemId)
             self.refresh_tree()
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _promote_chapter(self, event):
         """Make a chapter a part."""
@@ -1010,7 +1010,7 @@ class TreeViewer(ttk.Frame):
         if self._ui.ask_yes_no(_('Promote chapter "{}" to part?').format(self._ui.ywPrj.chapters[elemId].title)):
             self._ui.ywPrj.chapters[elemId].chLevel = 1
             self.refresh_tree()
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _demote_part(self, event):
         """Make a part a chapter."""
@@ -1024,7 +1024,7 @@ class TreeViewer(ttk.Frame):
         if self._ui.ask_yes_no(_('Demote part "{}" to chapter?').format(self._ui.ywPrj.chapters[elemId].title)):
             self._ui.ywPrj.chapters[elemId].chLevel = 0
             self.refresh_tree()
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def _delete_node(self, event):
         """Delete a node and its children.
@@ -1146,7 +1146,7 @@ class TreeViewer(ttk.Frame):
                     tv.delete(selection)
                 # Make sure the whole "trash bin" is unused.
                 self._set_type([self._trashNode], 3)
-            self.update_prjStructure()
+            self.update_prj_structure()
 
     def add_part(self, selection=None):
         """Add a Part node to the tree and create an instance.
@@ -1193,7 +1193,7 @@ class TreeViewer(ttk.Frame):
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prjStructure()
+        self.update_prj_structure()
         self.refresh_tree()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
@@ -1242,7 +1242,7 @@ class TreeViewer(ttk.Frame):
         self._ui.ywPrj.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prjStructure()
+        self.update_prj_structure()
         self.refresh_tree()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
@@ -1291,7 +1291,7 @@ class TreeViewer(ttk.Frame):
             self._ui.ywPrj.scenes[scId].kwVar[fieldName] = None
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prjStructure()
+        self.update_prj_structure()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
         return scId
@@ -1374,7 +1374,7 @@ class TreeViewer(ttk.Frame):
         else:
             index = 0
         self.tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prjStructure()
+        self.update_prj_structure()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
         return elemId

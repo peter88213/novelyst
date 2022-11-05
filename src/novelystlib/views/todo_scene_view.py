@@ -96,7 +96,7 @@ class TodoSceneView(BasicView):
             self._scenesAssigned = []
             self._arcFrame.pack_forget()
             if self._ui.isModified:
-                self._ui.tv.update_prjStructure()
+                self._ui.tv.update_prj_structure()
 
     def apply_changes(self):
         """Apply changes.

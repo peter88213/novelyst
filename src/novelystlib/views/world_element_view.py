@@ -53,7 +53,7 @@ class WorldElementView(BasicView):
                 self._element.aka = aka.strip()
                 self._ui.isModified = True
         if self._ui.isModified:
-            self._ui.tv.update_prjStructure()
+            self._ui.tv.update_prj_structure()
 
         # 'Tags' entry.
         newTags = self._tags.get()
