@@ -384,15 +384,15 @@ class NovelystTk(MainTk):
         """Open the project folder."""
         projectDir, __ = os.path.split(self.ywPrj.filePath)
         try:
-            os.startfile(os.path.normpath(projectDir))
+            os.startfile(norm_path(projectDir))
             # Windows
         except:
             try:
-                os.system('xdg-open "%s"' % os.path.normpath(projectDir))
+                os.system('xdg-open "%s"' % norm_path(projectDir))
                 # Linux
             except:
                 try:
-                    os.system('open "%s"' % os.path.normpath(projectDir))
+                    os.system('open "%s"' % norm_path(projectDir))
                     # Mac
                 except:
                     pass
@@ -617,7 +617,7 @@ class NovelystTk(MainTk):
         if not super().open_project(fileName):
             return False
 
-        self.show_path(_('{0} (last saved on {1})').format(os.path.normpath(self.ywPrj.filePath), self.ywPrj.fileDate))
+        self.show_path(_('{0} (last saved on {1})').format(norm_path(self.ywPrj.filePath), self.ywPrj.fileDate))
         self.tv.build_tree()
         self.show_status()
         self.contentsViewer.view_text()
@@ -634,7 +634,7 @@ class NovelystTk(MainTk):
         if fileName:
             self.ywPrj = Yw7WorkFile(fileName)
             self.set_title()
-            self.show_path(os.path.normpath(fileName))
+            self.show_path(norm_path(fileName))
             self.enable_menu()
             self.tv.build_tree()
             self.show_status()
@@ -687,7 +687,7 @@ class NovelystTk(MainTk):
             self.set_info_how(f'!{str(ex)}')
             return False
 
-        self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
+        self.show_path(f'{norm_path(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
         self.isModified = False
         self.restore_status(event)
         self.kwargs['yw_last_open'] = self.ywPrj.filePath
@@ -709,7 +709,7 @@ class NovelystTk(MainTk):
                     self.set_info_how(f'!{str(ex)}')
                 else:
                     self.unlock()
-                    self.show_path(f'{os.path.normpath(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
+                    self.show_path(f'{norm_path(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
                     self.isModified = False
                     self.restore_status(event)
                     self.kwargs['yw_last_open'] = self.ywPrj.filePath

@@ -115,7 +115,7 @@ class NvExporter:
             self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
             self.ui.set_info_how(_('Created {0} on {1}.').format(self._target.DESCRIPTION, self._targetFileDate))
             if self._show:
-                if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(os.path.normpath(self._target.filePath))):
+                if self.ui.ask_yes_no(_('Document "{}" created. Open now?').format(norm_path(self._target.filePath))):
                     open_document(self._target.filePath)
 
     def _open_existing(self):
@@ -151,7 +151,7 @@ class NvExporter:
             timeStatus = ''
         self._targetFileDate = datetime.fromtimestamp(targetTimestamp).replace(microsecond=0).isoformat(sep=' ')
         message = _('{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?').format(
-                    os.path.normpath(self._target.DESCRIPTION), timeStatus, self._targetFileDate)
+                    norm_path(self._target.DESCRIPTION), timeStatus, self._targetFileDate)
         offset = 300
         __, x, y = self.ui.root.geometry().split('+')
         windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
