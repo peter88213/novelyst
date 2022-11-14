@@ -15,7 +15,7 @@ See the [GitHub "features" project](https://github.com/users/peter88213/projects
 - Code optimization and library update.
 - Restore status before creating a report or an export.
 - Assign "no language" to the chapter/scene markers for the  proof reading document.
-- When converting to ODT format, apply all XML predefineded entities.
+- When converting to ODT format, apply all XML predefined entities.
 
 Based on PyWriter v8.0.8
 
