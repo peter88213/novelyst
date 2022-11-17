@@ -1,4 +1,4 @@
-"""Provide a class for novelyst project editing.
+"""Provide a file class for novelyst project editing.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
@@ -13,8 +13,10 @@ from pywriter.yw.yw7_file import Yw7File
 from pywriter.yw.xml_indent import indent
 
 
-class Yw7WorkFile(Yw7File):
+class WorkFile(Yw7File):
     """novelyst project file representation.
+    
+    This is to be an adapter to the .yw7 project format.
     
     Public methods:
         count_words() -- return a tuple of word count totals.
@@ -61,7 +63,7 @@ class Yw7WorkFile(Yw7File):
         """Initialize instance variables.
         
         Positional arguments:
-            filePath -- str: path to the yw7 file.
+            filePath -- str: path to the project file.
             
         Optional arguments:
             kwargs -- keyword arguments (not used here).            
@@ -87,7 +89,7 @@ class Yw7WorkFile(Yw7File):
         return head, tail
 
     def lock(self):
-        """Create a non-yWriter lockfile."""
+        """Create a project lockfile."""
         head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
@@ -96,7 +98,7 @@ class Yw7WorkFile(Yw7File):
                 f.write('')
 
     def unlock(self):
-        """Delete the non-yWriter lockfile, if any."""
+        """Delete the project lockfile, if any."""
         head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change
@@ -106,7 +108,7 @@ class Yw7WorkFile(Yw7File):
             pass
 
     def has_lockfile(self):
-        """Return True if a non-yWriter lockfile exists."""
+        """Return True if a project lockfile exists."""
         head, tail = self._split_file_path()
         lockfilePath = f'{head}{self._LOCKFILE_PREFIX}{tail}{self._LOCKFILE_SUFFIX}'
         # This cannot be done by the constructor,because filePath might change

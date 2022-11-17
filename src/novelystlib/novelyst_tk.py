@@ -16,7 +16,7 @@ from pywriter.ui.set_icon_tk import *
 from novelystlib.contents_viewer import ContentsViewer
 from novelystlib.converter.nv_exporter import NvExporter
 from novelystlib.converter.nv_reporter import NvReporter
-from novelystlib.files.yw7_work_file import Yw7WorkFile
+from novelystlib.files.work_file import WorkFile
 from novelystlib.plugin_collection import PluginCollection
 from novelystlib.tree_viewer import TreeViewer
 from novelystlib.views.no_view import NoView
@@ -49,8 +49,9 @@ class NovelystTk(MainTk):
     _KEY_CHAPTER_LEVEL = ('<Control-Alt-c>', 'Ctrl-Alt-C')
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
 
-    _YW_CLASS = Yw7WorkFile
+    _YW_CLASS = WorkFile
     _COLOR_NOTE_WINDOWS = 'lemon chiffon'
+    fileTypes = [(WorkFile.DESCRIPTION, WorkFile.EXTENSION)]
 
     def __init__(self, colTitle, tempDir, **kwargs):
         """Put a text box to the GUI main window.
@@ -355,11 +356,11 @@ class NovelystTk(MainTk):
 
     def lock(self, event=None):
         """Lock the project."""
-        if self.ywPrj.filePath is not None:
+        if self.prjFile.filePath is not None:
             self.isLocked = True
             # actually, this is a setter method with conditions
             if self.isLocked:
-                self.ywPrj.lock()
+                self.prjFile.lock()
                 # make it persistent
                 return True
 
@@ -368,11 +369,11 @@ class NovelystTk(MainTk):
     def unlock(self, event=None):
         """Unlock the project."""
         self.isLocked = False
-        self.ywPrj.unlock()
+        self.prjFile.unlock()
         # make it persistent
-        if self.ywPrj.has_changed_on_disk():
+        if self.prjFile.has_changed_on_disk():
             if self.ask_yes_no(_('File has changed on disk. Reload?')):
-                self.open_project(self.ywPrj.filePath)
+                self.open_project(self.prjFile.filePath)
 
     def toggle_viewer(self, event=None):
         if self.middleFrame.winfo_manager():
@@ -382,7 +383,7 @@ class NovelystTk(MainTk):
 
     def open_projectFolder(self, event=None):
         """Open the project folder."""
-        projectDir, __ = os.path.split(self.ywPrj.filePath)
+        projectDir, __ = os.path.split(self.prjFile.filePath)
         try:
             os.startfile(norm_path(projectDir))
             # Windows
@@ -511,19 +512,19 @@ class NovelystTk(MainTk):
 
     def reload_project(self, event=None):
         """Discard changes and reload the project."""
-        if self.ywPrj.is_locked():
+        if self.prjFile.is_locked():
             self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
             return
 
         if self.isModified and not self.ask_yes_no(_('Discard changes and reload the project?')):
             return
 
-        if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Reload anyway?')):
+        if self.prjFile.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Reload anyway?')):
             return
 
         self.reloading = True
         # This is to avoid another question when closing the project
-        self.open_project(self.ywPrj.filePath)
+        self.open_project(self.prjFile.filePath)
         # Includes closing
 
     def show_status(self, message=None):
@@ -531,8 +532,8 @@ class NovelystTk(MainTk):
         
         Extends the superclass method.
         """
-        if self.ywPrj is not None and not message:
-            wordCount, sceneCount, chapterCount, partCount = self.ywPrj.get_counts()
+        if self.prjFile is not None and not message:
+            wordCount, sceneCount, chapterCount, partCount = self.prjFile.get_counts()
             message = _('{0} parts, {1} chapters, {2} scenes, {3} words').format(partCount, chapterCount, sceneCount, wordCount)
             self.wordCount = wordCount
         super().show_status(message)
@@ -600,12 +601,12 @@ class NovelystTk(MainTk):
 
     def remove_custom_fields(self, event=None):
         """Remove custom fields from the .yw7 file and save."""
-        if self.ywPrj is not None:
+        if self.prjFile is not None:
             if self.ask_yes_no(_('Remove novelyst project settings and save?')):
                 self.tv.tree.selection_set('')
                 self.view_nothing()
-                if self.ywPrj.reset_custom_variables():
-                    self.set_info_how(self.ywPrj.write())
+                if self.prjFile.reset_custom_variables():
+                    self.set_info_how(self.prjFile.write())
 
     def open_project(self, fileName=''):
         """Create a novelyst project instance and read the file.
@@ -617,22 +618,22 @@ class NovelystTk(MainTk):
         if not super().open_project(fileName):
             return False
 
-        self.show_path(_('{0} (last saved on {1})').format(norm_path(self.ywPrj.filePath), self.ywPrj.fileDate))
+        self.show_path(_('{0} (last saved on {1})').format(norm_path(self.prjFile.filePath), self.prjFile.fileDate))
         self.tv.build_tree()
         self.show_status()
         self.contentsViewer.view_text()
         self.isModified = False
-        if self.ywPrj.has_lockfile():
+        if self.prjFile.has_lockfile():
             self.isLocked = True
         return True
 
     def new_project(self, event=None):
         """Create a novelyst project instance."""
-        if self.ywPrj is not None:
+        if self.prjFile is not None:
             self.close_project()
-        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension='.yw7')
+        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self.fileTypes[0][1])
         if fileName:
-            self.ywPrj = Yw7WorkFile(fileName)
+            self.prjFile = WorkFile(fileName)
             self.set_title()
             self.show_path(norm_path(fileName))
             self.enable_menu()
@@ -658,6 +659,7 @@ class NovelystTk(MainTk):
         self.isModified = False
         self.reloading = False
         self.isLocked = False
+        self.novel = None
         super().close_project()
 
     def save_project(self, event=None):
@@ -673,46 +675,45 @@ class NovelystTk(MainTk):
             self.set_info_how(f'!{_("Cannot save: The project must have at least one chapter or part")}.')
             return False
 
-        if self.ywPrj.is_locked():
+        if self.prjFile.is_locked():
             self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
             return False
 
-        if self.ywPrj.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Save anyway?')):
+        if self.prjFile.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Save anyway?')):
             return False
 
         self._elementView.apply_changes()
         try:
-            self.ywPrj.write()
+            self.prjFile.write()
         except Error as ex:
             self.set_info_how(f'!{str(ex)}')
             return False
 
-        self.show_path(f'{norm_path(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
+        self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
         self.isModified = False
         self.restore_status(event)
-        self.kwargs['yw_last_open'] = self.ywPrj.filePath
+        self.kwargs['yw_last_open'] = self.prjFile.filePath
         return True
 
     def save_as(self, event=None):
-        """Rename the .yw7 file and save it to disk.
+        """Rename the project file and save it to disk.
         
         Return True on success, otherwise return False.
         """
-        fileTypes = [('yWriter 7 project', '.yw7')]
-        fileName = filedialog.asksaveasfilename(filetypes=fileTypes, defaultextension='.yw7')
+        fileName = filedialog.asksaveasfilename(filetypes=self.fileTypes, defaultextension=self.fileTypes[0][1])
         if fileName:
-            if self.ywPrj is not None:
-                self.ywPrj.filePath = fileName
+            if self.prjFile is not None:
+                self.prjFile.filePath = fileName
                 try:
-                    self.ywPrj.write()
+                    self.prjFile.write()
                 except Error as ex:
                     self.set_info_how(f'!{str(ex)}')
                 else:
                     self.unlock()
-                    self.show_path(f'{norm_path(self.ywPrj.filePath)} ({_("last saved on")} {self.ywPrj.fileDate})')
+                    self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
                     self.isModified = False
                     self.restore_status(event)
-                    self.kwargs['yw_last_open'] = self.ywPrj.filePath
+                    self.kwargs['yw_last_open'] = self.prjFile.filePath
                     return True
 
         return False
@@ -734,10 +735,10 @@ class NovelystTk(MainTk):
     def _export_document(self, suffix, **kwargs):
         self.restore_status()
         self._elementView.apply_changes()
-        self._exporter.run(self.ywPrj, suffix, **kwargs)
+        self._exporter.run(self.prjFile, suffix, **kwargs)
 
     def _show_report(self, suffix):
         self.restore_status()
         self._elementView.apply_changes()
-        self._reporter.run(self.ywPrj, suffix)
+        self._reporter.run(self.prjFile, suffix)
 

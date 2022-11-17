@@ -49,7 +49,7 @@ class ContentsViewer:
                 text = re.sub('\[.+?\]', '', text)
                 # text = re.sub('\[\/*[i|b|h|c|r|s|u]\d*\]', '', text)
                 # text = re.sub('\[\/*?lang=.+?\]', '', text)
-                # Remove yw7 markup from text
+                # Remove raw markup from text
             return text
 
         taggedText = []

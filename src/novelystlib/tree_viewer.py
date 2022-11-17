@@ -14,7 +14,6 @@ from pywriter.model.scene import Scene
 from pywriter.model.character import Character
 from pywriter.model.basic_element import BasicElement
 from pywriter.model.world_element import WorldElement
-# from novelystlib.files.yw7_work_file import Yw7WorkFile
 
 
 class TreeViewer(ttk.Frame):
@@ -242,7 +241,7 @@ class TreeViewer(ttk.Frame):
         inNotesPart = False
         inTodoPart = False
         wordCount = 0
-        self._wordsTotal = self._ui.ywPrj.get_counts()[0]
+        self._wordsTotal = self._ui.prjFile.get_counts()[0]
         for chId in self._ui.novel.srtChapters:
             if self._ui.novel.chapters[chId].isTrash:
                 self._ui.novel.chapters[chId].chType = 3
@@ -398,7 +397,7 @@ class TreeViewer(ttk.Frame):
                 self.tree.item(childNode, text=title, values=columns, tags=nodeTags)
             return scnPos
 
-        self._wordsTotal = self._ui.ywPrj.get_counts()[0]
+        self._wordsTotal = self._ui.prjFile.get_counts()[0]
         self._ui.novel.srtChapters = []
         self._ui.novel.srtCharacters = []
         self._ui.novel.srtLocations = []
@@ -1126,7 +1125,7 @@ class TreeViewer(ttk.Frame):
                     # Create a "trash bin"; use the first free chapter ID.
                     trashId = create_id(self._ui.novel.chapters)
                     self._ui.novel.chapters[trashId] = Chapter()
-                    for fieldName in self._ui.ywPrj._CHP_KWVAR:
+                    for fieldName in self._ui.prjFile._CHP_KWVAR:
                         self._ui.novel.chapters[trashId].kwVar[fieldName] = None
                     self._ui.novel.chapters[trashId].title = _('Trash')
                     self._ui.novel.chapters[trashId].isTrash = True
@@ -1182,7 +1181,7 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.chapters[chId].chLevel = 1
 
         # Initialize custom keyword variables.
-        for fieldName in self._ui.ywPrj._CHP_KWVAR:
+        for fieldName in self._ui.prjFile._CHP_KWVAR:
             self._ui.novel.chapters[chId].kwVar[fieldName] = None
         if parent.startswith(self.PL_ROOT):
             self._ui.novel.chapters[chId].chType = 2
@@ -1228,7 +1227,7 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
 
         # Initialize custom keyword variables.
-        for fieldName in self._ui.ywPrj._CHP_KWVAR:
+        for fieldName in self._ui.prjFile._CHP_KWVAR:
             self._ui.novel.chapters[chId].kwVar[fieldName] = None
 
         # Inherit part type, if "Todo" or "Notes".
@@ -1287,7 +1286,7 @@ class TreeViewer(ttk.Frame):
         # Edit status = Outline
 
         # Initialize custom keyword variables.
-        for fieldName in self._ui.ywPrj._SCN_KWVAR:
+        for fieldName in self._ui.prjFile._SCN_KWVAR:
             self._ui.novel.scenes[scId].kwVar[fieldName] = None
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
@@ -1322,7 +1321,7 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
 
             # Initialize custom keyword variables.
-            for fieldName in self._ui.ywPrj._CRT_KWVAR:
+            for fieldName in self._ui.prjFile._CRT_KWVAR:
                 self._ui.novel.characters[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_character_display(elemId)
             root = self.CR_ROOT
@@ -1335,7 +1334,7 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
 
             # Initialize custom keyword variables.
-            for fieldName in self._ui.ywPrj._LOC_KWVAR:
+            for fieldName in self._ui.prjFile._LOC_KWVAR:
                 self._ui.novel.locations[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_location_display(elemId)
             root = self.LC_ROOT
@@ -1348,7 +1347,7 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
 
             # Initialize custom keyword variables.
-            for fieldName in self._ui.ywPrj._ITM_KWVAR:
+            for fieldName in self._ui.prjFile._ITM_KWVAR:
                 self._ui.novel.items[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_item_display(elemId)
             root = self.IT_ROOT
@@ -1361,7 +1360,7 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
 
             # Initialize custom keyword variables.
-            for fieldName in self._ui.ywPrj._ITM_KWVAR:
+            for fieldName in self._ui.prjFile._ITM_KWVAR:
                 self._ui.novel.projectNotes[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_prjNote_display(elemId)
             root = self.PN_ROOT

@@ -142,7 +142,7 @@ class NvExporter:
         """Ask whether to overwrite or to open the existing document, and do what's necessary."""
         targetTimestamp = os.path.getmtime(self._target.filePath)
         try:
-            if  targetTimestamp > self.ui.ywPrj.timestamp:
+            if  targetTimestamp > self.ui.prjFile.timestamp:
                 timeStatus = _('Newer than the project file')
                 self._isNewer = True
             else:
@@ -158,7 +158,7 @@ class NvExporter:
         self._popup = tk.Toplevel()
         self._popup.resizable(0, 0)
         self._popup.geometry(windowGeometry)
-        self._popup.title(self.ui.ywPrj.title)
+        self._popup.title(self.ui.novel.title)
         self._popup.grab_set()
         tk.Label(self._popup, text=message, bg='white').pack(ipadx=10, ipady=30)
         cancelButton = ttk.Button(self._popup, text=_('Cancel'), command=self._cancel)
