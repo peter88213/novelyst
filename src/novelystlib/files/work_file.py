@@ -132,23 +132,7 @@ class WorkFile(Yw7File):
         Extends the superclass method.
         """
         super().read()
-        self.novel.wordCountStart = 0
-        self.novel.wordTarget = 0
         self.novel.check_locale()
-        root = self.tree.getroot()
-        prj = root.find('PROJECT')
-
-        #--- Read word target data.
-        if prj.find('WordCountStart') is not None:
-            try:
-                self.novel.wordCountStart = int(prj.find('WordCountStart').text)
-            except:
-                self.novel.wordCountStart = 0
-        if prj.find('WordTarget') is not None:
-            try:
-                self.novel.wordTarget = int(prj.find('WordTarget').text)
-            except:
-                self.novel.wordTarget = 0
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
@@ -190,17 +174,7 @@ class WorkFile(Yw7File):
         """Extends the superclass method."""
         super()._build_element_tree()
 
-        #--- Write word target data.
         root = self.tree.getroot()
-        xmlPrj = root.find('PROJECT')
-        try:
-            xmlPrj.find('WordCountStart').text = str(self.novel.wordCountStart)
-        except(AttributeError):
-            ET.SubElement(xmlPrj, 'WordCountStart').text = str(self.novel.wordCountStart)
-        try:
-            xmlPrj.find('WordTarget').text = str(self.novel.wordTarget)
-        except(AttributeError):
-            ET.SubElement(xmlPrj, 'WordTarget').text = str(self.novel.wordTarget)
 
         #--- Process word count log.
         if self.novel.kwVar.get('Field_SaveWordCount', ''):
