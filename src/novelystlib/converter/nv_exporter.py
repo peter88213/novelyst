@@ -104,7 +104,7 @@ class NvExporter:
         if self._popup is not None:
             self._popup.destroy()
         try:
-            self._target.merge(self._source)
+            self._target.novel = self._source.novel
             self._target.write()
         except Error as ex:
             self.ui.set_info_how(f'!{str(ex)}')

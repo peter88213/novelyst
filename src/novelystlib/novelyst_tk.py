@@ -432,8 +432,8 @@ class NovelystTk(MainTk):
         if not self._elementView is self._projectView:
             self._elementView.hide()
             self._elementView = self._projectView
-            self._elementView.show(self.ywPrj)
-        self._elementView.set_data(self.ywPrj)
+            self._elementView.show(self.novel)
+        self._elementView.set_data(self.novel)
 
     def view_chapter(self, chId):
         """Event handler for chapter selection."""
@@ -441,31 +441,31 @@ class NovelystTk(MainTk):
         if not self._elementView is self._chapterView:
             self._elementView.hide()
             self._elementView = self._chapterView
-            self._elementView.show(self.ywPrj.chapters[chId])
-        self._elementView.set_data(self.ywPrj.chapters[chId])
+            self._elementView.show(self.novel.chapters[chId])
+        self._elementView.set_data(self.novel.chapters[chId])
         self.contentsViewer.see(f'ch{chId}')
 
     def view_scene(self, scId):
         """Event handler for scene selection."""
         self._elementView.apply_changes()
-        if self.ywPrj.scenes[scId].scType == 2:
+        if self.novel.scenes[scId].scType == 2:
             if not self._elementView is self._todoSceneView:
                 self._elementView.hide()
                 self._elementView = self._todoSceneView
-                self._elementView.show(self.ywPrj.scenes[scId])
-            self._elementView.set_data(self.ywPrj.scenes[scId])
-        elif self.ywPrj.scenes[scId].scType == 1:
+                self._elementView.show(self.novel.scenes[scId])
+            self._elementView.set_data(self.novel.scenes[scId])
+        elif self.novel.scenes[scId].scType == 1:
             if not self._elementView is self._notesSceneView:
                 self._elementView.hide()
                 self._elementView = self._notesSceneView
-                self._elementView.show(self.ywPrj.scenes[scId])
-            self._elementView.set_data(self.ywPrj.scenes[scId])
+                self._elementView.show(self.novel.scenes[scId])
+            self._elementView.set_data(self.novel.scenes[scId])
         else:
             if not self._elementView is self._sceneView:
                 self._elementView.hide()
                 self._elementView = self._sceneView
-                self._elementView.show(self.ywPrj.scenes[scId])
-            self._elementView.set_data(self.ywPrj.scenes[scId])
+                self._elementView.show(self.novel.scenes[scId])
+            self._elementView.set_data(self.novel.scenes[scId])
         self.contentsViewer.see(f'sc{scId}')
 
     def view_character(self, crId):
@@ -474,8 +474,8 @@ class NovelystTk(MainTk):
         if not self._elementView is self._characterView:
             self._elementView.hide()
             self._elementView = self._characterView
-            self._elementView.show(self.ywPrj.characters[crId])
-        self._elementView.set_data(self.ywPrj.characters[crId])
+            self._elementView.show(self.novel.characters[crId])
+        self._elementView.set_data(self.novel.characters[crId])
 
     def view_location(self, lcId):
         """Event handler for location selection."""
@@ -483,8 +483,8 @@ class NovelystTk(MainTk):
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
             self._elementView = self._worldElementView
-            self._elementView.show(self.ywPrj.locations[lcId])
-        self._elementView.set_data(self.ywPrj.locations[lcId])
+            self._elementView.show(self.novel.locations[lcId])
+        self._elementView.set_data(self.novel.locations[lcId])
 
     def view_item(self, itId):
         """Event handler for item selection."""
@@ -492,8 +492,8 @@ class NovelystTk(MainTk):
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
             self._elementView = self._worldElementView
-            self._elementView.show(self.ywPrj.items[itId])
-        self._elementView.set_data(self.ywPrj.items[itId])
+            self._elementView.show(self.novel.items[itId])
+        self._elementView.set_data(self.novel.items[itId])
 
     def view_projectNote(self, pnId):
         """Event handler for project note selection."""
@@ -501,8 +501,8 @@ class NovelystTk(MainTk):
         if not self._elementView is self._basicView:
             self._elementView.hide()
             self._elementView = self._basicView
-            self._elementView.show(self.ywPrj.projectNotes[pnId])
-        self._elementView.set_data(self.ywPrj.projectNotes[pnId])
+            self._elementView.show(self.novel.projectNotes[pnId])
+        self._elementView.set_data(self.novel.projectNotes[pnId])
 
     def refresh_tree(self, event=None):
         """Apply changes and refresh the tree."""
@@ -669,7 +669,7 @@ class NovelystTk(MainTk):
             self.set_info_how(f'!{_("Cannot save: The project is locked")}.')
             return False
 
-        if len(self.ywPrj.srtChapters) < 1:
+        if len(self.novel.srtChapters) < 1:
             self.set_info_how(f'!{_("Cannot save: The project must have at least one chapter or part")}.')
             return False
 

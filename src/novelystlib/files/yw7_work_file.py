@@ -70,9 +70,6 @@ class Yw7WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self.timestamp = None
-        self.wordCountStart = 0
-        self.wordTarget = 0
-        self.check_locale()
 
     @property
     def fileDate(self):
@@ -133,47 +130,50 @@ class Yw7WorkFile(Yw7File):
         Extends the superclass method.
         """
         super().read()
+        self.novel.wordCountStart = 0
+        self.novel.wordTarget = 0
+        self.novel.check_locale()
         root = self.tree.getroot()
         prj = root.find('PROJECT')
 
         #--- Read word target data.
         if prj.find('WordCountStart') is not None:
             try:
-                self.wordCountStart = int(prj.find('WordCountStart').text)
+                self.novel.wordCountStart = int(prj.find('WordCountStart').text)
             except:
-                self.wordCountStart = 0
+                self.novel.wordCountStart = 0
         if prj.find('WordTarget') is not None:
             try:
-                self.wordTarget = int(prj.find('WordTarget').text)
+                self.novel.wordTarget = int(prj.find('WordTarget').text)
             except:
-                self.wordTarget = 0
+                self.novel.wordTarget = 0
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
-        for crId in self.srtCharacters:
+        for crId in self.novel.srtCharacters:
             if not crId in srtCharacters:
                 srtCharacters.append(crId)
-        self.srtCharacters = srtCharacters
+        self.novel.srtCharacters = srtCharacters
         srtLocations = []
-        for lcId in self.srtLocations:
+        for lcId in self.novel.srtLocations:
             if not lcId in srtLocations:
                 srtLocations.append(lcId)
-        self.srtLocations = srtLocations
+        self.novel.srtLocations = srtLocations
         srtItems = []
-        for itId in self.srtItems:
+        for itId in self.novel.srtItems:
             if not itId in srtItems:
                 srtItems.append(itId)
-        self.srtItems = srtItems
+        self.novel.srtItems = srtItems
 
         #--- Initialize empty scene character/location/item lists.
         # This helps deleting orphaned XML list items when saving the file.
-        for scId in self.scenes:
-            if self.scenes[scId].characters is None:
-                self.scenes[scId].characters = []
-            if self.scenes[scId].locations is None:
-                self.scenes[scId].locations = []
-            if self.scenes[scId].items is None:
-                self.scenes[scId].items = []
+        for scId in self.novel.scenes:
+            if self.novel.scenes[scId].characters is None:
+                self.novel.scenes[scId].characters = []
+            if self.novel.scenes[scId].locations is None:
+                self.novel.scenes[scId].locations = []
+            if self.novel.scenes[scId].items is None:
+                self.novel.scenes[scId].items = []
 
         #--- Read the file timestamp.
         try:
@@ -182,7 +182,7 @@ class Yw7WorkFile(Yw7File):
             self.timestamp = None
 
         #--- If no reasonable looking locale is set, set the system locale.
-        self.check_locale()
+        self.novel.check_locale()
 
     def _build_element_tree(self):
         """Extends the superclass method."""
@@ -192,17 +192,17 @@ class Yw7WorkFile(Yw7File):
         root = self.tree.getroot()
         xmlPrj = root.find('PROJECT')
         try:
-            xmlPrj.find('WordCountStart').text = str(self.wordCountStart)
+            xmlPrj.find('WordCountStart').text = str(self.novel.wordCountStart)
         except(AttributeError):
-            ET.SubElement(xmlPrj, 'WordCountStart').text = str(self.wordCountStart)
+            ET.SubElement(xmlPrj, 'WordCountStart').text = str(self.novel.wordCountStart)
         try:
-            xmlPrj.find('WordTarget').text = str(self.wordTarget)
+            xmlPrj.find('WordTarget').text = str(self.novel.wordTarget)
         except(AttributeError):
-            ET.SubElement(xmlPrj, 'WordTarget').text = str(self.wordTarget)
+            ET.SubElement(xmlPrj, 'WordTarget').text = str(self.novel.wordTarget)
 
         #--- Process word count log.
-        if self.kwVar.get('Field_SaveWordCount', ''):
-            newCountInt, newTotalCountInt = self.count_words()
+        if self.novel.kwVar.get('Field_SaveWordCount', ''):
+            newCountInt, newTotalCountInt = self.novel.count_words()
             newCount = str(newCountInt)
             newTotalCount = str(newTotalCountInt)
             today = date.today().isoformat()
@@ -277,51 +277,51 @@ class Yw7WorkFile(Yw7File):
         isModified = False
         chapterCount = 0
         partCount = 0
-        for chId in self.srtChapters:
-            if 'Field_NoNumber' in self.chapters[chId].kwVar:
-                if self.chapters[chId].kwVar.get('Field_NoNumber', None):
+        for chId in self.novel.srtChapters:
+            if 'Field_NoNumber' in self.novel.chapters[chId].kwVar:
+                if self.novel.chapters[chId].kwVar.get('Field_NoNumber', None):
                     continue
 
-            if self.chapters[chId].chType != 0:
+            if self.novel.chapters[chId].chType != 0:
                 continue
 
-            if self.chapters[chId].chLevel == 0:
+            if self.novel.chapters[chId].chLevel == 0:
                 # Regular chapter
-                if not self.kwVar.get('Field_RenumberChapters', None):
+                if not self.novel.kwVar.get('Field_RenumberChapters', None):
                     continue
 
             else:
                 # Part (chapter "beginning a new section")
-                if self.kwVar.get('Field_RenumberWithinParts', None):
+                if self.novel.kwVar.get('Field_RenumberWithinParts', None):
                     chapterCount = 0
-                if not self.kwVar.get('Field_RenumberParts', None):
+                if not self.novel.kwVar.get('Field_RenumberParts', None):
                     continue
 
             headingPrefix = ''
             headingSuffix = ''
-            if self.chapters[chId].chLevel == 0:
+            if self.novel.chapters[chId].chLevel == 0:
                 chapterCount += 1
-                if self.kwVar.get('Field_RomanChapterNumbers', None):
+                if self.novel.kwVar.get('Field_RomanChapterNumbers', None):
                     number = number_to_roman(chapterCount)
                 else:
                     number = str(chapterCount)
-                if self.kwVar.get('Field_ChapterHeadingPrefix', None) is not None:
-                    headingPrefix = self.kwVar['Field_ChapterHeadingPrefix']
-                if self.kwVar.get('Field_ChapterHeadingSuffix', None) is not None:
-                    headingSuffix = self.kwVar['Field_ChapterHeadingSuffix']
+                if self.novel.kwVar.get('Field_ChapterHeadingPrefix', None) is not None:
+                    headingPrefix = self.novel.kwVar['Field_ChapterHeadingPrefix']
+                if self.novel.kwVar.get('Field_ChapterHeadingSuffix', None) is not None:
+                    headingSuffix = self.novel.kwVar['Field_ChapterHeadingSuffix']
             else:
                 partCount += 1
-                if self.kwVar.get('Field_RomanPartNumbers', None):
+                if self.novel.kwVar.get('Field_RomanPartNumbers', None):
                     number = number_to_roman(partCount)
                 else:
                     number = str(partCount)
-                if self.kwVar.get('Field_PartHeadingPrefix', None) is not None:
-                    headingPrefix = self.kwVar['Field_PartHeadingPrefix']
-                if self.kwVar.get('Field_PartHeadingSuffix', None) is not None:
-                    headingSuffix = self.kwVar['Field_PartHeadingSuffix']
+                if self.novel.kwVar.get('Field_PartHeadingPrefix', None) is not None:
+                    headingPrefix = self.novel.kwVar['Field_PartHeadingPrefix']
+                if self.novel.kwVar.get('Field_PartHeadingSuffix', None) is not None:
+                    headingSuffix = self.novel.kwVar['Field_PartHeadingSuffix']
             newTitle = f'{headingPrefix}{number}{headingSuffix}'
-            if self.chapters[chId].title != newTitle:
-                self.chapters[chId].title = newTitle
+            if self.novel.chapters[chId].title != newTitle:
+                self.novel.chapters[chId].title = newTitle
                 isModified = True
 
         return isModified
@@ -338,13 +338,13 @@ class Yw7WorkFile(Yw7File):
         chapterCount = 0
         sceneCount = 0
         wordCount = 0
-        for chId in self.srtChapters:
-            if self.chapters[chId].chType == 0:
-                for scId in self.chapters[chId].srtScenes:
-                    if self.scenes[scId].scType == 0:
+        for chId in self.novel.srtChapters:
+            if self.novel.chapters[chId].chType == 0:
+                for scId in self.novel.chapters[chId].srtScenes:
+                    if self.novel.scenes[scId].scType == 0:
                         sceneCount += 1
-                        wordCount += self.scenes[scId].wordCount
-                if self.chapters[chId].chLevel == 1:
+                        wordCount += self.novel.scenes[scId].wordCount
+                if self.novel.chapters[chId].chLevel == 1:
                     partCount += 1
                 else:
                     chapterCount += 1
@@ -358,13 +358,13 @@ class Yw7WorkFile(Yw7File):
         """
         count = 0
         totalCount = 0
-        for chId in self.srtChapters:
-            if not self.chapters[chId].isTrash:
-                for scId in self.chapters[chId].srtScenes:
-                    if self.scenes[scId].scType in (0, 3):
-                        totalCount += self.scenes[scId].wordCount
-                        if self.scenes[scId].scType == 0:
-                            count += self.scenes[scId].wordCount
+        for chId in self.novel.srtChapters:
+            if not self.novel.chapters[chId].isTrash:
+                for scId in self.novel.chapters[chId].srtScenes:
+                    if self.novel.scenes[scId].scType in (0, 3):
+                        totalCount += self.novel.scenes[scId].wordCount
+                        if self.novel.scenes[scId].scType == 0:
+                            count += self.novel.scenes[scId].wordCount
         return count, totalCount
 
     def adjust_scene_types(self):
@@ -373,12 +373,12 @@ class Yw7WorkFile(Yw7File):
         Overrides the superclass method.
         """
         partType = 0
-        for chId in self.srtChapters:
-            if self.chapters[chId].chLevel == 1:
-                partType = self.chapters[chId].chType
-            elif partType != 0 and not self.chapters[chId].isTrash:
-                self.chapters[chId].chType = partType
-            if self.chapters[chId].chType != 0:
-                for scId in self.chapters[chId].srtScenes:
-                    self.scenes[scId].scType = self.chapters[chId].chType
+        for chId in self.novel.srtChapters:
+            if self.novel.chapters[chId].chLevel == 1:
+                partType = self.novel.chapters[chId].chType
+            elif partType != 0 and not self.novel.chapters[chId].isTrash:
+                self.novel.chapters[chId].chType = partType
+            if self.novel.chapters[chId].chType != 0:
+                for scId in self.novel.chapters[chId].srtScenes:
+                    self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
 

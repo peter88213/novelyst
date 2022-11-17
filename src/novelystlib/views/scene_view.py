@@ -120,11 +120,11 @@ class SceneView(BasicView):
 
         # 'Viewpoint' combobox.
         charList = []
-        for crId in self._ui.ywPrj.srtCharacters:
-            charList.append(self._ui.ywPrj.characters[crId].title)
+        for crId in self._ui.novel.srtCharacters:
+            charList.append(self._ui.novel.characters[crId].title)
         self._characterCombobox.configure(values=charList)
         if self._element.characters:
-            vp = self._ui.ywPrj.characters[self._element.characters[0]].title
+            vp = self._ui.novel.characters[self._element.characters[0]].title
         else:
             vp = ''
         self._viewpoint.set(value=vp)
@@ -147,18 +147,18 @@ class SceneView(BasicView):
         self._appendToPrev.set(self._element.appendToPrev)
 
         # Customized Goal/Conflict/Outcome configuration.
-        if self._ui.ywPrj.kwVar.get('Field_CustomGoal', None):
-            self._customGoal = self._ui.ywPrj.kwVar['Field_CustomGoal']
+        if self._ui.novel.kwVar.get('Field_CustomGoal', None):
+            self._customGoal = self._ui.novel.kwVar['Field_CustomGoal']
         else:
             self._customGoal = _('N/A')
 
-        if self._ui.ywPrj.kwVar.get('Field_CustomConflict', None):
-            self._customConflict = self._ui.ywPrj.kwVar['Field_CustomConflict']
+        if self._ui.novel.kwVar.get('Field_CustomConflict', None):
+            self._customConflict = self._ui.novel.kwVar['Field_CustomConflict']
         else:
             self._customConflict = _('N/A')
 
-        if self._ui.ywPrj.kwVar.get('Field_CustomOutcome', None):
-            self._customOutcome = self._ui.ywPrj.kwVar['Field_CustomOutcome']
+        if self._ui.novel.kwVar.get('Field_CustomOutcome', None):
+            self._customOutcome = self._ui.novel.kwVar['Field_CustomOutcome']
         else:
             self._customOutcome = _('N/A')
 
@@ -201,15 +201,15 @@ class SceneView(BasicView):
             self._relationFrame.hide()
 
         # 'Characters' window.
-        self._crTitles = self._get_relation_title_string(element.characters, self._ui.ywPrj.characters)
+        self._crTitles = self._get_relation_title_string(element.characters, self._ui.novel.characters)
         self._characterWindow.set_text(self._crTitles)
 
         # 'Locations' window.
-        self._lcTitles = self._get_relation_title_string(element.locations, self._ui.ywPrj.locations)
+        self._lcTitles = self._get_relation_title_string(element.locations, self._ui.novel.locations)
         self._locationWindow.set_text(self._lcTitles)
 
         # 'Items' window.
-        self._itTitles = self._get_relation_title_string(element.items, self._ui.ywPrj.items)
+        self._itTitles = self._get_relation_title_string(element.items, self._ui.novel.items)
         self._itemWindow.set_text(self._itTitles)
 
     def _get_relation_title_string(self, elemIds, elements):
@@ -241,7 +241,7 @@ class SceneView(BasicView):
         else:
             oldVpId = None
         if option >= 0:
-            newVpId = self._ui.ywPrj.srtCharacters[option]
+            newVpId = self._ui.novel.srtCharacters[option]
             if oldVpId:
                 if newVpId != oldVpId:
                     try:
@@ -313,7 +313,7 @@ class SceneView(BasicView):
 
         # 'Characters' window.
         if self._characterWindow.hasChanged:
-            newCharacters = self._get_relation_id_list(self._characterWindow.get_text().strip(';'), self._crTitles, self._ui.ywPrj.characters)
+            newCharacters = self._get_relation_id_list(self._characterWindow.get_text().strip(';'), self._crTitles, self._ui.novel.characters)
             if newCharacters is not None:
                 if self._element.characters != newCharacters:
                     self._element.characters = newCharacters
@@ -321,7 +321,7 @@ class SceneView(BasicView):
 
         # 'Locations' window.
         if self._locationWindow.hasChanged:
-            newLocations = self._get_relation_id_list(self._locationWindow.get_text().strip(';'), self._lcTitles, self._ui.ywPrj.locations)
+            newLocations = self._get_relation_id_list(self._locationWindow.get_text().strip(';'), self._lcTitles, self._ui.novel.locations)
             if newLocations is not None:
                 if self._element.locations != newLocations:
                     self._element.locations = newLocations
@@ -329,7 +329,7 @@ class SceneView(BasicView):
 
         # 'Items' window.
         if self._itemWindow.hasChanged:
-            newItems = self._get_relation_id_list(self._itemWindow.get_text().strip(';'), self._itTitles, self._ui.ywPrj.items)
+            newItems = self._get_relation_id_list(self._itemWindow.get_text().strip(';'), self._itTitles, self._ui.novel.items)
             if newItems is not None:
                 if self._element.items != newItems:
                     self._element.items = newItems

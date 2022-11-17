@@ -53,8 +53,8 @@ class ContentsViewer:
             return text
 
         taggedText = []
-        for chId in self._ui.ywPrj.srtChapters:
-            chapter = self._ui.ywPrj.chapters[chId]
+        for chId in self._ui.novel.srtChapters:
+            chapter = self._ui.novel.chapters[chId]
             taggedText.append(f'ch{chId}')
             if chapter.chLevel == 0:
                 if chapter.chType == 0:
@@ -82,8 +82,8 @@ class ContentsViewer:
                     heading = f"[{_('Unnamed')}\n"
             taggedText.append((heading, headingTag))
 
-            for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                scene = self._ui.ywPrj.scenes[scId]
+            for scId in self._ui.novel.chapters[chId].srtScenes:
+                scene = self._ui.novel.scenes[scId]
                 taggedText.append(f'sc{scId}')
                 textTag = ''
                 if scene.scType == 2:

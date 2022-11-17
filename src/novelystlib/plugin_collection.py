@@ -50,7 +50,7 @@ class PluginCollection(dict):
             self.minorVersion = int(minorStr)
         except ValueError:
             # Set defaults for testing.
-            self.majorVersion = 2
+            self.majorVersion = 3
             self.minorVersion = 0
 
     def delete_file(self, moduleName):

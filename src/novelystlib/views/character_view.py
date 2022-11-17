@@ -70,8 +70,8 @@ class CharacterView(BasicView):
         self._tags.set(self._tagsStr)
 
         #--- 'Bio' entry
-        if self._ui.ywPrj.kwVar.get('Field_CustomChrBio', None):
-            self._bioFrame.buttonText = self._ui.ywPrj.kwVar['Field_CustomChrBio']
+        if self._ui.novel.kwVar.get('Field_CustomChrBio', None):
+            self._bioFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrBio']
         else:
             self._bioFrame.buttonText = _('Bio')
         if self._ui.kwargs['show_cr_bio']:
@@ -81,8 +81,8 @@ class CharacterView(BasicView):
         self._bioEntry.set_text(self._element.bio)
 
         #--- 'Goals' entry.
-        if self._ui.ywPrj.kwVar.get('Field_CustomChrGoals', None):
-            self._goalsFrame.buttonText = self._ui.ywPrj.kwVar['Field_CustomChrGoals']
+        if self._ui.novel.kwVar.get('Field_CustomChrGoals', None):
+            self._goalsFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrGoals']
         else:
             self._goalsFrame.buttonText = _('Goals')
         if self._ui.kwargs['show_cr_goals']:

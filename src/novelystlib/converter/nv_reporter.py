@@ -62,7 +62,7 @@ class NvReporter:
                     dirname = '.'
             target.filePath = f'{dirname}/{filename}'
             try:
-                target.merge(source)
+                target.novel = source.novel
                 target.write()
             except Error as ex:
                 self.ui.set_info_how(f'!{str(ex)}')

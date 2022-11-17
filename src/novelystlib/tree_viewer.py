@@ -243,21 +243,21 @@ class TreeViewer(ttk.Frame):
         inTodoPart = False
         wordCount = 0
         self._wordsTotal = self._ui.ywPrj.get_counts()[0]
-        for chId in self._ui.ywPrj.srtChapters:
-            if self._ui.ywPrj.chapters[chId].isTrash:
-                self._ui.ywPrj.chapters[chId].chType = 3
+        for chId in self._ui.novel.srtChapters:
+            if self._ui.novel.chapters[chId].isTrash:
+                self._ui.novel.chapters[chId].chType = 3
                 self._trashNode = f'{self.CHAPTER_PREFIX}{chId}'
                 inPart = False
-            if self._ui.ywPrj.chapters[chId].chLevel == 1:
+            if self._ui.novel.chapters[chId].chLevel == 1:
                 # Part begins.
                 inPart = True
                 inChapter = False
-                if self._ui.ywPrj.chapters[chId].chType == 1:
+                if self._ui.novel.chapters[chId].chType == 1:
                     # "Notes" part begins.
                     inTodoPart = False
                     inNotesPart = True
                     parent = self.RS_ROOT
-                elif self._ui.ywPrj.chapters[chId].chType == 2:
+                elif self._ui.novel.chapters[chId].chType == 2:
                     # "Todo" part begins.
                     inNotesPart = False
                     inTodoPart = True
@@ -271,12 +271,12 @@ class TreeViewer(ttk.Frame):
             else:
                 # Chapter begins.
                 inChapter = True
-                if self._ui.ywPrj.chapters[chId].chType != 1:
+                if self._ui.novel.chapters[chId].chType != 1:
                     # Regular chapter can not be in "Notes" part.
                     if inNotesPart:
                         inNotesPart = False
                         inPart = False
-                if self._ui.ywPrj.chapters[chId].chType != 2:
+                if self._ui.novel.chapters[chId].chType != 2:
                     # Regular chapter can not be in "Todo" part.
                     if inTodoPart:
                         inTodoPart = False
@@ -287,7 +287,7 @@ class TreeViewer(ttk.Frame):
                     parentNode = self.NV_ROOT
                 title, columns, nodeTags = self._set_chapter_display(chId, wordCount)
                 chapterNode = self.tree.insert(parentNode, 'end', f'{self.CHAPTER_PREFIX}{chId}', text=title, values=columns, tags=nodeTags, open=True)
-            for scId in self._ui.ywPrj.chapters[chId].srtScenes:
+            for scId in self._ui.novel.chapters[chId].srtScenes:
                 title, columns, nodeTags = self._set_scene_display(scId, wordCount)
                 if inChapter:
                     parentNode = chapterNode
@@ -296,26 +296,26 @@ class TreeViewer(ttk.Frame):
                 self.tree.insert(parentNode, 'end', f'{self.SCENE_PREFIX}{scId}', text=title, values=columns, tags=nodeTags)
 
                 # add word count, if the scenen is "Normal".
-                if self._ui.ywPrj.scenes[scId].scType == 0:
-                    wordCount += self._ui.ywPrj.scenes[scId].wordCount
+                if self._ui.novel.scenes[scId].scType == 0:
+                    wordCount += self._ui.novel.scenes[scId].wordCount
 
         #--- Build character tree.
-        for crId in self._ui.ywPrj.srtCharacters:
+        for crId in self._ui.novel.srtCharacters:
             title, columns, nodeTags = self._set_character_display(crId)
             self.tree.insert(self.CR_ROOT, 'end', f'{self.CHARACTER_PREFIX}{crId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build location tree.
-        for lcId in self._ui.ywPrj.srtLocations:
+        for lcId in self._ui.novel.srtLocations:
             title, columns, nodeTags = self._set_location_display(lcId)
             self.tree.insert(self.LC_ROOT, 'end', f'{self.LOCATION_PREFIX}{lcId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build item tree.
-        for itId in self._ui.ywPrj.srtItems:
+        for itId in self._ui.novel.srtItems:
             title, columns, nodeTags = self._set_item_display(itId)
             self.tree.insert(self.IT_ROOT, 'end', f'{self.ITEM_PREFIX}{itId}', text=title, values=columns, tags=nodeTags)
 
         #--- Build project note tree.
-        for pnId in self._ui.ywPrj.srtPrjNotes:
+        for pnId in self._ui.novel.srtPrjNotes:
             title, columns, nodeTags = self._set_prjNote_display(pnId)
             self.tree.insert(self.PN_ROOT, 'end', f'{self.PRJ_NOTE_PREFIX}{pnId}', text=title, values=columns, tags=nodeTags)
 
@@ -328,22 +328,22 @@ class TreeViewer(ttk.Frame):
         """
         modifiedNodes = []
         isModified = self._ui.isModified
-        if self._ui.ywPrj.renumber_chapters():
+        if self._ui.novel.renumber_chapters():
             isModified = True
 
         # Make sure that nodes with non-"Normal" parents inherit the type.
         partType = 0
-        for chId in self._ui.ywPrj.srtChapters:
-            if self._ui.ywPrj.chapters[chId].chLevel == 1:
-                partType = self._ui.ywPrj.chapters[chId].chType
-            elif partType != 0 and not self._ui.ywPrj.chapters[chId].isTrash:
-                if self._ui.ywPrj.chapters[chId].chType != partType:
-                    self._ui.ywPrj.chapters[chId].chType = partType
+        for chId in self._ui.novel.srtChapters:
+            if self._ui.novel.chapters[chId].chLevel == 1:
+                partType = self._ui.novel.chapters[chId].chType
+            elif partType != 0 and not self._ui.novel.chapters[chId].isTrash:
+                if self._ui.novel.chapters[chId].chType != partType:
+                    self._ui.novel.chapters[chId].chType = partType
                     isModified = True
-            if self._ui.ywPrj.chapters[chId].chType != 0:
-                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                    if self._ui.ywPrj.scenes[scId].scType != self._ui.ywPrj.chapters[chId].chType:
-                        self._ui.ywPrj.scenes[scId].scType = self._ui.ywPrj.chapters[chId].chType
+            if self._ui.novel.chapters[chId].chType != 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType != self._ui.novel.chapters[chId].chType:
+                        self._ui.novel.scenes[scId].scType = self._ui.novel.chapters[chId].chType
                         modifiedNodes.append(f'{self.SCENE_PREFIX}{scId}')
         self.build_tree()
         self._ui.isModified = isModified
@@ -366,30 +366,30 @@ class TreeViewer(ttk.Frame):
             for childNode in self.tree.get_children(node):
                 if childNode.startswith(self.SCENE_PREFIX):
                     scId = childNode[2:]
-                    self._ui.ywPrj.chapters[chId].srtScenes.append(scId)
+                    self._ui.novel.chapters[chId].srtScenes.append(scId)
                     title, columns, nodeTags = self._set_scene_display(scId, scnPos)
-                    if self._ui.ywPrj.scenes[scId].scType == 0:
-                        scnPos += self._ui.ywPrj.scenes[scId].wordCount
+                    if self._ui.novel.scenes[scId].scType == 0:
+                        scnPos += self._ui.novel.scenes[scId].wordCount
                 elif childNode.startswith(self.CHARACTER_PREFIX):
                     crId = childNode[2:]
-                    self._ui.ywPrj.srtCharacters.append(crId)
+                    self._ui.novel.srtCharacters.append(crId)
                     title, columns, nodeTags = self._set_character_display(crId)
                 elif childNode.startswith(self.LOCATION_PREFIX):
                     lcId = childNode[2:]
-                    self._ui.ywPrj.srtLocations.append(lcId)
+                    self._ui.novel.srtLocations.append(lcId)
                     title, columns, nodeTags = self._set_location_display(lcId)
                 elif childNode.startswith(self.ITEM_PREFIX):
                     itId = childNode[2:]
-                    self._ui.ywPrj.srtItems.append(itId)
+                    self._ui.novel.srtItems.append(itId)
                     title, columns, nodeTags = self._set_item_display(itId)
                 elif childNode.startswith(self.PRJ_NOTE_PREFIX):
                     pnId = childNode[2:]
-                    self._ui.ywPrj.srtPrjNotes.append(pnId)
+                    self._ui.novel.srtPrjNotes.append(pnId)
                     title, columns, nodeTags = self._set_prjNote_display(pnId)
                 else:
                     chId = childNode[2:]
-                    self._ui.ywPrj.srtChapters.append(chId)
-                    self._ui.ywPrj.chapters[chId].srtScenes = []
+                    self._ui.novel.srtChapters.append(chId)
+                    self._ui.novel.chapters[chId].srtScenes = []
                     chpPos = scnPos
                     # save chapter start position, because the positions of the
                     # chapters scenes will now be added to scnPos.
@@ -399,11 +399,11 @@ class TreeViewer(ttk.Frame):
             return scnPos
 
         self._wordsTotal = self._ui.ywPrj.get_counts()[0]
-        self._ui.ywPrj.srtChapters = []
-        self._ui.ywPrj.srtCharacters = []
-        self._ui.ywPrj.srtLocations = []
-        self._ui.ywPrj.srtItems = []
-        self._ui.ywPrj.srtPrjNotes = []
+        self._ui.novel.srtChapters = []
+        self._ui.novel.srtCharacters = []
+        self._ui.novel.srtLocations = []
+        self._ui.novel.srtItems = []
+        self._ui.novel.srtPrjNotes = []
         serialize_tree(self.NV_ROOT, '')
         serialize_tree(self.PL_ROOT, '')
         serialize_tree(self.RS_ROOT, '')
@@ -421,38 +421,38 @@ class TreeViewer(ttk.Frame):
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""
-        title = self._ui.ywPrj.scenes[scId].title
+        title = self._ui.novel.scenes[scId].title
         if not title:
             title = _('Unnamed')
         columns = []
         for __ in self._COLUMNS:
             columns.append('')
         nodeTags = []
-        if self._ui.ywPrj.scenes[scId].scType == 2:
+        if self._ui.novel.scenes[scId].scType == 2:
             # Scene is Todo type: Show Arc references.
             nodeTags.append('todo')
-            arc = self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneArcs', None)
+            arc = self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)
             if arc:
                 wordCount = 0
-                for sid in self._ui.ywPrj.scenes:
-                    if self._ui.ywPrj.scenes[sid].scType == 0:
-                        if arc in string_to_list(self._ui.ywPrj.scenes[sid].kwVar.get('Field_SceneArcs', '')):
-                            wordCount += self._ui.ywPrj.scenes[sid].wordCount
+                for sid in self._ui.novel.scenes:
+                    if self._ui.novel.scenes[sid].scType == 0:
+                        if arc in string_to_list(self._ui.novel.scenes[sid].kwVar.get('Field_SceneArcs', '')):
+                            wordCount += self._ui.novel.scenes[sid].wordCount
                 columns[self._colPos['wc']] = wordCount
-        elif self._ui.ywPrj.scenes[scId].scType == 1:
+        elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
             nodeTags.append('notes')
         else:
             # Scene is Normal or Unused type.
             positionStr = ''
-            if self._ui.ywPrj.scenes[scId].scType == 3:
+            if self._ui.novel.scenes[scId].scType == 3:
                 nodeTags.append('unused')
             else:
                 # Set the row color according to the color mode.
                 if self._ui.kwargs['coloring_mode'] == _('status'):
-                    nodeTags.append(Scene.STATUS[self._ui.ywPrj.scenes[scId].status])
+                    nodeTags.append(Scene.STATUS[self._ui.novel.scenes[scId].status])
                 elif self._ui.kwargs['coloring_mode'] == _('style'):
-                    sceneStyle = self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneStyle', None)
+                    sceneStyle = self._ui.novel.scenes[scId].kwVar.get('Field_SceneStyle', None)
                     if sceneStyle:
                         nodeTags.append(sceneStyle)
                 try:
@@ -460,46 +460,46 @@ class TreeViewer(ttk.Frame):
                 except:
                     pass
             columns[self._colPos['po']] = positionStr
-            columns[self._colPos['wc']] = self._ui.ywPrj.scenes[scId].wordCount
-            columns[self._colPos['st']] = self._SCN_STATUS[self._ui.ywPrj.scenes[scId].status]
-            sceneStyle = self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneStyle', None)
+            columns[self._colPos['wc']] = self._ui.novel.scenes[scId].wordCount
+            columns[self._colPos['st']] = self._SCN_STATUS[self._ui.novel.scenes[scId].status]
+            sceneStyle = self._ui.novel.scenes[scId].kwVar.get('Field_SceneStyle', None)
             if sceneStyle:
                 sceneStyle = _(sceneStyle)
             else:
                 sceneStyle = _('staged')
             columns[self._colPos['sy']] = sceneStyle
             try:
-                columns[self._colPos['vp']] = self._ui.ywPrj.characters[self._ui.ywPrj.scenes[scId].characters[0]].title
+                columns[self._colPos['vp']] = self._ui.novel.characters[self._ui.novel.scenes[scId].characters[0]].title
             except:
                 columns[self._colPos['vp']] = _('N/A')
-            if self._ui.ywPrj.scenes[scId].kwVar.get('Field_CustomAR', None):
+            if self._ui.novel.scenes[scId].kwVar.get('Field_CustomAR', None):
                 columns[self._colPos['ar']] = _('C')
-            elif self._ui.ywPrj.scenes[scId].isReactionScene:
+            elif self._ui.novel.scenes[scId].isReactionScene:
                 columns[self._colPos['ar']] = _('R')
             else:
                 columns[self._colPos['ar']] = _('A')
 
             # Create a combined scDate information.
-            if self._ui.ywPrj.scenes[scId].date is not None and self._ui.ywPrj.scenes[scId].date != Scene.NULL_DATE:
-                cmbDate = self._ui.ywPrj.scenes[scId].date
+            if self._ui.novel.scenes[scId].date is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
+                cmbDate = self._ui.novel.scenes[scId].date
             else:
-                if self._ui.ywPrj.scenes[scId].day is not None:
-                    cmbDate = f'{_("Day")} {self._ui.ywPrj.scenes[scId].day}'
+                if self._ui.novel.scenes[scId].day is not None:
+                    cmbDate = f'{_("Day")} {self._ui.novel.scenes[scId].day}'
                 else:
                     cmbDate = ''
             columns[self._colPos['dt']] = cmbDate
 
             # Create a combined time information.
-            if self._ui.ywPrj.scenes[scId].time is not None and self._ui.ywPrj.scenes[scId].date != Scene.NULL_DATE:
-                cmbTime = self._ui.ywPrj.scenes[scId].time.rsplit(':', 1)[0]
+            if self._ui.novel.scenes[scId].time is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
+                cmbTime = self._ui.novel.scenes[scId].time.rsplit(':', 1)[0]
             else:
-                if self._ui.ywPrj.scenes[scId].hour or self._ui.ywPrj.scenes[scId].minute:
-                    if self._ui.ywPrj.scenes[scId].hour:
-                        scHour = self._ui.ywPrj.scenes[scId].hour
+                if self._ui.novel.scenes[scId].hour or self._ui.novel.scenes[scId].minute:
+                    if self._ui.novel.scenes[scId].hour:
+                        scHour = self._ui.novel.scenes[scId].hour
                     else:
                         scHour = '00'
-                    if self._ui.ywPrj.scenes[scId].minute:
-                        scMinute = self._ui.ywPrj.scenes[scId].minute
+                    if self._ui.novel.scenes[scId].minute:
+                        scMinute = self._ui.novel.scenes[scId].minute
                     else:
                         scMinute = '00'
                     cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
@@ -508,32 +508,32 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['tm']] = cmbTime
 
             # Create a combined duration information.
-            if self._ui.ywPrj.scenes[scId].lastsDays is not None and self._ui.ywPrj.scenes[scId].lastsDays != '0':
-                days = f'{self._ui.ywPrj.scenes[scId].lastsDays}d '
+            if self._ui.novel.scenes[scId].lastsDays is not None and self._ui.novel.scenes[scId].lastsDays != '0':
+                days = f'{self._ui.novel.scenes[scId].lastsDays}d '
             else:
                 days = ''
-            if self._ui.ywPrj.scenes[scId].lastsHours is not None and self._ui.ywPrj.scenes[scId].lastsHours != '0':
-                hours = f'{self._ui.ywPrj.scenes[scId].lastsHours}h '
+            if self._ui.novel.scenes[scId].lastsHours is not None and self._ui.novel.scenes[scId].lastsHours != '0':
+                hours = f'{self._ui.novel.scenes[scId].lastsHours}h '
             else:
                 hours = ''
-            if self._ui.ywPrj.scenes[scId].lastsMinutes is not None and self._ui.ywPrj.scenes[scId].lastsMinutes != '0':
-                minutes = f'{self._ui.ywPrj.scenes[scId].lastsMinutes}min'
+            if self._ui.novel.scenes[scId].lastsMinutes is not None and self._ui.novel.scenes[scId].lastsMinutes != '0':
+                minutes = f'{self._ui.novel.scenes[scId].lastsMinutes}min'
             else:
                 minutes = ''
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
-            arcs = self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneArcs', None)
+            arcs = self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)
             if arcs is not None:
                 columns[self._colPos['ac']] = arcs
 
         # "Scene has notes" indicator.
-        if self._ui.ywPrj.scenes[scId].notes:
+        if self._ui.novel.scenes[scId].notes:
             columns[self._colPos['nt']] = _('N')
 
         # Scene tags.
         try:
-            columns[self._colPos['tg']] = list_to_string(self._ui.ywPrj.scenes[scId].tags)
+            columns[self._colPos['tg']] = list_to_string(self._ui.novel.scenes[scId].tags)
         except:
             pass
         return title, columns, tuple(nodeTags)
@@ -544,21 +544,21 @@ class TreeViewer(ttk.Frame):
         def count_words(chId):
             """Accumulate word counts of all relevant scenes in a chapter."""
             wordCount = 0
-            if self._ui.ywPrj.chapters[chId].chType in (0, 3):
-                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                    if self._ui.ywPrj.scenes[scId].scType in (0, 3):
-                        wordCount += self._ui.ywPrj.scenes[scId].wordCount
+            if self._ui.novel.chapters[chId].chType in (0, 3):
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType in (0, 3):
+                        wordCount += self._ui.novel.scenes[scId].wordCount
             return wordCount
 
         def collect_viewpoints(chId):
             """Return a string with semicolon-separated viewpoint character names."""
             vpNames = []
-            if self._ui.ywPrj.chapters[chId].chType == 0:
-                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                    if self._ui.ywPrj.scenes[scId].scType == 0:
+            if self._ui.novel.chapters[chId].chType == 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType == 0:
                         try:
-                            crId = self._ui.ywPrj.scenes[scId].characters[0]
-                            viewpoint = self._ui.ywPrj.characters[crId].title
+                            crId = self._ui.novel.scenes[scId].characters[0]
+                            viewpoint = self._ui.novel.characters[crId].title
                             if not viewpoint in vpNames:
                                 vpNames.append(viewpoint)
                         except:
@@ -568,11 +568,11 @@ class TreeViewer(ttk.Frame):
         def collect_tags(chId):
             """Return a string with semicolon-separated scene tags."""
             tags = []
-            if self._ui.ywPrj.chapters[chId].chType != 3:
-                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                    if self._ui.ywPrj.scenes[scId].scType != 3:
-                        if self._ui.ywPrj.scenes[scId].tags:
-                            for tag in self._ui.ywPrj.scenes[scId].tags:
+            if self._ui.novel.chapters[chId].chType != 3:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType != 3:
+                        if self._ui.novel.scenes[scId].tags:
+                            for tag in self._ui.novel.scenes[scId].tags:
                                 if not tag in tags:
                                     tags.append(tag)
             return list_to_string(tags)
@@ -580,35 +580,35 @@ class TreeViewer(ttk.Frame):
         def collect_note_indicators(chId):
             """Return a string that indicates scene notes within the chapter."""
             indicator = ''
-            if self._ui.ywPrj.chapters[chId].chType != 3:
-                for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                    if self._ui.ywPrj.scenes[scId].scType != 3:
-                        if self._ui.ywPrj.scenes[scId].notes:
+            if self._ui.novel.chapters[chId].chType != 3:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType != 3:
+                        if self._ui.novel.scenes[scId].notes:
                             indicator = _('N')
             return indicator
 
-        title = self._ui.ywPrj.chapters[chId].title
+        title = self._ui.novel.chapters[chId].title
         if not title:
             title = _('Unnamed')
         columns = []
         for i in self._COLUMNS:
             columns.append('')
         nodeTags = []
-        if self._ui.ywPrj.chapters[chId].chType == 1:
+        if self._ui.novel.chapters[chId].chType == 1:
             # Chapter is Notes type.
-            if self._ui.ywPrj.chapters[chId].chLevel == 1:
+            if self._ui.novel.chapters[chId].chLevel == 1:
                 # This chapter begins a new section in ywriter.
                 nodeTags.append('notes part')
             else:
                 nodeTags.append('notes')
-        elif self._ui.ywPrj.chapters[chId].chType == 2:
+        elif self._ui.novel.chapters[chId].chType == 2:
             # Chapter is Todo type.
-            if self._ui.ywPrj.chapters[chId].chLevel == 1:
+            if self._ui.novel.chapters[chId].chLevel == 1:
                 # This chapter begins a new section in ywriter.
                 nodeTags.append('todo part')
             else:
                 nodeTags.append('todo')
-        elif self._ui.ywPrj.chapters[chId].chType == 3:
+        elif self._ui.novel.chapters[chId].chType == 3:
             # Chapter is Unused type.
             nodeTags.append('unused')
         else:
@@ -619,14 +619,14 @@ class TreeViewer(ttk.Frame):
             except:
                 positionStr = ''
             wordCount = count_words(chId)
-            if self._ui.ywPrj.chapters[chId].chLevel == 1:
+            if self._ui.novel.chapters[chId].chLevel == 1:
                 # This chapter begins a new section in ywriter.
                 nodeTags.append('part')
                 # Add all scene wordcounts until the next part.
-                i = self._ui.ywPrj.srtChapters.index(chId) + 1
-                while i < len(self._ui.ywPrj.srtChapters):
-                    c = self._ui.ywPrj.srtChapters[i]
-                    if self._ui.ywPrj.chapters[c].chLevel == 1:
+                i = self._ui.novel.srtChapters.index(chId) + 1
+                while i < len(self._ui.novel.srtChapters):
+                    c = self._ui.novel.srtChapters[i]
+                    if self._ui.novel.chapters[c].chLevel == 1:
                         break
                     i += 1
                     wordCount += count_words(c)
@@ -639,23 +639,23 @@ class TreeViewer(ttk.Frame):
 
     def _set_character_display(self, crId):
         """Configure character formatting and columns."""
-        title = self._ui.ywPrj.characters[crId].title
+        title = self._ui.novel.characters[crId].title
         if not title:
             title = _('Unnamed')
         columns = []
         for __ in self._COLUMNS:
             columns.append('')
 
-        if self._ui.ywPrj.characters[crId].notes:
+        if self._ui.novel.characters[crId].notes:
             columns[self._colPos['nt']] = _('N')
 
         # Count the scenes that use this character as viewpoint.
         wordCount = 0
-        for scId in self._ui.ywPrj.scenes:
-            if self._ui.ywPrj.scenes[scId].scType == 0:
-                if self._ui.ywPrj.scenes[scId].characters:
-                    if self._ui.ywPrj.scenes[scId].characters[0] == crId:
-                        wordCount += self._ui.ywPrj.scenes[scId].wordCount
+        for scId in self._ui.novel.scenes:
+            if self._ui.novel.scenes[scId].scType == 0:
+                if self._ui.novel.scenes[scId].characters:
+                    if self._ui.novel.scenes[scId].characters[0] == crId:
+                        wordCount += self._ui.novel.scenes[scId].wordCount
         if wordCount > 0:
             columns[self._colPos['wc']] = wordCount
 
@@ -668,13 +668,13 @@ class TreeViewer(ttk.Frame):
 
         # Tags.
         try:
-            columns[self._colPos['tg']] = list_to_string(self._ui.ywPrj.characters[crId].tags)
+            columns[self._colPos['tg']] = list_to_string(self._ui.novel.characters[crId].tags)
         except:
             pass
 
         # Set color according to the character's status.
         nodeTags = []
-        if self._ui.ywPrj.characters[crId].isMajor:
+        if self._ui.novel.characters[crId].isMajor:
             nodeTags.append('major')
         else:
             nodeTags.append('minor')
@@ -682,7 +682,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_location_display(self, lcId):
         """Configure location formatting and columns."""
-        title = self._ui.ywPrj.locations[lcId].title
+        title = self._ui.novel.locations[lcId].title
         if not title:
             title = _('Unnamed')
         columns = []
@@ -691,7 +691,7 @@ class TreeViewer(ttk.Frame):
 
         # Tags.
         try:
-            columns[self._colPos['tg']] = list_to_string(self._ui.ywPrj.locations[lcId].tags)
+            columns[self._colPos['tg']] = list_to_string(self._ui.novel.locations[lcId].tags)
         except:
             pass
         nodeTags = []
@@ -699,7 +699,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_item_display(self, itId):
         """Configure item formatting and columns."""
-        title = self._ui.ywPrj.items[itId].title
+        title = self._ui.novel.items[itId].title
         if not title:
             title = _('Unnamed')
         columns = []
@@ -708,7 +708,7 @@ class TreeViewer(ttk.Frame):
 
         # tags.
         try:
-            columns[self._colPos['tg']] = list_to_string(self._ui.ywPrj.items[itId].tags)
+            columns[self._colPos['tg']] = list_to_string(self._ui.novel.items[itId].tags)
         except:
             pass
         nodeTags = []
@@ -716,7 +716,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_prjNote_display(self, pnId):
         """Configure project note formatting and columns."""
-        title = self._ui.ywPrj.projectNotes[pnId].title
+        title = self._ui.novel.projectNotes[pnId].title
         if not title:
             title = _('Unnamed')
         columns = []
@@ -855,13 +855,13 @@ class TreeViewer(ttk.Frame):
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                scene = self._ui.ywPrj.scenes[node[2:]]
+                scene = self._ui.novel.scenes[node[2:]]
                 if scene.scType != newType:
                     scene.scType = newType
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX):
                 self.tree.item(node, open=True)
-                chapter = self._ui.ywPrj.chapters[node[2:]]
+                chapter = self._ui.novel.chapters[node[2:]]
                 if chapter.isTrash:
                     newType = 3
                 if chapter.chType != newType:
@@ -881,8 +881,8 @@ class TreeViewer(ttk.Frame):
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                if  self._ui.ywPrj.scenes[node[2:]].status != scnStatus:
-                    self._ui.ywPrj.scenes[node[2:]].status = scnStatus
+                if  self._ui.novel.scenes[node[2:]].status != scnStatus:
+                    self._ui.novel.scenes[node[2:]].status = scnStatus
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
                 self.tree.item(node, open=True)
@@ -900,8 +900,8 @@ class TreeViewer(ttk.Frame):
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                if  self._ui.ywPrj.scenes[node[2:]].kwVar.get('Field_SceneStyle', None) != sceneStyle:
-                    self._ui.ywPrj.scenes[node[2:]].kwVar['Field_SceneStyle'] = sceneStyle
+                if  self._ui.novel.scenes[node[2:]].kwVar.get('Field_SceneStyle', None) != sceneStyle:
+                    self._ui.novel.scenes[node[2:]].kwVar['Field_SceneStyle'] = sceneStyle
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
                 self.tree.item(node, open=True)
@@ -920,8 +920,8 @@ class TreeViewer(ttk.Frame):
         nodes = self.tree.selection()
         for node in nodes:
             if node.startswith(self.CHARACTER_PREFIX):
-                if self._ui.ywPrj.characters[node[2:]].isMajor != chrStatus:
-                    self._ui.ywPrj.characters[node[2:]].isMajor = chrStatus
+                if self._ui.novel.characters[node[2:]].isMajor != chrStatus:
+                    self._ui.novel.characters[node[2:]].isMajor = chrStatus
                     has_changed = True
             elif node.endswith(self.CHARACTER_PREFIX):
                 # Go one level down.
@@ -985,13 +985,13 @@ class TreeViewer(ttk.Frame):
         if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
-        if self._ui.ask_yes_no(_('Remove part "{}" and keep the chapters?').format(self._ui.ywPrj.chapters[elemId].title)):
+        if self._ui.ask_yes_no(_('Remove part "{}" and keep the chapters?').format(self._ui.novel.chapters[elemId].title)):
             if tv.prev(selection):
                 tv.selection_set(tv.prev(selection))
             else:
                 tv.selection_set(tv.parent(selection))
-            del self._ui.ywPrj.chapters[elemId]
-            self._ui.ywPrj.srtChapters.remove(elemId)
+            del self._ui.novel.chapters[elemId]
+            self._ui.novel.srtChapters.remove(elemId)
             self.refresh_tree()
             self.update_prj_structure()
 
@@ -1004,11 +1004,11 @@ class TreeViewer(ttk.Frame):
         if not selection.startswith(self.CHAPTER_PREFIX):
             return
         elemId = selection[2:]
-        if self._ui.ywPrj.chapters[elemId].isTrash:
+        if self._ui.novel.chapters[elemId].isTrash:
             return
 
-        if self._ui.ask_yes_no(_('Promote chapter "{}" to part?').format(self._ui.ywPrj.chapters[elemId].title)):
-            self._ui.ywPrj.chapters[elemId].chLevel = 1
+        if self._ui.ask_yes_no(_('Promote chapter "{}" to part?').format(self._ui.novel.chapters[elemId].title)):
+            self._ui.novel.chapters[elemId].chLevel = 1
             self.refresh_tree()
             self.update_prj_structure()
 
@@ -1021,8 +1021,8 @@ class TreeViewer(ttk.Frame):
         if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
-        if self._ui.ask_yes_no(_('Demote part "{}" to chapter?').format(self._ui.ywPrj.chapters[elemId].title)):
-            self._ui.ywPrj.chapters[elemId].chLevel = 0
+        if self._ui.ask_yes_no(_('Demote part "{}" to chapter?').format(self._ui.novel.chapters[elemId].title)):
+            self._ui.novel.chapters[elemId].chLevel = 0
             self.refresh_tree()
             self.update_prj_structure()
 
@@ -1038,15 +1038,15 @@ class TreeViewer(ttk.Frame):
             """Move all scenes under the node to the 'trash bin'."""
             if node.startswith(self.SCENE_PREFIX):
                 scId = node[2:]
-                self._ui.ywPrj.scenes[scId].scType = 3
+                self._ui.novel.scenes[scId].scType = 3
                 # Move scene.
                 tv.move(node, self._trashNode, 0)
             else:
                 # Delete chapter and go one level down.
                 chId = node[2:]
-                del self._ui.ywPrj.chapters[chId]
-                if chId in self._ui.ywPrj.srtChapters:
-                    self._ui.ywPrj.srtChapters.remove(chId)
+                del self._ui.novel.chapters[chId]
+                if chId in self._ui.novel.srtChapters:
+                    self._ui.novel.srtChapters.remove(chId)
                 for childNode in self.tree.get_children(node):
                     waste_scenes(childNode)
 
@@ -1056,19 +1056,19 @@ class TreeViewer(ttk.Frame):
         for  selection in tv.selection():
             elemId = selection[2:]
             if selection.startswith(self.SCENE_PREFIX):
-                candidate = f'{_("Scene")} "{self._ui.ywPrj.scenes[elemId].title}"'
+                candidate = f'{_("Scene")} "{self._ui.novel.scenes[elemId].title}"'
             elif selection.startswith(self.CHAPTER_PREFIX):
-                candidate = f'{_("Chapter")} "{self._ui.ywPrj.chapters[elemId].title}"'
+                candidate = f'{_("Chapter")} "{self._ui.novel.chapters[elemId].title}"'
             elif selection.startswith(self.PART_PREFIX):
-                candidate = f'{_("Part")} "{self._ui.ywPrj.chapters[elemId].title}"'
+                candidate = f'{_("Part")} "{self._ui.novel.chapters[elemId].title}"'
             elif selection.startswith(self.CHARACTER_PREFIX):
-                candidate = f'{_("Character")} "{self._ui.ywPrj.characters[elemId].title}"'
+                candidate = f'{_("Character")} "{self._ui.novel.characters[elemId].title}"'
             elif selection.startswith(self.LOCATION_PREFIX):
-                candidate = f'{_("Location")} "{self._ui.ywPrj.locations[elemId].title}"'
+                candidate = f'{_("Location")} "{self._ui.novel.locations[elemId].title}"'
             elif selection.startswith(self.ITEM_PREFIX):
-                candidate = f'{_("Item")} "{self._ui.ywPrj.items[elemId].title}"'
+                candidate = f'{_("Item")} "{self._ui.novel.items[elemId].title}"'
             elif selection.startswith(self.PRJ_NOTE_PREFIX):
-                candidate = f'{_("Project note")} "{self._ui.ywPrj.projectNotes[elemId].title}"'
+                candidate = f'{_("Project note")} "{self._ui.novel.projectNotes[elemId].title}"'
             else:
                 return
 
@@ -1083,60 +1083,60 @@ class TreeViewer(ttk.Frame):
                 # Remove the "trash bin".
                 tv.delete(selection)
                 self._trashNode = None
-                for scId in self._ui.ywPrj.chapters[elemId].srtScenes:
-                    del self._ui.ywPrj.scenes[scId]
-                self._ui.ywPrj.chapters[elemId].srtScenes = []
-                del self._ui.ywPrj.chapters[elemId]
-                if elemId in self._ui.ywPrj.srtChapters:
-                    self._ui.ywPrj.srtChapters.remove(elemId)
+                for scId in self._ui.novel.chapters[elemId].srtScenes:
+                    del self._ui.novel.scenes[scId]
+                self._ui.novel.chapters[elemId].srtScenes = []
+                del self._ui.novel.chapters[elemId]
+                if elemId in self._ui.novel.srtChapters:
+                    self._ui.novel.srtChapters.remove(elemId)
             elif selection.startswith(self.CHARACTER_PREFIX):
                 # Delete a character and remove references.
                 tv.delete(selection)
-                del self._ui.ywPrj.characters[elemId]
-                for scId in self._ui.ywPrj.scenes:
+                del self._ui.novel.characters[elemId]
+                for scId in self._ui.novel.scenes:
                     try:
-                        self._ui.ywPrj.scenes[scId].characters.remove(elemId)
+                        self._ui.novel.scenes[scId].characters.remove(elemId)
                     except:
                         pass
             elif selection.startswith(self.LOCATION_PREFIX):
                 # Delete a location and remove references.
                 tv.delete(selection)
-                del self._ui.ywPrj.locations[elemId]
-                for scId in self._ui.ywPrj.scenes:
+                del self._ui.novel.locations[elemId]
+                for scId in self._ui.novel.scenes:
                     try:
-                        self._ui.ywPrj.scenes[scId].locations.remove(elemId)
+                        self._ui.novel.scenes[scId].locations.remove(elemId)
                     except:
                         pass
             elif selection.startswith(self.ITEM_PREFIX):
                 # Delete an item and remove references.
                 tv.delete(selection)
-                del self._ui.ywPrj.items[elemId]
-                for scId in self._ui.ywPrj.scenes:
+                del self._ui.novel.items[elemId]
+                for scId in self._ui.novel.scenes:
                     try:
-                        self._ui.ywPrj.scenes[scId].items.remove(elemId)
+                        self._ui.novel.scenes[scId].items.remove(elemId)
                     except:
                         pass
             elif selection.startswith(self.PRJ_NOTE_PREFIX):
                 # Delete a project note and remove references.
                 tv.delete(selection)
-                del self._ui.ywPrj.projectNotes[elemId]
+                del self._ui.novel.projectNotes[elemId]
             else:
                 # Part/chapter/scene selected.
                 if self._trashNode is None:
                     # Create a "trash bin"; use the first free chapter ID.
-                    trashId = create_id(self._ui.ywPrj.chapters)
-                    self._ui.ywPrj.chapters[trashId] = Chapter()
+                    trashId = create_id(self._ui.novel.chapters)
+                    self._ui.novel.chapters[trashId] = Chapter()
                     for fieldName in self._ui.ywPrj._CHP_KWVAR:
-                        self._ui.ywPrj.chapters[trashId].kwVar[fieldName] = None
-                    self._ui.ywPrj.chapters[trashId].title = _('Trash')
-                    self._ui.ywPrj.chapters[trashId].isTrash = True
+                        self._ui.novel.chapters[trashId].kwVar[fieldName] = None
+                    self._ui.novel.chapters[trashId].title = _('Trash')
+                    self._ui.novel.chapters[trashId].isTrash = True
                     self._trashNode = f'{self.CHAPTER_PREFIX}{trashId}'
                     self.tree.insert(self.NV_ROOT, 'end', self._trashNode, text=_('Trash'), tags='unused', open=True)
                 if selection.startswith(self.SCENE_PREFIX):
                     if self.tree.parent(selection) == self._trashNode:
                         # Remove scene, if already in trash bin.
                         tv.delete(selection)
-                        del self._ui.ywPrj.scenes[elemId]
+                        del self._ui.novel.scenes[elemId]
                     else:
                         # Move scene to the "trash bin".
                         waste_scenes(selection)
@@ -1175,22 +1175,22 @@ class TreeViewer(ttk.Frame):
         elif selection.startswith(self.RS_ROOT):
             index = 0
             parent = self.RS_ROOT
-        chId = create_id(self._ui.ywPrj.chapters)
+        chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.PART_PREFIX}{chId}'
-        self._ui.ywPrj.chapters[chId] = Chapter()
-        self._ui.ywPrj.chapters[chId].title = f'{_("New Part")} (ID{chId})'
-        self._ui.ywPrj.chapters[chId].chLevel = 1
+        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
+        self._ui.novel.chapters[chId].chLevel = 1
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.ywPrj._CHP_KWVAR:
-            self._ui.ywPrj.chapters[chId].kwVar[fieldName] = None
+            self._ui.novel.chapters[chId].kwVar[fieldName] = None
         if parent.startswith(self.PL_ROOT):
-            self._ui.ywPrj.chapters[chId].chType = 2
+            self._ui.novel.chapters[chId].chType = 2
         elif parent.startswith(self.RS_ROOT):
-            self._ui.ywPrj.chapters[chId].chType = 1
+            self._ui.novel.chapters[chId].chType = 1
         else:
-            self._ui.ywPrj.chapters[chId].chType = 0
-        self._ui.ywPrj.srtChapters.append(chId)
+            self._ui.novel.chapters[chId].chType = 0
+        self._ui.novel.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
@@ -1220,26 +1220,26 @@ class TreeViewer(ttk.Frame):
             index = self.tree.index(selection) + 1
         elif selection.startswith(self.PART_PREFIX):
             parent = selection
-        chId = create_id(self._ui.ywPrj.chapters)
+        chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.CHAPTER_PREFIX}{chId}'
-        self._ui.ywPrj.chapters[chId] = Chapter()
-        self._ui.ywPrj.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
-        self._ui.ywPrj.chapters[chId].chLevel = 0
-        self._ui.ywPrj.chapters[chId].kwVar['Field_NoNumber'] = None
+        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
+        self._ui.novel.chapters[chId].chLevel = 0
+        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.ywPrj._CHP_KWVAR:
-            self._ui.ywPrj.chapters[chId].kwVar[fieldName] = None
+            self._ui.novel.chapters[chId].kwVar[fieldName] = None
 
         # Inherit part type, if "Todo" or "Notes".
         if self.tree.parent(parent).startswith(self.PL_ROOT):
-            self._ui.ywPrj.chapters[chId].chType = 2
+            self._ui.novel.chapters[chId].chType = 2
         elif self.tree.parent(parent).startswith(self.RS_ROOT):
-            self._ui.ywPrj.chapters[chId].chType = 1
+            self._ui.novel.chapters[chId].chType = 1
         else:
-            self._ui.ywPrj.chapters[chId].chType = 0
+            self._ui.novel.chapters[chId].chType = 0
 
-        self._ui.ywPrj.srtChapters.append(chId)
+        self._ui.novel.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
@@ -1273,22 +1273,22 @@ class TreeViewer(ttk.Frame):
         else:
             return
 
-        scId = create_id(self._ui.ywPrj.scenes)
+        scId = create_id(self._ui.novel.scenes)
         newNode = f'{self.SCENE_PREFIX}{scId}'
-        self._ui.ywPrj.scenes[scId] = Scene()
-        self._ui.ywPrj.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
-        self._ui.ywPrj.scenes[scId].status = 1
-        self._ui.ywPrj.scenes[scId].scType = 0
-        self._ui.ywPrj.scenes[scId].appendToPrev = False
+        self._ui.novel.scenes[scId] = Scene()
+        self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
+        self._ui.novel.scenes[scId].status = 1
+        self._ui.novel.scenes[scId].scType = 0
+        self._ui.novel.scenes[scId].appendToPrev = False
         # Inherit chapter type
-        parentChapter = self._ui.ywPrj.chapters[parent[2:]]
+        parentChapter = self._ui.novel.chapters[parent[2:]]
         if parentChapter.chType != 0:
-            self._ui.ywPrj.scenes[scId].scType = parentChapter.chType
+            self._ui.novel.scenes[scId].scType = parentChapter.chType
         # Edit status = Outline
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.ywPrj._SCN_KWVAR:
-            self._ui.ywPrj.scenes[scId].kwVar[fieldName] = None
+            self._ui.novel.scenes[scId].kwVar[fieldName] = None
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
@@ -1316,53 +1316,53 @@ class TreeViewer(ttk.Frame):
             selection = self.tree.selection()[0]
         if self.CHARACTER_PREFIX in selection:
             # Add a character.
-            elemId = create_id(self._ui.ywPrj.characters)
+            elemId = create_id(self._ui.novel.characters)
             newNode = f'{self.CHARACTER_PREFIX}{elemId}'
-            self._ui.ywPrj.characters[elemId] = Character()
-            self._ui.ywPrj.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
+            self._ui.novel.characters[elemId] = Character()
+            self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.ywPrj._CRT_KWVAR:
-                self._ui.ywPrj.characters[elemId].kwVar[fieldName] = None
+                self._ui.novel.characters[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_character_display(elemId)
             root = self.CR_ROOT
             prefix = self.CHARACTER_PREFIX
         elif self.LOCATION_PREFIX in selection:
             # Add a location.
-            elemId = create_id(self._ui.ywPrj.locations)
+            elemId = create_id(self._ui.novel.locations)
             newNode = f'{self.LOCATION_PREFIX}{elemId}'
-            self._ui.ywPrj.locations[elemId] = WorldElement()
-            self._ui.ywPrj.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
+            self._ui.novel.locations[elemId] = WorldElement()
+            self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.ywPrj._LOC_KWVAR:
-                self._ui.ywPrj.locations[elemId].kwVar[fieldName] = None
+                self._ui.novel.locations[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_location_display(elemId)
             root = self.LC_ROOT
             prefix = self.LOCATION_PREFIX
         elif self.ITEM_PREFIX in selection:
             # Add an item.
-            elemId = create_id(self._ui.ywPrj.items)
+            elemId = create_id(self._ui.novel.items)
             newNode = f'{self.ITEM_PREFIX}{elemId}'
-            self._ui.ywPrj.items[elemId] = WorldElement()
-            self._ui.ywPrj.items[elemId].title = f'{_("New Item")} (ID{elemId})'
+            self._ui.novel.items[elemId] = WorldElement()
+            self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.ywPrj._ITM_KWVAR:
-                self._ui.ywPrj.items[elemId].kwVar[fieldName] = None
+                self._ui.novel.items[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_item_display(elemId)
             root = self.IT_ROOT
             prefix = self.ITEM_PREFIX
         elif self.PRJ_NOTE_PREFIX in selection:
             # Add a project note.
-            elemId = create_id(self._ui.ywPrj.projectNotes)
+            elemId = create_id(self._ui.novel.projectNotes)
             newNode = f'{self.PRJ_NOTE_PREFIX}{elemId}'
-            self._ui.ywPrj.projectNotes[elemId] = BasicElement()
-            self._ui.ywPrj.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
+            self._ui.novel.projectNotes[elemId] = BasicElement()
+            self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.ywPrj._ITM_KWVAR:
-                self._ui.ywPrj.projectNotes[elemId].kwVar[fieldName] = None
+                self._ui.novel.projectNotes[elemId].kwVar[fieldName] = None
             title, columns, nodeTags = self._set_prjNote_display(elemId)
             root = self.PN_ROOT
             prefix = self.PRJ_NOTE_PREFIX

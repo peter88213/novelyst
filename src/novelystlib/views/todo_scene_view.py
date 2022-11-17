@@ -53,9 +53,9 @@ class TodoSceneView(BasicView):
         self._scenesAssigned = []
         arc = self._element.kwVar.get('Field_SceneArcs', None)
         if arc:
-            for scId in self._ui.ywPrj.scenes:
-                if self._ui.ywPrj.scenes[scId].scType == 0:
-                    if arc in string_to_list(self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneArcs', '')):
+            for scId in self._ui.novel.scenes:
+                if self._ui.novel.scenes[scId].scType == 0:
+                    if arc in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', '')):
                         self._scenesAssigned.append(scId)
         else:
             arc = ''
@@ -84,15 +84,15 @@ class TodoSceneView(BasicView):
         arc = self._arcs.get()
         if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
             for scId in self._scenesAssigned:
-                if self._ui.ywPrj.scenes[scId].kwVar.get('Field_SceneArcs', None):
+                if self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None):
                     newArcs = []
-                    arcs = string_to_list(self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs'])
+                    arcs = string_to_list(self._ui.novel.scenes[scId].kwVar['Field_SceneArcs'])
                     for scArc in arcs:
                         if not scArc == arc:
                             newArcs.append(scArc)
                         else:
                             self._ui.isModified = True
-                    self._ui.ywPrj.scenes[scId].kwVar['Field_SceneArcs'] = list_to_string(newArcs)
+                    self._ui.novel.scenes[scId].kwVar['Field_SceneArcs'] = list_to_string(newArcs)
             self._scenesAssigned = []
             self._arcFrame.pack_forget()
             if self._ui.isModified:
