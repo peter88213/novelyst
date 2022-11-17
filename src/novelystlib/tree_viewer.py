@@ -430,12 +430,12 @@ class TreeViewer(ttk.Frame):
         if self._ui.novel.scenes[scId].scType == 2:
             #   is Todo type: Show Arc references.
             nodeTags.append('todo')
-            arc = self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)
+            arc = self._ui.novel.scenes[scId].scnArcs
             if arc:
                 wordCount = 0
                 for sid in self._ui.novel.scenes:
                     if self._ui.novel.scenes[sid].scType == 0:
-                        if arc in string_to_list(self._ui.novel.scenes[sid].kwVar.get('Field_SceneArcs', '')):
+                        if arc in string_to_list(self._ui.novel.scenes[sid].scnArcs):
                             wordCount += self._ui.novel.scenes[sid].wordCount
                 columns[self._colPos['wc']] = wordCount
         elif self._ui.novel.scenes[scId].scType == 1:
@@ -451,7 +451,7 @@ class TreeViewer(ttk.Frame):
                 if self._ui.kwargs['coloring_mode'] == _('status'):
                     nodeTags.append(Scene.STATUS[self._ui.novel.scenes[scId].status])
                 elif self._ui.kwargs['coloring_mode'] == _('style'):
-                    sceneStyle = self._ui.novel.scenes[scId].kwVar.get('Field_SceneStyle', None)
+                    sceneStyle = self._ui.novel.scenes[scId].scnStyle
                     if sceneStyle:
                         nodeTags.append(sceneStyle)
                 try:
@@ -461,7 +461,7 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['po']] = positionStr
             columns[self._colPos['wc']] = self._ui.novel.scenes[scId].wordCount
             columns[self._colPos['st']] = self._SCN_STATUS[self._ui.novel.scenes[scId].status]
-            sceneStyle = self._ui.novel.scenes[scId].kwVar.get('Field_SceneStyle', None)
+            sceneStyle = self._ui.novel.scenes[scId].scnStyle
             if sceneStyle:
                 sceneStyle = _(sceneStyle)
             else:
@@ -522,7 +522,7 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
-            arcs = self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)
+            arcs = self._ui.novel.scenes[scId].scnArcs
             if arcs is not None:
                 columns[self._colPos['ac']] = arcs
 
@@ -891,7 +891,7 @@ class TreeViewer(ttk.Frame):
         if has_changed:
             self.update_prj_structure()
 
-    def _set_scn_style(self, nodes, sceneStyle):
+    def _set_scn_style(self, nodes, scnStyle):
         """Set scene narrative mode (Scene/Description/summary)."""
         if self._ui.isLocked:
             return
@@ -899,14 +899,14 @@ class TreeViewer(ttk.Frame):
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                if  self._ui.novel.scenes[node[2:]].kwVar.get('Field_SceneStyle', None) != sceneStyle:
-                    self._ui.novel.scenes[node[2:]].kwVar['Field_SceneStyle'] = sceneStyle
+                if  self._ui.novel.scenes[node[2:]].scnStyle != scnStyle:
+                    self._ui.novel.scenes[node[2:]].scnStyle = scnStyle
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
                 self.tree.item(node, open=True)
 
                 # Go one level down.
-                self._set_scn_style(self.tree.get_children(node), sceneStyle)
+                self._set_scn_style(self.tree.get_children(node), scnStyle)
         if has_changed:
             self.update_prj_structure()
 

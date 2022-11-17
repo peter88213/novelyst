@@ -51,11 +51,11 @@ class TodoSceneView(BasicView):
 
         # Count the scenes assigned to this arc.
         self._scenesAssigned = []
-        arc = self._element.kwVar.get('Field_SceneArcs', None)
+        arc = self._element.scnArcs
         if arc:
             for scId in self._ui.novel.scenes:
                 if self._ui.novel.scenes[scId].scType == 0:
-                    if arc in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', '')):
+                    if arc in string_to_list(self._ui.novel.scenes[scId].scnArcs):
                         self._scenesAssigned.append(scId)
         else:
             arc = ''
@@ -84,15 +84,15 @@ class TodoSceneView(BasicView):
         arc = self._arcs.get()
         if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
             for scId in self._scenesAssigned:
-                if self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None):
+                if self._ui.novel.scenes[scId].scnArcs is not None:
                     newArcs = []
-                    arcs = string_to_list(self._ui.novel.scenes[scId].kwVar['Field_SceneArcs'])
+                    arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
                     for scArc in arcs:
                         if not scArc == arc:
                             newArcs.append(scArc)
                         else:
                             self._ui.isModified = True
-                    self._ui.novel.scenes[scId].kwVar['Field_SceneArcs'] = list_to_string(newArcs)
+                    self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
             self._scenesAssigned = []
             self._arcFrame.pack_forget()
             if self._ui.isModified:
@@ -104,13 +104,15 @@ class TodoSceneView(BasicView):
         Extends the superclass method.
         """
         # 'Arc reference' entry.
-        if self._update_field_str(self._arcs, 'Field_SceneArcs'):
-            arc = self._element.kwVar['Field_SceneArcs']
+        newArcs = self._arcs.get()
+        if self._element.scnArcs or newArcs:
+            if self._element.scnArcs != newArcs:
+                self._element.scnArcs = newArcs
 
-            # Use the arc as scene title suffix.
-            newTitle = f'{arc} - {self._ui.elementTitle.get()}'
-            self._ui.elementTitle.set(newTitle)
-            self._ui.isModified = True
+                # Use the arc as scene title suffix.
+                newTitle = f'{self._element.scnArcs} - {self._ui.elementTitle.get()}'
+                self._ui.elementTitle.set(newTitle)
+                self._ui.isModified = True
 
         # 'Tags' entry.
         newTags = self._tags.get()

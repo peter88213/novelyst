@@ -130,8 +130,8 @@ class SceneView(BasicView):
         self._viewpoint.set(value=vp)
 
         # 'Arcs' entry (if any).
-        if self._element.kwVar.get('Field_SceneArcs', None):
-            arcs = self._element.kwVar['Field_SceneArcs']
+        if self._element.scnArcs is not None:
+            arcs = self._element.scnArcs
         else:
             arcs = ''
         self._arcs.set(arcs)
@@ -256,8 +256,11 @@ class SceneView(BasicView):
                 self._ui.isModified = True
 
         # 'Arcs' entry (if any).
-        if self._update_field_str(self._arcs, 'Field_SceneArcs'):
-            self._ui.isModified = True
+        newArcs = self._arcs.get()
+        if self._element.scnArcs or newArcs:
+            if self._element.scnArcs != newArcs:
+                self._element.scnArcs = newArcs
+                self._ui.isModified = True
 
         # 'Tags' entry.
         newTags = self._tags.get()

@@ -27,7 +27,7 @@ class WorkFile(Yw7File):
     _LOCKFILE_SUFFIX = '#'
 
     # Configure part/chapter numbering
-    _PRJ_KWVAR = (
+    _PRJ_KWVAR = [
         'Field_RenumberChapters',
         'Field_RenumberParts',
         'Field_RenumberWithinParts',
@@ -45,19 +45,19 @@ class WorkFile(Yw7File):
         'Field_SaveWordCount',
         'Field_LanguageCode',
         'Field_CountryCode',
-        )
-    _CHP_KWVAR = (
+        ]
+    _CHP_KWVAR = [
         'Field_NoNumber',
-        )
-    _SCN_KWVAR = (
+        ]
+    _SCN_KWVAR = [
         'Field_SceneArcs',
         'Field_CustomAR',
         'Field_SceneStyle',
-        )
-    _CRT_KWVAR = (
+        ]
+    _CRT_KWVAR = [
         'Field_BirthDate',
         'Field_DeathDate',
-        )
+        ]
 
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables.
@@ -132,7 +132,6 @@ class WorkFile(Yw7File):
         Extends the superclass method.
         """
         super().read()
-        self.novel.check_locale()
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
