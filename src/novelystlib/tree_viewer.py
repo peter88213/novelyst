@@ -9,11 +9,8 @@ from tkinter import ttk
 import tkinter.font as tkFont
 from pywriter.pywriter_globals import *
 from pywriter.model.id_generator import create_id
-from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
-from pywriter.model.character import Character
 from pywriter.model.basic_element import BasicElement
-from pywriter.model.world_element import WorldElement
 
 
 class TreeViewer(ttk.Frame):
@@ -327,7 +324,7 @@ class TreeViewer(ttk.Frame):
         """
         modifiedNodes = []
         isModified = self._ui.isModified
-        if self._ui.novel.renumber_chapters():
+        if self._ui.prjFile.renumber_chapters():
             isModified = True
 
         # Make sure that nodes with non-"Normal" parents inherit the type.
@@ -428,7 +425,7 @@ class TreeViewer(ttk.Frame):
             columns.append('')
         nodeTags = []
         if self._ui.novel.scenes[scId].scType == 2:
-            # Scene is Todo type: Show Arc references.
+            #   is Todo type: Show Arc references.
             nodeTags.append('todo')
             arc = self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)
             if arc:
@@ -1124,7 +1121,7 @@ class TreeViewer(ttk.Frame):
                 if self._trashNode is None:
                     # Create a "trash bin"; use the first free chapter ID.
                     trashId = create_id(self._ui.novel.chapters)
-                    self._ui.novel.chapters[trashId] = Chapter()
+                    self._ui.novel.chapters[trashId] = self._ui.prjFile.CHAPTER_CLASS()
                     for fieldName in self._ui.prjFile._CHP_KWVAR:
                         self._ui.novel.chapters[trashId].kwVar[fieldName] = None
                     self._ui.novel.chapters[trashId].title = _('Trash')
@@ -1176,7 +1173,7 @@ class TreeViewer(ttk.Frame):
             parent = self.RS_ROOT
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.PART_PREFIX}{chId}'
-        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId] = self._ui.prjFile.CHAPTER_CLASS()
         self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
         self._ui.novel.chapters[chId].chLevel = 1
 
@@ -1221,7 +1218,7 @@ class TreeViewer(ttk.Frame):
             parent = selection
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.CHAPTER_PREFIX}{chId}'
-        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId] = self._ui.prjFile.CHAPTER_CLASS()
         self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
         self._ui.novel.chapters[chId].chLevel = 0
         self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
@@ -1274,7 +1271,7 @@ class TreeViewer(ttk.Frame):
 
         scId = create_id(self._ui.novel.scenes)
         newNode = f'{self.SCENE_PREFIX}{scId}'
-        self._ui.novel.scenes[scId] = Scene()
+        self._ui.novel.scenes[scId] = self._ui.prjFile.SCENE_CLASS()
         self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
         self._ui.novel.scenes[scId].status = 1
         self._ui.novel.scenes[scId].scType = 0
@@ -1317,7 +1314,7 @@ class TreeViewer(ttk.Frame):
             # Add a character.
             elemId = create_id(self._ui.novel.characters)
             newNode = f'{self.CHARACTER_PREFIX}{elemId}'
-            self._ui.novel.characters[elemId] = Character()
+            self._ui.novel.characters[elemId] = self._ui.prjFile.CHARACTER_CLASS()
             self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
 
             # Initialize custom keyword variables.
@@ -1330,7 +1327,7 @@ class TreeViewer(ttk.Frame):
             # Add a location.
             elemId = create_id(self._ui.novel.locations)
             newNode = f'{self.LOCATION_PREFIX}{elemId}'
-            self._ui.novel.locations[elemId] = WorldElement()
+            self._ui.novel.locations[elemId] = self._ui.prjFile.WE_CLASS()
             self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
 
             # Initialize custom keyword variables.
@@ -1343,7 +1340,7 @@ class TreeViewer(ttk.Frame):
             # Add an item.
             elemId = create_id(self._ui.novel.items)
             newNode = f'{self.ITEM_PREFIX}{elemId}'
-            self._ui.novel.items[elemId] = WorldElement()
+            self._ui.novel.items[elemId] = self._ui.prjFile.WE_CLASS()
             self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
 
             # Initialize custom keyword variables.

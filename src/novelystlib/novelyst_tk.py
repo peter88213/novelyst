@@ -11,6 +11,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 from pywriter.pywriter_globals import *
+from pywriter.model.novel import Novel
 from pywriter.ui.main_tk import MainTk
 from pywriter.ui.set_icon_tk import *
 from novelystlib.contents_viewer import ContentsViewer
@@ -634,6 +635,10 @@ class NovelystTk(MainTk):
         fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self.fileTypes[0][1])
         if fileName:
             self.prjFile = WorkFile(fileName)
+            self.novel = Novel()
+            self.novel.wordCountStart = 0
+            self.novel.wordTarget = 0
+            self.prjFile.novel = self.novel
             self.set_title()
             self.show_path(norm_path(fileName))
             self.enable_menu()
