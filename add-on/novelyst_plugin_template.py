@@ -6,7 +6,6 @@ The 'Say Hello' command in this submenu opens a message box.
 For installation, just copy this file into the 'plugin' subdirectory
 of your novelyst installation folder (e.g. ~/.pywriter/novelyst).
 
-Compatibility: novelyst v2.0 API 
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -27,7 +26,7 @@ class Plugin():
         
     """
     VERSION = '@release'
-    NOVELYST_API = '2.0'
+    NOVELYST_API = '3.0'
     DESCRIPTION = 'Example plugin'
     URL = 'https://peter88213.github.io/novelyst'
 
