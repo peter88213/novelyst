@@ -39,16 +39,6 @@ class OdtCharactersNv(OdtCharacters):
         'Field_CustomChrGoals',
         )
 
-    def __init__(self, filePath, **kwargs):
-        """Initialize custom keyword variables.
-        
-        Extends the superclass constructor.
-        """
-        super().__init__(filePath, **kwargs)
-
-        for field in self._PRJ_KWVAR:
-            self.kwVar[field] = None
-
     def _get_characterMapping(self, crId):
         """Return a mapping dictionary for a character section.
         
@@ -60,12 +50,12 @@ class OdtCharactersNv(OdtCharacters):
         """
         characterMapping = super()._get_characterMapping(crId)
 
-        if self.kwVar.get('Field_CustomChrBio', None):
-            characterMapping['BioTitle'] = self.kwVar['Field_CustomChrBio']
+        if self.novel.kwVar.get('Field_CustomChrBio', None):
+            characterMapping['BioTitle'] = self.novel.kwVar['Field_CustomChrBio']
         else:
             characterMapping['BioTitle'] = _('Bio')
-        if self.kwVar.get('Field_CustomChrGoals', None):
-            characterMapping['GoalsTitle'] = self.kwVar['Field_CustomChrGoals']
+        if self.novel.kwVar.get('Field_CustomChrGoals', None):
+            characterMapping['GoalsTitle'] = self.novel.kwVar['Field_CustomChrGoals']
         else:
             characterMapping['GoalsTitle'] = _('Goals')
 
@@ -75,7 +65,7 @@ class OdtCharactersNv(OdtCharacters):
         """Extends the superclass method."""
         for fieldName in self._PRJ_KWVAR:
             try:
-                self.kwVar[fieldName] = source.kwVar.get(fieldName, '')
+                self.novel.kwVar[fieldName] = source.kwVar.get(fieldName, '')
             except:
                 pass
         return super().merge(source)
