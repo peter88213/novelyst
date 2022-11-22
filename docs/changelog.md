@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v3.0.2
+
+- Code optimization and library update. 
+
+Based on PyWriter v9.0.4
+
 ### v2.0.5
 
 - Fix a bug where attempting to save a write-protected file raises an uncaught exception.
