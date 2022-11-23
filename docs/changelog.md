@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v3.1.1
+
+- Prepare RichTextYw for dark mode.
+
+Based on PyWriter v9.0.4
+
 ### v3.1.0
 
 - Make text box colors customizable for dark mode.
