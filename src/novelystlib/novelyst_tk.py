@@ -6,7 +6,6 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import sys
 import webbrowser
-import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
@@ -51,7 +50,6 @@ class NovelystTk(MainTk):
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
 
     _YW_CLASS = WorkFile
-    _COLOR_NOTE_WINDOWS = 'lemon chiffon'
     fileTypes = [(WorkFile.DESCRIPTION, WorkFile.EXTENSION)]
 
     def __init__(self, colTitle, tempDir, **kwargs):
@@ -65,6 +63,8 @@ class NovelystTk(MainTk):
             color_locked_fg -- str: tk color name for Footer foreground when locked.
             color_modified_bg -- str: tk color name for Footer background when modified.
             color_modified_fg -- str: tk color name for Footer foreground when modified.
+            color_text_bg -- str: tk color name for text box background.
+            color_text_fg -- str: tk color name for text box foreground.
     
         Public instance variables:
             guiStyle -- ttk.Style object.
@@ -143,13 +143,30 @@ class NovelystTk(MainTk):
 
         # Title label.
         self.elementTitle = tk.StringVar(value='')
-        tk.Entry(self.indexCard, bd=0, textvariable=self.elementTitle, relief=tk.FLAT).pack(fill=tk.X, ipady=6)
+        titleEntry = tk.Entry(self.indexCard, bd=0, textvariable=self.elementTitle, relief=tk.FLAT)
+        titleEntry.config({'background': self.kwargs['color_text_bg'],
+                           'foreground': self.kwargs['color_text_fg'],
+                           'insertbackground': self.kwargs['color_text_fg'],
+                           })
+        titleEntry.pack(fill=tk.X, ipady=6)
 
         tk.Frame(self.indexCard, bg='red', height=1, bd=0).pack(fill=tk.X)
         tk.Frame(self.indexCard, bg='white', height=1, bd=0).pack(fill=tk.X)
 
         # Description window.
-        self.descWindow = TextBox(self.indexCard, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=15, width=10, padx=5, pady=5)
+        self.descWindow = TextBox(self.indexCard,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=15,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=self.kwargs['color_text_bg'],
+                fg=self.kwargs['color_text_fg'],
+                insertbackground=self.kwargs['color_text_fg'],
+                )
         self.descWindow.pack(fill=tk.X)
 
         # Frame for element specific informations.
@@ -157,7 +174,19 @@ class NovelystTk(MainTk):
         self.infoFrame.pack(expand=True, fill=tk.BOTH)
 
         # Notes window.
-        self.notesWindow = TextBox(self.rightFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=4, width=10, padx=5, pady=5, bg=self._COLOR_NOTE_WINDOWS)
+        self.notesWindow = TextBox(self.rightFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=4,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=self.kwargs['color_notes_bg'],
+                fg=self.kwargs['color_notes_fg'],
+                insertbackground=self.kwargs['color_notes_fg'],
+                )
         self.notesWindow.pack(expand=True, fill=tk.BOTH)
 
         # Initialize element views.

@@ -39,14 +39,38 @@ class CharacterView(BasicView):
 
         #--- 'Bio' entry
         self._bioFrame = FoldingFrame(self._elementInfoWindow, '', self._toggle_bioWindow)
-        self._bioEntry = TextBox(self._bioFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=10, width=10, padx=5, pady=5)
+        self._bioEntry = TextBox(self._bioFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=10,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._bioEntry.pack(fill=tk.X)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- 'Goals' entry.
         self._goalsFrame = FoldingFrame(self._elementInfoWindow, '', self._toggle_goalsWindow)
-        self._goalsEntry = TextBox(self._goalsFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=10, width=10, padx=5, pady=5)
+        self._goalsEntry = TextBox(self._goalsFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=10,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._goalsEntry.pack(fill=tk.X)
 
     def set_data(self, element):

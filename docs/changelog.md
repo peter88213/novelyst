@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v3.1.0
+
+- Make text box colors customizable for dark mode.
+- Rework the novelyst_awdark plugin.
+
+Based on PyWriter v9.0.4
+
 ### v3.0.2
 
 - Code optimization and library update. 

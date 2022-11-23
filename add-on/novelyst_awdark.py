@@ -29,9 +29,9 @@ import sys
 from tkinter import messagebox
 
 
-class Plugin():
-    VERSION = '3.0.0'
-    NOVELYST_API = '3.0'
+class Plugin:
+    VERSION = '3.1.0'
+    NOVELYST_API = '3.1'
     DESCRIPTION = 'Applies the tcl awdark theme, if available'
     URL = 'https://peter88213.github.io/novelyst'
 
@@ -55,6 +55,10 @@ class Plugin():
         color_locked_fg='light gray',
         color_modified_bg='goldenrod1',
         color_modified_fg='maroon',
+        color_text_bg='black',
+        color_text_fg='light grey',
+        color_notes_bg='black',
+        color_notes_fg='tomato',
         )
 
     def install(self, ui):

@@ -70,19 +70,52 @@ class SceneView(BasicView):
         # 'Goal/Reaction' window. The labels are configured dynamically.
         self._goalLabel = ttk.Label(self._pacingFrame)
         self._goalLabel.pack(anchor=tk.W)
-        self._goalWindow = TextBox(self._pacingFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._goalWindow = TextBox(self._pacingFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._GCO_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._goalWindow.pack(fill=tk.X)
 
         # 'Conflict/Dilemma' window. The labels are configured dynamically.
         self._conflictLabel = ttk.Label(self._pacingFrame)
         self._conflictLabel.pack(anchor=tk.W)
-        self._conflictWindow = TextBox(self._pacingFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._conflictWindow = TextBox(self._pacingFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._GCO_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._conflictWindow.pack(fill=tk.X)
 
         # 'Outcome/Choice' window. The labels are configured dynamically.
         self._outcomeLabel = ttk.Label(self._pacingFrame)
         self._outcomeLabel.pack(anchor=tk.W)
-        self._outcomeWindow = TextBox(self._pacingFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._GCO_Y, padx=5, pady=5)
+        self._outcomeWindow = TextBox(self._pacingFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._GCO_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._outcomeWindow.pack(fill=tk.X)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
@@ -94,21 +127,54 @@ class SceneView(BasicView):
         self._crTitles = ''
         self._characterLabel = ttk.Label(self._relationFrame, text=_('Characters'))
         self._characterLabel.pack(anchor=tk.W)
-        self._characterWindow = TextBox(self._relationFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._REL_Y, padx=5, pady=5)
+        self._characterWindow = TextBox(self._relationFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._REL_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._characterWindow.pack(fill=tk.X)
 
         # 'Locations' window.
         self._lcTitles = ''
         self._locationLabel = ttk.Label(self._relationFrame, text=_('Locations'))
         self._locationLabel.pack(anchor=tk.W)
-        self._locationWindow = TextBox(self._relationFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._REL_Y, padx=5, pady=5)
+        self._locationWindow = TextBox(self._relationFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._REL_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._locationWindow.pack(fill=tk.X)
 
         # 'Items' window.
         self._itTitles = ''
         self._itemLabel = ttk.Label(self._relationFrame, text=_('Items'))
         self._itemLabel.pack(anchor=tk.W)
-        self._itemWindow = TextBox(self._relationFrame, wrap='word', undo=True, autoseparators=True, maxundo=-1, height=self._REL_Y, padx=5, pady=5)
+        self._itemWindow = TextBox(self._relationFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=self._REL_Y,
+                padx=5,
+                pady=5,
+                bg=ui.kwargs['color_text_bg'],
+                fg=ui.kwargs['color_text_fg'],
+                insertbackground=ui.kwargs['color_text_fg'],
+                )
         self._itemWindow.pack(fill=tk.X)
 
     def set_data(self, element):
