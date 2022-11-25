@@ -50,8 +50,8 @@ class PluginCollection(dict):
             self.minorVersion = int(minorStr)
         except ValueError:
             # Set defaults for testing.
-            self.majorVersion = 3
-            self.minorVersion = 1
+            self.majorVersion = 4
+            self.minorVersion = 0
 
     def delete_file(self, moduleName):
         """Remove a module from the file system.
@@ -157,11 +157,20 @@ class PluginCollection(dict):
                     pass
 
     def on_quit(self):
-        """Perform actions before a project is closed."""
+        """Perform actions before the application is closed."""
         for moduleName in self:
             if self[moduleName].isActive:
                 try:
                     self[moduleName].on_quit()
+                except:
+                    pass
+
+    def on_close(self):
+        """Perform actions before a project is closed."""
+        for moduleName in self:
+            if self[moduleName].isActive:
+                try:
+                    self[moduleName].on_close()
                 except:
                     pass
 

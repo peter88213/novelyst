@@ -432,6 +432,7 @@ class NovelystTk(MainTk):
         """Save keyword arguments before exiting the program."""
         try:
             self.close_project()
+            self.plugins.on_quit()
 
             # save contents window "show markup" state.
             self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
@@ -681,7 +682,7 @@ class NovelystTk(MainTk):
         Extends the superclass method.
         """
         self.contentsViewer.reset_view()
-        self.plugins.on_quit()
+        self.plugins.on_close()
 
         self.view_nothing()
         # this closes the current element view after checking for modifications

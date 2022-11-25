@@ -8,6 +8,15 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.0.0
+
+Upgrade API:
+- Add  the PluginCollection.on_close method. 
+- Call NovelystTk.on_close when closing a project. 
+- Call NovelystTk.on_quit when closing novelyst.
+
+Based on PyWriter v9.0.4
+
 ### v3.1.1
 
 - Prepare RichTextYw for dark mode.
