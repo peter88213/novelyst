@@ -18,15 +18,15 @@ from tkinter import ttk
 APPLICATION = 'Theme Changer'
 
 
-class Plugin():
+class Plugin:
     """A 'Theme Changer' plugin class.
     
     Public methods:
         disable_menu() -- disable menu entries when no project is open.
         enable_menu() -- enable menu entries when a project is open.    
     """
-    VERSION = '3.0.0'
-    NOVELYST_API = '3.0'
+    VERSION = '4.0.0'
+    NOVELYST_API = '4.0'
     DESCRIPTION = 'Allows changing between built-in themes'
     URL = 'https://peter88213.github.io/novelyst'
 

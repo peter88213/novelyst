@@ -17,16 +17,17 @@ from tkinter import messagebox
 APPLICATION = 'Example plugin'
 
 
-class Plugin():
+class Plugin:
     """Example plugin class.
     
     Public methods:
         disable_menu() -- disable menu entries when no project is open.
         enable_menu() -- enable menu entries when a project is open.
-        
+        on_close() -- Actions to be performed when a project is closed.       
+        on_quit() -- Actions to be performed when novelyst is closed.               
     """
     VERSION = '@release'
-    NOVELYST_API = '3.0'
+    NOVELYST_API = '4.0'
     DESCRIPTION = 'Example plugin'
     URL = 'https://peter88213.github.io/novelyst'
 
@@ -51,6 +52,12 @@ class Plugin():
     def enable_menu(self):
         """Enable menu entries when a project is open."""
         self._ui.toolsMenu.entryconfig(APPLICATION, state='normal')
+
+    def on_close(self, event=None):
+        """Actions to be performed when a project is closed."""
+
+    def on_quit(self, event=None):
+        """Actions to be performed when novelyst is closed."""
 
     def _hello(self):
         message = 'Hello, world!'

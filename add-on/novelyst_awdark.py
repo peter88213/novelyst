@@ -30,8 +30,8 @@ from tkinter import messagebox
 
 
 class Plugin:
-    VERSION = '3.1.0'
-    NOVELYST_API = '3.1'
+    VERSION = '4.0.0'
+    NOVELYST_API = '4.0'
     DESCRIPTION = 'Applies the tcl awdark theme, if available'
     URL = 'https://peter88213.github.io/novelyst'
 

@@ -22,7 +22,7 @@ APPLICATION = 'yWriter'
 KEY_YWRITER = ('<Control-Alt-y>', 'Ctrl-Alt-Y')
 
 
-class Plugin():
+class Plugin:
     """yWriter launcher plugin class. 
     
     Public methods:
@@ -30,8 +30,8 @@ class Plugin():
         enable_menu() -- enable menu entries when a project is open.
         
     """
-    VERSION = '3.0.0'
-    NOVELYST_API = '3.0'
+    VERSION = '4.0.0'
+    NOVELYST_API = '4.0'
     DESCRIPTION = 'Adds a "yWriter" entry to the "File" menu'
     URL = 'https://peter88213.github.io/novelyst'
 

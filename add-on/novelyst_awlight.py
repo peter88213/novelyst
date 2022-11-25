@@ -24,9 +24,9 @@ import os
 import sys
 
 
-class Plugin():
-    VERSION = '3.0.0'
-    NOVELYST_API = '3.0'
+class Plugin:
+    VERSION = '4.0.0'
+    NOVELYST_API = '4.0'
     DESCRIPTION = 'Applies the tcl awlight theme, if available'
     URL = 'https://peter88213.github.io/novelyst'
 
