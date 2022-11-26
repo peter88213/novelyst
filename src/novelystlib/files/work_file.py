@@ -177,7 +177,7 @@ class WorkFile(Yw7File):
 
         #--- Process word count log.
         if self.novel.kwVar.get('Field_SaveWordCount', ''):
-            newCountInt, newTotalCountInt = self.novel.count_words()
+            newCountInt, newTotalCountInt = self.count_words()
             newCount = str(newCountInt)
             newTotalCount = str(newTotalCountInt)
             today = date.today().isoformat()
