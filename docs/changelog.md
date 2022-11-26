@@ -8,9 +8,9 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
-### v4.0.1
+### v4.0.1 Bugfix
 
-- Fix a bug where changes are not saved when "Save word count" is checked.
+- Fix a regression where changes are not saved when "Save word count" is checked.
 
 Based on PyWriter v9.0.4
 
