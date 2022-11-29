@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.0.2 Bugfix
+
+- Fix a regression from v2.0.3 where wrong language markers are imported
+from the "proofread" document.
+
+Based on PyWriter v9.0.5
+
 ### v4.0.1 Bugfix
 
 - Fix a regression where changes are not saved when "Save word count" is checked.
