@@ -18,13 +18,18 @@ class PluginCollection(dict):
         key -- str: The module name.
         value -- object: The module's Plugin() instance.
     
+    Public instance variables:
+        majorVersion -- int: The application's major version number.
+        minorVersion -- int: The application's minor version number.    
+    
     Public methods:
         delete_file(moduleName) -- Remove a module from the file system.
         load_file(filePath) -- Load and register a single plugin.
         load_plugins(pluginPath) -- Load and register the plugins.
         disable_menu() -- Disable menu entries when no project is open.
         enable_menu() -- Enable menu entries when a project is open.
-        on_quit() -- Perform actions before a project is closed.
+        on_quit() -- Perform actions before the application is closed.
+        on_close() -- Perform actions before a project is closed.
     """
 
     def __init__(self, ui):

@@ -36,7 +36,40 @@ PLUGIN_PATH = f'{sys.path[0]}/plugin'
 
 
 class NovelystTk(MainTk):
-    """Controller of the tkinter GUI framework for novelyst."""
+    """Controller of the tkinter GUI framework for novelyst.
+    
+    Public instance variables:
+        guiStyle -- ttk.Style object.
+        plugins -- PluginCollection: Dict-like Container for registered plugin objects.
+        tempDir -- str: Directory path for temporary files to be deleted on exit.
+        kwargs - dict: keyword arguments, used as global configuration data.
+        wordCount - int: Total words of "normal" type scenes.
+        reloading -- boolean: If True, suppress popup message when reopening a project that has changed on disk.
+        appWindow -- ttk.frame: Application window with three frames.
+        leftFrame -- ttk.frame: Frame for the project tree.
+        middleFrame -- ttk.frame: Frame for the contents viewer.
+        rightFrame -- ttk.frame: Frame for the metadata views.
+        tv -- TreeViewer: Project tree view instance.
+        contentsViewer -- ContentsViewer: Text box for the novel contents.
+        indexCard -- tk.Frame: Frame for the selected element's title and description.
+        elementTitle -- tk.StringVar: The selected element's title, linked to an entry.
+        descWindow -- TextBox: Text box for the selected element's description.
+        infoFrame -- ttk.Frame: Frame for element specific informations.
+        notesWindow -- TextBox: Text box for the selected element's notes.
+        fileMenu -- tk.Menu: "File" menu.
+        viewMenu -- tk.Menu: "View" menu.
+        partMenu -- tk.Menu: "Part" menu.
+        chapterMenu -- tk.Menu: "Chapter" menu.
+        sceneMenu -- tk.Menu: "Scene" menu.
+        characterMenu -- tk.Menu: "Character" menu.
+        locationMenu -- tk.Menu: "Location" menu.
+        itemMenu -- tk.Menu: "Item" menu.
+        prjNoteMenu -- tk.Menu: "Project notes" menu.
+        exportMenu -- tk.Menu: "Export" menu.
+        toolsMenu -- tk.Menu: "Tools" menu.
+        helpMenu -- tk.Menu: "Help" menu.           
+    
+    """
     _HELP_URL = 'https://peter88213.github.io/novelyst/usage'
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
@@ -53,7 +86,7 @@ class NovelystTk(MainTk):
     fileTypes = [(WorkFile.DESCRIPTION, WorkFile.EXTENSION)]
 
     def __init__(self, colTitle, tempDir, **kwargs):
-        """Put a text box to the GUI main window.
+        """Load plugins and set up the application's user interface.
         
         Required keyword arguments:
             root_geometry -- str: geometry of the root window.
@@ -65,38 +98,6 @@ class NovelystTk(MainTk):
             color_modified_fg -- str: tk color name for Footer foreground when modified.
             color_text_bg -- str: tk color name for text box background.
             color_text_fg -- str: tk color name for text box foreground.
-    
-        Public instance variables:
-            guiStyle -- ttk.Style object.
-            plugins -- PluginCollection: Dict-like Container for registered plugin objects.
-            tempDir -- str: Directory path for temporary files to be deleted on exit.
-            kwargs - dict: keyword arguments, used as global configuration data.
-            wordCount - int: Total words of "normal" type scenes.
-            reloading -- boolean: If True, suppress popup message when reopening a project that has changed on disk.
-            appWindow
-            leftFrame
-            middleFrame
-            rightFrame
-            tv
-            contentsViewer
-            indexCard
-            elementTitle
-            descWindow
-            infoFrame
-            notesWindow
-            fileMenu
-            viewMenu
-            partMenu
-            chapterMenu
-            sceneMenu
-            characterMenu
-            locationMenu
-            itemMenu
-            prjNoteMenu
-            exportMenu
-            toolsMenu
-            helpMenu
-            
     
         Extends the superclass constructor.
         """
