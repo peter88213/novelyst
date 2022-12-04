@@ -9,10 +9,23 @@ from novelystlib.views.basic_view import BasicView
 
 
 class NoView(BasicView):
-    """Class for clearing the right frame."""
+    """Class for clearing the right frame.
+    
+        Public methods:
+        show() -- Remove the "index card" with title and description.
+        hide() -- Clear the text boxes and restore the "Index card".
+        set_data() -- Do nothing.
+        apply_changes() -- Do nothing.   
+    """
 
     def __init__(self, ui):
-        """Overrides the superclass constructor."""
+        """Initialize the instance variable.
+
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+        
+        Overrides the superclass constructor.
+        """
         self._ui = ui
 
     def show(self, element):
@@ -22,18 +35,6 @@ class NoView(BasicView):
         """
         if self._ui.indexCard.winfo_manager():
             self._ui.indexCard.pack_forget()
-
-    def set_data(self, element):
-        """Do nothing.
-        
-        Overrides the superclass method.
-        """
-
-    def apply_changes(self):
-        """Do nothing.
-        
-        Overrides the superclass method.
-        """
 
     def hide(self):
         """Clear the text boxes and restore the "Index card".
@@ -48,4 +49,16 @@ class NoView(BasicView):
         # "Index card" with title and description.
         if not self._ui.indexCard.winfo_manager():
             self._ui.indexCard.pack(expand=False, fill=tk.BOTH)
+
+    def set_data(self, element):
+        """Do nothing.
+        
+        Overrides the superclass method.
+        """
+
+    def apply_changes(self):
+        """Do nothing.
+        
+        Overrides the superclass method.
+        """
 

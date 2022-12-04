@@ -1,7 +1,7 @@
 """Provide a file class for novelyst project editing.
 
 Copyright (c) 2022 Peter Triesberger
-For further information see https://github.com/peter88213/PyWriter
+For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
@@ -19,9 +19,24 @@ class WorkFile(Yw7File):
     This is to be an adapter to the .yw7 project format.
     
     Public methods:
-        count_words() -- return a tuple of word count totals.
+        lock() -- Create a project lockfile.
+        unlock() -- Delete the project lockfile, if any.
+        has_lockfile() -- Return True if a project lockfile exists.
+        has_changed_on_disk() -- Return True if the yw project file has changed since last opened.
+        read() -- Read file, get custom data and timestamp.
+        write() -- Write the file and update the timestamp.
+        renumber_chapters() -- Modify chapter headings.
+        get_counts() -- Return a tuple with total numbers
+        count_words() -- Return a tuple of word count totals.
+        adust_scene_types() -- Make sure that nodes with non-"Normal" parents inherit the type.
 
-    Extends the superclass with a timestamp and a locking capability.
+    Public instance variables:
+        timestamp -- float: Time of last file modification (number of seconds since the epoch).
+
+    Public properties:
+        fileDate -- str: ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
+
+    Extends the superclass.
     """
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
@@ -212,7 +227,10 @@ class WorkFile(Yw7File):
         self.tree = ET.ElementTree(root)
 
     def write(self):
-        """Extends the superclass method."""
+        """Write the file and update the timestamp.
+        
+        Extends the superclass method.
+        """
         super().write()
         self.timestamp = os.path.getmtime(self.filePath)
 

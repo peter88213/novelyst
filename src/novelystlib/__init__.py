@@ -3,7 +3,7 @@
 Modules:
 contents_viewer -- Provide a tkinter text box class for "contents" viewing.
 novelyst_tk -- Provide a tkinter GUI framework for novelyst.
-plugin_collection -- Provide a plugin registry class for novelyst.
+plugin_collection -- Provide a plugin registry class and a substitute for The Plugin class of a rejected module.
 tree_viewer -- Provide a tkinter based novelyst tree view.
 
 Packages:

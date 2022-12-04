@@ -33,7 +33,11 @@ from novelystlib.files.wrimo_file import WrimoFile
 
 
 class NvExporter:
-    """Base class for Novel file conversion."""
+    """A converter for universal export from a novelyst project.
+    
+    Public methods:
+        run(source, suffix, lock=True, show=True) -- Create a target object and run conversion.    
+    """
     EXPORT_TARGET_CLASSES = [OdtProof,
                              OdtManuscript,
                              OdtBriefSynopsis,

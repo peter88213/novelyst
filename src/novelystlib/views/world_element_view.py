@@ -12,10 +12,24 @@ from novelystlib.widgets.my_string_var import MyStringVar
 
 
 class WorldElementView(BasicView):
-    """Class for viewing world element properties."""
+    """Class for viewing world element properties.
+       
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
 
     def __init__(self, ui):
-        """Extends the superclass constructor."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        
+        Extends the superclass constructor.
+        """
         super(). __init__(ui)
 
         # 'AKA' entry.

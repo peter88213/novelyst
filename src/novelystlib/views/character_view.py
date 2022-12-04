@@ -15,12 +15,26 @@ from novelystlib.widgets.text_box import TextBox
 
 
 class CharacterView(BasicView):
-    """Class for viewing and editing character properties."""
+    """Class for viewing and editing character properties.
+    
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
     _LBL_X = 15
     # Width of left-placed labels.
 
     def __init__(self, ui):
-        """Extends the superclass constructor."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        
+        Extends the superclass constructor.
+        """
         super(). __init__(ui)
 
         #--- 'Full name' entry.
@@ -74,7 +88,7 @@ class CharacterView(BasicView):
         self._goalsEntry.pack(fill=tk.X)
 
     def set_data(self, element):
-        """Update the widgets with element's data.
+        """Update the view with element's data.
         
         Extends the superclass constructor.
         """

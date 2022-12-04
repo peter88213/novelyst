@@ -15,13 +15,14 @@ class ContentsViewer:
     """A tkinter text box class for novelyst file viewing.
     
     Public methods:
-        view_text(taggedText) -- load tagged text into the text box.
-        build_view() -- create tagged text for viewing.
-        reset_view() -- clear the text box.
+        view_text(taggedText) -- Build a list of "tagged text" tuples and send it to the text box.
+        reset_view() -- Clear the text box.
+        see(idStr) -- Scroll the text to the position of the idStr node.
+        update() -- Reload the text to view.
 
     Public instance variables:
         textBox -- RichTextTk: text viewer widget.
-        contents -- list of tuples: Text containing chapter titles and scene contents.
+        showMarkup -- Boolean: If True, display yWriter raw markup; if False, hide it.
 
     Show the novel contents in a text box.
     """
@@ -38,8 +39,8 @@ class ContentsViewer:
         self.showMarkup.trace('w', self.update)
         if not kwargs['show_contents']:
             self._ui.middleFrame.pack_forget()
-        self.textMarks = {}
-        self.index = '1.0'
+        self._textMarks = {}
+        self._index = '1.0'
 
     def view_text(self):
         """Build a list of "tagged text" tuples and send it to the text box."""
@@ -108,7 +109,7 @@ class ContentsViewer:
 
         if not taggedText:
             taggedText.append(('(No text available)', RichTextYw.ITALIC_TAG))
-        self.textMarks = {}
+        self._textMarks = {}
         self.textBox['state'] = 'normal'
         self.textBox.delete('1.0', tk.END)
         for entry in taggedText:
@@ -119,7 +120,7 @@ class ContentsViewer:
             else:
                 # entry is a mark to insert.
                 index = f"{self.textBox.count('1.0', tk.END, 'lines')[0]}.0"
-                self.textMarks[entry] = index
+                self._textMarks[entry] = index
         self.textBox['state'] = 'disabled'
 
     def reset_view(self):
@@ -129,17 +130,23 @@ class ContentsViewer:
         self.textBox['state'] = 'disabled'
 
     def see(self, idStr):
+        """Scroll the text to the position of the idStr node.
+        
+        Positional arguments:
+            idStr -- str: Chapter or scene node (tree selection).
+        """
         try:
-            self.index = self.textMarks[idStr]
-            self.textBox.see(self.index)
+            self._index = self._textMarks[idStr]
+            self.textBox.see(self._index)
         except KeyError:
             pass
 
     def update(self, event=None, *args):
+        """Reload the text to view."""
         self.reset_view()
         self.view_text()
         try:
-            self.textBox.see(self.index)
+            self.textBox.see(self._index)
         except KeyError:
             pass
 

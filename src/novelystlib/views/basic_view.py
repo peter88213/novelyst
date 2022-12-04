@@ -9,12 +9,26 @@ from tkinter import ttk
 
 
 class BasicView:
-    """Generic class for viewing tree element properties."""
+    """Generic class for viewing tree element properties.
+    
+    Public methods:
+        show() -- Make the ui text boxes and the view visible.
+        hide() -- Clear the ui text boxes, and hide the view.
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes of element title, description, and notes.   
+    """
     _LBL_X = 10
     # Width of left-placed labels.
 
     def __init__(self, ui):
-        """Display element title, description and notes."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        """
         self._ui = ui
         self._element = None
         self._tagsStr = ''
@@ -23,7 +37,7 @@ class BasicView:
         self._elementInfoWindow = ttk.Frame(self._ui.infoFrame)
 
     def show(self, element):
-        """Make the widgets visible."""
+        """Make the view visible."""
         self._element = element
 
         # "Index card" with title and description.
@@ -38,8 +52,16 @@ class BasicView:
         if hasattr(self._element, 'notes'):
             self._ui.notesWindow.pack(after=self._ui.infoFrame, expand=True, fill=tk.BOTH)
 
+    def hide(self):
+        """Clear the ui text boxes, and hide the view."""
+        self._ui.elementTitle.set('')
+        self._ui.descWindow.delete('1.0', tk.END)
+        self._ui.notesWindow.pack_forget()
+        self._ui.infoFrame.pack_forget()
+        self._elementInfoWindow.pack_forget()
+
     def set_data(self, element):
-        """Update the widgets with element's data."""
+        """Update the view with element's data."""
         self._tagsStr = ''
         self._element = element
         if self._element is not None:
@@ -58,6 +80,37 @@ class BasicView:
             self._ui.notesWindow.clear()
             if hasattr(self._element, 'notes'):
                 self._ui.notesWindow.set_text(self._element.notes)
+
+    def apply_changes(self):
+        """Apply changes of element title, description, and notes."""
+        if self._element is not None:
+
+            # Title entry.
+            title = self._ui.elementTitle.get()
+            if title or self._element.title:
+                if self._element.title != title:
+                    self._element.title = title.strip()
+                    self._ui.isModified = True
+
+            # Description entry.
+            if self._ui.descWindow.hasChanged:
+                desc = self._ui.descWindow.get_text()
+                if desc or self._element.desc:
+                    if self._element.desc != desc:
+                        self._element.desc = desc
+                        self._ui.isModified = True
+
+            # Notes entry (if any).
+            if self._ui.notesWindow.hasChanged:
+                notes = self._ui.notesWindow.get_text()
+                if hasattr(self._element, 'notes'):
+                    if notes or self._element.notes:
+                        if self._element.notes != notes:
+                            self._element.notes = notes
+                            self._ui.isModified = True
+
+        if self._ui.isModified:
+            self._ui.tv.update_prj_structure()
 
     def _update_field_str(self, tkValue, fieldname):
         """Update a custom field and return True if changed. 
@@ -94,43 +147,4 @@ class BasicView:
                 self._element.kwVar[fieldname] = value
                 return True
         return False
-
-    def apply_changes(self):
-        """Apply changes of element title, description and notes."""
-        if self._element is not None:
-
-            # Title entry.
-            title = self._ui.elementTitle.get()
-            if title or self._element.title:
-                if self._element.title != title:
-                    self._element.title = title.strip()
-                    self._ui.isModified = True
-
-            # Description entry.
-            if self._ui.descWindow.hasChanged:
-                desc = self._ui.descWindow.get_text()
-                if desc or self._element.desc:
-                    if self._element.desc != desc:
-                        self._element.desc = desc
-                        self._ui.isModified = True
-
-            # Notes entry (if any).
-            if self._ui.notesWindow.hasChanged:
-                notes = self._ui.notesWindow.get_text()
-                if hasattr(self._element, 'notes'):
-                    if notes or self._element.notes:
-                        if self._element.notes != notes:
-                            self._element.notes = notes
-                            self._ui.isModified = True
-
-        if self._ui.isModified:
-            self._ui.tv.update_prj_structure()
-
-    def hide(self):
-        """Apply changes and clear the text boxes."""
-        self._ui.elementTitle.set('')
-        self._ui.descWindow.delete('1.0', tk.END)
-        self._ui.notesWindow.pack_forget()
-        self._ui.infoFrame.pack_forget()
-        self._elementInfoWindow.pack_forget()
 

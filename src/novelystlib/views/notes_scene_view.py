@@ -12,10 +12,24 @@ from novelystlib.widgets.my_string_var import MyStringVar
 
 
 class NotesSceneView(BasicView):
-    """Class for viewing and editing "Notes" scene properties."""
+    """Class for viewing and editing "Notes" scene properties.
+       
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
 
     def __init__(self, ui):
-        """Extends the superclass constructor."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        
+        Extends the superclass constructor.
+        """
         super(). __init__(ui)
 
         # 'Tags' entry.

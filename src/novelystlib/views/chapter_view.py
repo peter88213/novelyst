@@ -11,11 +11,19 @@ from novelystlib.views.basic_view import BasicView
 
 
 class ChapterView(BasicView):
-    """Class for viewing and editing chapter properties."""
+    """Class for viewing and editing chapter properties.
+      
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
 
     def __init__(self, ui):
-        """Initialize the view once before element date is available.
+        """Initialize the view once before element data is available.
         
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         
@@ -28,7 +36,7 @@ class ChapterView(BasicView):
         self._noNumberButton = ttk.Checkbutton(self._elementInfoWindow, variable=self._noNumber, onvalue=True, offvalue=False)
 
     def set_data(self, element):
-        """Update the widgets with element's data.
+        """Update the view with element's data.
         
         - Hide the info window, if the chapter ist the "trash bin". 
         - Show/hide the "Do not auto-number" button, depending on the chapter type.       

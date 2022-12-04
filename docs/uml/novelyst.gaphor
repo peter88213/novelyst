@@ -945,7 +945,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <ref refid="c20319f2-71b5-11ec-a409-f47b099bf663"/>
 </subject>
 <lifetime-length>
-<val>364.0</val>
+<val>414.0</val>
 </lifetime-length>
 </LifelineItem>
 <Lifeline id="c20319f2-71b5-11ec-a409-f47b099bf663">
@@ -986,7 +986,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <ref refid="b731bb32-71b5-11ec-a409-f47b099bf663"/>
 </subject>
 <lifetime-length>
-<val>364.0</val>
+<val>414.0</val>
 </lifetime-length>
 </LifelineItem>
 <Lifeline id="b731bb32-71b5-11ec-a409-f47b099bf663">
@@ -2024,7 +2024,7 @@ associating them to their use cases.</val>
 </reflist>
 </generalization>
 <name>
-<val>Yw7WorkFile</val>
+<val>WorkFile</val>
 </name>
 <package>
 <ref refid="8e694378-2cf0-11ed-983b-600292569ae4"/>

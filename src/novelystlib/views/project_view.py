@@ -15,11 +15,19 @@ from novelystlib.widgets.folding_frame import FoldingFrame
 
 
 class ProjectView(BasicView):
-    """Class for viewing and editing project properties."""
+    """Class for viewing and editing project properties.
+    
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
 
     def __init__(self, ui):
         """Initialize the view once before element date is available.
         
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         

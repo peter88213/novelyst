@@ -17,6 +17,9 @@ from novelystlib.files.html_items import HtmlItems
 class NvReporter:
     """Converter class for novelyst HTML reports.
     
+    Public methods:
+        run(source, suffix) -- Create a target object and run conversion.
+
     The HTML files are placed in a temporary directory 
     specified by the user interface's tempDir attribute, if any. 
     Otherwise, the project directory is used. 
@@ -31,12 +34,12 @@ class NvReporter:
         """Create strategy class instances.
         
         Positional arguments:
-            ui -- User interface reference.
+            ui -- Ui: Reference to the user interface (for messaging).
         
         Extends the superclass constructor.
         """
-        self.exportTargetFactory = ExportTargetFactory(self.EXPORT_TARGET_CLASSES)
-        self.ui = ui
+        self._exportTargetFactory = ExportTargetFactory(self.EXPORT_TARGET_CLASSES)
+        self._ui = ui
 
     def run(self, source, suffix):
         """Create a target object and run conversion.
@@ -47,16 +50,16 @@ class NvReporter:
         """
         kwargs = {'suffix':suffix}
         try:
-            __, target = self.exportTargetFactory.make_file_objects(source.filePath, **kwargs)
+            __, target = self._exportTargetFactory.make_file_objects(source.filePath, **kwargs)
         except Error as ex:
-            self.ui.set_info_how(f'{str(ex)}')
+            self._ui.set_info_how(f'{str(ex)}')
         else:
             # Adjust HTML file path to the temp directory, if any
             # (the target factory sets the project directory; this is overridden here).
             dirname, filename = os.path.split(target.filePath)
             try:
-                if self.ui.tempDir:
-                    dirname = self.ui.tempDir
+                if self._ui.tempDir:
+                    dirname = self._ui.tempDir
             except:
                 if not dirname:
                     dirname = '.'
@@ -65,7 +68,7 @@ class NvReporter:
                 target.novel = source.novel
                 target.write()
             except Error as ex:
-                self.ui.set_info_how(f'!{str(ex)}')
+                self._ui.set_info_how(f'!{str(ex)}')
             else:
                 open_document(target.filePath)
 

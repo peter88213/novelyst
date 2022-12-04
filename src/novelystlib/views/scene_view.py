@@ -17,14 +17,28 @@ from novelystlib.widgets.text_box import TextBox
 
 
 class SceneView(BasicView):
-    """Class for viewing and editing scene properties."""
+    """Class for viewing and editing scene properties.
+       
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+    """
     _GCO_Y = 5
     # height of the Goals/Conflict/Outcome text boxes
     _REL_Y = 2
     # height of the Relations text boxes
 
     def __init__(self, ui):
-        """Extends the superclass constructor."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        
+        Extends the superclass constructor.
+        """
         super(). __init__(ui)
 
         #--- 'Viewpoint' combobox.

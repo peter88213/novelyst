@@ -61,11 +61,3 @@ class OdtCharactersNv(OdtCharacters):
 
         return characterMapping
 
-    def merge(self, source):
-        """Extends the superclass method."""
-        for fieldName in self._PRJ_KWVAR:
-            try:
-                self.novel.kwVar[fieldName] = source.kwVar.get(fieldName, '')
-            except:
-                pass
-        return super().merge(source)

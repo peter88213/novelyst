@@ -14,7 +14,11 @@ from novelystlib.widgets.my_string_var import MyStringVar
 
 class TodoSceneView(BasicView):
     """Class for viewing and editing "Todo" scene properties.
-    
+          
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
+
     If one story arc is assigned to a "Todo" scene, this scene is used 
     for describing this arc. In this case, there is an extra display:    
     - The number of normal scenes assigned to this arc.
@@ -22,7 +26,16 @@ class TodoSceneView(BasicView):
     """
 
     def __init__(self, ui):
-        """Extends the superclass constructor."""
+        """Initialize the view once before element data is available.
+        
+        Positional arguments:
+            ui -- NovelystTk: Reference to the user interface.
+
+        - Initialize element-specific tk entry data.
+        - Place element-specific widgets in the element's info window.
+        
+        Extends the superclass constructor.
+        """
         super(). __init__(ui)
 
         # 'Arc reference' entry.
@@ -79,25 +92,6 @@ class TodoSceneView(BasicView):
             self._tagsStr = ''
         self._tags.set(self._tagsStr)
 
-    def _removeArcRef(self):
-        """Remove arc reference from all scenes"""
-        arc = self._arcs.get()
-        if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
-            for scId in self._scenesAssigned:
-                if self._ui.novel.scenes[scId].scnArcs is not None:
-                    newArcs = []
-                    arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
-                    for scArc in arcs:
-                        if not scArc == arc:
-                            newArcs.append(scArc)
-                        else:
-                            self._ui.isModified = True
-                    self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
-            self._scenesAssigned = []
-            self._arcFrame.pack_forget()
-            if self._ui.isModified:
-                self._ui.tv.update_prj_structure()
-
     def apply_changes(self):
         """Apply changes.
         
@@ -122,4 +116,23 @@ class TodoSceneView(BasicView):
                 self._ui.isModified = True
 
         super().apply_changes()
+
+    def _removeArcRef(self):
+        """Remove arc reference from all scenes"""
+        arc = self._arcs.get()
+        if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
+            for scId in self._scenesAssigned:
+                if self._ui.novel.scenes[scId].scnArcs is not None:
+                    newArcs = []
+                    arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
+                    for scArc in arcs:
+                        if not scArc == arc:
+                            newArcs.append(scArc)
+                        else:
+                            self._ui.isModified = True
+                    self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
+            self._scenesAssigned = []
+            self._arcFrame.pack_forget()
+            if self._ui.isModified:
+                self._ui.tv.update_prj_structure()
 
