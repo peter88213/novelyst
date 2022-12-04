@@ -1,6 +1,4 @@
-""""Provide a tkinter Rich Text box class.
-
-Provide special tags for novelyst.
+""""Provide a tkinter Rich Text box class with special tags for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -44,7 +42,7 @@ class TextBox(tk.Text):
         self.bind('<KeyRelease>', self._on_edit)
 
     def _on_edit(self, event=None):
-        "Event handler to indicate changes."""
+        """Event handler to indicate changes."""
         self.hasChanged = True
 
     def get_text(self):
