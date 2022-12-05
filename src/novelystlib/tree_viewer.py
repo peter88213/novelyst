@@ -17,7 +17,45 @@ from pywriter.model.id_generator import create_id
 
 
 class TreeViewer(ttk.Frame):
-    """Widget for novelyst tree view."""
+    """Widget for novelyst tree view.
+    
+    Class constants:
+        PART_PREFIX -- Part node ID prefix
+        CHAPTER_PREFIX -- Chapter node ID prefix
+        SCENE_PREFIX -- Scene node ID prefix
+        CHARACTER_PREFIX -- Character node ID prefix
+        LOCATION_PREFIX -- Location node ID prefix
+        ITEM_PREFIX -- Item node ID prefix
+        PRJ_NOTE_PREFIX -- project note node ID prefix
+        NV_ROOT -- Root of the Narrative subtree
+        RS_ROOT -- Root of the Research subtree
+        PL_ROOT -- Root of the Research subtree
+        CR_ROOT -- Root of the Characters subtree
+        LC_ROOT -- Root of the Locations subtree
+        IT_ROOT -- Root of the Items subtree
+        PN_ROOT -- Root of the Items subtree
+    
+    Public methods:
+        build_tree() -- Create and display the tree.
+        refresh_tree() -- Display the tree nodes regarding the way they are read from the file.
+        update_prj_structure() -- Iterate the tree and rebuild the sorted lists.
+        reset_tree() -- Clear the displayed tree.
+        add_part(selection=None) -- Add a Part node to the tree and create an instance.
+        add_chapter(selection=None) -- Add a Chapter node to the tree and create an instance.
+        add_scene(selection=None) -- Add a Scene node to the tree and create an instance.
+        add_other_element(selection=None) -- Add a Character/Location/Item/Project note node to the tree and create an instance.
+        open_children(parent) -- Recursively show children nodes.
+        close_children(parent) -- Recursively close children nodes.
+        show_chapters(parent) -- Open Narrative/Part nodes and close chapter nodes.
+        on_quit() -- Write column width to the applicaton's keyword arguments.
+        
+    Public instance variables:
+        tree -- ttk.Treeview: The treeview widget to display.
+        scStyleMenu -- tk.Menu: Scene "Style" submenu.
+        scTypeMenu -- tk.Menu: Scene "Type" submenu.
+        scStatusMenu -- tk.Menu: Scene "Status" submenu.
+        crStatusMenu -- tk.Menu: Character "Status" submenu.        
+    """
     _COLUMNS = [
         (_('Words'), 'wc_width', 'wc'),
         (_('Viewpoint'), 'vp_width', 'vp'),
@@ -38,34 +76,21 @@ class TreeViewer(ttk.Frame):
     for i, col in enumerate(_COLUMNS):
         _colPos[col[2]] = i
     # Column position by column ID.
+
     PART_PREFIX = 'pt'
-    # Part node ID prefix
     CHAPTER_PREFIX = 'ch'
-    # Chapter node ID prefix
     SCENE_PREFIX = 'sc'
-    # Scene node ID prefix
     CHARACTER_PREFIX = 'cr'
-    # Character node ID prefix
     LOCATION_PREFIX = 'lc'
-    # Location node ID prefix
     ITEM_PREFIX = 'it'
-    # Item node ID prefix
     PRJ_NOTE_PREFIX = 'pn'
-    # project note node ID prefix
     NV_ROOT = 'nv'
-    # Root of the Narrative subtree
     RS_ROOT = 'rs'
-    # Root of the Research subtree
     PL_ROOT = 'pl'
-    # Root of the Research subtree
     CR_ROOT = f'wr{CHARACTER_PREFIX}'
-    # Root of the Characters subtree
     LC_ROOT = f'wr{LOCATION_PREFIX}'
-    # Root of the Locations subtree
     IT_ROOT = f'wr{ITEM_PREFIX}'
-    # Root of the Items subtree
     PN_ROOT = f'wr{PRJ_NOTE_PREFIX}'
-    # Root of the Items subtree
 
     _KEY_CANCEL_PART = '<Shift-Delete>'
     _KEY_DEMOTE_PART = '<Shift-Right>'
@@ -321,10 +346,7 @@ class TreeViewer(ttk.Frame):
         self.tree.selection_set(self.NV_ROOT)
 
     def refresh_tree(self):
-        """Refresh the tree.
-        
-        Display the tree nodes regarding the way they are read from the file.
-        """
+        """Display the tree nodes regarding the way they are read from the file."""
         modifiedNodes = []
         isModified = self._ui.isModified
         if self._ui.prjFile.renumber_chapters():
@@ -356,6 +378,7 @@ class TreeViewer(ttk.Frame):
             """Recursive tree walker.
             
             Positional arguments: 
+                node -- str: Node ID to start from.
                 chId -- str: Chapter ID where the recursion starts.
             Optional arguments:
                 scnPos -- int: Word count so far.
@@ -417,6 +440,293 @@ class TreeViewer(ttk.Frame):
         """Clear the displayed tree."""
         for child in self.tree.get_children(''):
             self.tree.delete(child)
+
+    def add_part(self, selection=None):
+        """Add a Part node to the tree and create an instance.
+        
+        Optional arguments:
+            selection -- str: Tree position where to place a new node.
+            
+        - Place the new node at the next free position after the selection, if possible.
+        - Otherwise, put the new node at the beginning of the "Narrative". 
+        
+        Return the chapter ID, if successful.
+        """
+        if self._ui.isLocked:
+            return
+        try:
+            selection = self.tree.selection()[0]
+        except:
+            selection = ''
+        parent = self.NV_ROOT
+        index = 0
+        if selection.startswith(self.SCENE_PREFIX):
+            selection = self.tree.parent(selection)
+        if selection.startswith(self.CHAPTER_PREFIX):
+            index = self.tree.index(selection) + 1
+            selection = self.tree.parent(selection)
+        if selection.startswith(self.PART_PREFIX):
+            index = self.tree.index(selection) + 1
+            parent = self.tree.parent(selection)
+        elif selection.startswith(self.PL_ROOT):
+            index = 0
+            parent = self.PL_ROOT
+        elif selection.startswith(self.RS_ROOT):
+            index = 0
+            parent = self.RS_ROOT
+        chId = create_id(self._ui.novel.chapters)
+        newNode = f'{self.PART_PREFIX}{chId}'
+        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
+        self._ui.novel.chapters[chId].chLevel = 1
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile._CHP_KWVAR:
+            self._ui.novel.chapters[chId].kwVar[fieldName] = None
+        if parent.startswith(self.PL_ROOT):
+            self._ui.novel.chapters[chId].chType = 2
+        elif parent.startswith(self.RS_ROOT):
+            self._ui.novel.chapters[chId].chType = 1
+        else:
+            self._ui.novel.chapters[chId].chType = 0
+        self._ui.novel.srtChapters.append(chId)
+        title, columns, nodeTags = self._set_chapter_display(chId)
+        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.refresh_tree()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return chId
+
+    def add_chapter(self, selection=None):
+        """Add a Chapter node to the tree and create an instance.
+             
+        Optional arguments:
+            selection -- str: Tree position where to place a new node.
+            
+        - Place the new node at the next free position after the selection, if possible.
+        - Otherwise, put the new node at the beginning of the "Narrative". 
+        
+        Return the chapter ID, if successful.
+        """
+        if self._ui.isLocked:
+            return
+        try:
+            selection = self.tree.selection()[0]
+        except:
+            selection = ''
+        parent = self.NV_ROOT
+        index = 0
+        if selection.startswith(self.SCENE_PREFIX):
+            parent = self.tree.parent(selection)
+            selection = self.tree.parent(selection)
+        if selection.startswith(self.CHAPTER_PREFIX):
+            parent = self.tree.parent(selection)
+            index = self.tree.index(selection) + 1
+        elif selection.startswith(self.PART_PREFIX):
+            parent = selection
+        chId = create_id(self._ui.novel.chapters)
+        newNode = f'{self.CHAPTER_PREFIX}{chId}'
+        self._ui.novel.chapters[chId] = Chapter()
+        self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
+        self._ui.novel.chapters[chId].chLevel = 0
+        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile._CHP_KWVAR:
+            self._ui.novel.chapters[chId].kwVar[fieldName] = None
+
+        # Inherit part type, if "Todo" or "Notes".
+        if self.tree.parent(parent).startswith(self.PL_ROOT):
+            self._ui.novel.chapters[chId].chType = 2
+        elif self.tree.parent(parent).startswith(self.RS_ROOT):
+            self._ui.novel.chapters[chId].chType = 1
+        else:
+            self._ui.novel.chapters[chId].chType = 0
+
+        self._ui.novel.srtChapters.append(chId)
+        title, columns, nodeTags = self._set_chapter_display(chId)
+        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.refresh_tree()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return chId
+
+    def add_scene(self, selection=None):
+        """Add a Scene node to the tree and create an instance.
+        
+        Optional arguments:
+            selection -- str: Tree position where to place a new node.
+            
+        - Place the new node at the next free position after the selection, if possible.
+        - Otherwise, do nothing. 
+        
+        Return the scene ID, if successful.
+        """
+        if self._ui.isLocked:
+            return
+
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                return
+
+        index = 0
+        if selection.startswith(self.SCENE_PREFIX):
+            parent = self.tree.parent(selection)
+            index = self.tree.index(selection) + 1
+        elif selection.startswith(self.CHAPTER_PREFIX):
+            parent = selection
+        elif selection.startswith(self.PART_PREFIX):
+            parent = selection
+        else:
+            return
+
+        scId = create_id(self._ui.novel.scenes)
+        newNode = f'{self.SCENE_PREFIX}{scId}'
+        self._ui.novel.scenes[scId] = Scene()
+        self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
+        self._ui.novel.scenes[scId].status = 1
+        self._ui.novel.scenes[scId].scType = 0
+        self._ui.novel.scenes[scId].appendToPrev = False
+        # Inherit chapter type
+        parentChapter = self._ui.novel.chapters[parent[2:]]
+        if parentChapter.chType != 0:
+            self._ui.novel.scenes[scId].scType = parentChapter.chType
+        # Edit status = Outline
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile._SCN_KWVAR:
+            self._ui.novel.scenes[scId].kwVar[fieldName] = None
+        title, columns, nodeTags = self._set_scene_display(scId)
+        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return scId
+
+    def add_other_element(self, selection=None):
+        """Add a Character/Location/Item/Project note node to the tree and create an instance.
+        
+        Optional arguments:
+            selection -- str: Tree position where to place a new node.
+            
+        - If the selection is of the same type as the new node, 
+          place the new node after the selected node and select it.
+        - Otherwise, place the new node at the first position.   
+
+        Return the element's ID, if successful.
+        """
+        if self._ui.isLocked:
+            return
+
+        if selection is None:
+            selection = self.tree.selection()[0]
+        if self.CHARACTER_PREFIX in selection:
+            # Add a character.
+            elemId = create_id(self._ui.novel.characters)
+            newNode = f'{self.CHARACTER_PREFIX}{elemId}'
+            self._ui.novel.characters[elemId] = Character()
+            self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
+
+            # Initialize custom keyword variables.
+            for fieldName in self._ui.prjFile._CRT_KWVAR:
+                self._ui.novel.characters[elemId].kwVar[fieldName] = None
+            title, columns, nodeTags = self._set_character_display(elemId)
+            root = self.CR_ROOT
+            prefix = self.CHARACTER_PREFIX
+        elif self.LOCATION_PREFIX in selection:
+            # Add a location.
+            elemId = create_id(self._ui.novel.locations)
+            newNode = f'{self.LOCATION_PREFIX}{elemId}'
+            self._ui.novel.locations[elemId] = WorldElement()
+            self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
+
+            # Initialize custom keyword variables.
+            for fieldName in self._ui.prjFile._LOC_KWVAR:
+                self._ui.novel.locations[elemId].kwVar[fieldName] = None
+            title, columns, nodeTags = self._set_location_display(elemId)
+            root = self.LC_ROOT
+            prefix = self.LOCATION_PREFIX
+        elif self.ITEM_PREFIX in selection:
+            # Add an item.
+            elemId = create_id(self._ui.novel.items)
+            newNode = f'{self.ITEM_PREFIX}{elemId}'
+            self._ui.novel.items[elemId] = WorldElement()
+            self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
+
+            # Initialize custom keyword variables.
+            for fieldName in self._ui.prjFile._ITM_KWVAR:
+                self._ui.novel.items[elemId].kwVar[fieldName] = None
+            title, columns, nodeTags = self._set_item_display(elemId)
+            root = self.IT_ROOT
+            prefix = self.ITEM_PREFIX
+        elif self.PRJ_NOTE_PREFIX in selection:
+            # Add a project note.
+            elemId = create_id(self._ui.novel.projectNotes)
+            newNode = f'{self.PRJ_NOTE_PREFIX}{elemId}'
+            self._ui.novel.projectNotes[elemId] = BasicElement()
+            self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
+
+            # Initialize custom keyword variables.
+            for fieldName in self._ui.prjFile._ITM_KWVAR:
+                self._ui.novel.projectNotes[elemId].kwVar[fieldName] = None
+            title, columns, nodeTags = self._set_prjNote_display(elemId)
+            root = self.PN_ROOT
+            prefix = self.PRJ_NOTE_PREFIX
+        else:
+            return
+
+        if selection.startswith(prefix):
+            index = self.tree.index(selection) + 1
+        else:
+            index = 0
+        self.tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return elemId
+
+    def open_children(self, parent):
+        """Recursively show children nodes.
+        
+        Positional arguments:
+            parent -- str: Root node of the subtree to open.
+        """
+        self.tree.item(parent, open=True)
+        for child in self.tree.get_children(parent):
+            self.open_children(child)
+
+    def close_children(self, parent):
+        """Recursively close children nodes.
+        
+        Positional arguments:
+            parent -- str: Root node of the subtree to close.
+        """
+        self.tree.item(parent, open=False)
+        for child in self.tree.get_children(parent):
+            self.close_children(child)
+
+    def show_chapters(self, parent):
+        """Open Narrative/Part nodes and close chapter nodes.
+        
+        Positional arguments:
+            parent -- str: Root node of the subtree to process.
+        """
+        if parent.startswith(self.CHAPTER_PREFIX):
+            self.tree.item(parent, open=False)
+        else:
+            self.tree.item(parent, open=True)
+            for child in self.tree.get_children(parent):
+                self.show_chapters(child)
+
+    def on_quit(self):
+        """Write column width to the applicaton's keyword arguments."""
+        self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
+        for i, column in enumerate(self._COLUMNS):
+            self._ui.kwargs[column[1]] = self.tree.column(i, 'width')
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""
@@ -952,29 +1262,6 @@ class TreeViewer(ttk.Frame):
             tv.move(node, targetNode, tv.index(targetNode))
         self.update_prj_structure()
 
-    def open_children(self, parent):
-        """Recursively show children nodes."""
-        self.tree.item(parent, open=True)
-        for child in self.tree.get_children(parent):
-            self.open_children(child)
-
-    def close_children(self, parent):
-        """Recursively close children nodes."""
-        self.tree.item(parent, open=False)
-        for child in self.tree.get_children(parent):
-            self.close_children(child)
-
-    def show_chapters(self, parent):
-        """Open Narrative/part nodes and close chapter nodes."""
-        if parent.startswith(self.CHAPTER_PREFIX):
-            self.tree.item(parent, open=False)
-        else:
-            self.tree.item(parent, open=True)
-            for child in self.tree.get_children(parent):
-                self.show_chapters(child)
-
-    #--- Methods that change the project
-
     def _cancel_part(self, event):
         """Remove a part but keep its chapters."""
         if self._ui.isLocked:
@@ -1147,237 +1434,6 @@ class TreeViewer(ttk.Frame):
                 self._set_type([self._trashNode], 3)
             self.update_prj_structure()
 
-    def add_part(self, selection=None):
-        """Add a Part node to the tree and create an instance.
-        
-        Return the chapter ID, if successful.
-        """
-        if self._ui.isLocked:
-            return
-        try:
-            selection = self.tree.selection()[0]
-        except:
-            selection = ''
-        parent = self.NV_ROOT
-        index = 0
-        if selection.startswith(self.SCENE_PREFIX):
-            selection = self.tree.parent(selection)
-        if selection.startswith(self.CHAPTER_PREFIX):
-            index = self.tree.index(selection) + 1
-            selection = self.tree.parent(selection)
-        if selection.startswith(self.PART_PREFIX):
-            index = self.tree.index(selection) + 1
-            parent = self.tree.parent(selection)
-        elif selection.startswith(self.PL_ROOT):
-            index = 0
-            parent = self.PL_ROOT
-        elif selection.startswith(self.RS_ROOT):
-            index = 0
-            parent = self.RS_ROOT
-        chId = create_id(self._ui.novel.chapters)
-        newNode = f'{self.PART_PREFIX}{chId}'
-        self._ui.novel.chapters[chId] = Chapter()
-        self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
-        self._ui.novel.chapters[chId].chLevel = 1
-
-        # Initialize custom keyword variables.
-        for fieldName in self._ui.prjFile._CHP_KWVAR:
-            self._ui.novel.chapters[chId].kwVar[fieldName] = None
-        if parent.startswith(self.PL_ROOT):
-            self._ui.novel.chapters[chId].chType = 2
-        elif parent.startswith(self.RS_ROOT):
-            self._ui.novel.chapters[chId].chType = 1
-        else:
-            self._ui.novel.chapters[chId].chType = 0
-        self._ui.novel.srtChapters.append(chId)
-        title, columns, nodeTags = self._set_chapter_display(chId)
-        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prj_structure()
-        self.refresh_tree()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
-        return chId
-
-    def add_chapter(self, selection=None):
-        """Add a Chapter node to the tree and create an instance.
-        
-        Return the chapter ID, if successful.
-        """
-        if self._ui.isLocked:
-            return
-        try:
-            selection = self.tree.selection()[0]
-        except:
-            selection = ''
-        parent = self.NV_ROOT
-        index = 0
-        if selection.startswith(self.SCENE_PREFIX):
-            parent = self.tree.parent(selection)
-            selection = self.tree.parent(selection)
-        if selection.startswith(self.CHAPTER_PREFIX):
-            parent = self.tree.parent(selection)
-            index = self.tree.index(selection) + 1
-        elif selection.startswith(self.PART_PREFIX):
-            parent = selection
-        chId = create_id(self._ui.novel.chapters)
-        newNode = f'{self.CHAPTER_PREFIX}{chId}'
-        self._ui.novel.chapters[chId] = Chapter()
-        self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
-        self._ui.novel.chapters[chId].chLevel = 0
-        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
-
-        # Initialize custom keyword variables.
-        for fieldName in self._ui.prjFile._CHP_KWVAR:
-            self._ui.novel.chapters[chId].kwVar[fieldName] = None
-
-        # Inherit part type, if "Todo" or "Notes".
-        if self.tree.parent(parent).startswith(self.PL_ROOT):
-            self._ui.novel.chapters[chId].chType = 2
-        elif self.tree.parent(parent).startswith(self.RS_ROOT):
-            self._ui.novel.chapters[chId].chType = 1
-        else:
-            self._ui.novel.chapters[chId].chType = 0
-
-        self._ui.novel.srtChapters.append(chId)
-        title, columns, nodeTags = self._set_chapter_display(chId)
-        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prj_structure()
-        self.refresh_tree()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
-        return chId
-
-    def add_scene(self, selection=None):
-        """Add a Scene node to the tree and create an instance.
-        
-        Return the scene ID, if successful.
-        """
-        if self._ui.isLocked:
-            return
-
-        if not selection:
-            try:
-                selection = self.tree.selection()[0]
-            except:
-                return
-
-        index = 0
-        if selection.startswith(self.SCENE_PREFIX):
-            parent = self.tree.parent(selection)
-            index = self.tree.index(selection) + 1
-        elif selection.startswith(self.CHAPTER_PREFIX):
-            parent = selection
-        elif selection.startswith(self.PART_PREFIX):
-            parent = selection
-        else:
-            return
-
-        scId = create_id(self._ui.novel.scenes)
-        newNode = f'{self.SCENE_PREFIX}{scId}'
-        self._ui.novel.scenes[scId] = Scene()
-        self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
-        self._ui.novel.scenes[scId].status = 1
-        self._ui.novel.scenes[scId].scType = 0
-        self._ui.novel.scenes[scId].appendToPrev = False
-        # Inherit chapter type
-        parentChapter = self._ui.novel.chapters[parent[2:]]
-        if parentChapter.chType != 0:
-            self._ui.novel.scenes[scId].scType = parentChapter.chType
-        # Edit status = Outline
-
-        # Initialize custom keyword variables.
-        for fieldName in self._ui.prjFile._SCN_KWVAR:
-            self._ui.novel.scenes[scId].kwVar[fieldName] = None
-        title, columns, nodeTags = self._set_scene_display(scId)
-        self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
-        return scId
-
-    def add_other_element(self, selection=None):
-        """Add a Character/Location/Item/Project note node to the tree and create an instance.
-        
-        Positional arguments:
-            selection -- str: tree position where to place a new node.
-            
-        - The new node's type is determined by the "selection" argument.
-        - If a node of the same type as the new node is selected, 
-          place the new node after the selected node and select it.
-        - Otherwise, place the new node at the first position.   
-
-        Return the element's ID, if successful.
-        """
-        if self._ui.isLocked:
-            return
-
-        if selection is None:
-            selection = self.tree.selection()[0]
-        if self.CHARACTER_PREFIX in selection:
-            # Add a character.
-            elemId = create_id(self._ui.novel.characters)
-            newNode = f'{self.CHARACTER_PREFIX}{elemId}'
-            self._ui.novel.characters[elemId] = Character()
-            self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile._CRT_KWVAR:
-                self._ui.novel.characters[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_character_display(elemId)
-            root = self.CR_ROOT
-            prefix = self.CHARACTER_PREFIX
-        elif self.LOCATION_PREFIX in selection:
-            # Add a location.
-            elemId = create_id(self._ui.novel.locations)
-            newNode = f'{self.LOCATION_PREFIX}{elemId}'
-            self._ui.novel.locations[elemId] = WorldElement()
-            self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile._LOC_KWVAR:
-                self._ui.novel.locations[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_location_display(elemId)
-            root = self.LC_ROOT
-            prefix = self.LOCATION_PREFIX
-        elif self.ITEM_PREFIX in selection:
-            # Add an item.
-            elemId = create_id(self._ui.novel.items)
-            newNode = f'{self.ITEM_PREFIX}{elemId}'
-            self._ui.novel.items[elemId] = WorldElement()
-            self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile._ITM_KWVAR:
-                self._ui.novel.items[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_item_display(elemId)
-            root = self.IT_ROOT
-            prefix = self.ITEM_PREFIX
-        elif self.PRJ_NOTE_PREFIX in selection:
-            # Add a project note.
-            elemId = create_id(self._ui.novel.projectNotes)
-            newNode = f'{self.PRJ_NOTE_PREFIX}{elemId}'
-            self._ui.novel.projectNotes[elemId] = BasicElement()
-            self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile._ITM_KWVAR:
-                self._ui.novel.projectNotes[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_prjNote_display(elemId)
-            root = self.PN_ROOT
-            prefix = self.PRJ_NOTE_PREFIX
-        else:
-            return
-
-        if selection.startswith(prefix):
-            index = self.tree.index(selection) + 1
-        else:
-            index = 0
-        self.tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
-        self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
-        return elemId
-
     def _on_select_node(self, event):
         try:
             nodeId = self.tree.selection()[0]
@@ -1401,14 +1457,4 @@ class TreeViewer(ttk.Frame):
                 self._ui.view_nothing()
         except IndexError:
             pass
-
-    def on_quit(self, kwargs):
-        """Write column width to the applicaton's keyword arguments.
-        
-        Positional arguments:
-            kwargs -- reference to the ui kwargs dictionary.
-        """
-        kwargs['title_width'] = self.tree.column('#0', 'width')
-        for i, column in enumerate(self._COLUMNS):
-            kwargs[column[1]] = self.tree.column(i, 'width')
 

@@ -38,6 +38,35 @@ PLUGIN_PATH = f'{sys.path[0]}/plugin'
 class NovelystTk(MainTk):
     """Controller of the tkinter GUI framework for novelyst.
     
+    Public methods:
+        lock() -- Lock the project.
+        unlock() -- Unlock the project.
+        toggle_viewer() -- Show/hide the contents viewer text box.
+        open_project_folder() -- Open the project folder with the OS file manager.
+        view_nothing() -- Event handler for invalid tree selection.
+        view_narrative() -- Event handler for narrative tree root selection.
+        view_chapter(chId) -- Event handler for chapter selection.
+        view_scene(scId) -- Event handler for scene selection.
+        view_character(crId) -- Event handler for character selection.
+        view_location(lcId) -- Event handler for location selection.
+        view_item(itId) -- Event handler for item selection.
+        view_projectNote(pnId) -- Event handler for project note selection.
+        refresh_tree() -- Apply changes and refresh the tree.
+        reload_project() -- Discard changes and reload the project.
+        show_status(message=None) -- Display project statistics at the status bar.
+        disable_menu() -- Disable menu entries when no project is open.
+        enable_menu() -- Enable menu entries when a project is open.
+        show_chapter_level() -- Open all Narrative/Part nodes and close all chapter nodes in the tree viewer.
+        remove_custom_fields() -- Remove custom fields from the .yw7 file and save the project.
+        open_project(fileName='') -- Create a novelyst project instance and read the file.
+        new_project() -- Create a novelyst project instance.
+        close_project() -- Close the current project.
+        save_project() -- Save the novelyst project to disk and set "unchanged" status.
+        save_as() -- Rename the project file and save it to disk.
+        manage_plugins() -- Open a toplevel window to manage the plugins.
+        edit_settings() -- Open a toplevel window to edit the program settings.
+        on_quit() -- Save keyword arguments before exiting the program.
+
     Public instance variables:
         guiStyle -- ttk.Style object.
         plugins -- PluginCollection: Dict-like Container for registered plugin objects.
@@ -67,8 +96,11 @@ class NovelystTk(MainTk):
         prjNoteMenu -- tk.Menu: "Project notes" menu.
         exportMenu -- tk.Menu: "Export" menu.
         toolsMenu -- tk.Menu: "Tools" menu.
-        helpMenu -- tk.Menu: "Help" menu.           
-    
+        helpMenu -- tk.Menu: "Help" menu.   
+        
+    Public properties:
+        isModified -- Boolean: True if there are unsaved changes.
+        isLocked -- Boolean: True if a lock file exists for the current project.     
     """
     _HELP_URL = 'https://peter88213.github.io/novelyst/usage'
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
@@ -83,7 +115,6 @@ class NovelystTk(MainTk):
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
 
     _YW_CLASS = WorkFile
-    fileTypes = [(WorkFile.DESCRIPTION, WorkFile.EXTENSION)]
 
     def __init__(self, colTitle, tempDir, **kwargs):
         """Load plugins and set up the application's user interface.
@@ -102,7 +133,9 @@ class NovelystTk(MainTk):
         Extends the superclass constructor.
         """
         super().__init__(colTitle, **kwargs)
+
         set_icon(self.root, icon='nLogo32')
+        self._fileTypes = [(WorkFile.DESCRIPTION, WorkFile.EXTENSION)]
 
         # Initialize GUI theme.
         self.guiStyle = ttk.Style()
@@ -407,13 +440,14 @@ class NovelystTk(MainTk):
                 self.open_project(self.prjFile.filePath)
 
     def toggle_viewer(self, event=None):
+        """Show/hide the contents viewer text box."""
         if self.middleFrame.winfo_manager():
             self.middleFrame.pack_forget()
         else:
             self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
 
     def open_projectFolder(self, event=None):
-        """Open the project folder."""
+        """Open the project folder with the OS file manager."""
         projectDir, __ = os.path.split(self.prjFile.filePath)
         try:
             os.startfile(norm_path(projectDir))
@@ -428,28 +462,6 @@ class NovelystTk(MainTk):
                     # Mac
                 except:
                     pass
-
-    def on_quit(self, event=None):
-        """Save keyword arguments before exiting the program."""
-        try:
-            self.close_project()
-            self.plugins.on_quit()
-
-            # save contents window "show markup" state.
-            self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
-
-            # save contents window toggle state.
-            if self.middleFrame.winfo_manager():
-                self.kwargs['show_contents'] = True
-            else:
-                self.kwargs['show_contents'] = False
-
-            # save windows size and position
-            self.tv.on_quit(self.kwargs)
-            super().on_quit()
-        except Exception as ex:
-            messagebox.showerror('ERROR: Unhandled exception on exit', str(ex))
-            self.root.quit()
 
     def view_nothing(self):
         """Event handler for invalid tree selection."""
@@ -469,7 +481,11 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel)
 
     def view_chapter(self, chId):
-        """Event handler for chapter selection."""
+        """Event handler for chapter selection.
+                
+        Positional arguments:
+            chId -- str: chapter ID
+        """
         self._elementView.apply_changes()
         if not self._elementView is self._chapterView:
             self._elementView.hide()
@@ -479,7 +495,11 @@ class NovelystTk(MainTk):
         self.contentsViewer.see(f'ch{chId}')
 
     def view_scene(self, scId):
-        """Event handler for scene selection."""
+        """Event handler for scene selection.
+                
+        Positional arguments:
+            scId -- str: scene ID
+        """
         self._elementView.apply_changes()
         if self.novel.scenes[scId].scType == 2:
             if not self._elementView is self._todoSceneView:
@@ -502,7 +522,11 @@ class NovelystTk(MainTk):
         self.contentsViewer.see(f'sc{scId}')
 
     def view_character(self, crId):
-        """Event handler for character selection."""
+        """Event handler for character selection.
+                
+        Positional arguments:
+            crId -- str: character ID
+        """
         self._elementView.apply_changes()
         if not self._elementView is self._characterView:
             self._elementView.hide()
@@ -511,7 +535,11 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.characters[crId])
 
     def view_location(self, lcId):
-        """Event handler for location selection."""
+        """Event handler for location selection.
+                
+        Positional arguments:
+            lcId -- str: location ID
+        """
         self._elementView.apply_changes()
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
@@ -520,7 +548,11 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.locations[lcId])
 
     def view_item(self, itId):
-        """Event handler for item selection."""
+        """Event handler for item selection.
+                
+        Positional arguments:
+            itId -- str: item ID
+        """
         self._elementView.apply_changes()
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
@@ -529,7 +561,11 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.items[itId])
 
     def view_projectNote(self, pnId):
-        """Event handler for project note selection."""
+        """Event handler for project note selection.
+        
+        Positional arguments:
+            pnId -- str: Project note ID
+        """
         self._elementView.apply_changes()
         if not self._elementView is self._basicView:
             self._elementView.hide()
@@ -560,7 +596,7 @@ class NovelystTk(MainTk):
         # Includes closing
 
     def show_status(self, message=None):
-        """Display project statistics on the status bar.
+        """Display project statistics at the status bar.
         
         Extends the superclass method.
         """
@@ -624,15 +660,11 @@ class NovelystTk(MainTk):
         self.plugins.enable_menu()
 
     def show_chapter_level(self, event=None):
+        """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
         self.tv.show_chapters(self.tv.NV_ROOT)
 
-    def _build_main_menu(self):
-        """Unused; overrides the superclass template method."""
-
-    #--- Methods that change the project
-
     def remove_custom_fields(self, event=None):
-        """Remove custom fields from the .yw7 file and save."""
+        """Remove custom fields from the .yw7 file and save the project."""
         if self.prjFile is not None:
             if self.ask_yes_no(_('Remove novelyst project settings and save?')):
                 self.tv.tree.selection_set('')
@@ -663,7 +695,7 @@ class NovelystTk(MainTk):
         """Create a novelyst project instance."""
         if self.prjFile is not None:
             self.close_project()
-        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self.fileTypes[0][1])
+        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self._fileTypes[0][1])
         if fileName:
             self.prjFile = WorkFile(fileName)
             self.novel = Novel()
@@ -678,7 +710,12 @@ class NovelystTk(MainTk):
             self.isModified = True
 
     def close_project(self, event=None):
-        """Clear the text box.
+        """Close the current project.
+        
+        - Save changes
+        - clear all views
+        - reset flags
+        - trigger plugins.
         
         Extends the superclass method.
         """
@@ -699,7 +736,7 @@ class NovelystTk(MainTk):
         super().close_project()
 
     def save_project(self, event=None):
-        """Save the novelyst project to disk and set 'unchanged' status.
+        """Save the novelyst project to disk and set "unchanged" status.
         
         Return True on success, otherwise return False.
         """
@@ -736,7 +773,7 @@ class NovelystTk(MainTk):
         
         Return True on success, otherwise return False.
         """
-        fileName = filedialog.asksaveasfilename(filetypes=self.fileTypes, defaultextension=self.fileTypes[0][1])
+        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self._fileTypes[0][1])
         if fileName:
             if self.prjFile is not None:
                 self.prjFile.filePath = fileName
@@ -754,6 +791,13 @@ class NovelystTk(MainTk):
 
         return False
 
+    def manage_plugins(self, event=None):
+        """Open a toplevel window to manage the plugins."""
+        offset = 300
+        __, x, y = self.root.geometry().split('+')
+        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
+        PluginManager(self, windowGeometry)
+
     def edit_settings(self, event=None):
         """Open a toplevel window to edit the program settings."""
         offset = 300
@@ -761,12 +805,27 @@ class NovelystTk(MainTk):
         windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
         SettingsWindow(self.tv, self, windowGeometry)
 
-    def manage_plugins(self, event=None):
-        """Open a toplevel window to manage the plugins."""
-        offset = 300
-        __, x, y = self.root.geometry().split('+')
-        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
-        PluginManager(self, windowGeometry)
+    def on_quit(self, event=None):
+        """Save keyword arguments before exiting the program."""
+        try:
+            self.close_project()
+            self.plugins.on_quit()
+
+            # save contents window "show markup" state.
+            self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
+
+            # save contents window toggle state.
+            if self.middleFrame.winfo_manager():
+                self.kwargs['show_contents'] = True
+            else:
+                self.kwargs['show_contents'] = False
+
+            # save windows size and position
+            self.tv.on_quit()
+            super().on_quit()
+        except Exception as ex:
+            messagebox.showerror('ERROR: Unhandled exception on exit', str(ex))
+            self.root.quit()
 
     def _export_document(self, suffix, **kwargs):
         self.restore_status()
@@ -777,4 +836,7 @@ class NovelystTk(MainTk):
         self.restore_status()
         self._elementView.apply_changes()
         self._reporter.run(self.prjFile, suffix)
+
+    def _build_main_menu(self):
+        """Unused; overrides the superclass template method."""
 
