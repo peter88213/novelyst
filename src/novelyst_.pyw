@@ -59,6 +59,7 @@ SETTINGS = dict(
     time_width=40,
     duration_width=55,
     arcs_width=55,
+    column_order='wc;vp;sy;st;nt;dt;tm;dr;tg;po;ac;ar'
 )
 OPTIONS = dict(
     show_contents=True,
