@@ -267,7 +267,7 @@ class TreeViewer(ttk.Frame):
         """Create and display the tree."""
         self.reset_tree()
 
-        #--- Build the toplevel structure.
+        #--- Build the toplevel  structure.
         self.tree.insert('', 'end', self.NV_ROOT, text=_('Narrative'), tags='root', open=True)
         self.tree.insert('', 'end', self.CR_ROOT, text=_('Characters'), tags='root', open=False)
         self.tree.insert('', 'end', self.LC_ROOT, text=_('Locations'), tags='root', open=False)
@@ -742,6 +742,7 @@ class TreeViewer(ttk.Frame):
         self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
         for i, column in enumerate(self._columns):
             self._ui.kwargs[column[2]] = self.tree.column(i, 'width')
+        self._ui.kwargs['column_order'] = list_to_string(list(self._colPos))
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""
