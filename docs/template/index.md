@@ -54,6 +54,8 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 
 ## General note about the fitness for use
 
+At present, this program is still under active development. Therefore it is recommended to check for updates from time to time, as well as for the plugins. 
+
 I use the program myself and fix errors immediately if I notice any. As far as I can tell, *novelyst* runs fast and reliably under Windows and Linux. It should also under other operating systems for which there is a reasonably up-to-date *Python 3* installation. However, there is a lack of a broad user base, which is why one cannot speak of real proven operation. 
 
 The user documentation is a bit sketchy, and I can't promise support either. So if you're curious, the best way is to explore the feature set yourself with a test project.
