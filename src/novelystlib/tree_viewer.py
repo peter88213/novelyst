@@ -110,7 +110,6 @@ class TreeViewer(ttk.Frame):
             ui -- GUI class reference.
         
         Required keyword arguments:
-            column_order -- str: ordered column IDs, semicolon-separated.
             button_context_menu -- str: Mouse button to show the treeveiw context menu.
             wc_width -- int: width of the wordcount column.
             status_width -- int: width of the scene status column.
@@ -144,7 +143,7 @@ class TreeViewer(ttk.Frame):
         self.tree.pack(fill=tk.BOTH, expand=True)
 
         #--- Add columns to the tree.
-        self.configure_columns(string_to_list(kwargs['column_order']))
+        self.configure_columns()
         for column in self._columns:
             self.tree.heading(column[1], text=column[1], anchor='w')
             self.tree.column(column[1], width=int(kwargs[column[2]]), minwidth=3, stretch=False)
@@ -242,13 +241,13 @@ class TreeViewer(ttk.Frame):
         self.tree.bind(self._KEY_PROMOTE_CHAPTER, self._promote_chapter)
         self.tree.bind(kwargs['button_context_menu'], self._open_context_menu)
 
-    def configure_columns(self, srtColumns):
+    def configure_columns(self):
         """Determine the order of the columnns.
         
-        Positional arguments:
-            srtColumns -- ordered list of column IDs
-            
-        Writes instance variables:
+        Read from the ui keyword arguments:
+            column_order -- str: ordered column IDs, semicolon-separated.
+        
+        Write instance variables:
             _colPos -- dict: key=ID, value=index.
             _columns -- list of tuples (ID, title, width).
         """
@@ -256,7 +255,7 @@ class TreeViewer(ttk.Frame):
         self._colPos = {}
         self._columns = []
         titles = []
-        for i, coId in enumerate(srtColumns):
+        for i, coId in enumerate(string_to_list(self._ui.kwargs['column_order'])):
             self._colPos[coId] = i
             column = (coId, self._COLUMNS[coId][0], self._COLUMNS[coId][1])
             self._columns.append(column)
@@ -742,7 +741,6 @@ class TreeViewer(ttk.Frame):
         self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
         for i, column in enumerate(self._columns):
             self._ui.kwargs[column[2]] = self.tree.column(i, 'width')
-        self._ui.kwargs['column_order'] = list_to_string(list(self._colPos))
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""
