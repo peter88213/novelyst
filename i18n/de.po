@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unknown\n"
-"POT-Creation-Date: 2022-12-06 13:41:35\n"
-"PO-Revision-Date: 2022-12-06 13:42:10\n"
+"Project-Id-Version: 4.1.0\n"
+"POT-Creation-Date: 2022-12-06 15:52:58\n"
+"PO-Revision-Date: 2022-12-06 15:52:58\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,9 @@ msgstr "Abschnitt hinzufügen"
 
 msgid "Append to previous scene"
 msgstr "An den vorherigen Abschnitt anhängen"
+
+msgid "Apply"
+msgstr "Anwenden"
 
 msgid "Arc reference"
 msgstr "Handlungsbogen-Referenz"

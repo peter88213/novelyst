@@ -145,10 +145,6 @@ class TreeViewer(ttk.Frame):
 
         #--- Add columns to the tree.
         self.configure_columns()
-        for column in self.columns:
-            self.tree.heading(column[1], text=column[1], anchor='w')
-            self.tree.column(column[1], width=int(kwargs[column[2]]), minwidth=3, stretch=False)
-        self.tree.column('#0', width=int(kwargs['title_width']), stretch=False)
 
         #--- Create public submenus.
 
@@ -273,6 +269,10 @@ class TreeViewer(ttk.Frame):
             self.columns.append((coId, title, width))
             titles.append(title)
         self.tree.configure(columns=tuple(titles))
+        for column in self.columns:
+            self.tree.heading(column[1], text=column[1], anchor='w')
+            self.tree.column(column[1], width=int(self._ui.kwargs[column[2]]), minwidth=3, stretch=False)
+        self.tree.column('#0', width=int(self._ui.kwargs['title_width']), stretch=False)
 
     def build_tree(self):
         """Create and display the tree."""
@@ -753,7 +753,6 @@ class TreeViewer(ttk.Frame):
         self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
         for i, column in enumerate(self.columns):
             self._ui.kwargs[column[2]] = self.tree.column(i, 'width')
-        self._ui.kwargs['column_order'] = list_to_string(list(self._colPos))
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""

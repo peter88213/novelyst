@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.1.0
+
+- New program setting: Change the order of the columns.
+
+Based on PyWriter v9.0.5
+
 ### v4.0.3
 
 - Improve code quality and documentation.

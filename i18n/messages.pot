@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unknown\n"
-"POT-Creation-Date: 2022-12-06 13:41:35\n"
+"Project-Id-Version: 4.1.0\n"
+"POT-Creation-Date: 2022-12-06 15:52:58\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -51,6 +51,9 @@ msgid "Add Scene"
 msgstr ""
 
 msgid "Append to previous scene"
+msgstr ""
+
+msgid "Apply"
 msgstr ""
 
 msgid "Arc reference"

@@ -24,42 +24,62 @@ class SettingsWindow(tk.Toplevel):
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)
-        window.pack(fill=tk.BOTH)
+        window.pack(fill=tk.BOTH,
+                    padx=5,
+                    pady=5
+                    )
 
         # Combobox for coloring mode setting.
         colorFrame = ttk.Frame(window)
-        colorFrame.pack(fill=tk.BOTH)
+        colorFrame.pack(fill=tk.BOTH, side=tk.LEFT)
         cm = self._ui.kwargs['coloring_mode']
         if not cm in self.COLORING_MODES:
             cm = self.COLORING_MODES[0]
         self._coloringMode = tk.StringVar(value=cm)
         self._coloringMode.trace('w', self._change_colors)
-        LabelCombo(colorFrame,
-                   text=_('Coloring mode'),
+        ttk.Label(colorFrame,
+                  text=_('Coloring mode')
+                  ).pack(padx=5, pady=5, anchor=tk.W)
+        ttk.Combobox(colorFrame,
                    textvariable=self._coloringMode,
                    values=self.COLORING_MODES,
-                   lblWidth=20).pack(padx=5, pady=5)
+                   width=20
+                   ).pack(padx=5, pady=5, anchor=tk.W)
 
         # Listbox for column reordering.
         columnFrame = ttk.Frame(window)
-        columnFrame.pack(fill=tk.BOTH)
-        ttk.Label(columnFrame, text=_('Columns')).pack(padx=5, pady=5, side=tk.LEFT, anchor=tk.N)
-        srtColumns = list(self._tv.columns)
-        self._colEntries = tk.StringVar(value=srtColumns)
-        self._colEntries.trace('w', self._change_column_order)
+        columnFrame.pack(fill=tk.BOTH, side=tk.LEFT)
+        ttk.Label(columnFrame,
+                  text=_('Columns')
+                  ).pack(padx=5, pady=5, anchor=tk.W)
+        self._coIdsByTitle = {}
+        for coId, title, __ in self._tv.columns:
+            self._coIdsByTitle[title] = coId
+        self._colEntries = tk.Variable(value=list(self._coIdsByTitle))
         DragDropListbox(columnFrame,
                         listvariable=self._colEntries,
-                        width=23).pack(padx=5, pady=5, side=tk.RIGHT)
-
+                        width=20
+                        ).pack(padx=5, pady=5, anchor=tk.W)
+        ttk.Button(columnFrame,
+                   text=_('Apply'),
+                   command=self._change_column_order
+                   ).pack(padx=5, pady=5, anchor=tk.W)
         # "Exit" button.
-        ttk.Button(window, text=_('Exit'), command=self.destroy).pack(padx=5, pady=5, side=tk.RIGHT)
+        ttk.Button(self,
+                   text=_('Exit'),
+                   command=self.destroy
+                   ).pack(padx=5, pady=5, anchor=tk.E)
 
     def _change_colors(self, *args, **kwargs):
         self._ui.kwargs['coloring_mode'] = self._coloringMode.get()
         self._tv.refresh_tree()
 
     def _change_column_order(self, *args, **kwargs):
+        srtColumns = []
         titles = self._colEntries.get()
-        # self._tv.configure_columns()
-        # self._tv.build_tree()
+        for title in titles:
+            srtColumns.append(self._coIdsByTitle[title])
+        self._ui.kwargs['column_order'] = list_to_string(srtColumns)
+        self._tv.configure_columns()
+        self._tv.build_tree()
 
