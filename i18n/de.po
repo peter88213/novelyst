@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.0.3\n"
-"POT-Creation-Date: 2022-12-05 12:45:18\n"
-"PO-Revision-Date: 2022-12-05 12:45:18\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2022-12-06 13:41:35\n"
+"PO-Revision-Date: 2022-12-06 13:42:10\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -156,6 +156,9 @@ msgstr "Ausgewählte einklappen"
 
 msgid "Coloring mode"
 msgstr "Farbgebungsmodus"
+
+msgid "Columns"
+msgstr "Spalten"
 
 msgid "Conflict"
 msgstr "Konflikt"

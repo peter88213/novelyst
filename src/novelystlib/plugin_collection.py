@@ -1,4 +1,4 @@
-""""Provide a plugin registry class and a substitute for The Plugin class of a rejected module.
+"""Provide a plugin registry class and a substitute for The Plugin class of a rejected module.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

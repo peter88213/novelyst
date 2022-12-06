@@ -1,4 +1,4 @@
-""""Provide a tkinter Rich Text box class with novelyst-specific highlighting.
+"""Provide a tkinter Rich Text box class with novelyst-specific highlighting.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

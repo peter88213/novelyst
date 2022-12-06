@@ -1,4 +1,4 @@
-""""Provide a class for viewing and editing character properties.
+"""Provide a class for viewing and editing character properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

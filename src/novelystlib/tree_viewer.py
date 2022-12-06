@@ -1,4 +1,4 @@
-""""Provide a tkinter based novelyst tree view.
+"""Provide a tkinter based novelyst tree view.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -51,6 +51,7 @@ class TreeViewer(ttk.Frame):
         
     Public instance variables:
         tree -- ttk.Treeview: The treeview widget to display.
+        columns -- list of tuples (ID, title, width).
         scStyleMenu -- tk.Menu: Scene "Style" submenu.
         scTypeMenu -- tk.Menu: Scene "Type" submenu.
         scStatusMenu -- tk.Menu: Scene "Status" submenu.
@@ -144,7 +145,7 @@ class TreeViewer(ttk.Frame):
 
         #--- Add columns to the tree.
         self.configure_columns()
-        for column in self._columns:
+        for column in self.columns:
             self.tree.heading(column[1], text=column[1], anchor='w')
             self.tree.column(column[1], width=int(kwargs[column[2]]), minwidth=3, stretch=False)
         self.tree.column('#0', width=int(kwargs['title_width']), stretch=False)
@@ -249,11 +250,11 @@ class TreeViewer(ttk.Frame):
         
         Write instance variables:
             _colPos -- dict: key=ID, value=index.
-            _columns -- list of tuples (ID, title, width).
+            columns -- list of tuples (ID, title, width).
         """
         # Column position by column ID.
         self._colPos = {}
-        self._columns = []
+        self.columns = []
         titles = []
         srtColumns = string_to_list(self._ui.kwargs['column_order'])
 
@@ -269,7 +270,7 @@ class TreeViewer(ttk.Frame):
                 continue
             self._colPos[coId] = i
             i += 1
-            self._columns.append((coId, title, width))
+            self.columns.append((coId, title, width))
             titles.append(title)
         self.tree.configure(columns=tuple(titles))
 
@@ -750,7 +751,7 @@ class TreeViewer(ttk.Frame):
     def on_quit(self):
         """Write column width to the applicaton's keyword arguments."""
         self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
-        for i, column in enumerate(self._columns):
+        for i, column in enumerate(self.columns):
             self._ui.kwargs[column[2]] = self.tree.column(i, 'width')
         self._ui.kwargs['column_order'] = list_to_string(list(self._colPos))
 
@@ -760,7 +761,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
         nodeTags = []
         if self._ui.novel.scenes[scId].scType == 2:
@@ -926,7 +927,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
         nodeTags = []
         if self._ui.novel.chapters[chId].chType == 1:
@@ -978,7 +979,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
 
         if self._ui.novel.characters[crId].notes:
@@ -1021,7 +1022,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
 
         # Tags.
@@ -1038,7 +1039,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
 
         # tags.
@@ -1055,7 +1056,7 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
         columns = []
-        for __ in self._columns:
+        for __ in self.columns:
             columns.append('')
         nodeTags = []
         return title, columns, tuple(nodeTags)

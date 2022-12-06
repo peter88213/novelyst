@@ -1,4 +1,4 @@
-""""Provide a tkinter based folding frame with a "show/hide" button.
+"""Provide a tkinter based folding frame with a "show/hide" button.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

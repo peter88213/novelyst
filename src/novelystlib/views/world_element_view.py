@@ -1,4 +1,4 @@
-""""Provide a tkinter based class for viewing world element properties.
+"""Provide a tkinter based class for viewing world element properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

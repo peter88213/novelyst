@@ -1,4 +1,4 @@
-""""Provide a generic class for viewing tree element properties.
+"""Provide a generic class for viewing tree element properties.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

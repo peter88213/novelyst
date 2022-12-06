@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.0.3\n"
-"POT-Creation-Date: 2022-12-05 12:45:18\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2022-12-06 13:41:35\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -156,6 +156,9 @@ msgid "Collapse selected"
 msgstr ""
 
 msgid "Coloring mode"
+msgstr ""
+
+msgid "Columns"
 msgstr ""
 
 msgid "Conflict"

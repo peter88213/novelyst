@@ -1,4 +1,4 @@
-""""Provide a class for clearing the right frame.
+"""Provide a class for clearing the right frame.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

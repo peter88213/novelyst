@@ -1,4 +1,4 @@
-""""Provide a tkinter GUI framework for novelyst.
+"""Provide a tkinter GUI framework for novelyst.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst

@@ -1,4 +1,4 @@
-""""Provide a tkinter text box class for "contents" viewing.
+"""Provide a tkinter text box class for "contents" viewing.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
