@@ -255,11 +255,22 @@ class TreeViewer(ttk.Frame):
         self._colPos = {}
         self._columns = []
         titles = []
-        for i, coId in enumerate(string_to_list(self._ui.kwargs['column_order'])):
+        srtColumns = string_to_list(self._ui.kwargs['column_order'])
+
+        # Check data integrity.
+        for coId in self._COLUMNS:
+            if not coId in srtColumns:
+                srtColumns.append(coId)
+        i = 0
+        for coId in srtColumns:
+            try:
+                title, width = self._COLUMNS[coId]
+            except:
+                continue
             self._colPos[coId] = i
-            column = (coId, self._COLUMNS[coId][0], self._COLUMNS[coId][1])
-            self._columns.append(column)
-            titles.append(column[1])
+            i += 1
+            self._columns.append((coId, title, width))
+            titles.append(title)
         self.tree.configure(columns=tuple(titles))
 
     def build_tree(self):
@@ -741,6 +752,7 @@ class TreeViewer(ttk.Frame):
         self._ui.kwargs['title_width'] = self.tree.column('#0', 'width')
         for i, column in enumerate(self._columns):
             self._ui.kwargs[column[2]] = self.tree.column(i, 'width')
+        self._ui.kwargs['column_order'] = list_to_string(list(self._colPos))
 
     def _set_scene_display(self, scId, position=None):
         """Configure scene formatting and columns."""
