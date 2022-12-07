@@ -1,7 +1,7 @@
 /src/plugin/
 /src/locale/
 /test/yw7/
-/test/novelyst.pyw
+/test/novelyst.py
 /build/
 *.pyc
 *.bak

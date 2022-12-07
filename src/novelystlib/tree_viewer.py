@@ -77,7 +77,7 @@ class TreeViewer(ttk.Frame):
         vp=(_('Viewpoint'), 'vp_width'),
         sy=(_('Style'), 'style_width'),
         st=(_('Status'), 'status_width'),
-        nt=(' ', 'nt_width'),
+        nt=(_('N'), 'nt_width'),
         dt=(_('Date'), 'date_width'),
         tm=(_('Time'), 'time_width'),
         dr=(_('Duration'), 'duration_width'),

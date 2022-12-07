@@ -8,6 +8,18 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.2.0 Speed up the program start
+
+IMPORTANT: 
+- If you have a desktop shortcut to start novelyst, please change the target from "novelyst.pyw" to "run.pyw".
+- If you use the Windows Explorer context menu entry, please re-run the registry scripts after setup.
+
+- Rename "novelyst.pyw" --> "novelyst.py".
+- Create a start-up script "run.pyw" during setup.
+- Add a header to the "has notes" column.
+
+Based on PyWriter v9.0.5
+
 ### v4.1.0
 
 - New program setting: Change the order of the columns.

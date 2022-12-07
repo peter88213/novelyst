@@ -16,8 +16,8 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE = f'{SRC}novelyst_.pyw'
-TARGET_FILE = f'{BUILD}novelyst.pyw'
+SOURCE_FILE = f'{SRC}novelyst_.py'
+TARGET_FILE = f'{BUILD}novelyst.py'
 
 
 def main():

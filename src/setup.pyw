@@ -38,7 +38,8 @@ except:
 
 APPNAME = 'novelyst'
 VERSION = ' @release'
-APP = f'{APPNAME}.pyw'
+APP = f'{APPNAME}.py'
+START_UP_SCRIPT = 'run.pyw'
 INI_FILE = f'{APPNAME}.ini'
 INI_PATH = '/config/'
 SAMPLE_PATH = 'sample/'
@@ -52,7 +53,7 @@ SHORTCUT_MESSAGE = '''
 Now you might want to create a shortcut on your desktop.  
 
 On Windows, open the installation folder, hold down the Alt key on your keyboard, 
-and then drag and drop $Appname.pyw to your desktop.
+and then drag and drop "run.pyw" to your desktop.
 
 On Linux, create a launcher on your desktop. With xfce for instance, the launcher's command may look like this:
 python3 '$Apppath' %F
@@ -106,7 +107,7 @@ def make_context_menu(installPath):
 
     python = sys.executable.replace('\\', '\\\\')
     instPath = installPath.replace('/', '\\\\')
-    script = f'{instPath}\\\\{APP}'
+    script = f'{instPath}\\\\{START_UP_SCRIPT}'
     mapping = dict(PYTHON=python, SCRIPT=script)
     save_reg_file(f'{installPath}/set_open_cmd.reg', Template(SET_OPEN_CMD), mapping)
     save_reg_file(f'{installPath}/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
@@ -175,6 +176,11 @@ def install(pywriterPath):
     copyfile(APP, f'{installDir}/{APP}')
     output(f'Copying "{APP}"')
 
+    # Create a starter script.
+    with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
+        f.write(f'import {APPNAME}\n{APPNAME}.main()')
+    output(f'Creating starter script')
+
     # Install the localization files.
     copytree('locale', f'{installDir}/locale', dirs_exist_ok=True)
     output(f'Copying "locale"')
@@ -183,9 +189,11 @@ def install(pywriterPath):
     copytree('icons', f'{installDir}/icons', dirs_exist_ok=True)
     output(f'Copying "icons"')
 
-    # Make the script executable under Linux.
+    # Make the scripts executable under Linux.
     st = os.stat(f'{installDir}/{APP}')
     os.chmod(f'{installDir}/{APP}', st.st_mode | stat.S_IEXEC)
+    st = os.stat(f'{installDir}/{START_UP_SCRIPT}')
+    os.chmod(f'{installDir}/{START_UP_SCRIPT}', st.st_mode | stat.S_IEXEC)
 
     # Install configuration files, if needed.
     try:
@@ -227,6 +235,10 @@ def install(pywriterPath):
     if not simpleUpdate:
         output(Template(SHORTCUT_MESSAGE).safe_substitute(mapping))
 
+    # Create a start-up script.
+    with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
+        f.write('import novelyst\nnovelyst.main()')
+
 
 if __name__ == '__main__':
     scriptPath = os.path.abspath(sys.argv[0])
@@ -234,7 +246,7 @@ if __name__ == '__main__':
     os.chdir(scriptDir)
 
     # Open a tk window.
-    root.geometry("800x500")
+    root.geometry("800x600")
     root.title(f'Install {APPNAME}{VERSION}')
     header = tk.Label(root, text='')
     header.pack(padx=5, pady=5)

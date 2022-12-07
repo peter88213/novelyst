@@ -75,7 +75,18 @@ OPTIONS = dict(
 )
 
 
-def run(sourcePath='', installDir='.', configDir='.'):
+def main():
+    #--- Set up the directories for configuration and temporary files.
+    try:
+        homeDir = str(Path.home()).replace('\\', '/')
+        installDir = f'{homeDir}/.pywriter/{APPNAME}'
+    except:
+        installDir = '.'
+    os.makedirs(installDir, exist_ok=True)
+    configDir = f'{installDir}/config'
+    os.makedirs(configDir, exist_ok=True)
+    tempDir = f'{installDir}/temp'
+    os.makedirs(tempDir, exist_ok=True)
 
     #--- Load configuration.
     iniFile = f'{configDir}/{APPNAME}.ini'
@@ -86,12 +97,12 @@ def run(sourcePath='', installDir='.', configDir='.'):
     kwargs.update(configuration.options)
 
     #--- Get initial project path.
+    try:
+        sourcePath = sys.argv[1]
+    except:
+        sourcePath = ''
     if not sourcePath or not os.path.isfile(sourcePath):
         sourcePath = kwargs['yw_last_open']
-
-    #--- Create a directory for temporary files.
-    tempDir = f'{installDir}/temp'
-    os.makedirs(tempDir, exist_ok=True)
 
     #--- Instantiate the app object.
     app = NovelystTk('novelyst @release', tempDir, **kwargs)
@@ -119,16 +130,4 @@ def run(sourcePath='', installDir='.', configDir='.'):
 
 
 if __name__ == '__main__':
-    try:
-        homeDir = str(Path.home()).replace('\\', '/')
-        installDir = f'{homeDir}/.pywriter/{APPNAME}'
-    except:
-        installDir = '.'
-    os.makedirs(installDir, exist_ok=True)
-    configDir = f'{installDir}/config'
-    os.makedirs(configDir, exist_ok=True)
-    try:
-        sourcePath = sys.argv[1]
-    except:
-        sourcePath = ''
-    run(sourcePath, installDir, configDir)
+    main()

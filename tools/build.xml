@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="novelyst" basedir=".">
-	<property name="version" value="4.1.0" />
+	<property name="version" value="4.2.0" />
 	<property name="test-app" value="novelyst" />
 	
 	<property name="source-path" location="../src" />
@@ -13,7 +13,7 @@
 	<property name="release" value="${application}_v${version}" />
 
 	<target name="build" description="inline all library modules">
-		<delete file="${test-path}/${test-app}.pyw" />
+		<delete file="${test-path}/${test-app}.py" />
 		<exec executable="python" failonerror="true">
 		    <arg value="${source-path}/make_pot.py"/>
 		    <arg value="${version}"/>
@@ -31,8 +31,8 @@
 		<mkdir dir="${dist-path}" />
 		<mkdir dir="${build-path}/${release}" />
 		
-		<copy file="${test-path}/${test-app}.pyw" tofile="${build-path}/${release}/${application}.pyw" />
-		<replace encoding="utf-8" file="${build-path}/${release}/${application}.pyw" token="@release" value="${version}" />
+		<copy file="${test-path}/${test-app}.py" tofile="${build-path}/${release}/${application}.py" />
+		<replace encoding="utf-8" file="${build-path}/${release}/${application}.py" token="@release" value="${version}" />
 		
 		<copy file="${source-path}/setup.pyw" todir="${build-path}/${release}" />		
 		<replace encoding="utf-8" file="${build-path}/${release}/setup.pyw" token="@release" value="${version}" />
@@ -61,7 +61,7 @@
 	</target>
 
 	<target name="clean" description="clean up">		
-		<delete file="${test-path}/${test-app}.pyw" />
+		<delete file="${test-path}/${test-app}.py" />
 		<delete file="${test-path}/test_${test-app}.py" />		
 	</target>
 
