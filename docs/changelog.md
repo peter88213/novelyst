@@ -8,7 +8,7 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
-### v4.2.0 Speed up the program start
+### v4.2.1 Speed up the program start
 
 IMPORTANT: 
 - If you have a desktop shortcut to start novelyst, please change the target from "novelyst.pyw" to "run.pyw".
