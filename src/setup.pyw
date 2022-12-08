@@ -17,6 +17,7 @@ from pathlib import Path
 from string import Template
 import gettext
 import locale
+import platform
 try:
     import tkinter as tk
 except ModuleNotFoundError:
@@ -238,8 +239,12 @@ def install(pywriterPath):
         output(Template(SHORTCUT_MESSAGE).safe_substitute(mapping))
 
     #--- Create a start-up script.
+    if platform.system() == 'Linux':
+        startUpCode = f'#!/usr/bin/python3 \n{START_UP_CODE}'
+    else:
+        startUpCode = START_UP_CODE
     with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
-        f.write(START_UP_CODE)
+        f.write(startUpCode)
 
 
 if __name__ == '__main__':
