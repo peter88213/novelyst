@@ -46,7 +46,7 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 
 ## Requirements
 
-- [Python](https://www.python.org/) from version 3.6 to 3.10. Beware: Version 3.11 is not recommended. Under Windows, please use version 3.9.10 or above.
+- [Python](https://www.python.org/) version 3.6+. Under Windows, please use version 3.9.10 or above.
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
 - Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
 - or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
