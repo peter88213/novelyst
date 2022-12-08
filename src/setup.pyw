@@ -56,7 +56,7 @@ On Windows, open the installation folder, hold down the Alt key on your keyboard
 and then drag and drop "run.pyw" to your desktop.
 
 On Linux, create a launcher on your desktop. With xfce for instance, the launcher's command may look like this:
-python3 '$Apppath' %F
+python3 '$Apppath' %f
 '''
 
 SET_OPEN_CMD = f'''Windows Registry Editor Version 5.00
@@ -231,7 +231,7 @@ def install(pywriterPath):
         make_context_menu(installDir)
 
     #--- Display a success message.
-    mapping = {'Appname': APPNAME, 'Apppath': f'{installDir}/{APP}'}
+    mapping = {'Appname': APPNAME, 'Apppath': f'{installDir}/{START_UP_SCRIPT}'}
     output(Template(SUCCESS_MESSAGE).safe_substitute(mapping))
 
     #--- Ask for shortcut creation.
@@ -239,12 +239,12 @@ def install(pywriterPath):
         output(Template(SHORTCUT_MESSAGE).safe_substitute(mapping))
 
     #--- Create a start-up script.
-    if platform.system() == 'Linux':
-        startUpCode = f'#!/usr/bin/python3 \n{START_UP_CODE}'
+    if platform.system() == 'Windows':
+        shebang = ''
     else:
-        startUpCode = START_UP_CODE
+        shebang = '#!/usr/bin/python3\n'
     with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
-        f.write(startUpCode)
+        f.write(f'{shebang}{START_UP_CODE}')
 
 
 if __name__ == '__main__':
