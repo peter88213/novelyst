@@ -91,6 +91,11 @@ RESET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
 '''
 
+START_UP_CODE = f'''#!/usr/bin/env python3
+import {APPNAME}
+{APPNAME}.main()
+'''
+
 root = tk.Tk()
 processInfo = tk.Label(root, text='')
 message = []
@@ -140,7 +145,7 @@ def open_folder(installDir):
 def install(pywriterPath):
     """Install the script."""
 
-    # Create a general PyWriter installation directory, if necessary.
+    #--- Create a general PyWriter installation directory, if necessary.
     os.makedirs(pywriterPath, exist_ok=True)
     installDir = f'{pywriterPath}{APPNAME}'
     cnfDir = f'{installDir}{INI_PATH}'
@@ -148,8 +153,9 @@ def install(pywriterPath):
         simpleUpdate = True
     else:
         simpleUpdate = False
+
+    #--- Move an existing installation to the new place, if necessary.
     try:
-        # Move an existing installation to the new place, if necessary.
         oldInst = os.getenv('APPDATA').replace('\\', '/')
         oldInstDir = f'{oldInst}/pyWriter/{APPNAME}'
         os.replace(oldInstDir, installDir)
@@ -158,7 +164,7 @@ def install(pywriterPath):
         pass
     os.makedirs(cnfDir, exist_ok=True)
 
-    # Delete the old version, but retain configuration, if any.
+    #--- Delete the old version, but retain configuration, if any.
     # rmtree(f'{installDir}/locale', ignore_errors=True)
     # Do not remove the locale folder, because it may contain plugin data.
     # rmtree(f'{installDir}/icons', ignore_errors=True)
@@ -172,7 +178,7 @@ def install(pywriterPath):
                 except:
                     pass
 
-    # Install the new version.
+    #--- Install the new version.
     copyfile(APP, f'{installDir}/{APP}')
     output(f'Copying "{APP}"')
 
@@ -181,21 +187,21 @@ def install(pywriterPath):
         f.write(f'import {APPNAME}\n{APPNAME}.main()')
     output(f'Creating starter script')
 
-    # Install the localization files.
+    #--- Install the localization files.
     copytree('locale', f'{installDir}/locale', dirs_exist_ok=True)
     output(f'Copying "locale"')
 
-    # Install the icon files.
+    #--- Install the icon files.
     copytree('icons', f'{installDir}/icons', dirs_exist_ok=True)
     output(f'Copying "icons"')
 
-    # Make the scripts executable under Linux.
+    #--- Make the scripts executable under Linux.
     st = os.stat(f'{installDir}/{APP}')
     os.chmod(f'{installDir}/{APP}', st.st_mode | stat.S_IEXEC)
     st = os.stat(f'{installDir}/{START_UP_SCRIPT}')
     os.chmod(f'{installDir}/{START_UP_SCRIPT}', st.st_mode | stat.S_IEXEC)
 
-    # Install configuration files, if needed.
+    #--- Install configuration files, if needed.
     try:
         with os.scandir(SAMPLE_PATH) as files:
             for file in files:
@@ -227,17 +233,17 @@ def install(pywriterPath):
     if os.name == 'nt':
         make_context_menu(installDir)
 
-    # Display a success message.
+    #--- Display a success message.
     mapping = {'Appname': APPNAME, 'Apppath': f'{installDir}/{APP}'}
     output(Template(SUCCESS_MESSAGE).safe_substitute(mapping))
 
-    # Ask for shortcut creation.
+    #--- Ask for shortcut creation.
     if not simpleUpdate:
         output(Template(SHORTCUT_MESSAGE).safe_substitute(mapping))
 
-    # Create a start-up script.
+    #--- Create a start-up script.
     with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
-        f.write('import novelyst\nnovelyst.main()')
+        f.write(START_UP_CODE)
 
 
 if __name__ == '__main__':
