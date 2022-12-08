@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Install the novelyst script. 
 
 Version @release
@@ -13,7 +13,6 @@ import stat
 import glob
 from shutil import copyfile
 from shutil import copytree
-from shutil import rmtree
 from pathlib import Path
 from string import Template
 import gettext
@@ -91,8 +90,7 @@ RESET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
 '''
 
-START_UP_CODE = f'''#!/usr/bin/env python3
-import {APPNAME}
+START_UP_CODE = f'''import {APPNAME}
 {APPNAME}.main()
 '''
 
@@ -165,9 +163,7 @@ def install(pywriterPath):
     os.makedirs(cnfDir, exist_ok=True)
 
     #--- Delete the old version, but retain configuration, if any.
-    # rmtree(f'{installDir}/locale', ignore_errors=True)
     # Do not remove the locale folder, because it may contain plugin data.
-    # rmtree(f'{installDir}/icons', ignore_errors=True)
     # Do not remove the icons folder, because it may contain plugin data.
     with os.scandir(installDir) as files:
         for file in files:

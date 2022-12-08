@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """A novel organizer for writers. 
 
 Version @release
