@@ -51,6 +51,13 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 - Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
 - or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
 
+### Note for Windows users
+
+The easiest way to install Python on your PC may be via the Microsoft store. 
+
+### Note for Linux users
+
+Please make sure that your Python3 installation has the *tkinter* module. On Ubuntu, for example, it is not available out of the box and must be installed via a separate package named *python3-tk*. 
 
 ## General note about the fitness for use
 
@@ -71,10 +78,6 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.
 - Open "README.md" for usage instructions.
-
-### Note for Linux users
-
-Please make sure that your Python3 installation has the *tkinter* module. On Ubuntu, for example, it is not available out of the box and must be installed via a separate package. 
 
 ------------------------------------------------------------------
 
