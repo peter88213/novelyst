@@ -6,6 +6,7 @@
 		<project>novelyst_aeon2</project>
 		<project>novelyst_collection</project>
 		<project>novelyst_editor</project>
+		<project>novelyst_matrix</project>
 		<project>novelyst_themes</project>
 		<project>novelyst_timeline</project>
 		<project>PyWriter</project>
