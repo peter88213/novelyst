@@ -38,6 +38,7 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 
 - [A simple "markup" scene editor](https://peter88213.github.io/novelyst_editor/)
 - [A book/series collection manager](https://peter88213.github.io/novelyst_collection/)
+- [A relationship matrix](https://peter88213.github.io/novelyst_matrix/)
 - [A Timeline plugin](https://peter88213.github.io/novelyst_timeline/)
 - [An Aeon Timeline 2 plugin](https://peter88213.github.io/novelyst_aeon2/)
 - [A theme changer](https://peter88213.github.io/novelyst_themes/)
@@ -71,9 +72,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 4.2.2)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.2.2.zip)
+[Download the latest release (version 4.2.3)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.2.3.zip)
 
-- Unzip the downloaded zipfile "novelyst_v4.2.2.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v4.2.3.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.

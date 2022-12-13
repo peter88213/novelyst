@@ -722,14 +722,14 @@ class NovelystTk(MainTk):
         self.contentsViewer.reset_view()
         self.plugins.on_close()
 
-        self.view_nothing()
         # this closes the current element view after checking for modifications
         if self.isModified and not self.reloading:
             if self.ask_yes_no(_('Save changes?')):
                 self.save_project()
+        self.isModified = False
+        self.view_nothing()
         self.tv.reset_tree()
         # this removes all children from the tree
-        self.isModified = False
         self.reloading = False
         self.isLocked = False
         self.novel = None

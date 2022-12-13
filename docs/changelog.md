@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.2.3
+
+- Fix a bug where the project view is not cleared when closing the project and saving changes.
+
+Based on PyWriter v9.0.5
+
 ### v4.2.2
 
 - When reading yw7 files, fix missing scene status as a tribute to defensive programming.
