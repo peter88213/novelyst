@@ -167,6 +167,7 @@ class WorkFile(Yw7File):
 
         #--- Initialize empty scene character/location/item lists.
         # This helps deleting orphaned XML list items when saving the file.
+        # Also fix missing scene status as a tribute to defensive programming.
         for scId in self.novel.scenes:
             if self.novel.scenes[scId].characters is None:
                 self.novel.scenes[scId].characters = []
@@ -174,6 +175,8 @@ class WorkFile(Yw7File):
                 self.novel.scenes[scId].locations = []
             if self.novel.scenes[scId].items is None:
                 self.novel.scenes[scId].items = []
+            if self.novel.scenes[scId].status is None:
+                self.novel.scenes[scId].status = 1
 
         #--- Read the file timestamp.
         try:

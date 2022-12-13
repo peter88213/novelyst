@@ -51,7 +51,6 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
 - Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
 - or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
 
-
 ### Note for Windows users
 
 The easiest way to install Python on your PC may be via the Microsoft store. 
@@ -72,9 +71,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 4.2.1)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.2.1.zip)
+[Download the latest release (version 4.2.2)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.2.2.zip)
 
-- Unzip the downloaded zipfile "novelyst_v4.2.1.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v4.2.2.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.
