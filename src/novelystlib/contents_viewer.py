@@ -8,7 +8,7 @@ import re
 import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
-from novelystlib.widgets.rich_text_yw import RichTextYw
+from novelystlib.controls.rich_text_yw import RichTextYw
 
 
 class ContentsViewer:

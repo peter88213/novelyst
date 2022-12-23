@@ -29,8 +29,8 @@ from novelystlib.views.notes_scene_view import NotesSceneView
 from novelystlib.views.todo_scene_view import TodoSceneView
 from novelystlib.views.character_view import CharacterView
 from novelystlib.widgets.text_box import TextBox
-from novelystlib.widgets.settings_window import SettingsWindow
-from novelystlib.widgets.plugin_manager import PluginManager
+from novelystlib.controls.settings_window import SettingsWindow
+from novelystlib.controls.plugin_manager import PluginManager
 
 PLUGIN_PATH = f'{sys.path[0]}/plugin'
 

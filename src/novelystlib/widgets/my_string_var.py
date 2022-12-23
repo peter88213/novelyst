@@ -1,8 +1,8 @@
 """Provide a custom variant of the tkinter StringVar class.
 
 Copyright (c) 2022 Peter Triesberger
-For further information see https://github.com/peter88213/novelyst
-License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
+https://github.com/peter88213
+Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import tkinter as tk
 
