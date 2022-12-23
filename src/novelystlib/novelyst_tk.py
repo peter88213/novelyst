@@ -13,12 +13,14 @@ from pywriter.pywriter_globals import *
 from pywriter.model.novel import Novel
 from pywriter.ui.main_tk import MainTk
 from pywriter.ui.set_icon_tk import *
-from novelystlib.contents_viewer import ContentsViewer
+from novelystlib.controls.contents_viewer import ContentsViewer
+from novelystlib.controls.plugin_manager import PluginManager
+from novelystlib.controls.settings_window import SettingsWindow
+from novelystlib.controls.tree_viewer import TreeViewer
 from novelystlib.converter.nv_exporter import NvExporter
 from novelystlib.converter.nv_reporter import NvReporter
 from novelystlib.files.work_file import WorkFile
 from novelystlib.plugin_collection import PluginCollection
-from novelystlib.tree_viewer import TreeViewer
 from novelystlib.views.no_view import NoView
 from novelystlib.views.basic_view import BasicView
 from novelystlib.views.world_element_view import WorldElementView
@@ -29,8 +31,6 @@ from novelystlib.views.notes_scene_view import NotesSceneView
 from novelystlib.views.todo_scene_view import TodoSceneView
 from novelystlib.views.character_view import CharacterView
 from novelystlib.widgets.text_box import TextBox
-from novelystlib.controls.settings_window import SettingsWindow
-from novelystlib.controls.plugin_manager import PluginManager
 
 PLUGIN_PATH = f'{sys.path[0]}/plugin'
 
