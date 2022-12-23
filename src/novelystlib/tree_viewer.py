@@ -759,6 +759,48 @@ class TreeViewer(ttk.Frame):
         title = self._ui.novel.scenes[scId].title
         if not title:
             title = _('Unnamed')
+
+        # Create a combined scDate information.
+        if self._ui.novel.scenes[scId].date is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
+            cmbDate = self._ui.novel.scenes[scId].date
+        else:
+            if self._ui.novel.scenes[scId].day is not None:
+                cmbDate = f'{_("Day")} {self._ui.novel.scenes[scId].day}'
+            else:
+                cmbDate = ''
+
+        # Create a combined time information.
+        if self._ui.novel.scenes[scId].time is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
+            cmbTime = self._ui.novel.scenes[scId].time.rsplit(':', 1)[0]
+        else:
+            if self._ui.novel.scenes[scId].hour or self._ui.novel.scenes[scId].minute:
+                if self._ui.novel.scenes[scId].hour:
+                    scHour = self._ui.novel.scenes[scId].hour
+                else:
+                    scHour = '00'
+                if self._ui.novel.scenes[scId].minute:
+                    scMinute = self._ui.novel.scenes[scId].minute
+                else:
+                    scMinute = '00'
+                cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
+            else:
+                cmbTime = ''
+
+        # Create a combined duration information.
+        if self._ui.novel.scenes[scId].lastsDays is not None and self._ui.novel.scenes[scId].lastsDays != '0':
+            days = f'{self._ui.novel.scenes[scId].lastsDays}d '
+        else:
+            days = ''
+        if self._ui.novel.scenes[scId].lastsHours is not None and self._ui.novel.scenes[scId].lastsHours != '0':
+            hours = f'{self._ui.novel.scenes[scId].lastsHours}h '
+        else:
+            hours = ''
+        if self._ui.novel.scenes[scId].lastsMinutes is not None and self._ui.novel.scenes[scId].lastsMinutes != '0':
+            minutes = f'{self._ui.novel.scenes[scId].lastsMinutes}min'
+        else:
+            minutes = ''
+
+        # Configure the columns depending on the scene type.
         columns = []
         for __ in self.columns:
             columns.append('')
@@ -777,6 +819,10 @@ class TreeViewer(ttk.Frame):
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
             nodeTags.append('notes')
+            columns[self._colPos['dt']] = cmbDate
+            columns[self._colPos['tm']] = cmbTime
+            columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
+
         else:
             # Scene is Normal or Unused type.
             positionStr = ''
@@ -814,47 +860,8 @@ class TreeViewer(ttk.Frame):
             else:
                 columns[self._colPos['ar']] = _('A')
 
-            # Create a combined scDate information.
-            if self._ui.novel.scenes[scId].date is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
-                cmbDate = self._ui.novel.scenes[scId].date
-            else:
-                if self._ui.novel.scenes[scId].day is not None:
-                    cmbDate = f'{_("Day")} {self._ui.novel.scenes[scId].day}'
-                else:
-                    cmbDate = ''
             columns[self._colPos['dt']] = cmbDate
-
-            # Create a combined time information.
-            if self._ui.novel.scenes[scId].time is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
-                cmbTime = self._ui.novel.scenes[scId].time.rsplit(':', 1)[0]
-            else:
-                if self._ui.novel.scenes[scId].hour or self._ui.novel.scenes[scId].minute:
-                    if self._ui.novel.scenes[scId].hour:
-                        scHour = self._ui.novel.scenes[scId].hour
-                    else:
-                        scHour = '00'
-                    if self._ui.novel.scenes[scId].minute:
-                        scMinute = self._ui.novel.scenes[scId].minute
-                    else:
-                        scMinute = '00'
-                    cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
-                else:
-                    cmbTime = ''
             columns[self._colPos['tm']] = cmbTime
-
-            # Create a combined duration information.
-            if self._ui.novel.scenes[scId].lastsDays is not None and self._ui.novel.scenes[scId].lastsDays != '0':
-                days = f'{self._ui.novel.scenes[scId].lastsDays}d '
-            else:
-                days = ''
-            if self._ui.novel.scenes[scId].lastsHours is not None and self._ui.novel.scenes[scId].lastsHours != '0':
-                hours = f'{self._ui.novel.scenes[scId].lastsHours}h '
-            else:
-                hours = ''
-            if self._ui.novel.scenes[scId].lastsMinutes is not None and self._ui.novel.scenes[scId].lastsMinutes != '0':
-                minutes = f'{self._ui.novel.scenes[scId].lastsMinutes}min'
-            else:
-                minutes = ''
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
