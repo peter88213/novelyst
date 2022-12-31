@@ -8,6 +8,7 @@ import re
 
 from pywriter.pywriter_globals import *
 from pywriter.file.file_export import FileExport
+from pywriter.model.scene import ADDITIONAL_WORD_LIMITS, NO_WORD_LIMITS
 
 
 class WrimoFile(FileExport):

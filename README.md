@@ -29,7 +29,7 @@ For more information, see the [project homepage](https://peter88213.github.io/no
 
 ### Development tools
 
-- [Python](https://python.org) version 3.9
+- [Python](https://python.org) version 3.11
 - [Eclipse IDE](https://eclipse.org) with [PyDev](https://pydev.org) and [EGit](https://www.eclipse.org/egit/)
 - [Apache Ant](https://ant.apache.org/) for building the application script
 - [Gaphor](https://gaphor.org/) for creating UML diagrams
