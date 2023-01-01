@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.2.5
+
+- Make it run on old Windows versions.
+
+Based on PyWriter v10.0.1
+
 ### v4.2.4
 
 - View date/time of "Notes" scenes.
