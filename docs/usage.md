@@ -20,11 +20,11 @@ You can either
 
 ## Command reference
 
-- ["File" menu](https://peter88213.github.io/novelyst/help/file_menu)
-- ["View" menu](https://peter88213.github.io/novelyst/help/view_menu)
-- ["Part" menu](https://peter88213.github.io/novelyst/help/part_menu)
-- ["Chapter" menu](https://peter88213.github.io/novelyst/help/chapter_menu)
-- ["Scene" menu](https://peter88213.github.io/novelyst/help/scene_menu)
+### ["File" menu](https://peter88213.github.io/novelyst/help/file_menu)
+### ["View" menu](https://peter88213.github.io/novelyst/help/view_menu)
+### ["Part" menu](https://peter88213.github.io/novelyst/help/part_menu)
+### ["Chapter" menu](https://peter88213.github.io/novelyst/help/chapter_menu)
+### ["Scene" menu](https://peter88213.github.io/novelyst/help/scene_menu)
 
 
 # Tree view operation

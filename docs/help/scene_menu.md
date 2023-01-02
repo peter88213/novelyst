@@ -2,31 +2,31 @@
 
 --- 
 
-# Command reference
+# "Scene" Menu 
 
-## "Scene" Menu -- Scene operation
+### Scene operation
 
-### "Add" -- Add a new scene
+## "Add" -- Add a new scene
 
 You can add a scene to the tree with **Scene > Add**.
 - The new scene is placed at the next free position after the selection, if possible.
 - Otherwise, no new scene is generated.  
 - The new scene has an auto-generated title. You can change it in the right pane.
 
-### "Set Type" -- Set the scene type
+## "Set Type" -- Set the scene type
 
-### "Set Status" -- Set the scene completion status
+## "Set Status" -- Set the scene completion status
 
-### "Set Style" -- Set the scene style
+## "Set Style" -- Set the scene style
 
-### "Export scene descriptions for editing" -- Export an ODT document
+## "Export scene descriptions for editing" -- Export an ODT document
 
 This will generate a new OpenDocument text document (odt) containing a
 **full synopsis** with part/chapter headings and scene descriptions that can
 be edited and written back to yWriter format. File name suffix is
 `_scenes`.
 
-### "Export scene list (spreadsheet) -- Export an ODS document
+## "Export scene list (spreadsheet) -- Export an ODS document
 
 This will generate a new OpenDocument spreadsheet (ods) listing the following:
 

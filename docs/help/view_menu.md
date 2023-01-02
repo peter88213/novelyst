@@ -2,31 +2,31 @@
 
 --- 
 
-# Command reference
+# "View" Menu 
 
-## "View" Menu -- Adjust the project tree display
+### Adjust the project tree display
 
-### "Chapter level" -- Hide the scenes
+## "Chapter level" -- Hide the scenes
 
 - You can collapse the tree, so that only parts and chapters are visible, with **View > Chapter level** or **Ctrl-Alt-C**.
 
-### "Expand selected" -- Show a whole subtree
+## "Expand selected" -- Show a whole subtree
 
 - You can expand a selected tree element with **View > Expand selected**. 
 
-### "Collapse selected" -- Hide child elements
+## "Collapse selected" -- Hide child elements
 
 - You can collapse a selected subtree with **View > Collapse selected**. 
 
-### "Expand all" -- Show the whole tree
+## "Expand all" -- Show the whole tree
 
 - You can expand the whole tree with **View > Expand all**. 
 
-### "Collapse all" -- Hide child elements
+## "Collapse all" -- Hide child elements
 
 - You can hide all tree elements except the main categories with **View > Collapse all**. 
 
-### "Toggle 'Contents' window" -- Show/hide the whole novel
+## "Toggle 'Contents' window" -- Show/hide the whole novel
 
 - You can open or close a text window, showing part/chapter/scene titles and scene content, with **View > Toggle "Contents" window** or **Ctrl-T**.
 - On opening, the windows shows the text, where the tree is selected.
