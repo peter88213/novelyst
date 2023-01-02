@@ -17,11 +17,27 @@ You can add a scene to the tree with **Scene > Add**.
 - Otherwise, no new scene is generated.  
 - The new scene has an auto-generated title. You can change it in the right pane.
 
+### Properties of a new scene
+
+- *Normal* type
+- *Outline* completion status
+- *Staged* style
+- No viewpoint character assigned
+- No arc or tag assigned
+- No date/time set
+
 --- 
 
 ## Set Type
 
-**Set the scene type**
+**Set the type of the selected scene**
+
+This can be *Normal*, *Notes*, *Todo*, or *Unused*.
+
+### Type change for multiple scenes
+
+- Either select multiple scenes, or
+- select a parent node (part or chapter)
 
 --- 
 
@@ -29,11 +45,25 @@ You can add a scene to the tree with **Scene > Add**.
 
 **Set the scene completion status**
 
+This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
+
+### Status change for multiple scenes
+
+- Either select multiple scenes, or
+- select a parent node (part, chapter, or Narrative)
+
 --- 
 
 ## Set Style
 
 **Set the scene style**
+
+This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+
+### Style change for multiple scenes
+
+- Either select multiple scenes, or
+- select a parent node (part, chapter, or Narrative)
 
 --- 
 
