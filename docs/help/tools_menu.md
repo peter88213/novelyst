@@ -45,7 +45,7 @@ On the window frame, you see the *novelyst* version, consisting of three numbers
 
 `<major version number>.<minor version number>.<patch level>`
 
-In the **novelyst API**, you see the plugin's compatibility information, consisting of two numbers that are separated by points.
+In the **novelyst API** column, you see the plugin's compatibility information, consisting of two numbers that are separated by points.
 
 `<major version number>.<minor version number>`
 
