@@ -1,32 +1,44 @@
-[Project homepage](index) > [Instructions for use](usage) > Command reference: "Scene" menu
+[Project homepage](index) > [Instructions for use](usage) > Command reference: Scene menu
 
 --- 
 
-# "Scene" Menu 
+# Scene menu 
 
 ### Scene operation
 
-## "Add" -- Add a new scene
+## Add
+
+**Add a new scene**
 
 You can add a scene to the tree with **Scene > Add**.
 - The new scene is placed at the next free position after the selection, if possible.
 - Otherwise, no new scene is generated.  
 - The new scene has an auto-generated title. You can change it in the right pane.
 
-## "Set Type" -- Set the scene type
+## Set Type
 
-## "Set Status" -- Set the scene completion status
+**Set the scene type**
 
-## "Set Style" -- Set the scene style
+## Set Status
 
-## "Export scene descriptions for editing" -- Export an ODT document
+**Set the scene completion status**
+
+## Set Style
+
+**Set the scene style**
+
+## Export scene descriptions for editing 
+
+**Export an ODT document**
 
 This will generate a new OpenDocument text document (odt) containing a
 **full synopsis** with part/chapter headings and scene descriptions that can
 be edited and written back to yWriter format. File name suffix is
 `_scenes`.
 
-## "Export scene list (spreadsheet) -- Export an ODS document
+## Export scene list (spreadsheet) 
+
+**Export an ODS document**
 
 This will generate a new OpenDocument spreadsheet (ods) listing the following:
 
@@ -59,5 +71,7 @@ type are omitted.
 Scenes beginning with `<HTML>` or `<TEX>` are omitted.
 
 File name suffix is `_scenelist`.
+
+--- 
 
 [<< Previous](chapter_menu) -- [Next >>](characters_menu)
