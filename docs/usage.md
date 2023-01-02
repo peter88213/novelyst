@@ -22,17 +22,17 @@ You can either
 
 ## Command reference
 
-### [File menu](https://peter88213.github.io/novelyst/help/file_menu)
-### [View menu](https://peter88213.github.io/novelyst/help/view_menu)
-### [Part menu](https://peter88213.github.io/novelyst/help/part_menu)
-### [Chapter menu](https://peter88213.github.io/novelyst/help/chapter_menu)
-### [Scene menu](https://peter88213.github.io/novelyst/help/scene_menu)
-### [Characters menu](https://peter88213.github.io/novelyst/help/characters_menu)
-### [Locations menu](https://peter88213.github.io/novelyst/help/locations_menu)
-### [Items menu](https://peter88213.github.io/novelyst/help/items_menu)
-### [Project notes menu](https://peter88213.github.io/novelyst/help/project_notes_menu)
-### [Export menu](https://peter88213.github.io/novelyst/help/export_menu)
-### [Tools menu](https://peter88213.github.io/novelyst/help/tools_menu)
+#### [File menu](https://peter88213.github.io/novelyst/help/file_menu)
+#### [View menu](https://peter88213.github.io/novelyst/help/view_menu)
+#### [Part menu](https://peter88213.github.io/novelyst/help/part_menu)
+#### [Chapter menu](https://peter88213.github.io/novelyst/help/chapter_menu)
+#### [Scene menu](https://peter88213.github.io/novelyst/help/scene_menu)
+#### [Characters menu](https://peter88213.github.io/novelyst/help/characters_menu)
+#### [Locations menu](https://peter88213.github.io/novelyst/help/locations_menu)
+#### [Items menu](https://peter88213.github.io/novelyst/help/items_menu)
+#### [Project notes menu](https://peter88213.github.io/novelyst/help/project_notes_menu)
+#### [Export menu](https://peter88213.github.io/novelyst/help/export_menu)
+#### [Tools menu](https://peter88213.github.io/novelyst/help/tools_menu)
 
 
 --- 

@@ -6,13 +6,15 @@
 
 **Item operation**
 
+--- 
+
 ## Add
 
 **Add a new item**
 
-You can add a item to the tree with **Items > Add**.
+You can add an item to the tree with **Items > Add**.
 
-- If a item is selected, the new item is placed after the selected one.
+- If an item is selected, the new item is placed after the selected one.
 - Otherwise, the new item is placed at the first position.   
 - The new item has an auto-generated title. You can change it in the right pane.
 

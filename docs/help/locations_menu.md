@@ -54,4 +54,4 @@ This will generate a list-formatted HTML file, and launch your system's web brow
 
 ---
 
-[<< Previous](charcters_menu) -- [Next >>](items_menu)
+[<< Previous](characters_menu) -- [Next >>](items_menu)

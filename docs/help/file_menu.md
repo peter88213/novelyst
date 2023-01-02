@@ -109,7 +109,7 @@ yWriter creates its own lock file. If *novelyst* finds this, it will neither loa
 
 **Restore a "yWriter only" file**
 
-"novelyst" customizes the *.yw7* file format in a compatible way. However, if you don't want to use your project witn *novelyst* any more, you can "clean up" your project, removing all custom extensions from the project file, with **File > Remove custom fields**. You will get a warning before *novelyst*-only data is deleted.
+*novelyst* customizes the *.yw7* file format in a compatible way. However, if you don't want to use your project witn *novelyst* any more, you can "clean up" your project, removing all custom extensions from the project file, with **File > Remove custom fields**. You will get a warning before *novelyst*-only data is deleted.
 
 **Warning:** This command will remove the *novelyst* specific project settings, such as auto-numbering mode and renamings. This will also remove special scene properties such as arc and style assignments.
 
@@ -134,4 +134,4 @@ yWriter creates its own lock file. If *novelyst* finds this, it will neither loa
 
 --- 
 
-[Next >>](view_menu)
+[<< Last](tools_menu) -- [Next >>](view_menu)
