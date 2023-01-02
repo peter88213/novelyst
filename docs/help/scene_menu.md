@@ -1,10 +1,12 @@
-[Project homepage](index) > [Instructions for use](usage) > Command reference: Scene menu
+[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Scene menu
 
 --- 
 
 # Scene menu 
 
-### Scene operation
+**Scene operation**
+
+--- 
 
 ## Add
 
@@ -15,17 +17,25 @@ You can add a scene to the tree with **Scene > Add**.
 - Otherwise, no new scene is generated.  
 - The new scene has an auto-generated title. You can change it in the right pane.
 
+--- 
+
 ## Set Type
 
 **Set the scene type**
+
+--- 
 
 ## Set Status
 
 **Set the scene completion status**
 
+--- 
+
 ## Set Style
 
 **Set the scene style**
+
+--- 
 
 ## Export scene descriptions for editing 
 
@@ -35,6 +45,8 @@ This will generate a new OpenDocument text document (odt) containing a
 **full synopsis** with part/chapter headings and scene descriptions that can
 be edited and written back to yWriter format. File name suffix is
 `_scenes`.
+
+--- 
 
 ## Export scene list (spreadsheet) 
 

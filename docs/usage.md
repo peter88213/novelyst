@@ -16,6 +16,8 @@ You can either
 - launch the program by dragging a *.yw7* project file and dropping it on the shortcut icon.
 
 
+--- 
+
 # Online help
 
 ## Command reference
@@ -32,6 +34,8 @@ You can either
 ### [Export menu](https://peter88213.github.io/novelyst/help/export_menu)
 ### [Tools menu](https://peter88213.github.io/novelyst/help/tools_menu)
 
+
+--- 
 
 # Tree view operation
 

@@ -1,10 +1,12 @@
-[Project homepage](index) > [Instructions for use](usage) > Command reference: Locations menu
+[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Locations menu
 
 --- 
 
 # Locations menu 
 
-### Location operation
+**Location operation**
+
+--- 
 
 ## Add
 
@@ -16,9 +18,7 @@ You can add a location to the tree with **Locations > Add**.
 - Otherwise, the new location is placed at the first position.   
 - The new location has an auto-generated title. You can change it in the right pane.
 
-## Set Status
-
-**Set the location status**
+--- 
 
 ## Export location descriptions for editing 
 
@@ -27,6 +27,8 @@ You can add a location to the tree with **Locations > Add**.
 This will generate a new OpenDocument text document (odt) containing
 location descriptions that can be edited in Office Writer and written
 back to yWriter format. File name suffix is `_locations`.
+
+--- 
 
 ## Export location list (spreadsheet) 
 
@@ -38,6 +40,8 @@ yWriter format. File name suffix is `_loclist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.
+
+--- 
 
 ## Show list
 

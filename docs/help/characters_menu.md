@@ -1,10 +1,12 @@
-[Project homepage](index) > [Instructions for use](usage) > Command reference: Characters menu
+[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Characters menu
 
 --- 
 
 # Characters menu 
 
-### Character operation
+**Character operation**
+
+--- 
 
 ## Add
 
@@ -16,9 +18,13 @@ You can add a character to the tree with **Characters > Add**.
 - Otherwise, the new character is placed at the first position.   
 - The new character has an auto-generated title. You can change it in the right pane.
 
+--- 
+
 ## Set Status
 
 **Set the character status**
+
+--- 
 
 ## Export character descriptions for editing 
 
@@ -28,6 +34,8 @@ This will generate a new OpenDocument text document (odt) containing
 character descriptions, bio, goals, and notes that can be edited in Office
 Writer and written back to yWriter format. File name suffix is
 `_characters`.
+
+--- 
 
 ## Export character list (spreadsheet) 
 
@@ -39,6 +47,8 @@ yWriter format. File name suffix is `_charlist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.
+
+--- 
 
 ## Show list
 

@@ -1,10 +1,10 @@
-[Project homepage](index) > [Instructions for use](usage) > Command reference: Items menu
+[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Items menu
 
 --- 
 
 # Items menu 
 
-### Item operation
+**Item operation**
 
 ## Add
 
@@ -16,9 +16,7 @@ You can add a item to the tree with **Items > Add**.
 - Otherwise, the new item is placed at the first position.   
 - The new item has an auto-generated title. You can change it in the right pane.
 
-## Set Status
-
-**Set the item status**
+--- 
 
 ## Export item descriptions for editing 
 
@@ -27,6 +25,8 @@ You can add a item to the tree with **Items > Add**.
 This will generate a new OpenDocument text document (odt) containing
 item descriptions that can be edited in Office Writer and written back
 to yWriter format. File name suffix is `_items`.
+
+--- 
 
 ## Export item list (spreadsheet) 
 
@@ -38,6 +38,8 @@ yWriter format. File name suffix is `_loclist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.
+
+--- 
 
 ## Show list
 
