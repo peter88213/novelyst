@@ -26,7 +26,7 @@ You can add an item to the tree with **Items > Add**.
 
 This will generate a new OpenDocument text document (odt) containing
 item descriptions that can be edited in Office Writer and written back
-to yWriter format. File name suffix is `_items`.
+to project format. File name suffix is `_items`.
 
 --- 
 
@@ -36,7 +36,7 @@ to yWriter format. File name suffix is `_items`.
 
 This will generate a new OpenDocument spreadsheet (ods) containing a
 item list that can be edited in Office Calc and written back to
-yWriter format. File name suffix is `_loclist`.
+project format. File name suffix is `_loclist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.

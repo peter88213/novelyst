@@ -25,7 +25,7 @@ You can add a part to the tree with **Part > Add**.
 
 This will generate a new OpenDocument text document (odt) containing a
 **very brief synopsis** with part headings and part descriptions that can
-be edited and written back to yWriter format. File name suffix is
+be edited and written back to project format. File name suffix is
 `_parts`.
 
 --- 

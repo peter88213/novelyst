@@ -26,7 +26,7 @@ You can add a location to the tree with **Locations > Add**.
 
 This will generate a new OpenDocument text document (odt) containing
 location descriptions that can be edited in Office Writer and written
-back to yWriter format. File name suffix is `_locations`.
+back to project format. File name suffix is `_locations`.
 
 --- 
 
@@ -36,7 +36,7 @@ back to yWriter format. File name suffix is `_locations`.
 
 This will generate a new OpenDocument spreadsheet (ods) containing a
 location list that can be edited in Office Calc and written back to
-yWriter format. File name suffix is `_loclist`.
+project format. File name suffix is `_loclist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.

@@ -25,7 +25,7 @@ You can add a chapter to the tree with **Chapter > Add**.
 
 This will generate a new OpenDocument text document (odt) containing a
 **brief synopsis** with part/chapter headings and chapter descriptions that can
-be edited and written back to yWriter format. File name suffix is
+be edited and written back to project format. File name suffix is
 `_chapters`.
 
 ---

@@ -32,7 +32,7 @@ You can add a character to the tree with **Characters > Add**.
 
 This will generate a new OpenDocument text document (odt) containing
 character descriptions, bio, goals, and notes that can be edited in Office
-Writer and written back to yWriter format. File name suffix is
+Writer and written back to project format. File name suffix is
 `_characters`.
 
 --- 
@@ -43,7 +43,7 @@ Writer and written back to yWriter format. File name suffix is
 
 This will generate a new OpenDocument spreadsheet (ods) containing a
 character list that can be edited in Office Calc and written back to
-yWriter format. File name suffix is `_charlist`.
+project format. File name suffix is `_charlist`.
 
 You may change the sort order of the rows. You may also add or remove
 rows. New entities must get a unique ID.

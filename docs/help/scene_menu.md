@@ -73,7 +73,7 @@ This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 
 This will generate a new OpenDocument text document (odt) containing a
 **full synopsis** with part/chapter headings and scene descriptions that can
-be edited and written back to yWriter format. File name suffix is
+be edited and written back to project format. File name suffix is
 `_scenes`.
 
 --- 
@@ -106,8 +106,7 @@ This will generate a new OpenDocument spreadsheet (ods) listing the following:
 - Locations
 - Items
 
-Only "normal" scenes that would be exported as RTF in yWriter get a 
-row in the scene list. Scenes of the "Unused", "Notes", or "ToDo" 
+Only "normal" scenes get a row in the scene list. Scenes of the "Unused", "Notes", or "ToDo" 
 type are omitted.
 
 Scenes beginning with `<HTML>` or `<TEX>` are omitted.
