@@ -38,9 +38,9 @@ class TodoSceneView(BasicView):
         """
         super(). __init__(ui)
 
-        # 'Arc reference' entry.
+        # 'Arc name' entry.
         self._arcs = MyStringVar()
-        self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc reference'), textvariable=self._arcs, lblWidth=22)
+        self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc name'), textvariable=self._arcs, lblWidth=22)
         self._arcsEntry.pack(anchor=tk.W, pady=2)
 
         '''
@@ -75,7 +75,7 @@ class TodoSceneView(BasicView):
         else:
             arc = ''
 
-        # 'Arc reference' entry.
+        # 'Arc name' entry.
         self._arcs.set(arc)
 
         '''
@@ -101,7 +101,7 @@ class TodoSceneView(BasicView):
         
         Extends the superclass method.
         """
-        # 'Arc reference' entry.
+        # 'Arc name' entry.
         '''
         newArcs = self._arcs.get()
         if self._element.scnArcs or newArcs:

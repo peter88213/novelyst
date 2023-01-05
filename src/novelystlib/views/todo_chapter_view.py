@@ -33,9 +33,9 @@ class TodoChapterView(BasicView):
         """
         super(). __init__(ui)
 
-        # 'Arc reference' entry.
+        # 'Arc namee' entry.
         self._arcs = MyStringVar()
-        self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc reference'), textvariable=self._arcs, lblWidth=22)
+        self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc name'), textvariable=self._arcs, lblWidth=22)
         self._arcsEntry.pack(anchor=tk.W, pady=2)
 
         # Frame for arc specific widgets.
@@ -65,7 +65,7 @@ class TodoChapterView(BasicView):
         else:
             arc = ''
 
-        # 'Arc reference' entry.
+        # 'Arc name' entry.
         self._arcs.set(arc)
 
         # Frame for arc specific widgets.
@@ -82,7 +82,7 @@ class TodoChapterView(BasicView):
         
         Extends the superclass method.
         """
-        # 'Arc reference' entry.
+        # 'Arc name' entry.
         newArcs = self._arcs.get().replace(';', '')
         if self._element.kwVar['Field_Arc_Definition'] or newArcs:
             if self._element.kwVar['Field_Arc_Definition'] != newArcs:

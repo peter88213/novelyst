@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unknown\n"
-"POT-Creation-Date: 2023-01-05 20:20:51\n"
+"POT-Creation-Date: 2023-01-05 22:22:58\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-msgid "Arc reference"
+msgid "Arc name"
 msgstr ""
 
 msgid "Arcs"
