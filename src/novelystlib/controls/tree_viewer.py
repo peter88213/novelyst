@@ -461,15 +461,12 @@ class TreeViewer(ttk.Frame):
         serialize_tree(self.PN_ROOT, '')
 
         # Make sure that scenes inherit the parent's type, if not normal.
-        for chId in self._ui.novel.srtChapters:
-            if self._ui.novel.chapters[chId].chType != 0:
-                for scId in self._ui.novel.chapters[chId].srtScenes:
-                    self._ui.novel.scenes[scId].scType = self._ui.novel.chapters[chId].chType
-                    if self._ui.novel.chapters[chId].chType == 2 and self._ui.novel.chapters[chId].chLevel == 0:
-                        # Scene inherits arc of arc-defining parent chapter.
-                        arc = self._ui.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
-                        if arc:
-                            self._ui.novel.scenes[scId].scnArcs = arc
+        self._ui.prjFile.adjust_scene_types()
+        new_chapters = self._ui.prjFile.check_arcs()
+        for chId in new_chapters:
+            newNode = f'{self.CHAPTER_PREFIX}{chId}'
+            title, columns, nodeTags = self._set_chapter_display(chId)
+            self.tree.insert(self.NV_ROOT, 'end', newNode, text=title, values=columns, tags=nodeTags)
 
         self._ui.isModified = True
         self._ui.show_status()

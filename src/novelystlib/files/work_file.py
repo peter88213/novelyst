@@ -153,31 +153,7 @@ class WorkFile(Yw7File):
         super().read()
 
         #--- Check arc definitions.
-        arcs = []
-        for chId in self.novel.srtChapters:
-            if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
-                arc = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
-                if arc:
-                    arcs.append(arc)
-                    for scId in self.novel.chapters[chId].srtScenes:
-                        self.novel.scenes[scId].scnArcs = arc
-
-        #--- Add missing arc definitions.
-        for scId in self.novel.scenes:
-            for arc in string_to_list(self.novel.scenes[scId].scnArcs):
-                if not arc in arcs:
-
-                    # Create a "To do" chapter with an arc definition.
-                    chId = create_id(self.novel.srtChapters)
-                    self.novel.chapters[chId] = Chapter()
-                    self.novel.chapters[chId].title = f'{arc} - {_("Story arc")}'
-                    self.novel.chapters[chId].chLevel = 0
-                    self.novel.chapters[chId].chType = 2
-                    for fieldName in self._CHP_KWVAR:
-                        self.novel.chapters[chId].kwVar[fieldName] = None
-                    self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = arc
-                    self.novel.srtChapters.append(chId)
-                    arcs.append(arc)
+        self.check_arcs()
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
@@ -408,4 +384,41 @@ class WorkFile(Yw7File):
             if self.novel.chapters[chId].chType != 0:
                 for scId in self.novel.chapters[chId].srtScenes:
                     self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
+
+    def check_arcs(self):
+        """Check arc definitions.
+        
+        Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.
+        Create arc-defining "Todo" chapters for "orphaned" arcs.
+        
+        Return a list with the new chapter IDs, if any.
+        """
+        arcs = []
+        for chId in self.novel.srtChapters:
+            if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
+                arc = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
+                if arc:
+                    arcs.append(arc)
+                    for scId in self.novel.chapters[chId].srtScenes:
+                        self.novel.scenes[scId].scnArcs = arc
+
+        #--- Add missing arc definitions.
+        new_chapters = []
+        for scId in self.novel.scenes:
+            for arc in string_to_list(self.novel.scenes[scId].scnArcs):
+                if not arc in arcs:
+
+                    # Create a "To do" chapter with an arc definition.
+                    chId = create_id(self.novel.srtChapters)
+                    self.novel.chapters[chId] = Chapter()
+                    self.novel.chapters[chId].title = f'{arc} - {_("Story arc")}'
+                    self.novel.chapters[chId].chLevel = 0
+                    self.novel.chapters[chId].chType = 2
+                    for fieldName in self._CHP_KWVAR:
+                        self.novel.chapters[chId].kwVar[fieldName] = None
+                    self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = arc
+                    self.novel.srtChapters.append(chId)
+                    arcs.append(arc)
+                    new_chapters.append(chId)
+        return new_chapters
 
