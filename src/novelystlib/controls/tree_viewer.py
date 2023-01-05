@@ -806,16 +806,8 @@ class TreeViewer(ttk.Frame):
             columns.append('')
         nodeTags = []
         if self._ui.novel.scenes[scId].scType == 2:
-            #   is Todo type: Show Arc references.
+            #   is Todo type.
             nodeTags.append('todo')
-            arc = self._ui.novel.scenes[scId].scnArcs
-            if arc:
-                wordCount = 0
-                for sid in self._ui.novel.scenes:
-                    if self._ui.novel.scenes[sid].scType == 0:
-                        if arc in string_to_list(self._ui.novel.scenes[sid].scnArcs):
-                            wordCount += self._ui.novel.scenes[sid].wordCount
-                columns[self._colPos['wc']] = wordCount
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
             nodeTags.append('notes')
@@ -950,6 +942,14 @@ class TreeViewer(ttk.Frame):
                 nodeTags.append('todo part')
             else:
                 nodeTags.append('todo')
+                arc = self._ui.novel.chapters[chId].kwVar['Field_Arc_Definition']
+                if arc:
+                    wordCount = 0
+                    for sid in self._ui.novel.scenes:
+                        if self._ui.novel.scenes[sid].scType == 0:
+                            if arc in string_to_list(self._ui.novel.scenes[sid].scnArcs):
+                                wordCount += self._ui.novel.scenes[sid].wordCount
+                    columns[self._colPos['wc']] = wordCount
         elif self._ui.novel.chapters[chId].chType == 3:
             # Chapter is Unused type.
             nodeTags.append('unused')

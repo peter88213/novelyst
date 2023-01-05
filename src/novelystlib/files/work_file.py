@@ -63,9 +63,11 @@ class WorkFile(Yw7File):
         ]
     _CHP_KWVAR = [
         'Field_NoNumber',
+        'Field_Arc_Definition',
         ]
     _SCN_KWVAR = [
         'Field_SceneArcs',
+        'Field_Arc_References',
         'Field_CustomAR',
         'Field_SceneStyle',
         ]

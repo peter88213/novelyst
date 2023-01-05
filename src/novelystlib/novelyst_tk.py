@@ -26,6 +26,7 @@ from novelystlib.views.basic_view import BasicView
 from novelystlib.views.world_element_view import WorldElementView
 from novelystlib.views.project_view import ProjectView
 from novelystlib.views.chapter_view import ChapterView
+from novelystlib.views.todo_chapter_view import TodoChapterView
 from novelystlib.views.scene_view import SceneView
 from novelystlib.views.notes_scene_view import NotesSceneView
 from novelystlib.views.todo_scene_view import TodoSceneView
@@ -228,6 +229,7 @@ class NovelystTk(MainTk):
         self._basicView = BasicView(self)
         self._projectView = ProjectView(self)
         self._chapterView = ChapterView(self)
+        self._todoChapterView = TodoChapterView(self)
         self._todoSceneView = TodoSceneView(self)
         self._notesSceneView = NotesSceneView(self)
         self._sceneView = SceneView(self)
@@ -487,10 +489,16 @@ class NovelystTk(MainTk):
             chId -- str: chapter ID
         """
         self._elementView.apply_changes()
-        if not self._elementView is self._chapterView:
-            self._elementView.hide()
-            self._elementView = self._chapterView
-            self._elementView.show(self.novel.chapters[chId])
+        if self.novel.chapters[chId].chLevel == 0 and self.novel.chapters[chId].chType == 2:
+            if not self._elementView is self._todoChapterView:
+                self._elementView.hide()
+                self._elementView = self._todoChapterView
+                self._elementView.show(self.novel.chapters[chId])
+        else:
+            if not self._elementView is self._chapterView:
+                self._elementView.hide()
+                self._elementView = self._chapterView
+                self._elementView.show(self.novel.chapters[chId])
         self._elementView.set_data(self.novel.chapters[chId])
         self.contentsViewer.see(f'ch{chId}')
 
@@ -506,19 +514,17 @@ class NovelystTk(MainTk):
                 self._elementView.hide()
                 self._elementView = self._todoSceneView
                 self._elementView.show(self.novel.scenes[scId])
-            self._elementView.set_data(self.novel.scenes[scId])
         elif self.novel.scenes[scId].scType == 1:
             if not self._elementView is self._notesSceneView:
                 self._elementView.hide()
                 self._elementView = self._notesSceneView
                 self._elementView.show(self.novel.scenes[scId])
-            self._elementView.set_data(self.novel.scenes[scId])
         else:
             if not self._elementView is self._sceneView:
                 self._elementView.hide()
                 self._elementView = self._sceneView
                 self._elementView.show(self.novel.scenes[scId])
-            self._elementView.set_data(self.novel.scenes[scId])
+        self._elementView.set_data(self.novel.scenes[scId])
         self.contentsViewer.see(f'sc{scId}')
 
     def view_character(self, crId):
