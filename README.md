@@ -66,7 +66,7 @@ Then start *novelyst* and see whether your translation works.
 
 **NOTE:** At startup, *novelyst* tries to load a message dictionary that fits to the system language. If it doesn't find a matching language code in the *locale* directory, it uses English as default language. 
 
-**HINT:** *novlyst* comes with German translations. Look at the `de` directory tree, if you need an example. 
+**HINT:** *novelyst* comes with German translations. Look at the `de` directory tree, if you need an example. 
 
 
 ### Contribute your translations
