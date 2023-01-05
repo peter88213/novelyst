@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 from pywriter.pywriter_globals import *
 from pywriter.yw.yw7_file import Yw7File
 from pywriter.yw.xml_indent import indent
+from pywriter.model.id_generator import create_id
+from pywriter.model.chapter import Chapter
 
 
 class WorkFile(Yw7File):
@@ -67,7 +69,7 @@ class WorkFile(Yw7File):
         ]
     _SCN_KWVAR = [
         'Field_SceneArcs',
-        'Field_Arc_References',
+        'Field_Arc_Elements',
         'Field_CustomAR',
         'Field_SceneStyle',
         ]
@@ -149,6 +151,33 @@ class WorkFile(Yw7File):
         Extends the superclass method.
         """
         super().read()
+
+        #--- Check arc definitions.
+        arcs = []
+        for chId in self.novel.srtChapters:
+            if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
+                arc = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
+                if arc:
+                    arcs.append(arc)
+                    for scId in self.novel.chapters[chId].srtScenes:
+                        self.novel.scenes[scId].scnArcs = arc
+
+        #--- Add missing arc definitions.
+        for scId in self.novel.scenes:
+            for arc in string_to_list(self.novel.scenes[scId].scnArcs):
+                if not arc in arcs:
+
+                    # Create a "To do" chapter with an arc definition.
+                    chId = create_id(self.novel.srtChapters)
+                    self.novel.chapters[chId] = Chapter()
+                    self.novel.chapters[chId].title = f'{arc} - {_("Story arc")}'
+                    self.novel.chapters[chId].chLevel = 0
+                    self.novel.chapters[chId].chType = 2
+                    for fieldName in self._CHP_KWVAR:
+                        self.novel.chapters[chId].kwVar[fieldName] = None
+                    self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = arc
+                    self.novel.srtChapters.append(chId)
+                    arcs.append(arc)
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []

@@ -459,6 +459,18 @@ class TreeViewer(ttk.Frame):
         serialize_tree(self.LC_ROOT, '')
         serialize_tree(self.IT_ROOT, '')
         serialize_tree(self.PN_ROOT, '')
+
+        # Make sure that scenes inherit the parent's type, if not normal.
+        for chId in self._ui.novel.srtChapters:
+            if self._ui.novel.chapters[chId].chType != 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    self._ui.novel.scenes[scId].scType = self._ui.novel.chapters[chId].chType
+                    if self._ui.novel.chapters[chId].chType == 2 and self._ui.novel.chapters[chId].chLevel == 0:
+                        # Scene inherits arc of arc-defining parent chapter.
+                        arc = self._ui.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
+                        if arc:
+                            self._ui.novel.scenes[scId].scnArcs = arc
+
         self._ui.isModified = True
         self._ui.show_status()
 
@@ -615,13 +627,10 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.scenes[scId] = Scene()
         self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
         self._ui.novel.scenes[scId].status = 1
+        # Completion status = Outline
         self._ui.novel.scenes[scId].scType = 0
+        # Default type = Normal.
         self._ui.novel.scenes[scId].appendToPrev = False
-        # Inherit chapter type
-        parentChapter = self._ui.novel.chapters[parent[2:]]
-        if parentChapter.chType != 0:
-            self._ui.novel.scenes[scId].scType = parentChapter.chType
-        # Edit status = Outline
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile._SCN_KWVAR:

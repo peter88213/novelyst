@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.3.0\n"
-"POT-Creation-Date: 2023-01-05 17:04:42\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-01-05 20:20:51\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -594,6 +594,9 @@ msgid "Starting count"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid "Story arc"
 msgstr ""
 
 msgid "Style"

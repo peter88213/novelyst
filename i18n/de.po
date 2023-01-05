@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.3.0\n"
-"POT-Creation-Date: 2023-01-05 17:04:42\n"
-"PO-Revision-Date: 2023-01-05 17:04:42\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-01-05 20:20:51\n"
+"PO-Revision-Date: 2023-01-05 20:22:34\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -594,6 +594,9 @@ msgstr "Anfangswert"
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Story arc"
+msgstr "Handlungsbogen"
 
 msgid "Style"
 msgstr "Stil"
