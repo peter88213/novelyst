@@ -153,7 +153,7 @@ class WorkFile(Yw7File):
         super().read()
 
         #--- Check arc definitions.
-        self.check_arcs()
+        self.check_arcs(addChapters=True)
 
         #--- Fix multiple characters/locations/items.
         srtCharacters = []
@@ -385,12 +385,13 @@ class WorkFile(Yw7File):
                 for scId in self.novel.chapters[chId].srtScenes:
                     self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
 
-    def check_arcs(self):
-        """Check arc definitions.
+    def check_arcs(self, addChapters=False):
+        """Check the arc-defining "Todo" chapters.
         
-        Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.
-        Create arc-defining "Todo" chapters for "orphaned" arcs.
+        Optional arguments:
+            addChapters -- If True, create arc-defining "Todo" chapters for "orphaned" arcs.
         
+        Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.       
         Return a list with the new chapter IDs, if any.
         """
         arcs = []
@@ -401,6 +402,8 @@ class WorkFile(Yw7File):
                     arcs.append(arc)
                     for scId in self.novel.chapters[chId].srtScenes:
                         self.novel.scenes[scId].scnArcs = arc
+        if not addChapters:
+            return []
 
         #--- Add missing arc definitions.
         new_chapters = []

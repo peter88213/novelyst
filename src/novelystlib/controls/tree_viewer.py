@@ -462,7 +462,9 @@ class TreeViewer(ttk.Frame):
 
         # Make sure that scenes inherit the parent's type, if not normal.
         self._ui.prjFile.adjust_scene_types()
-        new_chapters = self._ui.prjFile.check_arcs()
+
+        # Check the arc-defining "Todo" chapters.
+        new_chapters = self._ui.prjFile.check_arcs(addChapters=True)
         for chId in new_chapters:
             newNode = f'{self.CHAPTER_PREFIX}{chId}'
             title, columns, nodeTags = self._set_chapter_display(chId)
