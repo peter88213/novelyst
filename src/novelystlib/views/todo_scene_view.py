@@ -37,21 +37,23 @@ class TodoSceneView(BasicView):
         Extends the superclass constructor.
         """
         super(). __init__(ui)
+        self._associatedScene = None
 
-        # 'Arc name' entry.
-        self._arcs = MyStringVar()
-        self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc name'), textvariable=self._arcs, lblWidth=22)
-        self._arcsEntry.pack(anchor=tk.W, pady=2)
-
-        '''
         # Frame for arc specific widgets.
         self._arcFrame = ttk.Frame(self._elementInfoWindow)
-        self._nrScenes = ttk.Label(self._arcFrame)
-        self._nrScenes.pack(side=tk.LEFT, pady=2)
-        ttk.Button(self._arcFrame, text=_('Remove scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
-        '''
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        # Arc display.
+        self._arc = ttk.Label(self._arcFrame)
+        self._arc.pack(anchor=tk.W, pady=2)
+
+        # Associated scene title display.
+        self._associatedSceneTitle = ttk.Label(self._arcFrame)
+        self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
+        ttk.Button(self._arcFrame, text=_('Choose scene'), command=self._associateScene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._arcFrame, text=_('Clear scene'), command=self._disassociateScene).pack(side=tk.LEFT, padx=1, pady=2)
+
+        self._arcFramePlace = ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL)
+        self._arcFramePlace.pack(fill=tk.X)
 
         # 'Tags' entry.
         self._tags = MyStringVar()
@@ -64,31 +66,6 @@ class TodoSceneView(BasicView):
         """
         super().set_data(element)
 
-        # Count the scenes assigned to this arc.
-        self._scenesAssigned = []
-        arc = self._element.scnArcs
-        if arc:
-            for scId in self._ui.novel.scenes:
-                if self._ui.novel.scenes[scId].scType == 0:
-                    if arc in string_to_list(self._ui.novel.scenes[scId].scnArcs):
-                        self._scenesAssigned.append(scId)
-        else:
-            arc = ''
-
-        # 'Arc name' entry.
-        self._arcs.set(arc)
-
-        '''
-        # Frame for arc specific widgets.
-        if len(self._scenesAssigned) > 0:
-            self._nrScenes['text'] = f'{_("Number of scenes")}: {len(self._scenesAssigned)}'
-            if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
-        else:
-            if self._arcFrame.winfo_manager():
-                self._arcFrame.pack_forget()
-        '''
-
         # 'Tags' entry.
         if self._element.tags is not None:
             self._tagsStr = list_to_string(self._element.tags)
@@ -96,23 +73,36 @@ class TodoSceneView(BasicView):
             self._tagsStr = ''
         self._tags.set(self._tagsStr)
 
+        # Frame for arc point specific widgets.
+
+        if self._element.scnArcs:
+            # Arc display.
+            self._arc.config(text=f'{_("Arc")}: {self._element.scnArcs}')
+
+            # Associated scene display.
+            try:
+                self._associatedScene = self._element.kwVar.get('Field_SceneAssoc', None)
+                sceneTitle = self._ui.novel.scenes[self._associatedScene].title
+            except:
+                self._associatedScene = None
+                sceneTitle = ''
+            self._associatedSceneTitle['text'] = sceneTitle
+            if not self._arcFrame.winfo_manager():
+                self._arcFrame.pack(before=self._arcFramePlace, pady=2, fill=tk.X)
+        else:
+            if self._arcFrame.winfo_manager():
+                self._arcFrame.pack_forget()
+
     def apply_changes(self):
         """Apply changes.
         
         Extends the superclass method.
         """
         # 'Arc name' entry.
-        '''
-        newArcs = self._arcs.get()
-        if self._element.scnArcs or newArcs:
-            if self._element.scnArcs != newArcs:
-                self._element.scnArcs = newArcs
+        if  self._element.kwVar.get('Field_SceneAssoc', None) != self._associatedScene:
+            self._element.kwVar['Field_SceneAssoc'] = self._associatedScene
+            self._ui.isModified = True
 
-                # Use the arc as scene title suffix.
-                newTitle = f'{self._element.scnArcs} - {self._ui.elementTitle.get()}'
-                self._ui.elementTitle.set(newTitle)
-                self._ui.isModified = True
-        '''
         # 'Tags' entry.
         newTags = self._tags.get()
         if self._tagsStr or newTags:
@@ -122,22 +112,23 @@ class TodoSceneView(BasicView):
 
         super().apply_changes()
 
-    def _removeArcRef(self):
-        """Remove arc reference from all scenes"""
-        arc = self._arcs.get()
-        if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
-            for scId in self._scenesAssigned:
-                if self._ui.novel.scenes[scId].scnArcs is not None:
-                    newArcs = []
-                    arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
-                    for scArc in arcs:
-                        if not scArc == arc:
-                            newArcs.append(scArc)
-                        else:
-                            self._ui.isModified = True
-                    self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
-            self._scenesAssigned = []
-            self._arcFrame.pack_forget()
-            if self._ui.isModified:
-                self._ui.tv.update_prj_structure()
+    def _associateScene(self):
+        """Associate a scene to the Arc point
+        
+        Get the ID of a "normal" scene selected by the user. 
+        """
+        scId = '1'
+        self._associatedScene = scId
+        self.apply_changes()
+        self.set_data(self._element)
+
+    def _disassociateScene(self):
+        """Associate a scene to the Arc point
+        
+        Get the ID of a "normal" scene selected by the user. 
+        """
+        scId = None
+        self._associatedScene = scId
+        self.apply_changes()
+        self.set_data(self._element)
 

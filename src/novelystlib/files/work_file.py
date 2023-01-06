@@ -69,7 +69,7 @@ class WorkFile(Yw7File):
         ]
     _SCN_KWVAR = [
         'Field_SceneArcs',
-        'Field_Arc_Elements',
+        'Field_SceneAssoc',
         'Field_CustomAR',
         'Field_SceneStyle',
         ]
