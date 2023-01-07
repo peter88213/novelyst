@@ -38,6 +38,9 @@ class TodoSceneView(BasicView):
         """
         super(). __init__(ui)
         self._associatedScene = None
+        self._lastSelected = ''
+        self._treeSelectBinding = None
+        self._uiEscBinding = None
 
         # Frame for arc specific widgets.
         self._arcFrame = ttk.Frame(self._elementInfoWindow)
@@ -49,8 +52,8 @@ class TodoSceneView(BasicView):
         # Associated scene title display.
         self._associatedSceneTitle = ttk.Label(self._arcFrame)
         self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
-        ttk.Button(self._arcFrame, text=_('Choose scene'), command=self._associateScene).pack(side=tk.LEFT, padx=1, pady=2)
-        ttk.Button(self._arcFrame, text=_('Clear scene'), command=self._disassociateScene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._arcFrame, text=_('Choose scene'), command=self._choose_scene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._arcFrame, text=_('Clear scene'), command=self._clearScene).pack(side=tk.LEFT, padx=1, pady=2)
 
         self._arcFramePlace = ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL)
         self._arcFramePlace.pack(fill=tk.X)
@@ -112,17 +115,44 @@ class TodoSceneView(BasicView):
 
         super().apply_changes()
 
-    def _associateScene(self):
-        """Associate a scene to the Arc point
+    def _choose_scene(self):
+        """Enter the "associate scene" selection mode.
         
-        Get the ID of a "normal" scene selected by the user. 
+        Change the mouse cursor to "+" and expand the "Narrative" subtree.
+        Now the tree selection does not trigger the viewer, 
+        but tries to associate the selected node to the Arc point.  
+        
+        To end the "associate scene" selection mode, either select any node, 
+        or press the Escape key.
         """
-        scId = '1'
-        self._associatedScene = scId
-        self.apply_changes()
-        self.set_data(self._element)
+        self._lastSelected = self._ui.tv.tree.selection()[0]
+        self._ui.tv.config(cursor='plus')
+        self._ui.tv.open_children('')
+        self._ui.tv.tree.see(self._ui.tv.NV_ROOT)
+        self._treeSelectBinding = self._ui.tv.tree.bind('<<TreeviewSelect>>')
+        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._setScene)
+        self._uiEscBinding = self._ui.root.bind('<Esc>')
+        self._ui.root.bind('<Escape>', self._setScene)
 
-    def _disassociateScene(self):
+    def _setScene(self, event=None):
+        """Associate the selected scene to the Arc point
+        
+        Restore the previous scene selection mode. 
+        """
+        nodeId = self._ui.tv.tree.selection()[0]
+        if nodeId.startswith(self._ui.tv.SCENE_PREFIX):
+            scId = nodeId[2:]
+            if self._ui.novel.scenes[scId].scType == 0:
+                self._associatedScene = scId
+                self.apply_changes()
+                self.set_data(self._element)
+        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._treeSelectBinding)
+        self._ui.root.bind('<Escape>', self._uiEscBinding)
+        self._ui.tv.config(cursor='arrow')
+        self._ui.tv.tree.see(self._lastSelected)
+        self._ui.tv.tree.selection_set(self._lastSelected)
+
+    def _clearScene(self):
         """Associate a scene to the Arc point
         
         Get the ID of a "normal" scene selected by the user. 
