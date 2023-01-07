@@ -181,8 +181,9 @@ class TodoSceneView(BasicView):
         Get the ID of a "normal" scene selected by the user. 
         """
         # Remove the point from the scene's point list.
+        self._lastSelected = self._ui.tv.tree.selection()[0]
         scId = self._associatedScene
-        point = self._ui.tv.tree.selection()[0][2:]
+        point = self._lastSelected[2:]
         try:
             points = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
             points.remove(point)
@@ -196,4 +197,6 @@ class TodoSceneView(BasicView):
 
         self.apply_changes()
         self.set_data(self._element)
+        self._ui.tv.tree.see(self._lastSelected)
+        self._ui.tv.tree.selection_set(self._lastSelected)
 
