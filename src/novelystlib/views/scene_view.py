@@ -50,6 +50,10 @@ class SceneView(BasicView):
         self._arcs = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
 
+        #--- 'Arc points' label.
+        self._arcPointsDisplay = ttk.Label(self._elementInfoWindow)
+        self._arcPointsDisplay.pack(anchor=tk.W, pady=2)
+
         #--- 'Tags' entry.
         self._tags = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
@@ -215,6 +219,13 @@ class SceneView(BasicView):
         else:
             arcs = ''
         self._arcs.set(arcs)
+
+        # 'Arc points' label.
+        arcPoints = []
+        arcPointIds = string_to_list(self._element.kwVar.get('Field_SceneAssoc', None))
+        for scId in arcPointIds:
+            arcPoints.append(self._ui.novel.scenes[scId].title)
+        self._arcPointsDisplay.config(text=list_to_string(arcPoints))
 
         # 'Tags' entry.
         if self._element.tags is not None:
