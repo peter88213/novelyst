@@ -135,7 +135,7 @@ class TodoSceneView(BasicView):
         self._ui.root.bind('<Escape>', self._setScene)
 
     def _setScene(self, event=None):
-        """Associate the selected scene to the Arc point
+        """Associate the selected scene with the Arc point.
         
         Restore the previous scene selection mode. 
         """
@@ -143,9 +143,32 @@ class TodoSceneView(BasicView):
         if nodeId.startswith(self._ui.tv.SCENE_PREFIX):
             scId = nodeId[2:]
             if self._ui.novel.scenes[scId].scType == 0:
+                # Assign the arc to the associated scene.
+                arc = self._element.scnArcs
+                arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
+                if not arc in arcs:
+                    # Update the scene's arc assignments and refresh the tree.
+                    arcs.append(arc)
+                    self._ui.novel.scenes[scId].scnArcs = list_to_string(arcs)
+                    self._ui.tv.refresh_tree()
+
+                # Add the point to the scene's point list.
+                point = self._lastSelected[2:]
+                points = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
+                if not point in points:
+                    # Update the scene's point assignments and refresh the tree.
+                    points.append(point)
+                    self._ui.novel.scenes[scId].kwVar['Field_SceneAssoc'] = list_to_string(points)
+                    self._ui.tv.refresh_tree()
+
+                # Assign the scene to the point.
                 self._associatedScene = scId
+
+                # Refresh the view.
                 self.apply_changes()
                 self.set_data(self._element)
+
+        # Restore the previous scene selection mode.
         self._ui.tv.tree.bind('<<TreeviewSelect>>', self._treeSelectBinding)
         self._ui.root.bind('<Escape>', self._uiEscBinding)
         self._ui.tv.config(cursor='arrow')
@@ -153,12 +176,24 @@ class TodoSceneView(BasicView):
         self._ui.tv.tree.selection_set(self._lastSelected)
 
     def _clearScene(self):
-        """Associate a scene to the Arc point
+        """Unassign a scene from the Arc point
         
         Get the ID of a "normal" scene selected by the user. 
         """
-        scId = None
-        self._associatedScene = scId
+        # Remove the point from the scene's point list.
+        scId = self._associatedScene
+        point = self._ui.tv.tree.selection()[0][2:]
+        try:
+            points = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
+            points.remove(point)
+        except:
+            pass
+        else:
+            self._ui.novel.scenes[scId].kwVar['Field_SceneAssoc'] = list_to_string(points)
+            self._ui.tv.refresh_tree()
+
+        self._associatedScene = None
+
         self.apply_changes()
         self.set_data(self._element)
 
