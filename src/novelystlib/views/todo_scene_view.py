@@ -49,10 +49,10 @@ class TodoSceneView(BasicView):
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- Frame for arc specific widgets.
-        self._arcFrame = ttk.Frame(self._elementInfoWindow)
+        self._plotFrame = ttk.Frame(self._elementInfoWindow)
 
         # Associated scene title display.
-        self._sceneFrame = ttk.Frame(self._arcFrame)
+        self._sceneFrame = ttk.Frame(self._plotFrame)
         self._sceneFrame.pack(anchor=tk.W, fill=tk.X)
         self._associatedSceneTitle = ttk.Label(self._sceneFrame)
         self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
@@ -60,7 +60,7 @@ class TodoSceneView(BasicView):
         ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side=tk.LEFT, padx=1, pady=2)
 
         # Arc display.
-        self._arc = ttk.Label(self._arcFrame)
+        self._arc = ttk.Label(self._plotFrame)
         self._arc.pack(anchor=tk.W, pady=2)
 
     def set_data(self, element):
@@ -91,11 +91,11 @@ class TodoSceneView(BasicView):
                 self._associatedScene = None
                 sceneTitle = ''
             self._associatedSceneTitle['text'] = sceneTitle
-            if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(pady=2, fill=tk.X)
+            if not self._plotFrame.winfo_manager():
+                self._plotFrame.pack(pady=2, fill=tk.X)
         else:
-            if self._arcFrame.winfo_manager():
-                self._arcFrame.pack_forget()
+            if self._plotFrame.winfo_manager():
+                self._plotFrame.pack_forget()
 
     def apply_changes(self):
         """Apply changes.

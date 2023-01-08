@@ -85,7 +85,7 @@ class TreeViewer(ttk.Frame):
         po=(_('Position'), 'ps_width'),
         ac=(_('Arcs'), 'arcs_width'),
         ar=(_('A/R'), 'pacing_width'),
-        pt=(_('Points'), 'points_width'),
+        pt=(_('Plot'), 'plot_width'),
         )
     # Key: column ID
     # Value: (column title, column width)
@@ -100,9 +100,6 @@ class TreeViewer(ttk.Frame):
             _SCN_STATUS.append(status)
         else:
             _SCN_STATUS.append(_(status))
-
-    _ARCS_TITLE = 'Arcs'
-    # Title of the chapter containing the arc definitions
 
     def __init__(self, master, ui, kwargs, **kw):
         """Put a tkinter tree in the specified parent widget.

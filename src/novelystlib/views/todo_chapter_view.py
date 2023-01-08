@@ -39,10 +39,10 @@ class TodoChapterView(BasicView):
         self._arcsEntry.pack(anchor=tk.W, pady=2)
 
         # Frame for arc specific widgets.
-        self._arcFrame = ttk.Frame(self._elementInfoWindow)
-        self._nrScenes = ttk.Label(self._arcFrame)
+        self._plotFrame = ttk.Frame(self._elementInfoWindow)
+        self._nrScenes = ttk.Label(self._plotFrame)
         self._nrScenes.pack(side=tk.LEFT, pady=2)
-        ttk.Button(self._arcFrame, text=_('Remove scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
+        ttk.Button(self._plotFrame, text=_('Remove scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
 
     def set_data(self, element):
         """Update the view with element's data.
@@ -71,11 +71,11 @@ class TodoChapterView(BasicView):
         # Frame for arc specific widgets.
         if len(self._scenesAssigned) > 0:
             self._nrScenes['text'] = f'{_("Number of scenes")}: {len(self._scenesAssigned)}'
-            if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
+            if not self._plotFrame.winfo_manager():
+                self._plotFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
         else:
-            if self._arcFrame.winfo_manager():
-                self._arcFrame.pack_forget()
+            if self._plotFrame.winfo_manager():
+                self._plotFrame.pack_forget()
 
     def apply_changes(self):
         """Apply changes.
@@ -112,7 +112,7 @@ class TodoChapterView(BasicView):
                             self._ui.isModified = True
                     self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
             self._scenesAssigned = []
-            self._arcFrame.pack_forget()
+            self._plotFrame.pack_forget()
             if self._ui.isModified:
                 self._ui.tv.update_prj_structure()
 

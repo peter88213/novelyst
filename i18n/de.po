@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unknown\n"
-"POT-Creation-Date: 2023-01-08 10:48:49\n"
-"PO-Revision-Date: 2023-01-08 10:49:37\n"
+"POT-Creation-Date: 2023-01-08 21:19:34\n"
+"PO-Revision-Date: 2023-01-08 21:20:08\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -412,9 +412,6 @@ msgstr "Handlung"
 msgid "Narrative arc"
 msgstr "Handlungsbogen"
 
-msgid "Narrative arcs"
-msgstr "Handlungsbögen"
-
 msgid "New"
 msgstr "Neu"
 
@@ -504,6 +501,9 @@ msgstr "Suffix Teilenummer"
 
 msgid "Planning"
 msgstr "Planung"
+
+msgid "Plot"
+msgstr "Plot"
 
 msgid "Plugin Manager"
 msgstr "Plugin-Manager"

@@ -60,15 +60,15 @@ class SceneView(BasicView):
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
-        #--- Frame for narrative arcs.
-        self._arcFrame = FoldingFrame(self._elementInfoWindow, _('Narrative arcs'), self._toggle_arcFrame)
+        #--- Frame for arcs and plot.
+        self._plotFrame = FoldingFrame(self._elementInfoWindow, _('Plot'), self._toggle_arcFrame)
 
         # 'Arcs' entry (if any).
         self._arcs = MyStringVar()
-        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._plotFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
 
         #--- 'Arc points' label.
-        self._arcPointsDisplay = ttk.Label(self._arcFrame)
+        self._arcPointsDisplay = ttk.Label(self._plotFrame)
         self._arcPointsDisplay.pack(anchor=tk.W, pady=2)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
@@ -283,9 +283,9 @@ class SceneView(BasicView):
 
         #--- Frame for narrative arcs.
         if self._ui.kwargs['show_arcs']:
-            self._arcFrame.show()
+            self._plotFrame.show()
         else:
-            self._arcFrame.hide()
+            self._plotFrame.hide()
 
         ''' Prepare for #2
         #--- Frame for date/time.
@@ -508,10 +508,10 @@ class SceneView(BasicView):
     def _toggle_arcFrame(self, event=None):
         """Hide/show the narrative arcs frame."""
         if self._ui.kwargs['show_arcs']:
-            self._arcFrame.hide()
+            self._plotFrame.hide()
             self._ui.kwargs['show_arcs'] = False
         else:
-            self._arcFrame.show()
+            self._plotFrame.show()
             self._ui.kwargs['show_arcs'] = True
 
     ''' Prepare for #2
