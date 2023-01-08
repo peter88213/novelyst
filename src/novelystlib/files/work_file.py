@@ -414,7 +414,7 @@ class WorkFile(Yw7File):
                     # Create a "To do" chapter with an arc definition.
                     chId = create_id(self.novel.srtChapters)
                     self.novel.chapters[chId] = Chapter()
-                    self.novel.chapters[chId].title = f'{arc} - {_("Story arc")}'
+                    self.novel.chapters[chId].title = f'{arc} - {_("Narrative arc")}'
                     self.novel.chapters[chId].chLevel = 0
                     self.novel.chapters[chId].chType = 2
                     for fieldName in self._CHP_KWVAR:

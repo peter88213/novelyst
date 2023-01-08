@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unknown\n"
-"POT-Creation-Date: 2023-01-05 22:22:58\n"
+"POT-Creation-Date: 2023-01-08 10:48:49\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -56,10 +56,16 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
+msgid "Arc"
+msgstr ""
+
 msgid "Arc name"
 msgstr ""
 
 msgid "Arcs"
+msgstr ""
+
+msgid "Assign scene"
 msgstr ""
 
 msgid "Author"
@@ -146,6 +152,9 @@ msgstr ""
 msgid "Choice"
 msgstr ""
 
+msgid "Clear assignment"
+msgstr ""
+
 msgid "Close"
 msgstr ""
 
@@ -198,6 +207,9 @@ msgid "Custom chara Goals"
 msgstr ""
 
 msgid "Date"
+msgstr ""
+
+msgid "Date/Time"
 msgstr ""
 
 msgid "Day"
@@ -398,6 +410,12 @@ msgstr ""
 msgid "Narrative"
 msgstr ""
 
+msgid "Narrative arc"
+msgstr ""
+
+msgid "Narrative arcs"
+msgstr ""
+
 msgid "New"
 msgstr ""
 
@@ -594,9 +612,6 @@ msgid "Starting count"
 msgstr ""
 
 msgid "Status"
-msgstr ""
-
-msgid "Story arc"
 msgstr ""
 
 msgid "Style"

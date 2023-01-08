@@ -42,25 +42,26 @@ class TodoSceneView(BasicView):
         self._treeSelectBinding = None
         self._uiEscBinding = None
 
-        # Frame for arc specific widgets.
+        # 'Tags' entry.
+        self._tags = MyStringVar()
+        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        #--- Frame for arc specific widgets.
         self._arcFrame = ttk.Frame(self._elementInfoWindow)
+
+        # Associated scene title display.
+        self._sceneFrame = ttk.Frame(self._arcFrame)
+        self._sceneFrame.pack(anchor=tk.W, fill=tk.X)
+        self._associatedSceneTitle = ttk.Label(self._sceneFrame)
+        self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._choose_scene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clearScene).pack(side=tk.LEFT, padx=1, pady=2)
 
         # Arc display.
         self._arc = ttk.Label(self._arcFrame)
         self._arc.pack(anchor=tk.W, pady=2)
-
-        # Associated scene title display.
-        self._associatedSceneTitle = ttk.Label(self._arcFrame)
-        self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
-        ttk.Button(self._arcFrame, text=_('Choose scene'), command=self._choose_scene).pack(side=tk.LEFT, padx=1, pady=2)
-        ttk.Button(self._arcFrame, text=_('Clear scene'), command=self._clearScene).pack(side=tk.LEFT, padx=1, pady=2)
-
-        self._arcFramePlace = ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL)
-        self._arcFramePlace.pack(fill=tk.X)
-
-        # 'Tags' entry.
-        self._tags = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
     def set_data(self, element):
         """Update the widgets with element's data.
@@ -91,7 +92,7 @@ class TodoSceneView(BasicView):
                 sceneTitle = ''
             self._associatedSceneTitle['text'] = sceneTitle
             if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(before=self._arcFramePlace, pady=2, fill=tk.X)
+                self._arcFrame.pack(pady=2, fill=tk.X)
         else:
             if self._arcFrame.winfo_manager():
                 self._arcFrame.pack_forget()

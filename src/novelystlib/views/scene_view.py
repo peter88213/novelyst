@@ -46,14 +46,6 @@ class SceneView(BasicView):
         self._characterCombobox = LabelCombo(self._elementInfoWindow, text=_('Viewpoint'), textvariable=self._viewpoint, values=[])
         self._characterCombobox.pack(anchor=tk.W, pady=2)
 
-        #--- 'Arcs' entry (if any).
-        self._arcs = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
-
-        #--- 'Arc points' label.
-        self._arcPointsDisplay = ttk.Label(self._elementInfoWindow)
-        self._arcPointsDisplay.pack(anchor=tk.W, pady=2)
-
         #--- 'Tags' entry.
         self._tags = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
@@ -67,6 +59,42 @@ class SceneView(BasicView):
         self._appendToPrevCheckbox.pack(anchor=tk.W, pady=2)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        #--- Frame for narrative arcs.
+        self._arcFrame = FoldingFrame(self._elementInfoWindow, _('Narrative arcs'), self._toggle_arcFrame)
+
+        # 'Arcs' entry (if any).
+        self._arcs = MyStringVar()
+        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
+
+        #--- 'Arc points' label.
+        self._arcPointsDisplay = ttk.Label(self._arcFrame)
+        self._arcPointsDisplay.pack(anchor=tk.W, pady=2)
+
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        ''' Prepare for #2
+        #--- Frame for date/time/duration.
+        self._dateTimeFrame = FoldingFrame(self._elementInfoWindow, _('Date/Time'), self._toggle_dateTimeFrame)
+        sceneStartFrame = ttk.Frame(self._dateTimeFrame)
+        sceneStartFrame.pack(fill=tk.X)
+
+        self._startDate = tk.StringVar()
+        self._startTime = tk.StringVar()
+
+        self._startDays = tk.IntVar()
+        self._startHours = tk.IntVar()
+        self._startMinutes = tk.IntVar()
+
+        sceneDurationFrame = ttk.Frame(self._dateTimeFrame)
+        sceneDurationFrame.pack(fill=tk.X)
+
+        self._lastsDays = tk.IntVar()
+        self._lastsHours = tk.IntVar()
+        self._lastsMinutes = tk.IntVar()
+
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        '''
 
         #--- Frame for 'Action'/'Reaction'/'Custom'.
         self._pacingFrame = FoldingFrame(self._elementInfoWindow, _('Action/Reaction'), self._toggle_pacingFrame)
@@ -252,6 +280,20 @@ class SceneView(BasicView):
             self._customOutcome = self._ui.novel.kwVar['Field_CustomOutcome']
         else:
             self._customOutcome = _('N/A')
+
+        #--- Frame for narrative arcs.
+        if self._ui.kwargs['show_arcs']:
+            self._arcFrame.show()
+        else:
+            self._arcFrame.hide()
+
+        ''' Prepare for #2
+        #--- Frame for date/time.
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.show()
+        else:
+            self._dateTimeFrame.hide()
+        '''
 
         #--- Frame for 'Action'/'Reaction'/'Custom'.
         if self._ui.kwargs['show_action_reaction']:
@@ -462,6 +504,26 @@ class SceneView(BasicView):
         self._goalLabel.config(text=self._customGoal)
         self._conflictLabel.config(text=self._customConflict)
         self._outcomeLabel.config(text=self._customOutcome)
+
+    def _toggle_arcFrame(self, event=None):
+        """Hide/show the narrative arcs frame."""
+        if self._ui.kwargs['show_arcs']:
+            self._arcFrame.hide()
+            self._ui.kwargs['show_arcs'] = False
+        else:
+            self._arcFrame.show()
+            self._ui.kwargs['show_arcs'] = True
+
+    ''' Prepare for #2
+    def _toggle_dateTimeFrame(self, event=None):
+        """Hide/show the 'Date/Time' frame."""
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.hide()
+            self._ui.kwargs['show_date_time'] = False
+        else:
+            self._dateTimeFrame.show()
+            self._ui.kwargs['show_date_time'] = True
+    '''
 
     def _toggle_pacingFrame(self, event=None):
         """Hide/show the 'A/R/C' frame."""
