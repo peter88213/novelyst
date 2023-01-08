@@ -56,8 +56,8 @@ class TodoSceneView(BasicView):
         self._sceneFrame.pack(anchor=tk.W, fill=tk.X)
         self._associatedSceneTitle = ttk.Label(self._sceneFrame)
         self._associatedSceneTitle.pack(anchor=tk.W, pady=2)
-        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._choose_scene).pack(side=tk.LEFT, padx=1, pady=2)
-        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clearScene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side=tk.LEFT, padx=1, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side=tk.LEFT, padx=1, pady=2)
 
         # Arc display.
         self._arc = ttk.Label(self._arcFrame)
@@ -116,7 +116,7 @@ class TodoSceneView(BasicView):
 
         super().apply_changes()
 
-    def _choose_scene(self):
+    def _pick_scene(self):
         """Enter the "associate scene" selection mode.
         
         Change the mouse cursor to "+" and expand the "Narrative" subtree.
@@ -131,11 +131,11 @@ class TodoSceneView(BasicView):
         self._ui.tv.open_children('')
         self._ui.tv.tree.see(self._ui.tv.NV_ROOT)
         self._treeSelectBinding = self._ui.tv.tree.bind('<<TreeviewSelect>>')
-        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._setScene)
+        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._assign_scene)
         self._uiEscBinding = self._ui.root.bind('<Esc>')
-        self._ui.root.bind('<Escape>', self._setScene)
+        self._ui.root.bind('<Escape>', self._assign_scene)
 
-    def _setScene(self, event=None):
+    def _assign_scene(self, event=None):
         """Associate the selected scene with the Arc point.
         
         Restore the previous scene selection mode. 
@@ -176,7 +176,7 @@ class TodoSceneView(BasicView):
         self._ui.tv.tree.see(self._lastSelected)
         self._ui.tv.tree.selection_set(self._lastSelected)
 
-    def _clearScene(self):
+    def _clear_assignment(self):
         """Unassign a scene from the Arc point
         
         Get the ID of a "normal" scene selected by the user. 
