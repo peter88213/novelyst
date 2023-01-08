@@ -85,6 +85,7 @@ class TreeViewer(ttk.Frame):
         po=(_('Position'), 'ps_width'),
         ac=(_('Arcs'), 'arcs_width'),
         ar=(_('A/R'), 'pacing_width'),
+        pt=(_('Points'), 'points_width'),
         )
     # Key: column ID
     # Value: (column title, column width)
@@ -794,6 +795,12 @@ class TreeViewer(ttk.Frame):
             else:
                 cmbTime = ''
 
+        # Create arc point titles.
+        points = []
+        pointIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
+        for ptId in pointIds:
+            points.append(self._ui.novel.scenes[ptId].title)
+
         # Create a combined duration information.
         if self._ui.novel.scenes[scId].lastsDays is not None and self._ui.novel.scenes[scId].lastsDays != '0':
             days = f'{self._ui.novel.scenes[scId].lastsDays}d '
@@ -816,6 +823,15 @@ class TreeViewer(ttk.Frame):
         if self._ui.novel.scenes[scId].scType == 2:
             #   is Todo type.
             nodeTags.append('todo')
+
+            # Display the arc the point belongs to.
+            arcs = self._ui.novel.scenes[scId].scnArcs
+            if arcs is not None:
+                columns[self._colPos['ac']] = arcs
+
+            # Display associated scene(s), if any.
+            columns[self._colPos['pt']] = list_to_string(points)
+
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
             nodeTags.append('notes')
@@ -868,6 +884,9 @@ class TreeViewer(ttk.Frame):
             arcs = self._ui.novel.scenes[scId].scnArcs
             if arcs is not None:
                 columns[self._colPos['ac']] = arcs
+
+            # Display arc points, if any.
+            columns[self._colPos['pt']] = list_to_string(points)
 
         # "Scene has notes" indicator.
         if self._ui.novel.scenes[scId].notes:
