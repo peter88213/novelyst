@@ -6,9 +6,9 @@
 
 ## Arc ist just a word
 
-*novelyst* supports the concept of *arcs* as a powerful and flexible concept for plotting. 
-The term *plot* refers to the consequent course of the narrative action. 
-"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, "road map" with milestones, and so on. You can think of an arc as a line on which points are arranged that characterize the progression of the story. These points can be assigned to scenes to indicate their relevance to the plot. 
+*novelyst* provides *arcs* as a powerful and flexible concept for plotting.
+(The term *plot* refers to the consequent course of the narrative action.) 
+"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, road map with milestones, and so on. You can think of an arc as a line on which points are arranged that characterize the progression of the story. These points can be assigned to scenes to indicate the scene's relevance to the plot. 
 
 - *novelyst* lets you define any number of arcs. 
 - Any number of scenes can be assigned to each arc. 
@@ -20,7 +20,7 @@ The association of scenes and arc points is shown in the "Plot" column of the tr
 
 ## What about acts?
 
-If you want to divide a story into phases according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. That is, because their points have to be assigned to specific scenes.
+If you want to divide a story into phases according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their points have to be assigned to specific scenes.
 Better suited for this are "todo" type chapters, which are inserted between the regular chapters at the beginning of each phase. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
 
 ![Acts](../Screenshots/acts01.png)
