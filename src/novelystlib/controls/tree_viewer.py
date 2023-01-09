@@ -966,7 +966,7 @@ class TreeViewer(ttk.Frame):
                 nodeTags.append('todo part')
             else:
                 nodeTags.append('todo')
-                arc = self._ui.novel.chapters[chId].kwVar['Field_Arc_Definition']
+                arc = self._ui.novel.chapters[chId].kwVar['Field_ArcDefinition']
                 if arc:
                     wordCount = 0
                     for sid in self._ui.novel.scenes:
@@ -1238,6 +1238,7 @@ class TreeViewer(ttk.Frame):
                 self._set_type(self.tree.get_children(node), newType)
         if has_changed:
             self.update_prj_structure()
+            self.refresh_tree()
 
     def _set_scn_status(self, nodes, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
@@ -1257,6 +1258,7 @@ class TreeViewer(ttk.Frame):
                 self._set_scn_status(self.tree.get_children(node), scnStatus)
         if has_changed:
             self.update_prj_structure()
+            self.refresh_tree()
 
     def _set_scn_style(self, nodes, scnStyle):
         """Set scene narrative mode (Scene/Description/summary)."""
@@ -1335,8 +1337,8 @@ class TreeViewer(ttk.Frame):
                 tv.selection_set(tv.parent(selection))
             del self._ui.novel.chapters[elemId]
             self._ui.novel.srtChapters.remove(elemId)
-            self.refresh_tree()
             self.update_prj_structure()
+            self.refresh_tree()
 
     def _promote_chapter(self, event):
         """Make a chapter a part."""
@@ -1352,8 +1354,8 @@ class TreeViewer(ttk.Frame):
 
         if self._ui.ask_yes_no(_('Promote chapter "{}" to part?').format(self._ui.novel.chapters[elemId].title)):
             self._ui.novel.chapters[elemId].chLevel = 1
-            self.refresh_tree()
             self.update_prj_structure()
+            self.refresh_tree()
 
     def _demote_part(self, event):
         """Make a part a chapter."""
@@ -1366,8 +1368,8 @@ class TreeViewer(ttk.Frame):
         elemId = selection[2:]
         if self._ui.ask_yes_no(_('Demote part "{}" to chapter?').format(self._ui.novel.chapters[elemId].title)):
             self._ui.novel.chapters[elemId].chLevel = 0
-            self.refresh_tree()
             self.update_prj_structure()
+            self.refresh_tree()
 
     def _delete_node(self, event):
         """Delete a node and its children.

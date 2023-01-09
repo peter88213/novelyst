@@ -56,7 +56,7 @@ class TodoChapterView(BasicView):
 
         # Count the scenes assigned to this arc.
         self._scenesAssigned = []
-        arc = self._element.kwVar['Field_Arc_Definition']
+        arc = self._element.kwVar['Field_ArcDefinition']
         if arc:
             for scId in self._ui.novel.scenes:
                 if self._ui.novel.scenes[scId].scType == 0:
@@ -84,14 +84,14 @@ class TodoChapterView(BasicView):
         """
         # 'Arc name' entry.
         newArcs = self._arcs.get().replace(';', '')
-        if self._element.kwVar['Field_Arc_Definition'] or newArcs:
-            if self._element.kwVar['Field_Arc_Definition'] != newArcs:
+        if self._element.kwVar['Field_ArcDefinition'] or newArcs:
+            if self._element.kwVar['Field_ArcDefinition'] != newArcs:
                 for scId in self._element.srtScenes:
                     self._ui.novel.scenes[scId].scnArcs = newArcs
-                self._element.kwVar['Field_Arc_Definition'] = newArcs
+                self._element.kwVar['Field_ArcDefinition'] = newArcs
 
                 # Use the arc as scene title suffix.
-                newTitle = f'{self._element.kwVar["Field_Arc_Definition"]} - {self._ui.elementTitle.get()}'
+                newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._ui.elementTitle.get()}'
                 self._ui.elementTitle.set(newTitle)
                 self._ui.isModified = True
 

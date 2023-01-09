@@ -31,6 +31,7 @@ class WorkFile(Yw7File):
         get_counts() -- Return a tuple with total numbers
         count_words() -- Return a tuple of word count totals.
         adust_scene_types() -- Make sure that nodes with non-"Normal" parents inherit the type.
+        check_arcs() -- Check and update all relationships relevant for arcs and arc points.
 
     Public instance variables:
         timestamp -- float: Time of last file modification (number of seconds since the epoch).
@@ -65,6 +66,7 @@ class WorkFile(Yw7File):
         ]
     _CHP_KWVAR = [
         'Field_NoNumber',
+        'Field_ArcDefinition',
         'Field_Arc_Definition',
         ]
     _SCN_KWVAR = [
@@ -193,6 +195,13 @@ class WorkFile(Yw7File):
 
         #--- If no reasonable looking locale is set, set the system locale.
         self.novel.check_locale()
+
+        #--- Convert field created with novelyst v4.3
+        for chId in self.novel.chapters:
+            oldField = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
+            if oldField:
+                self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = oldField
+                self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = None
 
     def _build_element_tree(self):
         """Extends the superclass method."""
@@ -386,22 +395,76 @@ class WorkFile(Yw7File):
                     self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
 
     def check_arcs(self, addChapters=False):
-        """Check the arc-defining "Todo" chapters.
+        """Check and update all relationships relevant for arcs and arc points.
         
         Optional arguments:
             addChapters -- If True, create arc-defining "Todo" chapters for "orphaned" arcs.
         
-        Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.       
+        Default operation:
+        - Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.       
+        - Make sure that not more than one scene is associated with an arc point.
+        - Delete dead scene associations from the arc points.
+        - Unlink scenes that are not "Normal" type from the arc points.
+        - Delete wrong arc and point related associations from all scenes.
+        
         Return a list with the new chapter IDs, if any.
         """
         arcs = []
+        scnPoints = {}
+        for scId in self.novel.scenes:
+            scnPoints[scId] = []
+
+        #--- Identify arc defining chapters.
         for chId in self.novel.srtChapters:
             if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
-                arc = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
+
+                # Process an arc-defining chapter.
+                arc = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
                 if arc:
                     arcs.append(arc)
-                    for scId in self.novel.chapters[chId].srtScenes:
-                        self.novel.scenes[scId].scnArcs = arc
+
+                    #--- Fix arc points, if needed.
+                    for ptId in self.novel.chapters[chId].srtScenes:
+                        # Assign the arc defined by the parent chapter.
+                        self.novel.scenes[ptId].scnArcs = arc
+
+                        # Rebuild the point's scene association.
+                        scenes = string_to_list(self.novel.scenes[ptId].kwVar.get('Field_SceneAssoc', None))
+                        self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = None
+                        if scenes:
+                            scId = scenes[0]
+                            # make sure that not more than one scene is associated with the point
+                            if scId in self.novel.scenes:
+                                # the associated scene exists
+                                if self.novel.scenes[scId].scType == 0:
+                                    # the associated scene is "Normal" type
+                                    self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = scId
+                                    scnPoints[scId].append(ptId)
+            else:
+                # Process a chapter that doesn't define an arc.
+                for scId in self.novel.chapters[chId].srtScenes:
+                    if self.novel.scenes[scId].scType != 0:
+
+                        # Delete arc and point related associations from non-normal scenes.
+                        self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
+                        self.novel.scenes[scId].scnArcs = None
+
+        for scId in self.novel.scenes:
+            if self.novel.scenes[scId].scType == 0:
+                if scnPoints[scId]:
+                    self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = list_to_string(scnPoints[scId])
+
+                    #--- Assign the points' arcs to the associated scene.
+                    scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
+                    for ptId in scnPoints[scId]:
+                        arc = self.novel.scenes[ptId].scnArcs
+                        if not arc in scnArcs:
+                            # Update the scene's arc assignments and refresh the tree.
+                            scnArcs.append(arc)
+                            self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+                else:
+                    self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
+
         if not addChapters:
             return []
 
@@ -419,7 +482,7 @@ class WorkFile(Yw7File):
                     self.novel.chapters[chId].chType = 2
                     for fieldName in self._CHP_KWVAR:
                         self.novel.chapters[chId].kwVar[fieldName] = None
-                    self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = arc
+                    self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = arc
                     self.novel.srtChapters.append(chId)
                     arcs.append(arc)
                     new_chapters.append(chId)

@@ -39,6 +39,7 @@ You can open this page with **Help > Online help**.
 
 --- 
 
+
 # Tree view operation
 
 ### Move parts, chapters, and scenes
@@ -56,22 +57,9 @@ Select item and hit the **Del** key.
 - When deleting the _Trash_ chapter, all scenes are deleted.
 
 
+# Basic concepts
 
-### Reports
-
-You can have *novelyst* generate a variety of reports. These are list-formatted HTML files, 
-displayed with your system's web browser. They are temporary files, auto-deleted on program exit.
-If needed, you can have your web browser save or print them.
-
-### ODF export
-
-The same *export* functions are used here as are implemented as *import* functions in the 
-*LibreOffice*/*OpenOffice* *yWriter import/export* extensions.
-
-Please refer to the extension's help text. 
-
-
-### A note about formatting text
+## Formatting text
 
 It is assumed that very few types of text markup are needed for a novel text:
 
@@ -85,7 +73,14 @@ When exporting to ODT format, *novelyst* replaces these formattings as follows:
 - Text with `[b]Bold markup[/b]` is formatted as *Strongly emphasized*. 
 - Paragraphs starting with `> ` are formatted as *Quote*.
 
-## License
+## Arcs
+
+With *arcs*, you can link your plot to the narrative. See the [Arcs help page](https://peter88213.github.io/novelyst/help/arcs)
+
+
+
+
+# License
 
 This is Open Source software, and *novelyst* is licensed under GPLv3. See the
 [GNU General Public License website](https://www.gnu.org/licenses/gpl-3.0.en.html) for more

@@ -4,10 +4,10 @@
 
 # Arcs
 
-## Arc ist just a word
+## What are arcs?
 
 *novelyst* provides *arcs* as a powerful and flexible concept for plotting.
-(The term *plot* refers to the consequent course of the narrative action.) 
+The term *plot* refers to the consequent course of the narrative action. 
 "Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, road map with milestones, and so on. You can think of an arc as a line on which points are arranged that characterize the progression of the story. These points can be assigned to scenes to indicate the scene's relevance to the plot. 
 
 - *novelyst* lets you define any number of arcs. 
