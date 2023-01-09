@@ -32,6 +32,7 @@ class TodoChapterView(BasicView):
         Extends the superclass constructor.
         """
         super(). __init__(ui)
+        self._lastSelected = ''
 
         # 'Arc namee' entry.
         self._arcs = MyStringVar()
@@ -42,7 +43,7 @@ class TodoChapterView(BasicView):
         self._plotFrame = ttk.Frame(self._elementInfoWindow)
         self._nrScenes = ttk.Label(self._plotFrame)
         self._nrScenes.pack(side=tk.LEFT, pady=2)
-        ttk.Button(self._plotFrame, text=_('Remove scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
+        ttk.Button(self._plotFrame, text=_('Clear scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
 
     def set_data(self, element):
         """Update the view with element's data.
@@ -98,7 +99,11 @@ class TodoChapterView(BasicView):
         super().apply_changes()
 
     def _removeArcRef(self):
-        """Remove arc reference from all scenes"""
+        """Remove arc reference from all scenes.
+        
+        Remove also all scene associations from the children points.
+        """
+        self._lastSelected = self._ui.tv.tree.selection()[0]
         arc = self._arcs.get()
         if arc and self._ui.ask_yes_no(f'{_("Remove all scenes from the story arc")} "{arc}"?'):
             for scId in self._scenesAssigned:
@@ -113,6 +118,14 @@ class TodoChapterView(BasicView):
                     self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
             self._scenesAssigned = []
             self._plotFrame.pack_forget()
+
+            # Unlink the children points from the narrative scenes.
+            for scId in self._element.srtScenes:
+                self._ui.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
+
             if self._ui.isModified:
                 self._ui.tv.update_prj_structure()
+                self._ui.tv.refresh_tree()
+                self._ui.tv.tree.see(self._lastSelected)
+                self._ui.tv.tree.selection_set(self._lastSelected)
 

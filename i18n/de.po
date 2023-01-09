@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.4.0\n"
-"POT-Creation-Date: 2023-01-09 13:23:47\n"
-"PO-Revision-Date: 2023-01-09 13:23:47\n"
+"Project-Id-Version: 4.4.1\n"
+"POT-Creation-Date: 2023-01-09 16:30:51\n"
+"PO-Revision-Date: 2023-01-09 16:30:51\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgid "Arcs"
 msgstr "Bögen"
 
 msgid "Assign scene"
-msgstr "Abschnitt zuweisen"
+msgstr "Abschnitt zuordnen"
 
 msgid "Author"
 msgstr "Autor"
@@ -152,7 +152,10 @@ msgid "Choice"
 msgstr "Wahl"
 
 msgid "Clear assignment"
-msgstr "Zuweisung löschen"
+msgstr "Zuordnung löschen"
+
+msgid "Clear scene assignments"
+msgstr "Abschnittszuordnungen löschen"
 
 msgid "Close"
 msgstr "Schließen"
@@ -552,9 +555,6 @@ msgstr "Novelyst-Projekteinstellungen löschen und speichern?"
 
 msgid "Remove part \"{}\" and keep the chapters?"
 msgstr "Teil \"{}\" löschen und die Kapitel behalten?"
-
-msgid "Remove scene assignments"
-msgstr "Abschnittszuordnungen löschen"
 
 msgid "Renamings"
 msgstr "Umbenennungen"

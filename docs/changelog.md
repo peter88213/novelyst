@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.4.1
+
+- When clearing arc references, remove also all scene associations from the children points.
+- Make sure that each arc is defined by a unique chapter.
+- Fix a regression from v4.4.0 where arc defining chapters may be duplicated due to chapter field renaming.
+
+Based on PyWriter v10.0.1
+
 ### v4.4.0
 
 - Structure arcs with points.

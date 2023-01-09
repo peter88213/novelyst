@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.4.0\n"
-"POT-Creation-Date: 2023-01-09 13:23:47\n"
+"Project-Id-Version: 4.4.1\n"
+"POT-Creation-Date: 2023-01-09 16:30:51\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -153,6 +153,9 @@ msgid "Choice"
 msgstr ""
 
 msgid "Clear assignment"
+msgstr ""
+
+msgid "Clear scene assignments"
 msgstr ""
 
 msgid "Close"
@@ -552,9 +555,6 @@ msgid "Remove novelyst project settings and save?"
 msgstr ""
 
 msgid "Remove part \"{}\" and keep the chapters?"
-msgstr ""
-
-msgid "Remove scene assignments"
 msgstr ""
 
 msgid "Renamings"
