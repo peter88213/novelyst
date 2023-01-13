@@ -52,19 +52,14 @@ This method can of course be combined well with arc points, which in this case c
 
 ## How to delete arcs
 
-Currently, arc defining chapters are automatically created for arc names assigned to scenes. This is why you cannot delete arc defining chapters unless all scene associations are removed. 
-
 1. Select the "Todo" chapter defining the arc you want to remove. 
-2. In the right pane, click **Clear scene assignments**. 
-3. Delete the selected chapter.  
+2. Delete the selected chapter. Children (points) are moved to the "Trash" chapter. 
 
 ## How to rename arcs
 
-Since the arc name is internally used as a key for scene associations, this associations would be deleted when simply changing an arc's name. So if the arc you want to rename is associated to a lot of scenes, it might be the best way to create a new arc and copy the scene associations using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin. 
-
 1. Select the "Todo" chapter defining the arc you want to rename.
 2. In the right pane, change the arc's name into the **Arc name** entry. 
-3. You might want to edit the chapter title, removing the old arc prefix.
+3. After having applied the change, you might want to edit the chapter title, removing the old arc prefix.
 
 ## How to create arc points
 
