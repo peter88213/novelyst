@@ -29,19 +29,47 @@ This method can of course be combined well with arc points, which in this case c
 
 ## How to define arcs
 
-*novelyst* implements arcs as "Todo" type chapters with an **Arc name** entry. 
+*novelyst* implements arcs as "Todo" type chapters with an **Arc name** entry field. 
 
-## How to groupg arcs
+1. Create a chapter.
+2. Change the chapter's type to "Todo".
+3. Give the chapter a descriptive title.
+4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. **Note:** It is advised to use short arc names, for instance "A", "B", "C" etc. 
+
+## How to group arcs
 
 "Arc" chapters can be placed anywhere in the story. However, It is recommended to put them into "Todo" type parts, so they appear in *novelyst's* "Planning" subtree. You can either create one part, called e.g. "Narrative arcs", or create any number of parts, e.g. one for character arcs, and one for setup/payoff sequences, and so on.
 
 ## How to assign scenes to arcs
 
+1. Select the scene you want to assign to an arc. This can be any "normal" type scene. 
+2. Make sure the **Plot** window is open in the right pane. 
+3. In the **Arcs** field, enter the name of the arc you want the scene assign to. You can enter multiple arcs, delimiting them with a semicolon. 
+
+**Note:** You can copy/paste long arc name from its definition. A more convenient way to assign scenes to arcs is using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin.
+
+**2nd Note:** This might change in the future. 
 
 ## How to delete arcs
 
+Currently, arc defining chapters are automatically created for arc names assigned to scenes. This is why you cannot delete arc defining chapters unless all scene associations are removed. 
+
+1. Select the "Todo" chapter defining the arc you want to remove. 
+2. In the right pane, click **Clear scene assignments**. 
+3. Delete the selected chapter.  
 
 ## How to rename arcs
+
+Since the arc name is internally used as a key for scene associations, this associations would be deleted when simply changing an arc's name. So if the arc you want to rename is associated to a lot of scenes, it might be the best way to create a new arc and copy the scene associations using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin. 
+
+1. Select the "Todo" chapter defining the arc you want to rename (old arc).
+2. Create a new chapter below and make sure it is "todo" type (new arc). 
+3. In the **Arc name** field of the new chapter, enter the new arc's name.  
+4. If the old arc has points, move them to the new arc.
+5. Assign all scenes of the old arc to the new arc. This can be done easily with the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin.
+6. Delete the old arc as described above.
+
+**Note:** This might change in the future. 
 
 
 ## How to create arc points
@@ -50,9 +78,16 @@ This method can of course be combined well with arc points, which in this case c
 
 ## How to associate points with scenes
 
+1. Select the arc point you want to assign a scene to. 
+2. In the right pane, click **Assign scene**. This starts the scene picking mode, where the mouse cursor changes to a "plus" symbol in the tree view. 
+3. Select the scene you want to assign to the point. Clicking on any tree element ends the scene picking mode. You can finish the scene picking mode pressing the **Esc** key as well.   
 
 ## How to clear scene associations
 
+1. Select the arc point you want to clear its scene association. 
+2. Click **Clear assignment**. 
 
 ## How to delete points
 
+1. Select the arc point you want to delete.
+2. Press the **Del** key and confirm. This clears the scene assignment, if any, and moves the scene to the *Trash" chapter. 
