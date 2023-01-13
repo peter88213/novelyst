@@ -34,7 +34,7 @@ This method can of course be combined well with arc points, which in this case c
 1. Create a chapter.
 2. Change the chapter's type to "Todo".
 3. Give the chapter a descriptive title.
-4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. **Note:** It is advised to use short arc names, for instance "A", "B", "C" etc.
+4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. **Note:** It is advised to use short arc names, for instance "A", "B", "C" for storylines, or initial letters for character arcs, etc.
 
 **Note:** If you open a project that was created with a novelyst version older than 4.4 and that contains scenes with assignments of undefined arcs, the arc-defining chapters are created automatically. 
 
@@ -46,9 +46,9 @@ This method can of course be combined well with arc points, which in this case c
 
 1. Select the scene you want to assign to an arc. This can be any "normal" type scene. 
 2. Make sure the **Plot** window is open in the right pane. 
-3. In the **Arcs** field, enter the name of the arc you want the scene assign to. You can enter multiple arcs, delimiting them with a semicolon. 
+3. In the **Arcs** field, enter the name of the arc you want the scene assign to. You can enter multiple arcs, delimiting them with semicolons. 
 
-**Note:** You can copy/paste long arc name from its definition. A more convenient way to assign scenes to arcs is using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin.
+**Note:** You can copy/paste long arc names from the defining chapters. A more convenient way to assign scenes to arcs is using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin.
 
 **2nd Note:** This might change in the future. 
 
@@ -60,7 +60,7 @@ This method can of course be combined well with arc points, which in this case c
 ## How to rename arcs
 
 1. Select the "Todo" chapter defining the arc you want to rename.
-2. In the right pane, change the arc's name into the **Arc name** entry. 
+2. In the right pane, change the arc's name in the **Arc name** entry field. 
 3. After having applied the change, you might want to edit the chapter title, removing the old arc prefix.
 
 ## How to create arc points
