@@ -84,12 +84,28 @@ class TodoChapterView(BasicView):
         Extends the superclass method.
         """
         # 'Arc name' entry.
-        newArcs = self._arcs.get().replace(';', '')
-        if self._element.kwVar['Field_ArcDefinition'] or newArcs:
-            if self._element.kwVar['Field_ArcDefinition'] != newArcs:
+        oldArc = self._element.kwVar['Field_ArcDefinition']
+        newArc = self._arcs.get().replace(';', '')
+        if oldArc or newArc:
+            if oldArc != newArc:
+                # Assign new arc to all children.
                 for scId in self._element.srtScenes:
-                    self._ui.novel.scenes[scId].scnArcs = newArcs
-                self._element.kwVar['Field_ArcDefinition'] = newArcs
+                    self._ui.novel.scenes[scId].scnArcs = newArc
+
+                # Rename scene arc assignments,if necessary.
+                if oldArc:
+                    for scId in self._ui.novel.scenes:
+                        if self._ui.novel.scenes[scId].scType == 0:
+                            scnArcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
+                            try:
+                                scnArcs.remove(oldArc)
+                            except ValueError:
+                                pass
+                            else:
+                                scnArcs.append(newArc)
+                                self._ui.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+
+                self._element.kwVar['Field_ArcDefinition'] = newArc
 
                 # Use the arc as scene title suffix.
                 newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._ui.elementTitle.get()}'

@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.4.1\n"
-"POT-Creation-Date: 2023-01-09 16:30:51\n"
-"PO-Revision-Date: 2023-01-09 16:30:51\n"
+"Project-Id-Version: 4.4.2\n"
+"POT-Creation-Date: 2023-01-13 21:10:45\n"
+"PO-Revision-Date: 2023-01-13 21:10:45\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -54,6 +54,9 @@ msgstr "An den vorherigen Abschnitt anhängen"
 
 msgid "Apply"
 msgstr "Anwenden"
+
+msgid "Apply changes"
+msgstr "Änderungen übernehmen"
 
 msgid "Arc"
 msgstr "Bogen"

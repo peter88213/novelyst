@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.4.2
+
+- Provide "Apply changes" button at the bottom of the right pane.
+- No longer accept the assignment of non-existent arcs to scenes.
+- Update the "Arcs" help page.
+
+Based on PyWriter v10.0.1
+
 ### v4.4.1
 
 - When clearing arc references, remove also all scene associations from the children points.

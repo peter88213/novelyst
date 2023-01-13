@@ -471,26 +471,28 @@ class WorkFile(Yw7File):
                 else:
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
 
-        if not addChapters:
-            return []
-
-        #--- Add missing arc definitions.
+        #--- Check whether arcs assigned to scenes are defined.
         new_chapters = []
         for scId in self.novel.scenes:
-            for scnArc in string_to_list(self.novel.scenes[scId].scnArcs):
+            scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
+            for scnArc in scnArcs:
                 if not scnArc in arcs:
-
-                    # Create a "To do" chapter with an arc definition.
-                    chId = create_id(self.novel.chapters)
-                    self.novel.chapters[chId] = Chapter()
-                    self.novel.chapters[chId].title = f'{scnArc} - {_("Narrative arc")}'
-                    self.novel.chapters[chId].chLevel = 0
-                    self.novel.chapters[chId].chType = 2
-                    for fieldName in self._CHP_KWVAR:
-                        self.novel.chapters[chId].kwVar[fieldName] = None
-                    self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
-                    self.novel.srtChapters.append(chId)
-                    arcs.append(scnArc)
-                    new_chapters.append(chId)
+                    if addChapters:
+                        # Create a "To do" chapter with an arc definition.
+                        chId = create_id(self.novel.chapters)
+                        self.novel.chapters[chId] = Chapter()
+                        self.novel.chapters[chId].title = f'{scnArc} - {_("Narrative arc")}'
+                        self.novel.chapters[chId].chLevel = 0
+                        self.novel.chapters[chId].chType = 2
+                        for fieldName in self._CHP_KWVAR:
+                            self.novel.chapters[chId].kwVar[fieldName] = None
+                        self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
+                        self.novel.srtChapters.append(chId)
+                        arcs.append(scnArc)
+                        new_chapters.append(chId)
+                    else:
+                        # Delete invalid chapter assignment.
+                        scnArcs.remove(scnArc)
+                        self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
         return new_chapters
 

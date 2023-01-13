@@ -462,11 +462,7 @@ class TreeViewer(ttk.Frame):
         self._ui.prjFile.adjust_scene_types()
 
         # Check the arc-defining "Todo" chapters.
-        new_chapters = self._ui.prjFile.check_arcs(addChapters=True)
-        for chId in new_chapters:
-            newNode = f'{self.CHAPTER_PREFIX}{chId}'
-            title, columns, nodeTags = self._set_chapter_display(chId)
-            self.tree.insert(self.NV_ROOT, 'end', newNode, text=title, values=columns, tags=nodeTags)
+        self._ui.prjFile.check_arcs()
 
         self._ui.isModified = True
         self._ui.show_status()

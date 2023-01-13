@@ -62,15 +62,9 @@ Currently, arc defining chapters are automatically created for arc names assigne
 
 Since the arc name is internally used as a key for scene associations, this associations would be deleted when simply changing an arc's name. So if the arc you want to rename is associated to a lot of scenes, it might be the best way to create a new arc and copy the scene associations using the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin. 
 
-1. Select the "Todo" chapter defining the arc you want to rename (old arc).
-2. Create a new chapter below and make sure it is "todo" type (new arc). 
-3. In the **Arc name** field of the new chapter, enter the new arc's name.  
-4. If the old arc has points, move them to the new arc.
-5. Assign all scenes of the old arc to the new arc. This can be done easily with the [novelyst_matrix](https://peter88213.github.io/novelyst_matrix/) plugin.
-6. Delete the old arc as described above.
-
-**Note:** This might change in the future. 
-
+1. Select the "Todo" chapter defining the arc you want to rename.
+2. In the right pane, change the arc's name into the **Arc name** entry. 
+3. You might want to edit the chapter title, removing the old arc prefix.
 
 ## How to create arc points
 

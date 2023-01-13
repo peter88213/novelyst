@@ -6,6 +6,7 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
 from tkinter import ttk
+from pywriter.pywriter_globals import *
 
 
 class BasicView:
@@ -36,6 +37,9 @@ class BasicView:
         # Window for element specific information.
         self._elementInfoWindow = ttk.Frame(self._ui.infoFrame)
 
+        # "Apply changes" button.
+        self._applyButton = ttk.Button(self._ui.rightFrame, text=_('Apply changes'), command=self.apply_changes)
+
     def show(self, element):
         """Make the view visible."""
         self._element = element
@@ -52,6 +56,9 @@ class BasicView:
         if hasattr(self._element, 'notes'):
             self._ui.notesWindow.pack(after=self._ui.infoFrame, expand=True, fill=tk.BOTH)
 
+        # "Apply changes" button.
+        self._applyButton.pack(padx=1, pady=2, fill=tk.X, side=tk.BOTTOM)
+
     def hide(self):
         """Clear the ui text boxes, and hide the view."""
         self._ui.elementTitle.set('')
@@ -59,6 +66,7 @@ class BasicView:
         self._ui.notesWindow.pack_forget()
         self._ui.infoFrame.pack_forget()
         self._elementInfoWindow.pack_forget()
+        self._applyButton.pack_forget()
 
     def set_data(self, element):
         """Update the view with element's data."""
