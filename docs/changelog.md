@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.4.3
+
+- Put auto-generated arc definitions into a new part in the "Planning" subtree.
+
+Based on PyWriter v10.0.1
+
 ### v4.4.2
 
 - Provide "Apply changes" button at the bottom of the right pane.

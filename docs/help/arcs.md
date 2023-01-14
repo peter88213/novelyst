@@ -34,9 +34,9 @@ This method can of course be combined well with arc points, which in this case c
 1. Create a chapter.
 2. Change the chapter's type to "Todo".
 3. Give the chapter a descriptive title.
-4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. **Note:** It is advised to use short arc names, for instance "A", "B", "C" for storylines, or initial letters for character arcs, etc.
+4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. It is advised to use short arc names, for instance "A", "B", "C" for storylines, or initial letters for character arcs, etc.
 
-**Note:** If you open a project that was created with a novelyst version older than 4.4 and that contains scenes with assignments of undefined arcs, the arc-defining chapters are created automatically. 
+**Note:** If you open a project that was created with a novelyst version older than 4.4 and that contains scenes with assignments of undefined arcs, a new part named **Arcs**, containing the arc-defining chapters, is created automatically in the **Planning** subtree. 
 
 ## How to group arcs
 

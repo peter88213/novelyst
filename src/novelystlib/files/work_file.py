@@ -472,12 +472,23 @@ class WorkFile(Yw7File):
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
 
         #--- Check whether arcs assigned to scenes are defined.
-        new_chapters = []
+        newChapters = []
+        partCreated = False
         for scId in self.novel.scenes:
             scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
             for scnArc in scnArcs:
                 if not scnArc in arcs:
                     if addChapters:
+                        if not partCreated:
+                            # Create a "To do" part for the arc definitions.
+                            chId = create_id(self.novel.chapters)
+                            self.novel.chapters[chId] = Chapter()
+                            self.novel.chapters[chId].title = _('Arcs')
+                            self.novel.chapters[chId].chLevel = 1
+                            self.novel.chapters[chId].chType = 2
+                            self.novel.srtChapters.append(chId)
+                            partCreated = True
+
                         # Create a "To do" chapter with an arc definition.
                         chId = create_id(self.novel.chapters)
                         self.novel.chapters[chId] = Chapter()
@@ -489,10 +500,10 @@ class WorkFile(Yw7File):
                         self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
                         self.novel.srtChapters.append(chId)
                         arcs.append(scnArc)
-                        new_chapters.append(chId)
+                        newChapters.append(chId)
                     else:
                         # Delete invalid chapter assignment.
                         scnArcs.remove(scnArc)
                         self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
-        return new_chapters
+        return newChapters
 
