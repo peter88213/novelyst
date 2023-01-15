@@ -71,6 +71,7 @@ class WorkFile(Yw7File):
         ]
     _SCN_KWVAR = [
         'Field_SceneArcs',
+        'Field_ArcAssoc',
         'Field_SceneAssoc',
         'Field_CustomAR',
         'Field_SceneStyle',
@@ -155,11 +156,12 @@ class WorkFile(Yw7File):
         super().read()
 
         #--- Convert field created with novelyst v4.3
-        for chId in self.novel.chapters:
+        for chId in self.novel.srtChapters:
             oldField = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
             if oldField:
                 self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = oldField
                 self.novel.chapters[chId].kwVar['Field_Arc_Definition'] = None
+            arc = self.novel.chapters[chId].kwVar['Field_ArcDefinition']
 
         #--- Check arc definitions.
         self.check_arcs(addChapters=True)
@@ -250,6 +252,10 @@ class WorkFile(Yw7File):
         
         Extends the superclass method.
         """
+        # Remove deprecated fields generated with novelyst v4.4-
+        for scId in self.novel.scenes:
+            self.novel.scenes[scId].kwVar['Field_SceneArcs'] = None
+
         super().write()
         self.timestamp = os.path.getmtime(self.filePath)
 
@@ -411,6 +417,7 @@ class WorkFile(Yw7File):
         Return a list with the new chapter IDs, if any.
         """
         arcs = []
+        arcIds = {}
         scnPoints = {}
         for scId in self.novel.scenes:
             scnPoints[scId] = []
@@ -420,24 +427,20 @@ class WorkFile(Yw7File):
             if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
 
                 # Process an arc-defining chapter.
-                arc = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
-                if arc:
-                    if arc in arcs:
-                        # wrong assignment: Arc is already defined by another chapter
-                        self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = None
-                        arc = None
-                    else:
-                        arcs.append(arc)
+                arcName = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
+                if arcName:
+                    arcIds[arcName] = chId
+                    arcs.append(chId)
 
                     #--- Fix arc points, if needed.
                     for ptId in self.novel.chapters[chId].srtScenes:
                         # Assign the arc defined by the parent chapter.
-                        self.novel.scenes[ptId].scnArcs = arc
+                        self.novel.scenes[ptId].scnArcs = [chId]
 
                         # Rebuild the point's scene association.
                         scenes = string_to_list(self.novel.scenes[ptId].kwVar.get('Field_SceneAssoc', None))
                         self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = None
-                        if scenes and arc:
+                        if scenes:
                             scId = scenes[0]
                             # make sure that not more than one scene is associated with the point
                             if scId in self.novel.scenes:
@@ -461,13 +464,13 @@ class WorkFile(Yw7File):
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = list_to_string(scnPoints[scId])
 
                     #--- Assign the points' arcs to the associated scene.
-                    scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
+                    scnArcs = self.novel.scenes[scId].scnArcs
                     for ptId in scnPoints[scId]:
-                        scnArc = self.novel.scenes[ptId].scnArcs
+                        scnArc = self.novel.scenes[ptId].scnArcs[0]
                         if not scnArc in scnArcs:
                             # Update the scene's arc assignments and refresh the tree.
                             scnArcs.append(scnArc)
-                            self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+                            self.novel.scenes[scId].scnArcs = scnArcs
                 else:
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
 
@@ -475,7 +478,44 @@ class WorkFile(Yw7File):
         newChapters = []
         partCreated = False
         for scId in self.novel.scenes:
-            scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
+
+            # Check arc assignments created with novelyst 4.4-
+            for arcName in string_to_list(self.novel.scenes[scId].kwVar.get('Field_SceneArcs', None)):
+                if arcName:
+                    if arcName in arcIds:
+                        if self.novel.scenes[scId].scnArcs is None:
+                            self.novel.scenes[scId].scnArcs = []
+                        self.novel.scenes[scId].scnArcs.append(chId)
+                    elif addChapters:
+                        if not partCreated:
+                            # Create a "To do" part for the arc definitions.
+                            chId = create_id(self.novel.chapters)
+                            self.novel.chapters[chId] = Chapter()
+                            self.novel.chapters[chId].title = _('Arcs')
+                            self.novel.chapters[chId].chLevel = 1
+                            self.novel.chapters[chId].chType = 2
+                            self.novel.srtChapters.append(chId)
+                            partCreated = True
+
+                        # Create a "To do" chapter with an arc definition.
+                        chId = create_id(self.novel.chapters)
+                        self.novel.chapters[chId] = Chapter()
+                        self.novel.chapters[chId].title = f'{scnArc} - {_("Narrative arc")}'
+                        self.novel.chapters[chId].chLevel = 0
+                        self.novel.chapters[chId].chType = 2
+                        for fieldName in self._CHP_KWVAR:
+                            self.novel.chapters[chId].kwVar[fieldName] = None
+                        self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
+                        self.novel.srtChapters.append(chId)
+                        arcs.append(chId)
+                        newChapters.append(chId)
+                        arcIds[arcName] = chId
+                        self.novel.scenes[scId].scnArcs.append(chId)
+
+            # Check arc assignments created with novelyst 4.5+
+            scnArcs = self.novel.scenes[scId].scnArcs
+            if scnArcs is None:
+                scnArcs = []
             for scnArc in scnArcs:
                 if not scnArc in arcs:
                     if addChapters:
@@ -499,11 +539,11 @@ class WorkFile(Yw7File):
                             self.novel.chapters[chId].kwVar[fieldName] = None
                         self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
                         self.novel.srtChapters.append(chId)
-                        arcs.append(scnArc)
+                        arcs.append(chId)
                         newChapters.append(chId)
                     else:
                         # Delete invalid chapter assignment.
                         scnArcs.remove(scnArc)
-                        self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+                        self.novel.scenes[scId].scnArcs = scnArcs
         return newChapters
 

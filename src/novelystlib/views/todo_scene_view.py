@@ -81,7 +81,7 @@ class TodoSceneView(BasicView):
 
         if self._element.scnArcs:
             # Arc display.
-            self._arc.config(text=f'{_("Arc")}: {self._element.scnArcs}')
+            self._arc.config(text=f'{_("Arc")}: {self._element.scnArcs[0]}')
 
             # Associated scene display.
             try:

@@ -624,6 +624,7 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.scenes[scId].scType = 0
         # Default type = Normal.
         self._ui.novel.scenes[scId].appendToPrev = False
+        self._ui.novel.scenes[scId].scnArcs = []
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile._SCN_KWVAR:
@@ -818,9 +819,11 @@ class TreeViewer(ttk.Frame):
             nodeTags.append('todo')
 
             # Display the arc the point belongs to.
-            arcs = self._ui.novel.scenes[scId].scnArcs
-            if arcs is not None:
-                columns[self._colPos['ac']] = arcs
+            arcNames = []
+            for chId in self._ui.novel.scenes[scId].scnArcs:
+                arcNames.append(self._ui.novel.chapters[chId].kwVar['Field_ArcDefinition'])
+            if arcNames:
+                columns[self._colPos['ac']] = list_to_string(arcNames)
 
             # Display associated scene(s), if any.
             columns[self._colPos['pt']] = list_to_string(points)
@@ -874,9 +877,11 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
-            arcs = self._ui.novel.scenes[scId].scnArcs
-            if arcs is not None:
-                columns[self._colPos['ac']] = arcs
+            arcNames = []
+            for chId in self._ui.novel.scenes[scId].scnArcs:
+                arcNames.append(self._ui.novel.chapters[chId].kwVar['Field_ArcDefinition'])
+            if arcNames:
+                columns[self._colPos['ac']] = list_to_string(arcNames)
 
             # Display arc points, if any.
             columns[self._colPos['pt']] = list_to_string(points)
@@ -967,7 +972,7 @@ class TreeViewer(ttk.Frame):
                     wordCount = 0
                     for sid in self._ui.novel.scenes:
                         if self._ui.novel.scenes[sid].scType == 0:
-                            if arc in string_to_list(self._ui.novel.scenes[sid].scnArcs):
+                            if arc in self._ui.novel.scenes[sid].scnArcs:
                                 wordCount += self._ui.novel.scenes[sid].wordCount
                     columns[self._colPos['wc']] = wordCount
         elif self._ui.novel.chapters[chId].chType == 3:

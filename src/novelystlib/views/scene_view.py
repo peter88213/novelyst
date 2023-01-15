@@ -242,11 +242,7 @@ class SceneView(BasicView):
         self._viewpoint.set(value=vp)
 
         # 'Arcs' entry (if any).
-        if self._element.scnArcs is not None:
-            arcs = self._element.scnArcs
-        else:
-            arcs = ''
-        self._arcs.set(arcs)
+        self._arcs.set(list_to_string(self._element.scnArcs))
 
         # 'Arc points' label.
         arcPoints = []
@@ -389,10 +385,12 @@ class SceneView(BasicView):
                 self._ui.isModified = True
 
         # 'Arcs' entry (if any).
+        oldArcs = list_to_string(self._element.scnArcs)
         newArcs = self._arcs.get()
-        if self._element.scnArcs or newArcs:
-            if self._element.scnArcs != newArcs:
-                self._element.scnArcs = newArcs
+
+        if oldArcs or newArcs:
+            if oldArcs != newArcs:
+                self._element.scnArcs = string_to_list(newArcs)
                 self._ui.isModified = True
 
         # 'Tags' entry.

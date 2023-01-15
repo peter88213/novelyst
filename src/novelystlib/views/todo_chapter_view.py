@@ -61,7 +61,7 @@ class TodoChapterView(BasicView):
         if arc:
             for scId in self._ui.novel.scenes:
                 if self._ui.novel.scenes[scId].scType == 0:
-                    if arc in string_to_list(self._ui.novel.scenes[scId].scnArcs):
+                    if arc in self._ui.novel.scenes[scId].scnArcs:
                         self._scenesAssigned.append(scId)
         else:
             arc = ''
@@ -90,20 +90,18 @@ class TodoChapterView(BasicView):
             if oldArc != newArc:
                 # Assign new arc to all children.
                 for scId in self._element.srtScenes:
-                    self._ui.novel.scenes[scId].scnArcs = newArc
+                    self._ui.novel.scenes[scId].scnArcs = [newArc]
 
                 # Rename scene arc assignments,if necessary.
                 if oldArc:
                     for scId in self._ui.novel.scenes:
                         if self._ui.novel.scenes[scId].scType == 0:
-                            scnArcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
                             try:
-                                scnArcs.remove(oldArc)
+                                self._ui.novel.scenes[scId].scnArcs.remove(oldArc)
                             except ValueError:
                                 pass
                             else:
-                                scnArcs.append(newArc)
-                                self._ui.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+                                self._ui.novel.scenes[scId].scnArcs.append(newArc)
 
                 self._element.kwVar['Field_ArcDefinition'] = newArc
 
@@ -125,13 +123,13 @@ class TodoChapterView(BasicView):
             for scId in self._scenesAssigned:
                 if self._ui.novel.scenes[scId].scnArcs is not None:
                     newArcs = []
-                    arcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
+                    arcs = self._ui.novel.scenes[scId].scnArcs
                     for scArc in arcs:
                         if not scArc == arc:
                             newArcs.append(scArc)
                         else:
                             self._ui.isModified = True
-                    self._ui.novel.scenes[scId].scnArcs = list_to_string(newArcs)
+                    self._ui.novel.scenes[scId].scnArcs = newArcs
             self._scenesAssigned = []
             self._plotFrame.pack_forget()
 
