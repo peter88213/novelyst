@@ -75,10 +75,6 @@ class WorkFile(Yw7File):
         'Field_CustomAR',
         'Field_SceneStyle',
         ]
-    _CRT_KWVAR = [
-        'Field_BirthDate',
-        'Field_DeathDate',
-        ]
 
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables.
