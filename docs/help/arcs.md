@@ -52,6 +52,15 @@ This method can of course be combined well with arc points, which in this case c
 
 **2nd Note:** This might change in the future. 
 
+## How to disconnect scenes from arcs
+
+1. Make sure that no points of the arc you want to disconnect is associated to the scene. 
+2. Select the scene you want to assign to an arc. This can be any "normal" type scene. 
+3. Make sure the **Plot** window is open in the right pane. 
+4. In the **Arcs** field, remove the name of the arc you want to disconnect. Also remove the corresponding semicolon. 
+
+**Note:** As long as arc points are associated to a scene, this scene remains associated to their arcs.
+
 ## How to delete arcs
 
 1. Select the "Todo" chapter defining the arc you want to remove. 
