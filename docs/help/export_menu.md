@@ -142,6 +142,23 @@ OpenDocument text document.  File name suffix is `_brf_synopsis`.
 
 ---
 
+## Arcs (export only)
+
+This will write arc-defining "Todo" parts and chapters with child scenes into a new 
+OpenDocument text document (odt). File name suffix is `_arcs`.
+
+The document contains:
+- Part titles (first level heading, only if the part's first chapter defines an arc)
+- Arc titles (second level heading)
+- Arc descriptions
+- Point titles (third level heading)
+- Links to the associated scene, if any
+- Point descrptions.
+- Point contents.
+
+
+---
+
 ## Cross references (export only)
 
 This will generate a new OpenDocument text document (odt) containing

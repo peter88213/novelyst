@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.4.4\n"
-"POT-Creation-Date: 2023-01-19 09:57:56\n"
-"PO-Revision-Date: 2023-01-19 09:57:56\n"
+"Project-Id-Version: 4.5.0\n"
+"POT-Creation-Date: 2023-01-19 17:40:31\n"
+"PO-Revision-Date: 2023-01-19 17:40:31\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -66,6 +66,9 @@ msgstr "Bogen-Name"
 
 msgid "Arcs"
 msgstr "Bögen"
+
+msgid "Arcs (export only)"
+msgstr "Bögen (nur Export)"
 
 msgid "Assign scene"
 msgstr "Abschnitt zuordnen"
@@ -387,6 +390,9 @@ msgstr "Sperren"
 
 msgid "Major Character"
 msgstr "Hauptfigur"
+
+msgid "Manuscript"
+msgstr "Manuskript"
 
 msgid "Manuscript for editing"
 msgstr "Manuskript zum Bearbeiten"

@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.4.4\n"
-"POT-Creation-Date: 2023-01-19 09:57:56\n"
+"Project-Id-Version: 4.5.0\n"
+"POT-Creation-Date: 2023-01-19 17:40:31\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -66,6 +66,9 @@ msgid "Arc name"
 msgstr ""
 
 msgid "Arcs"
+msgstr ""
+
+msgid "Arcs (export only)"
 msgstr ""
 
 msgid "Assign scene"
@@ -387,6 +390,9 @@ msgid "Lock"
 msgstr ""
 
 msgid "Major Character"
+msgstr ""
+
+msgid "Manuscript"
 msgstr ""
 
 msgid "Manuscript for editing"

@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.5.0
+
+- Add "Arcs" document export. 
+
+Based on PyWriter v10.0.1
+
 ### v4.4.4
 
 - If a scene's arc assignment is cleared, automatically clear the corresponding point assignments. 

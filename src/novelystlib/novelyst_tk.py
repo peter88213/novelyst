@@ -345,6 +345,7 @@ class NovelystTk(MainTk):
         self.exportMenu.add_separator()
         self.exportMenu.add_command(label=_('Manuscript without tags (export only)'), command=lambda: self._export_document('', lock=False))
         self.exportMenu.add_command(label=_('Brief synopsis (export only)'), command=lambda: self._export_document('_brf_synopsis', lock=False))
+        self.exportMenu.add_command(label=_('Arcs (export only)'), command=lambda: self._export_document('_arcs', lock=False))
         self.exportMenu.add_command(label=_('Cross references (export only)'), command=lambda: self._export_document('_xref', lock=False))
         self.exportMenu.add_separator()
         self.exportMenu.add_command(label=_('Obfuscated text for word count'), command=lambda: self._export_document('_wrimo', lock=False, show=False))

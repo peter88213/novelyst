@@ -30,6 +30,7 @@ from pywriter.ods.ods_scenelist import OdsSceneList
 from pywriter.yw.data_files import DataFiles
 from novelystlib.files.odt_characters_nv import OdtCharactersNv
 from novelystlib.files.wrimo_file import WrimoFile
+from novelystlib.files.odt_arcs import OdtArcs
 
 
 class NvExporter:
@@ -45,6 +46,7 @@ class NvExporter:
                              OdtChapterDesc,
                              OdtPartDesc,
                              OdtExport,
+                             OdtArcs,
                              OdtCharactersNv,
                              OdtItems,
                              OdtLocations,
