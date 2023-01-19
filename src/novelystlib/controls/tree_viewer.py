@@ -461,7 +461,7 @@ class TreeViewer(ttk.Frame):
         # Make sure that scenes inherit the parent's type, if not normal.
         self._ui.prjFile.adjust_scene_types()
 
-        # Check the arc-defining "Todo" chapters.
+        # Check the arc related associations.
         self._ui.prjFile.check_arcs()
 
         self._ui.isModified = True

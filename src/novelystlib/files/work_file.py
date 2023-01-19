@@ -394,16 +394,19 @@ class WorkFile(Yw7File):
         """Check and update all relationships relevant for arcs and arc points.
         
         Optional arguments:
-            addChapters -- If True, create arc-defining "Todo" chapters for "orphaned" arcs.
+            addChapters -- If True, create arc-defining "Todo" chapters for "orphaned" arcs,
+                           if False, delete scene assignments to "orphaned" arcs.  
         
         Default operation:
-        - Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.       
         - Make sure that each arc is defined by a unique chapter.       
+        - Make sure all children of an arc-defining "Todo" chapter have the same arc assigned.       
         - Make sure that not more than one scene is associated with an arc point.
-        - Delete dead scene associations from the arc points.
-        - Unlink scenes that are not "Normal" type from the arc points.
-        - Delete wrong arc and point related associations from all scenes.
-        
+        - Make sure that only "Normal" type scenes are associated with arc points.
+        - Make sure that points are associated only with scenes that are associated with their arc.
+        - Remove arc and point related associations from non-normal scenes in non-arc defining chapters.
+        - Create backward references from normal scenes to the points.
+        - Make sure that all arcs assigned to scenes are defined as "Todo" chapters.
+               
         Return a list with the new chapter IDs, if any.
         """
         arcs = []
@@ -411,11 +414,11 @@ class WorkFile(Yw7File):
         for scId in self.novel.scenes:
             scnPoints[scId] = []
 
-        #--- Identify arc defining chapters.
+        # Identify arc defining chapters.
         for chId in self.novel.srtChapters:
             if self.novel.chapters[chId].chType == 2 and self.novel.chapters[chId].chLevel == 0:
 
-                # Process an arc-defining chapter.
+                #--- Make sure that each arc is defined by a unique chapter.
                 arc = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
                 if arc:
                     if arc in arcs:
@@ -425,49 +428,46 @@ class WorkFile(Yw7File):
                     else:
                         arcs.append(arc)
 
-                    #--- Fix arc points, if needed.
+                    #--- Make sure all children of an arc-defining "Todo" chapter have the same arc assigned..
                     for ptId in self.novel.chapters[chId].srtScenes:
-                        # Assign the arc defined by the parent chapter.
                         self.novel.scenes[ptId].scnArcs = arc
 
-                        # Rebuild the point's scene association.
+                        # Rebuild the point's scene association, omitting invalid ones.
                         scenes = string_to_list(self.novel.scenes[ptId].kwVar.get('Field_SceneAssoc', None))
                         self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = None
                         if scenes and arc:
+
+                            #--- Make sure that not more than one scene is associated with an arc point.
                             scId = scenes[0]
-                            # make sure that not more than one scene is associated with the point
+
+                            #--- Make sure that only "Normal" type scenes are associated with arc points.
                             if scId in self.novel.scenes:
-                                # the associated scene exists
                                 if self.novel.scenes[scId].scType == 0:
-                                    # the associated scene is "Normal" type
-                                    self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = scId
-                                    scnPoints[scId].append(ptId)
+
+                                    #--- Make sure that points are associated only with scenes that are associated with their arc.
+                                    if arc in string_to_list(self.novel.scenes[scId].scnArcs):
+                                        self.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = scId
+
+                                        # Prepare a backward reference from the scene to the point.
+                                        scnPoints[scId].append(ptId)
             else:
-                # Process a chapter that doesn't define an arc.
                 for scId in self.novel.chapters[chId].srtScenes:
                     if self.novel.scenes[scId].scType != 0:
-
-                        # Delete arc and point related associations from non-normal scenes.
+                        #--- Remove arc and point related associations from non-normal scenes in non-arc defining chapters.
                         self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
                         self.novel.scenes[scId].scnArcs = None
 
+        #--- Create backward references from normal scenes to the points.
         for scId in self.novel.scenes:
             if self.novel.scenes[scId].scType == 0:
                 if scnPoints[scId]:
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = list_to_string(scnPoints[scId])
-
-                    #--- Assign the points' arcs to the associated scene.
-                    scnArcs = string_to_list(self.novel.scenes[scId].scnArcs)
-                    for ptId in scnPoints[scId]:
-                        scnArc = self.novel.scenes[ptId].scnArcs
-                        if not scnArc in scnArcs:
-                            # Update the scene's arc assignments and refresh the tree.
-                            scnArcs.append(scnArc)
-                            self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
                 else:
                     self.novel.scenes[scId].kwVar['Field_SceneAssoc'] = None
 
-        #--- Check whether arcs assigned to scenes are defined.
+        #--- Make sure that all arcs assigned to scenes are defined as "Todo" chapters.
+        # If addChapters is False, delete orphaned arc assignments.
+        # If addChapters is True, create "Todo" chapters for orphaned arc assignments.
         newChapters = []
         partCreated = False
         for scId in self.novel.scenes:
@@ -498,7 +498,7 @@ class WorkFile(Yw7File):
                         arcs.append(scnArc)
                         newChapters.append(chId)
                     else:
-                        # Delete invalid chapter assignment.
+                        # Delete invalid arc assignment.
                         scnArcs.remove(scnArc)
                         self.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
         return newChapters

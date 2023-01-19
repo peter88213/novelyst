@@ -78,7 +78,6 @@ class TodoSceneView(BasicView):
         self._tags.set(self._tagsStr)
 
         # Frame for arc point specific widgets.
-
         if self._element.scnArcs:
             # Arc display.
             self._arc.config(text=f'{_("Arc")}: {self._element.scnArcs}')
@@ -91,6 +90,7 @@ class TodoSceneView(BasicView):
                 self._associatedScene = None
                 sceneTitle = ''
             self._associatedSceneTitle['text'] = sceneTitle
+
             if not self._plotFrame.winfo_manager():
                 self._plotFrame.pack(pady=2, fill=tk.X)
         else:
@@ -145,14 +145,24 @@ class TodoSceneView(BasicView):
         self._ui.root.bind('<Escape>', self._uiEscBinding)
         self._ui.tv.config(cursor='arrow')
 
-        # Assign the selected scene to the point, if applicable.
+        # Assign the selected scene and its arc to the point, if applicable.
         nodeId = self._ui.tv.tree.selection()[0]
         if nodeId.startswith(self._ui.tv.SCENE_PREFIX):
             scId = nodeId[2:]
             if self._ui.novel.scenes[scId].scType == 0:
+
+                # Make sure the scene is also associated with the arc.
+                scnArcs = string_to_list(self._ui.novel.scenes[scId].scnArcs)
+                if not self._element.scnArcs in scnArcs:
+                    scnArcs.append(self._element.scnArcs)
+                    self._ui.novel.scenes[scId].scnArcs = list_to_string(scnArcs)
+
+                # Associate the point with the scene.
                 self._associatedScene = scId
+
                 self.apply_changes()
                 self.set_data(self._element)
+                # this shall create a backward reference from the scene to the point
         self._ui.tv.tree.see(self._lastSelected)
         self._ui.tv.tree.selection_set(self._lastSelected)
 

@@ -395,6 +395,10 @@ class SceneView(BasicView):
                 self._element.scnArcs = newArcs
                 self._ui.isModified = True
 
+                # Refresh the "points" display in case an arc has been removed.
+                self._ui.tv.update_prj_structure()
+                self.set_data(self._element)
+
         # 'Tags' entry.
         newTags = self._tags.get()
         if self._tagsStr or newTags:
