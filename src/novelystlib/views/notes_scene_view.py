@@ -4,14 +4,17 @@ Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
+import tkinter as tk
+from tkinter import ttk
+from pywriter.pywriter_globals import *
 from novelystlib.views.scene_view import SceneView
+from novelystlib.widgets.folding_frame import FoldingFrame
 
 
 class NotesSceneView(SceneView):
     """Class for viewing and editing "Notes" scene properties.
     """
 
-    ''' Prepare for #2
     def __init__(self, ui):
         """Initialize the view once before element data is available.
         
@@ -25,10 +28,10 @@ class NotesSceneView(SceneView):
         """
         super(). __init__(ui)
 
-        ttk.Separator(self._viewWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
-        
+        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
         #--- Frame for date/time/duration.
-        self._dateTimeFrame = FoldingFrame(self._viewWindow, _('Date/Time'), self._toggle_dateTimeFrame)
+        self._dateTimeFrame = FoldingFrame(self._elementInfoWindow, _('Date/Time'), self._toggle_dateTimeFrame)
         sceneStartFrame = ttk.Frame(self._dateTimeFrame)
         sceneStartFrame.pack(fill=tk.X)
 
@@ -45,7 +48,6 @@ class NotesSceneView(SceneView):
         self._lastsDays = tk.IntVar()
         self._lastsHours = tk.IntVar()
         self._lastsMinutes = tk.IntVar()
-
 
     def set_data(self, element):
         """Update the widgets with element's data.
@@ -76,5 +78,4 @@ class NotesSceneView(SceneView):
         else:
             self._dateTimeFrame.show()
             self._ui.kwargs['show_date_time'] = True
-    '''
 
