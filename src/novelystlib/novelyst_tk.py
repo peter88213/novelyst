@@ -27,7 +27,7 @@ from novelystlib.views.world_element_view import WorldElementView
 from novelystlib.views.project_view import ProjectView
 from novelystlib.views.chapter_view import ChapterView
 from novelystlib.views.todo_chapter_view import TodoChapterView
-from novelystlib.views.scene_view import SceneView
+from novelystlib.views.normal_scene_view import NormalSceneView
 from novelystlib.views.notes_scene_view import NotesSceneView
 from novelystlib.views.todo_scene_view import TodoSceneView
 from novelystlib.views.character_view import CharacterView
@@ -232,7 +232,7 @@ class NovelystTk(MainTk):
         self._todoChapterView = TodoChapterView(self)
         self._todoSceneView = TodoSceneView(self)
         self._notesSceneView = NotesSceneView(self)
-        self._sceneView = SceneView(self)
+        self._sceneView = NormalSceneView(self)
         self._characterView = CharacterView(self)
         self._worldElementView = WorldElementView(self)
 

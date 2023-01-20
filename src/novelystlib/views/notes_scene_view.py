@@ -1,24 +1,17 @@
 """Provide a tkinter based class for viewing and editing "Notes" scene properties.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
-import tkinter as tk
-from pywriter.pywriter_globals import *
-from novelystlib.views.basic_view import BasicView
-from novelystlib.widgets.label_entry import LabelEntry
-from novelystlib.widgets.my_string_var import MyStringVar
+from novelystlib.views.scene_view import SceneView
 
 
-class NotesSceneView(BasicView):
+class NotesSceneView(SceneView):
     """Class for viewing and editing "Notes" scene properties.
-       
-    Public methods:
-        set_data() -- Update the view with element's data.
-        apply_changes() -- Apply changes.   
     """
 
+    ''' Prepare for #2
     def __init__(self, ui):
         """Initialize the view once before element data is available.
         
@@ -32,23 +25,40 @@ class NotesSceneView(BasicView):
         """
         super(). __init__(ui)
 
-        # 'Tags' entry.
-        self._tags = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        ttk.Separator(self._viewWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        
+        #--- Frame for date/time/duration.
+        self._dateTimeFrame = FoldingFrame(self._viewWindow, _('Date/Time'), self._toggle_dateTimeFrame)
+        sceneStartFrame = ttk.Frame(self._dateTimeFrame)
+        sceneStartFrame.pack(fill=tk.X)
+
+        self._startDate = tk.StringVar()
+        self._startTime = tk.StringVar()
+
+        self._startDays = tk.IntVar()
+        self._startHours = tk.IntVar()
+        self._startMinutes = tk.IntVar()
+
+        sceneDurationFrame = ttk.Frame(self._dateTimeFrame)
+        sceneDurationFrame.pack(fill=tk.X)
+
+        self._lastsDays = tk.IntVar()
+        self._lastsHours = tk.IntVar()
+        self._lastsMinutes = tk.IntVar()
+
 
     def set_data(self, element):
         """Update the widgets with element's data.
         
         Extends the superclass constructor.
         """
-        # 'Tags' entry.
-        if self._element.tags is not None:
-            self._tagsStr = list_to_string(self._element.tags)
-        else:
-            self._tagsStr = ''
-        self._tags.set(self._tagsStr)
-
         super().set_data(element)
+
+        #--- Frame for date/time.
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.show()
+        else:
+            self._dateTimeFrame.hide()
 
     def apply_changes(self):
         """Apply changes.
@@ -56,12 +66,15 @@ class NotesSceneView(BasicView):
         Extends the superclass method.
         """
 
-        # 'Tags' entry.
-        newTags = self._tags.get()
-        if self._tagsStr or newTags:
-            if newTags != self._tagsStr:
-                self._element.tags = string_to_list(newTags)
-                self._ui.isModified = True
-
         super().apply_changes()
+
+    def _toggle_dateTimeFrame(self, event=None):
+        """Hide/show the 'Date/Time' frame."""
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.hide()
+            self._ui.kwargs['show_date_time'] = False
+        else:
+            self._dateTimeFrame.show()
+            self._ui.kwargs['show_date_time'] = True
+    '''
 

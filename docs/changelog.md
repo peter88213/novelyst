@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.5.1
+
+- Put the "Arc" part of the "Todo" scene view into a folding frame.
+- Add the "Relationships" frame to the "Notes" and "Todo" scene views.
+
+Based on PyWriter v10.0.1
+
 ### v4.5.0
 
 - Add "Arcs" document export. 
