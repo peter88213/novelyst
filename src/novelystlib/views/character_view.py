@@ -7,16 +7,21 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
-from novelystlib.views.basic_view import BasicView
+from novelystlib.views.world_element_view import WorldElementView
 from novelystlib.widgets.label_entry import LabelEntry
 from novelystlib.widgets.my_string_var import MyStringVar
 from novelystlib.widgets.folding_frame import FoldingFrame
 from novelystlib.widgets.text_box import TextBox
 
 
-class CharacterView(BasicView):
+class CharacterView(WorldElementView):
     """Class for viewing and editing character properties.
-    
+
+    Adds to the right pane:
+    - A "Full name" entry.
+    - A "Bio" folding frame.
+    - A "Goals" folding frame.
+   
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
@@ -39,15 +44,7 @@ class CharacterView(BasicView):
 
         #--- 'Full name' entry.
         self._fullName = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
-
-        #--- 'AKA' entry.
-        self._aka = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('AKA'), textvariable=self._aka, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
-
-        #--- 'Tags' entry.
-        self._tags = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        LabelEntry(self.frame1, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
@@ -97,16 +94,6 @@ class CharacterView(BasicView):
         # 'Full name' entry.
         self._fullName.set(self._element.fullName)
 
-        # 'AKA' entry.
-        self._aka .set(self._element.aka)
-
-        # 'Tags' entry.
-        if self._element.tags is not None:
-            self._tagsStr = list_to_string(self._element.tags)
-        else:
-            self._tagsStr = ''
-        self._tags.set(self._tagsStr)
-
         #--- 'Bio' entry
         if self._ui.novel.kwVar.get('Field_CustomChrBio', None):
             self._bioFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrBio']
@@ -140,20 +127,6 @@ class CharacterView(BasicView):
         if fullName or self._element.fullName:
             if self._element.fullName != fullName:
                 self._element.fullName = fullName.strip()
-                self._ui.isModified = True
-
-        # 'AKA' entry.
-        aka = self._aka.get()
-        if aka or self._element.aka:
-            if self._element.aka != aka:
-                self._element.aka = aka.strip()
-                self._ui.isModified = True
-
-        # 'Tags' entry.
-        newTags = self._tags.get()
-        if self._tagsStr or newTags:
-            if newTags != self._tagsStr:
-                self._element.tags = string_to_list(newTags)
                 self._ui.isModified = True
 
         # 'Bio' entry

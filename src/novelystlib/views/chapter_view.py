@@ -13,13 +13,16 @@ from novelystlib.views.basic_view import BasicView
 class ChapterView(BasicView):
     """Class for viewing and editing chapter properties.
       
+    Adds to the right pane:
+    - A "Do not auto-number" checkbox.
+
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
 
     def __init__(self, ui):
-        """Initialize the view once before element data is available.
+        """Initialize the view once before element data is available.          
         
         Positional arguments:
             ui -- NovelystTk: Reference to the user interface.

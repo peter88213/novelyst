@@ -12,6 +12,11 @@ from pywriter.pywriter_globals import *
 class BasicView:
     """Generic class for viewing tree element properties.
     
+    Adds to the right pane:
+    - Element title
+    - Element description
+    - Element notes (if any)
+    
     Public methods:
         show() -- Make the ui text boxes and the view visible.
         hide() -- Clear the ui text boxes, and hide the view.

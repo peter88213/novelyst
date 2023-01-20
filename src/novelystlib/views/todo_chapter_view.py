@@ -14,10 +14,18 @@ from novelystlib.widgets.my_string_var import MyStringVar
 
 class TodoChapterView(BasicView):
     """Class for viewing and editing chapter properties.
+    
+    Adds to the right pane:
+    - An "Arc" entry.
       
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+
+    If one story arc is assigned to a "Todo" chapter, this chapter is used 
+    for defining this arc. In this case, there is an extra display:    
+    - The number of normal scenes assigned to this arc.
+    - A button to remove all scene assigments to this arc.
     """
 
     def __init__(self, ui):

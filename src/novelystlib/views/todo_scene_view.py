@@ -13,15 +13,14 @@ from novelystlib.widgets.folding_frame import FoldingFrame
 
 class TodoSceneView(SceneView):
     """Class for viewing and editing "Todo" scene properties.
+
+    Adds to the right pane:
+    - A folding frame for arc points.    
           
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
-
-    If one story arc is assigned to a "Todo" scene, this scene is used 
-    for describing this arc. In this case, there is an extra display:    
-    - The number of normal scenes assigned to this arc.
-    - A button to remove all scene assigments to this arc.
+        
     """
 
     def __init__(self, ui):
@@ -41,10 +40,10 @@ class TodoSceneView(SceneView):
         self._treeSelectBinding = None
         self._uiEscBinding = None
 
-        ttk.Separator(self._viewWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self.frame2, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- Frame for arc specific widgets.
-        self._arcFrame = FoldingFrame(self._viewWindow, _('Arc'), self._toggle_arcFrame)
+        self._arcFrame = FoldingFrame(self.frame2, _('Arc'), self._toggle_arcFrame)
         self._arcInnerFrame = ttk.Frame(self._arcFrame)
 
         # Arc display.

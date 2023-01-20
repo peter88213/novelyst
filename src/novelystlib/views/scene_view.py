@@ -18,6 +18,10 @@ from novelystlib.widgets.text_box import TextBox
 class SceneView(BasicView):
     """Class for viewing and editing scene properties.
        
+    Adds to the right pane:
+    - A "Tags" entry.
+    - A folding frame for relationships (characters/locations/items)
+       
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
@@ -42,8 +46,8 @@ class SceneView(BasicView):
         self._tags = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
-        self._viewWindow = ttk.Frame(self._elementInfoWindow)
-        self._viewWindow.pack(anchor=tk.W, fill=tk.X)
+        self.frame2 = ttk.Frame(self._elementInfoWindow)
+        self.frame2.pack(anchor=tk.W, fill=tk.X)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 

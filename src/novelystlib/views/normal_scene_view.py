@@ -19,6 +19,12 @@ from novelystlib.widgets.text_box import TextBox
 class NormalSceneView(NotesSceneView):
     """Class for viewing and editing scene properties.
        
+    Adds to the right pane:
+    - A combobox for viewpoint character selection.
+    - A checkbox "append to previous".
+    - A "Plot" folding frame for arcs and arc point associations.
+    - An "Action/Reaction" folding frame for Goal/Reaction/Outcome.
+
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
@@ -41,19 +47,19 @@ class NormalSceneView(NotesSceneView):
 
         #--- 'Viewpoint' combobox.
         self._viewpoint = MyStringVar()
-        self._characterCombobox = LabelCombo(self._viewWindow, text=_('Viewpoint'), textvariable=self._viewpoint, values=[])
+        self._characterCombobox = LabelCombo(self.frame2, text=_('Viewpoint'), textvariable=self._viewpoint, values=[])
         self._characterCombobox.pack(anchor=tk.W, pady=2)
 
         #--- 'Append to previous scene' checkbox.
         self._appendToPrev = tk.BooleanVar()
-        self._appendToPrevCheckbox = ttk.Checkbutton(self._viewWindow, text=_('Append to previous scene'),
+        self._appendToPrevCheckbox = ttk.Checkbutton(self.frame2, text=_('Append to previous scene'),
                                          variable=self._appendToPrev, onvalue=True, offvalue=False)
         self._appendToPrevCheckbox.pack(anchor=tk.W, pady=2)
 
-        ttk.Separator(self._viewWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self.frame2, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- Frame for arcs and plot.
-        self._arcFrame = FoldingFrame(self._viewWindow, _('Plot'), self._toggle_arcFrame)
+        self._arcFrame = FoldingFrame(self.frame2, _('Plot'), self._toggle_arcFrame)
 
         # 'Arcs' entry (if any).
         self._arcs = MyStringVar()
@@ -63,10 +69,10 @@ class NormalSceneView(NotesSceneView):
         self._arcPointsDisplay = tk.Label(self._arcFrame, anchor=tk.W, bg='white')
         self._arcPointsDisplay.pack(anchor=tk.W, pady=2, fill=tk.X)
 
-        ttk.Separator(self._viewWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self.frame2, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- Frame for 'Action'/'Reaction'/'Custom'.
-        self._pacingFrame = FoldingFrame(self._viewWindow, _('Action/Reaction'), self._toggle_pacingFrame)
+        self._pacingFrame = FoldingFrame(self.frame2, _('Action/Reaction'), self._toggle_pacingFrame)
 
         # 'Action'/'Reaction'/'Custom' radiobuttons.
         selectionFrame = ttk.Frame(self._pacingFrame)

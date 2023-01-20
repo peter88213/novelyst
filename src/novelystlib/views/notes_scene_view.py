@@ -13,6 +13,13 @@ from novelystlib.widgets.folding_frame import FoldingFrame
 
 class NotesSceneView(SceneView):
     """Class for viewing and editing "Notes" scene properties.
+
+    Adds to the right pane:
+    - A folding frame for date/time.
+
+    Public methods:
+        set_data() -- Update the view with element's data.
+        apply_changes() -- Apply changes.   
     """
 
     def __init__(self, ui):

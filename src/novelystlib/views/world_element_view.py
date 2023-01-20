@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
+from tkinter import ttk
 from pywriter.pywriter_globals import *
 from novelystlib.widgets.label_entry import LabelEntry
 from novelystlib.views.basic_view import BasicView
@@ -13,7 +14,11 @@ from novelystlib.widgets.my_string_var import MyStringVar
 
 class WorldElementView(BasicView):
     """Class for viewing world element properties.
-       
+    
+    Adds to the right pane:
+    - An "Aka" entry.
+    - A "Tags" entry.   
+     
     Public methods:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
@@ -31,6 +36,9 @@ class WorldElementView(BasicView):
         Extends the superclass constructor.
         """
         super(). __init__(ui)
+
+        self.frame1 = ttk.Frame(self._elementInfoWindow)
+        self.frame1.pack(anchor=tk.W, fill=tk.X)
 
         # 'AKA' entry.
         self._aka = MyStringVar()
