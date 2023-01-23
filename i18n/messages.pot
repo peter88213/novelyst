@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.5.1\n"
-"POT-Creation-Date: 2023-01-20 18:10:35\n"
+"Project-Id-Version: 4.6.0\n"
+"POT-Creation-Date: 2023-01-23 20:48:10\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -224,6 +224,9 @@ msgstr ""
 msgid "Day"
 msgstr ""
 
+msgid "Days"
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 
@@ -353,6 +356,9 @@ msgstr ""
 msgid "Home page"
 msgstr ""
 
+msgid "Hours"
+msgstr ""
+
 msgid "Input rejected"
 msgstr ""
 
@@ -405,6 +411,9 @@ msgid "Manuscript without tags (export only)"
 msgstr ""
 
 msgid "Minor Character"
+msgstr ""
+
+msgid "Minutes"
 msgstr ""
 
 msgid "Module"
@@ -615,6 +624,9 @@ msgid "Show list"
 msgstr ""
 
 msgid "Show markup"
+msgstr ""
+
+msgid "Start"
 msgstr ""
 
 msgid "Starting count"

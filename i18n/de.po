@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.5.1\n"
-"POT-Creation-Date: 2023-01-20 18:10:35\n"
-"PO-Revision-Date: 2023-01-20 18:10:36\n"
+"Project-Id-Version: 4.6.0\n"
+"POT-Creation-Date: 2023-01-23 20:48:10\n"
+"PO-Revision-Date: 2023-01-23 20:48:10\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -223,6 +223,9 @@ msgstr "Datum/Zeit"
 msgid "Day"
 msgstr "Tag"
 
+msgid "Days"
+msgstr "Tage"
+
 msgid "Delete"
 msgstr "Löschen"
 
@@ -352,6 +355,9 @@ msgstr "Hilfe"
 msgid "Home page"
 msgstr "Homepage"
 
+msgid "Hours"
+msgstr "Stunden"
+
 msgid "Input rejected"
 msgstr "Eingabe abgelehnt"
 
@@ -405,6 +411,9 @@ msgstr "Manuskript ohne Markierungen (nur Export)"
 
 msgid "Minor Character"
 msgstr "Nebenfigur"
+
+msgid "Minutes"
+msgstr "Minuten"
 
 msgid "Module"
 msgstr "Modul"
@@ -615,6 +624,9 @@ msgstr "Liste anzeigen"
 
 msgid "Show markup"
 msgstr "Markup anzeigen"
+
+msgid "Start"
+msgstr "Beginn"
 
 msgid "Starting count"
 msgstr "Anfangswert"
