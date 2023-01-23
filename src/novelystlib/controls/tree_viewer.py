@@ -773,7 +773,7 @@ class TreeViewer(ttk.Frame):
 
         # Time for displaying.
         if self._ui.novel.scenes[scId].time is not None:
-            dispTime = self._ui.novel.scenes[scId].time
+            dispTime = self._ui.novel.scenes[scId].time.rsplit(':', 1)[0]
         else:
             dispTime = ''
 
