@@ -762,31 +762,20 @@ class TreeViewer(ttk.Frame):
         if not title:
             title = _('Unnamed')
 
-        # Create a combined scDate information.
+        # Date or day for displaying.
         if self._ui.novel.scenes[scId].date is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
-            cmbDate = self._ui.novel.scenes[scId].date
+            dispDate = self._ui.novel.scenes[scId].date
         else:
             if self._ui.novel.scenes[scId].day is not None:
-                cmbDate = f'{_("Day")} {self._ui.novel.scenes[scId].day}'
+                dispDate = f'{_("Day")} {self._ui.novel.scenes[scId].day}'
             else:
-                cmbDate = ''
+                dispDate = ''
 
-        # Create a combined time information.
-        if self._ui.novel.scenes[scId].time is not None and self._ui.novel.scenes[scId].date != Scene.NULL_DATE:
-            cmbTime = self._ui.novel.scenes[scId].time.rsplit(':', 1)[0]
+        # Time for displaying.
+        if self._ui.novel.scenes[scId].time is not None:
+            dispTime = self._ui.novel.scenes[scId].time
         else:
-            if self._ui.novel.scenes[scId].hour or self._ui.novel.scenes[scId].minute:
-                if self._ui.novel.scenes[scId].hour:
-                    scHour = self._ui.novel.scenes[scId].hour
-                else:
-                    scHour = '00'
-                if self._ui.novel.scenes[scId].minute:
-                    scMinute = self._ui.novel.scenes[scId].minute
-                else:
-                    scMinute = '00'
-                cmbTime = f'{scHour.zfill(2)}:{scMinute.zfill(2)}'
-            else:
-                cmbTime = ''
+            dispTime = ''
 
         # Create arc point titles.
         points = []
@@ -828,8 +817,8 @@ class TreeViewer(ttk.Frame):
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
             nodeTags.append('notes')
-            columns[self._colPos['dt']] = cmbDate
-            columns[self._colPos['tm']] = cmbTime
+            columns[self._colPos['dt']] = dispDate
+            columns[self._colPos['tm']] = dispTime
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
         else:
@@ -869,8 +858,8 @@ class TreeViewer(ttk.Frame):
             else:
                 columns[self._colPos['ar']] = _('A')
 
-            columns[self._colPos['dt']] = cmbDate
-            columns[self._colPos['tm']] = cmbTime
+            columns[self._colPos['dt']] = dispDate
+            columns[self._colPos['tm']] = dispTime
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
