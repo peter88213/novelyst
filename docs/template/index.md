@@ -30,6 +30,7 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 - Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or any number of story arcs. Especially when revising a large novel, this can be quite useful. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
 - The character data categories "Bio" and "Goals" can be renamed.
+- There are now [arcs](help/arcs) to support plotting.
 - The necessary data is stored along in the *.yw7* file, without breaking the compatibility to *yWriter*.
 
 ## Plugins
