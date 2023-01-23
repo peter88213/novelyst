@@ -170,18 +170,24 @@ class NotesSceneView(SceneView):
                     self._element.time = newStartTime
                     self._ui.isModified = True
                 finally:
-                    self._startTime.set(self._element.time)
+                    dispTime = self._element.time.rsplit(':', 1)[0]
+                    self._startTime.set(dispTime)
 
         # 'Day' entry.
         if not switchTimeMode:
             newStartDay = self._startDay.get()
             if newStartDay or self._element.day:
                 if newStartDay != self._element.day:
-                    self._element.day = newStartDay
-                    if self._element.date:
-                        self._element.date = None
-                        switchTimeMode = True
-                    self._ui.isModified = True
+                    try:
+                        int(newStartDay)
+                    except ValueError:
+                        self._startDay.set(self._element.day)
+                    else:
+                        self._element.day = newStartDay
+                        if self._element.date:
+                            self._element.date = None
+                            switchTimeMode = True
+                        self._ui.isModified = True
         else:
             self._element.day = None
 

@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.6.1
+
+- Fix error handling for time and day entry.
+
+Based on PyWriter v11.0.1
+
 ### v4.6.0
 
 - Make scene date/time information editable.
