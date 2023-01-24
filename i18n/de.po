@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.6.1\n"
-"POT-Creation-Date: 2023-01-23 22:11:52\n"
-"PO-Revision-Date: 2023-01-23 22:11:52\n"
+"Project-Id-Version: 4.6.2\n"
+"POT-Creation-Date: 2023-01-24 19:15:47\n"
+"PO-Revision-Date: 2023-01-24 19:15:47\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -159,6 +159,18 @@ msgstr "Wahl"
 
 msgid "Clear assignment"
 msgstr "Zuordnung löschen"
+
+msgid "Clear date/time"
+msgstr "Datum/Zeit löschen"
+
+msgid "Clear date/time from this scene?"
+msgstr "Datum/Zeit dieses Abschnitts löschen?"
+
+msgid "Clear duration"
+msgstr "Dauer löschen"
+
+msgid "Clear duration from this scene?"
+msgstr "Dauer dieses Abschnitts löschen?"
 
 msgid "Clear scene assignments"
 msgstr "Abschnittszuordnungen löschen"

@@ -70,6 +70,11 @@ class NotesSceneView(SceneView):
                    textvariable=self._startDay,
                    lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
 
+        # 'Clear start date/time' button.
+        ttk.Button(sceneStartFrame,
+                   text=_('Clear date/time'),
+                   command=self._clearStart).pack(side=tk.LEFT, padx=1, pady=2)
+
         ttk.Separator(self._dateTimeFrame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=8)
 
         sceneDurationFrame = ttk.Frame(self._dateTimeFrame)
@@ -96,6 +101,11 @@ class NotesSceneView(SceneView):
                    text=_('Minutes'),
                    textvariable=self._lastsMinutes,
                    lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+
+        # 'Clear duration' button.
+        ttk.Button(sceneDurationFrame,
+                   text=_('Clear duration'),
+                   command=self._clearDuration).pack(side=tk.LEFT, padx=1, pady=2)
 
     def set_data(self, element):
         """Update the widgets with element's data.
@@ -169,8 +179,8 @@ class NotesSceneView(SceneView):
                         newStartTime = f'{newStartTime}:00'
                     self._element.time = newStartTime
                     self._ui.isModified = True
-                finally:
                     dispTime = self._element.time.rsplit(':', 1)[0]
+                finally:
                     self._startTime.set(dispTime)
 
         # 'Day' entry.
@@ -207,14 +217,19 @@ class NotesSceneView(SceneView):
         newLastsMinutes = self._lastsMinutes.get()
         if newLastsMinutes or self._element.lastsMinutes:
             if newLastsMinutes != self._element.lastsMinutes:
+                if not newLastsMinutes:
+                    newLastsMinutes = 0
                 try:
                     minutes = int(newLastsMinutes)
-                    hoursLeft, minutes = divmod(minutes, 60)
-                    newLastsMinutes = str(minutes)
-                    self._lastsMinutes.set(newLastsMinutes)
                 except ValueError:
                     wrongEntry = True
                 else:
+                    hoursLeft, minutes = divmod(minutes, 60)
+                    if minutes > 0:
+                        newLastsMinutes = str(minutes)
+                    else:
+                        newLastsMinutes = ''
+                    self._lastsMinutes.set(newLastsMinutes)
                     newEntry = True
 
         # 'Duration hours' entry.
@@ -223,9 +238,13 @@ class NotesSceneView(SceneView):
         if hoursLeft or newLastsHours or self._element.lastsHours:
             if hoursLeft or newLastsHours != self._element.lastsHours:
                 try:
-                    hours = int(newLastsHours) + hoursLeft
-                    daysLeft, hours = divmod(hours, 24)
-                    newLastsHours = str(hours)
+                    if newLastsHours:
+                        hoursLeft += int(newLastsHours)
+                    daysLeft, hoursLeft = divmod(hoursLeft, 24)
+                    if hoursLeft > 0:
+                        newLastsHours = str(hoursLeft)
+                    else:
+                        newLastsHours = ''
                     self._lastsHours.set(newLastsHours)
                 except ValueError:
                     wrongEntry = True
@@ -237,8 +256,12 @@ class NotesSceneView(SceneView):
         if daysLeft or newLastsDays or self._element.lastsDays:
             if daysLeft or newLastsDays != self._element.lastsDays:
                 try:
-                    days = int(newLastsDays) + daysLeft
-                    newLastsDays = str(days)
+                    if newLastsDays:
+                        daysLeft += int(newLastsDays)
+                    if daysLeft > 0:
+                        newLastsDays = str(daysLeft)
+                    else:
+                        newLastsDays = ''
                     self._lastsDays.set(newLastsDays)
                 except ValueError:
                     wrongEntry = True
@@ -268,3 +291,40 @@ class NotesSceneView(SceneView):
             self._dateTimeFrame.show()
             self._ui.kwargs['show_date_time'] = True
 
+    def _clearStart(self):
+        """Remove start data from the scene.
+        """
+        startData = [
+            self._element.date,
+            self._element.time,
+            self._element.day,
+            ]
+        hasData = False
+        for dataElement in startData:
+            if dataElement:
+                hasData = True
+        if hasData and self._ui.ask_yes_no(_('Clear date/time from this scene?')):
+            self._element.date = ''
+            self._element.time = ''
+            self._element.day = ''
+            self.set_data(self._element)
+            self._ui.isModified = True
+
+    def _clearDuration(self):
+        """Remove duration data from the scene.
+        """
+        durationData = [
+            self._element.lastsDays,
+            self._element.lastsHours,
+            self._element.lastsMinutes,
+            ]
+        hasData = False
+        for dataElement in durationData:
+            if dataElement:
+                hasData = True
+        if hasData and self._ui.ask_yes_no(_('Clear duration from this scene?')):
+            self._element.lastsDays = ''
+            self._element.lastsHours = ''
+            self._element.lastsMinutes = ''
+            self.set_data(self._element)
+            self._ui.isModified = True

@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.6.2
+
+- Add buttons for clearing scene start/duration data.
+- Enable clearing the duration entries.
+- Improve entry checks.
+
+Based on PyWriter v11.0.2
+
 ### v4.6.1
 
 - Fix error handling for time and day entry.
