@@ -6,8 +6,11 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
+from datetime import datetime
 from datetime import date
 from datetime import time
+from datetime import timedelta
 from pywriter.pywriter_globals import *
 from novelystlib.views.scene_view import SceneView
 from novelystlib.widgets.folding_frame import FoldingFrame
@@ -70,10 +73,15 @@ class NotesSceneView(SceneView):
                    textvariable=self._startDay,
                    lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
 
-        # 'Clear start date/time' button.
+        # 'Clear date/time' button.
         ttk.Button(sceneStartFrame,
                    text=_('Clear date/time'),
-                   command=self._clearStart).pack(side=tk.LEFT, padx=1, pady=2)
+                   command=self._clear_start).pack(side=tk.LEFT, padx=1, pady=2)
+
+        # 'Generate' button.
+        ttk.Button(sceneStartFrame,
+                   text=_('Generate'),
+                   command=self._auto_set).pack(side=tk.LEFT, padx=1, pady=2)
 
         ttk.Separator(self._dateTimeFrame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=8)
 
@@ -105,7 +113,7 @@ class NotesSceneView(SceneView):
         # 'Clear duration' button.
         ttk.Button(sceneDurationFrame,
                    text=_('Clear duration'),
-                   command=self._clearDuration).pack(side=tk.LEFT, padx=1, pady=2)
+                   command=self._clear_duration).pack(side=tk.LEFT, padx=1, pady=2)
 
     def set_data(self, element):
         """Update the widgets with element's data.
@@ -291,7 +299,7 @@ class NotesSceneView(SceneView):
             self._dateTimeFrame.show()
             self._ui.kwargs['show_date_time'] = True
 
-    def _clearStart(self):
+    def _clear_start(self):
         """Remove start data from the scene.
         """
         startData = [
@@ -310,7 +318,54 @@ class NotesSceneView(SceneView):
             self.set_data(self._element)
             self._ui.isModified = True
 
-    def _clearDuration(self):
+    def _auto_set(self):
+        """Set scene start to the end of the previous scene.
+        """
+
+        def get_scene_end(scene):
+            """Return a scene end (date, time, day) tuple calculated from start and duration.
+            
+            Positional arguments:
+                scene -- Scene instance
+            """
+            date = None
+            time = None
+            day = None
+            # Calculate end date from scene scene duration.
+            if scene.lastsDays:
+                lastsDays = int(scene.lastsDays)
+            else:
+                lastsDays = 0
+            if scene.lastsHours:
+                lastsSeconds = int(scene.lastsHours) * 3600
+            else:
+                lastsSeconds = 0
+            if scene.lastsMinutes:
+                lastsSeconds += int(scene.lastsMinutes) * 60
+            sceneDuration = timedelta(days=lastsDays, seconds=lastsSeconds)
+            try:
+                sceneStart = datetime.fromisoformat(f'{scene.date} {scene.time}')
+            except:
+                pass
+            else:
+                sceneEnd = sceneStart + sceneDuration
+                date, time = sceneEnd.isoformat().split('T')
+            return date, time, day
+
+        thisNode = self._ui.tv.tree.selection()[0]
+        prevNode = self._ui.tv.prev_node(thisNode, '')
+        if prevNode:
+            scId = prevNode[2:]
+            date, time, day = get_scene_end(self._ui.novel.scenes[scId])
+            if time is not None:
+                self._startTime.set(time.rsplit(':', 1)[0])
+                self._startDate.set(date)
+                self._startDay.set(day)
+                self.apply_changes()
+            else:
+                messagebox.showerror(_('Cannot generate date/time'), _('The previous scene has no date/time set.'))
+
+    def _clear_duration(self):
         """Remove duration data from the scene.
         """
         durationData = [

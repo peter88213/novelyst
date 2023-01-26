@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.7.0\n"
-"POT-Creation-Date: 2023-01-26 13:25:23\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-01-26 17:04:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -111,6 +111,9 @@ msgid "Cannot create directory"
 msgstr ""
 
 msgid "Cannot create file"
+msgstr ""
+
+msgid "Cannot generate date/time"
 msgstr ""
 
 msgid "Cannot overwrite file"
@@ -354,6 +357,9 @@ msgid "File written"
 msgstr ""
 
 msgid "Full name"
+msgstr ""
+
+msgid "Generate"
 msgstr ""
 
 msgid "Goal"
@@ -666,6 +672,9 @@ msgid "Text"
 msgstr ""
 
 msgid "The plugin remains active until next start."
+msgstr ""
+
+msgid "The previous scene has no date/time set."
 msgstr ""
 
 msgid "Time"
