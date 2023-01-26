@@ -236,7 +236,7 @@ class NotesSceneView(SceneView):
                     if minutes > 0:
                         newLastsMinutes = str(minutes)
                     else:
-                        newLastsMinutes = ''
+                        newLastsMinutes = None
                     self._lastsMinutes.set(newLastsMinutes)
                     newEntry = True
 
@@ -252,7 +252,7 @@ class NotesSceneView(SceneView):
                     if hoursLeft > 0:
                         newLastsHours = str(hoursLeft)
                     else:
-                        newLastsHours = ''
+                        newLastsHours = None
                     self._lastsHours.set(newLastsHours)
                 except ValueError:
                     wrongEntry = True
@@ -269,7 +269,7 @@ class NotesSceneView(SceneView):
                     if daysLeft > 0:
                         newLastsDays = str(daysLeft)
                     else:
-                        newLastsDays = ''
+                        newLastsDays = None
                     self._lastsDays.set(newLastsDays)
                 except ValueError:
                     wrongEntry = True
@@ -312,9 +312,9 @@ class NotesSceneView(SceneView):
             if dataElement:
                 hasData = True
         if hasData and self._ui.ask_yes_no(_('Clear date/time from this scene?')):
-            self._element.date = ''
-            self._element.time = ''
-            self._element.day = ''
+            self._element.date = None
+            self._element.time = None
+            self._element.day = None
             self.set_data(self._element)
             self._ui.isModified = True
 
@@ -393,8 +393,8 @@ class NotesSceneView(SceneView):
             if dataElement:
                 hasData = True
         if hasData and self._ui.ask_yes_no(_('Clear duration from this scene?')):
-            self._element.lastsDays = ''
-            self._element.lastsHours = ''
-            self._element.lastsMinutes = ''
+            self._element.lastsDays = None
+            self._element.lastsHours = None
+            self._element.lastsMinutes = None
             self.set_data(self._element)
             self._ui.isModified = True
