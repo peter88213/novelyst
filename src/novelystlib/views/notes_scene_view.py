@@ -328,9 +328,9 @@ class NotesSceneView(SceneView):
             Positional arguments:
                 scene -- Scene instance
             """
-            date = None
-            time = None
-            day = None
+            endDate = None
+            endTime = None
+            endDay = None
             # Calculate end date from scene scene duration.
             if scene.lastsDays:
                 lastsDays = int(scene.lastsDays)
@@ -343,24 +343,39 @@ class NotesSceneView(SceneView):
             if scene.lastsMinutes:
                 lastsSeconds += int(scene.lastsMinutes) * 60
             sceneDuration = timedelta(days=lastsDays, seconds=lastsSeconds)
-            try:
-                sceneStart = datetime.fromisoformat(f'{scene.date} {scene.time}')
-            except:
-                pass
-            else:
-                sceneEnd = sceneStart + sceneDuration
-                date, time = sceneEnd.isoformat().split('T')
-            return date, time, day
+            if scene.time:
+                if scene.date:
+                    try:
+                        sceneStart = datetime.fromisoformat(f'{scene.date} {scene.time}')
+                        sceneEnd = sceneStart + sceneDuration
+                        endDate, endTime = sceneEnd.isoformat().split('T')
+                    except:
+                        pass
+                else:
+                    try:
+                        if scene.day:
+                            dayInt = int(scene.day)
+                        else:
+                            dayInt = 0
+                        startDate = (date.min + timedelta(days=dayInt)).isoformat()
+                        sceneStart = datetime.fromisoformat(f'{startDate} {scene.time}')
+                        sceneEnd = sceneStart + sceneDuration
+                        endDate, endTime = sceneEnd.isoformat().split('T')
+                        endDay = str((date.fromisoformat(endDate) - date.min).days)
+                        endDate = None
+                    except:
+                        pass
+            return endDate, endTime, endDay
 
         thisNode = self._ui.tv.tree.selection()[0]
         prevNode = self._ui.tv.prev_node(thisNode, '')
         if prevNode:
             scId = prevNode[2:]
-            date, time, day = get_scene_end(self._ui.novel.scenes[scId])
-            if time is not None:
-                self._startTime.set(time.rsplit(':', 1)[0])
-                self._startDate.set(date)
-                self._startDay.set(day)
+            newDate, newTime, newDay = get_scene_end(self._ui.novel.scenes[scId])
+            if newTime is not None:
+                self._startTime.set(newTime.rsplit(':', 1)[0])
+                self._startDate.set(newDate)
+                self._startDay.set(newDay)
                 self.apply_changes()
             else:
                 messagebox.showerror(_('Cannot generate date/time'), _('The previous scene has no date/time set.'))

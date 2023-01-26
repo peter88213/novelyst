@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.8.1
+
+- Also generate unspecific date from the previous scene.
+- Fix scene duration column.
+
+Based on PyWriter v11.0.2
+
 ### v4.8.0
 
 - Provide a button to set the date and time that follows the previous scene.

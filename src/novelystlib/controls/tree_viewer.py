@@ -840,15 +840,15 @@ class TreeViewer(ttk.Frame):
             points.append(self._ui.novel.scenes[ptId].title)
 
         # Create a combined duration information.
-        if self._ui.novel.scenes[scId].lastsDays is not None and self._ui.novel.scenes[scId].lastsDays != '0':
+        if self._ui.novel.scenes[scId].lastsDays and self._ui.novel.scenes[scId].lastsDays != '0':
             days = f'{self._ui.novel.scenes[scId].lastsDays}d '
         else:
             days = ''
-        if self._ui.novel.scenes[scId].lastsHours is not None and self._ui.novel.scenes[scId].lastsHours != '0':
+        if self._ui.novel.scenes[scId].lastsHours and self._ui.novel.scenes[scId].lastsHours != '0':
             hours = f'{self._ui.novel.scenes[scId].lastsHours}h '
         else:
             hours = ''
-        if self._ui.novel.scenes[scId].lastsMinutes is not None and self._ui.novel.scenes[scId].lastsMinutes != '0':
+        if self._ui.novel.scenes[scId].lastsMinutes and self._ui.novel.scenes[scId].lastsMinutes != '0':
             minutes = f'{self._ui.novel.scenes[scId].lastsMinutes}min'
         else:
             minutes = ''
