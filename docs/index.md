@@ -9,9 +9,12 @@ With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) 
 
 - *novelyst* reads and writes [yWriter 7](http://spacejock.com/yWriter7.html) project files.
 - The entire project is displayed in a tree, with branches for the narrative, characters, locations, and items.
-- Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters.
-- There is also a "Research" branch that contains all the "Notes type" parts. This can be exported to a separate ODT document. 
+- The right sidebar displays the essential properties of the selected element for editing.
+- Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters. The chapter level can be changed in several ways via context menu.
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
+- All "Notes type" parts are placed in the "Research" branch.  
+- All "To do type" parts are placed in the "Planning" branch. 
+- "Notes" and "To do" type chapters can be exported to a separate ODT document. 
 - A text viewer window can be toggled on and off.
 - There is a wide range of ODF-type file export for *OpenOffice* and *LibreOffice*.
 - Several reports can be presented in list form. 
@@ -27,10 +30,10 @@ Please note that *novelyst* is not intended to compete with or replace *yWriter*
 
 The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story, and ensuring a smooth workflow. For this purpose,  there are the appropriate export functions and a simple locking mechanism that gives enough freedom, so that the user remains responsible for making sure that nothing gets mixed up.
 
-- Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or any number of story arcs. Especially when revising a large novel, this can be quite useful. 
+- Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or the [arcs](help/arcs), which offer a powerful concept to support plotting. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
 - The character data categories "Bio" and "Goals" can be renamed.
-- There are now [arcs](help/arcs) to support plotting.
+- *novelyst* can generate a scene's start date/time from the previous scene's end date/time.
 - The necessary data is stored along in the *.yw7* file, without breaking the compatibility to *yWriter*.
 
 ## Plugins
