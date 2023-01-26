@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.7.0
+
+- Provide tree navigation in the right pane.
+
+Based on PyWriter v11.0.2
+
 ### v4.6.2
 
 - Add buttons for clearing scene start/duration data.

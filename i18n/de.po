@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.6.2\n"
-"POT-Creation-Date: 2023-01-24 19:15:47\n"
-"PO-Revision-Date: 2023-01-24 19:15:47\n"
+"Project-Id-Version: 4.7.0\n"
+"POT-Creation-Date: 2023-01-26 13:25:23\n"
+"PO-Revision-Date: 2023-01-26 13:25:23\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -472,6 +472,9 @@ msgstr "Neuer Abschnitt"
 msgid "Newer than the project file"
 msgstr "Neuer als die Projektdatei"
 
+msgid "Next"
+msgstr "Vor"
+
 msgid "No description"
 msgstr "Keine Beschreibung"
 
@@ -543,6 +546,9 @@ msgstr "Plugin-Manager"
 
 msgid "Position"
 msgstr "Position"
+
+msgid "Previous"
+msgstr "Zurück"
 
 msgid "Program settings"
 msgstr "Programmeinstellungen"

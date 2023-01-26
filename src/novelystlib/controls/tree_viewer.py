@@ -40,6 +40,8 @@ class TreeViewer(ttk.Frame):
         refresh_tree() -- Display the tree nodes regarding the way they are read from the file.
         update_prj_structure() -- Iterate the tree and rebuild the sorted lists.
         reset_tree() -- Clear the displayed tree.
+        next_node(thisNode, root) -- Return the next node ID of the same element type as thisNode.
+        prev_node(thisNode, root) -- Return the previous node ID of the same element type as thisNode.
         add_part(selection=None) -- Add a Part node to the tree and create an instance.
         add_chapter(selection=None) -- Add a Chapter node to the tree and create an instance.
         add_scene(selection=None) -- Add a Scene node to the tree and create an instance.
@@ -471,6 +473,60 @@ class TreeViewer(ttk.Frame):
         """Clear the displayed tree."""
         for child in self.tree.get_children(''):
             self.tree.delete(child)
+
+    def next_node(self, thisNode, root):
+        """Return the next node ID  of the same element type as thisNode.
+        
+        Positional arguments: 
+            thisNode -- str: node ID
+            root -- str: root ID of the subtree to search 
+        """
+
+        def search_tree(parent, result, flag):
+            """Search the tree for the node ID after thisNode."""
+            for child in self._ui.tv.tree.get_children(parent):
+                if result:
+                    break
+                if child.startswith(prefix):
+                    if flag:
+                        result = child
+                        break
+                    elif child == thisNode:
+                        flag = True
+                else:
+                    result, flag = search_tree(child, result, flag)
+            return result, flag
+
+        prefix = thisNode[:2]
+        nextNode, __ = search_tree(root, None, False)
+        return nextNode
+
+    def prev_node(self, thisNode, root):
+        """Return the previous node ID of the same element type as thisNode.
+
+        Positional arguments: 
+            thisNode -- str: node ID
+            root -- str: root ID of the subtree to search 
+        """
+
+        def search_tree(parent, result, prevNode):
+            """Search the tree for the node ID before thisNode."""
+            for child in self._ui.tv.tree.get_children(parent):
+                if result:
+                    break
+                if child.startswith(prefix):
+                    if child == thisNode:
+                        result = prevNode
+                        break
+                    else:
+                        prevNode = child
+                else:
+                    result, prevNode = search_tree(child, result, prevNode)
+            return result, prevNode
+
+        prefix = thisNode[:2]
+        prevNode, __ = search_tree(root, None, None)
+        return prevNode
 
     def add_part(self, selection=None):
         """Add a Part node to the tree and create an instance.

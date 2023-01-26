@@ -156,12 +156,25 @@ class NovelystTk(MainTk):
         # Create an application window with three frames.
         self.appWindow = ttk.Frame(self.mainWindow)
         self.appWindow.pack(expand=True, fill=tk.BOTH)
+
+        # left frame (intended for the tree).
         self.leftFrame = ttk.Frame(self.appWindow)
         self.leftFrame.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+        # Middle frame (intended for the content viewer).
         self.middleFrame = ttk.Frame(self.appWindow, width=self.kwargs['middle_frame_width'])
         self.middleFrame.pack_propagate(0)
         self.middleFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
-        self.rightFrame = ttk.Frame(self.appWindow, width=kwargs['right_frame_width'])
+
+        # Right frame (intended for the element info pane).
+
+        # Master frame for placement of navigation elements below the actual frame.
+        self.rightFrameMaster = ttk.Frame(self.appWindow, width=kwargs['right_frame_width'])
+        self.rightFrameMaster.pack_propagate(0)
+        self.rightFrameMaster.pack(expand=True, fill=tk.BOTH)
+
+        # The actual right frame.
+        self.rightFrame = ttk.Frame(self.rightFrameMaster)
         self.rightFrame.pack_propagate(0)
         self.rightFrame.pack(expand=True, fill=tk.BOTH)
 

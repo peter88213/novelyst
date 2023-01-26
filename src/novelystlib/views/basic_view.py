@@ -16,6 +16,7 @@ class BasicView:
     - Element title
     - Element description
     - Element notes (if any)
+    - A button bar at the bottom.
     
     Public methods:
         show() -- Make the ui text boxes and the view visible.
@@ -39,11 +40,20 @@ class BasicView:
         self._element = None
         self._tagsStr = ''
 
-        # Window for element specific information.
+        #--- Window for element specific information.
         self._elementInfoWindow = ttk.Frame(self._ui.infoFrame)
 
+        #--- Button bar at the bottom.
+        self._buttonBar = ttk.Frame(self._ui.rightFrameMaster)
+
+        # "Previous" button.
+        ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
         # "Apply changes" button.
-        self._applyButton = ttk.Button(self._ui.rightFrame, text=_('Apply changes'), command=self.apply_changes)
+        ttk.Button(self._buttonBar, text=_('Apply changes'), command=self.apply_changes).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        # "Next" button.
+        ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
     def show(self, element):
         """Make the view visible."""
@@ -61,8 +71,8 @@ class BasicView:
         if hasattr(self._element, 'notes'):
             self._ui.notesWindow.pack(after=self._ui.infoFrame, expand=True, fill=tk.BOTH)
 
-        # "Apply changes" button.
-        self._applyButton.pack(padx=1, pady=2, fill=tk.X, side=tk.BOTTOM)
+        # Button bar at the bottom.
+        self._buttonBar.pack(padx=1, pady=2, fill=tk.X, side=tk.BOTTOM)
 
     def hide(self):
         """Clear the ui text boxes, and hide the view."""
@@ -71,7 +81,7 @@ class BasicView:
         self._ui.notesWindow.pack_forget()
         self._ui.infoFrame.pack_forget()
         self._elementInfoWindow.pack_forget()
-        self._applyButton.pack_forget()
+        self._buttonBar.pack_forget()
 
     def set_data(self, element):
         """Update the view with element's data."""
@@ -161,3 +171,18 @@ class BasicView:
                 return True
         return False
 
+    def _load_prev(self):
+        """Load the next tree element of the same type."""
+        thisNode = self._ui.tv.tree.selection()[0]
+        prevNode = self._ui.tv.prev_node(thisNode, '')
+        if prevNode:
+            self._ui.tv.tree.see(prevNode)
+            self._ui.tv.tree.selection_set(prevNode)
+
+    def _load_next(self):
+        """Load the next tree element of the same type."""
+        thisNode = self._ui.tv.tree.selection()[0]
+        nextNode = self._ui.tv.next_node(thisNode, '')
+        if nextNode:
+            self._ui.tv.tree.see(nextNode)
+            self._ui.tv.tree.selection_set(nextNode)
