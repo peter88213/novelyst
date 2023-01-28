@@ -193,6 +193,8 @@ class TreeViewer(ttk.Frame):
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_cascade(label=_('Set Style'), menu=self.scStyleMenu)
         self._nvCtxtMenu.add_separator()
+        self._nvCtxtMenu.add_command(label=_('Join with previous'), command=self.join_scenes)
+        self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label=_('Chapter level'), command=lambda: self.show_chapters(self.NV_ROOT))
         self._nvCtxtMenu.add_command(label=_('Expand'), command=lambda: self.open_children(self.tree.selection()[0]))
         self._nvCtxtMenu.add_command(label=_('Collapse'), command=lambda: self.close_children(self.tree.selection()[0]))
@@ -484,7 +486,7 @@ class TreeViewer(ttk.Frame):
 
         def search_tree(parent, result, flag):
             """Search the tree for the node ID after thisNode."""
-            for child in self._ui.tv.tree.get_children(parent):
+            for child in self.tree.get_children(parent):
                 if result:
                     break
                 if child.startswith(prefix):
@@ -511,7 +513,7 @@ class TreeViewer(ttk.Frame):
 
         def search_tree(parent, result, prevNode):
             """Search the tree for the node ID before thisNode."""
-            for child in self._ui.tv.tree.get_children(parent):
+            for child in self.tree.get_children(parent):
                 if result:
                     break
                 if child.startswith(prefix):
@@ -772,6 +774,67 @@ class TreeViewer(ttk.Frame):
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
         return elemId
+
+    def join_scenes(self):
+        """Join the selected scene with the previous one.
+        """
+        if self._ui.isLocked:
+            return
+
+        try:
+            selection = self.tree.selection()[0]
+        except:
+            return
+
+        if not selection.startswith(self.SCENE_PREFIX):
+            return
+
+        thisScId = selection[2:]
+        prevNode = self.prev_node(selection, '')
+        if not prevNode:
+            return
+
+        prevScId = prevNode[2:]
+
+        # Join content and description.
+        joinedContent = f'{self._ui.novel.scenes[prevScId].sceneContent}\n{self._ui.novel.scenes[thisScId].sceneContent}'
+        self._ui.novel.scenes[prevScId].sceneContent = joinedContent
+        joinedDescriptions = f'{self._ui.novel.scenes[prevScId].desc}\n{self._ui.novel.scenes[thisScId].desc}'
+        self._ui.novel.scenes[prevScId].desc = joinedDescriptions
+
+        # Join tags.
+        tags = self._ui.novel.scenes[thisScId].tags
+        if tags:
+            if not self._ui.novel.scenes[prevScId].tags:
+                self._ui.novel.scenes[prevScId].tags = []
+            for tag in tags:
+                if not tag in self._ui.novel.scenes[prevScId].tags:
+                    self._ui.novel.scenes[prevScId].tags.append(tag)
+
+        # Join arcs.
+        arcs = string_to_list(self._ui.novel.scenes[prevScId].scnArcs)
+        for arc in string_to_list(self._ui.novel.scenes[thisScId].scnArcs):
+            if not arc in arcs:
+                arcs.append(arc)
+        self._ui.novel.scenes[prevScId].scnArcs = list_to_string(arcs)
+
+        # Move arc point associations.
+        pointIds = string_to_list(self._ui.novel.scenes[thisScId].kwVar.get('Field_SceneAssoc', None))
+        for ptId in pointIds:
+            self._ui.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = prevScId
+
+        # Remove selected scene from the chapter.
+        parent = self.tree.parent(selection)
+        chId = parent[2:]
+        self._ui.novel.chapters[chId].srtScenes.remove(thisScId)
+
+        # Remove selected scene from the tree.
+        self.tree.delete(selection)
+
+        # Deleted selected scene instance.
+        del(self._ui.novel.scenes[thisScId])
+        self.update_prj_structure()
+        self.tree.selection_set(prevNode)
 
     def open_children(self, parent):
         """Recursively show children nodes.
@@ -1152,6 +1215,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Cancel Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Demote Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.NV_ROOT):
                     # Context is the "Narrative" subtree.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
@@ -1164,6 +1228,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Cancel Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Demote Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.RS_ROOT):
                     # Context is the "Research" subtree.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
@@ -1176,6 +1241,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Cancel Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Demote Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.PL_ROOT):
                     # Context is the "Planning" subtree.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
@@ -1188,6 +1254,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Cancel Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Demote Part'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 else:
                     # Context is a part/chapter/scene.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='normal')
@@ -1199,6 +1266,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='normal')
                     if prefix.startswith(self.PART_PREFIX):
                         # Context is a part.
+                        self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                         self._nvCtxtMenu.entryconfig(_('Cancel Part'), state='normal')
                         self._nvCtxtMenu.entryconfig(_('Demote Part'), state='normal')
                     else:
@@ -1206,6 +1274,7 @@ class TreeViewer(ttk.Frame):
                         self._nvCtxtMenu.entryconfig(_('Demote Part'), state='disabled')
                     if prefix.startswith(self.CHAPTER_PREFIX):
                         # Context is a chapter.
+                        self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                         if row != self._trashNode:
                             # Context is a regular chapter.
                             self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='normal')
@@ -1221,6 +1290,7 @@ class TreeViewer(ttk.Frame):
                     else:
                         # Context is a scene.
                         self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                        self._nvCtxtMenu.entryconfig(_('Join with previous'), state='normal')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
                 finally:
