@@ -795,11 +795,12 @@ class TreeViewer(ttk.Frame):
         if not selection.startswith(self.SCENE_PREFIX):
             return
 
-        thisScId = selection[2:]
-        prevNode = self.prev_node(selection, '')
+        parent = self.tree.parent(selection)
+        prevNode = self.prev_node(selection, parent)
         if not prevNode:
             return
 
+        thisScId = selection[2:]
         prevScId = prevNode[2:]
 
         # TODO: Check type and viewpoint.
@@ -846,7 +847,6 @@ class TreeViewer(ttk.Frame):
         # TODO: Join goal/conflict/outcome.
 
         # Remove selected scene from the chapter.
-        parent = self.tree.parent(selection)
         chId = parent[2:]
         self._ui.novel.chapters[chId].srtScenes.remove(thisScId)
 
@@ -1437,37 +1437,36 @@ class TreeViewer(ttk.Frame):
         if self._ui.isLocked:
             return
 
-        tv = event.widget
-        node = tv.selection()[0]
+        node = self.tree.selection()[0]
         if node == self._trashNode:
             return
 
-        targetNode = tv.identify_row(event.y)
-        # tv.item(targetNode, open=True)
+        targetNode = self.tree.identify_row(event.y)
+        # self.tree.item(targetNode, open=True)
         if node[:2] == targetNode[:2]:
-            tv.move(node, tv.parent(targetNode), tv.index(targetNode))
-        elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.CHAPTER_PREFIX) and not tv.get_children(targetNode):
-            tv.move(node, targetNode, 0)
+            self.tree.move(node, self.tree.parent(targetNode), self.tree.index(targetNode))
+        elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.CHAPTER_PREFIX) and not self.tree.get_children(targetNode):
+            self.tree.move(node, targetNode, 0)
         elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.PART_PREFIX):
-            tv.move(node, targetNode, 0)
-        elif node.startswith(self.CHAPTER_PREFIX) and targetNode.startswith(self.PART_PREFIX) and not tv.get_children(targetNode):
-            tv.move(node, targetNode, tv.index(targetNode))
+            self.tree.move(node, targetNode, 0)
+        elif node.startswith(self.CHAPTER_PREFIX) and targetNode.startswith(self.PART_PREFIX) and not self.tree.get_children(targetNode):
+            self.tree.move(node, targetNode, self.tree.index(targetNode))
         self.update_prj_structure()
 
     def _cancel_part(self, event):
         """Remove a part but keep its chapters."""
         if self._ui.isLocked:
             return
-        tv = event.widget
-        selection = tv.selection()[0]
+
+        selection = self.tree.selection()[0]
         if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
         if self._ui.ask_yes_no(_('Remove part "{}" and keep the chapters?').format(self._ui.novel.chapters[elemId].title)):
-            if tv.prev(selection):
-                tv.selection_set(tv.prev(selection))
+            if self.tree.prev(selection):
+                self.tree.selection_set(self.tree.prev(selection))
             else:
-                tv.selection_set(tv.parent(selection))
+                self.tree.selection_set(self.tree.parent(selection))
             del self._ui.novel.chapters[elemId]
             self._ui.novel.srtChapters.remove(elemId)
             self.update_prj_structure()
@@ -1477,8 +1476,8 @@ class TreeViewer(ttk.Frame):
         """Make a chapter a part."""
         if self._ui.isLocked:
             return
-        tv = event.widget
-        selection = tv.selection()[0]
+
+        selection = self.tree.selection()[0]
         if not selection.startswith(self.CHAPTER_PREFIX):
             return
         elemId = selection[2:]
@@ -1494,8 +1493,8 @@ class TreeViewer(ttk.Frame):
         """Make a part a chapter."""
         if self._ui.isLocked:
             return
-        tv = event.widget
-        selection = tv.selection()[0]
+
+        selection = self.tree.selection()[0]
         if not selection.startswith(self.PART_PREFIX):
             return
         elemId = selection[2:]
@@ -1518,7 +1517,7 @@ class TreeViewer(ttk.Frame):
                 scId = node[2:]
                 self._ui.novel.scenes[scId].scType = 3
                 # Move scene.
-                tv.move(node, self._trashNode, 0)
+                self.tree.move(node, self._trashNode, 0)
             else:
                 # Delete chapter and go one level down.
                 chId = node[2:]
@@ -1530,8 +1529,8 @@ class TreeViewer(ttk.Frame):
 
         if self._ui.isLocked:
             return
-        tv = event.widget
-        for  selection in tv.selection():
+
+        for  selection in self.tree.selection():
             elemId = selection[2:]
             if selection.startswith(self.SCENE_PREFIX):
                 candidate = f'{_("Scene")} "{self._ui.novel.scenes[elemId].title}"'
@@ -1553,13 +1552,13 @@ class TreeViewer(ttk.Frame):
             if not self._ui.ask_yes_no(_('Delete {}?').format(candidate)):
                 return
 
-            if tv.prev(selection):
-                tv.selection_set(tv.prev(selection))
+            if self.tree.prev(selection):
+                self.tree.selection_set(self.tree.prev(selection))
             else:
-                tv.selection_set(tv.parent(selection))
+                self.tree.selection_set(self.tree.parent(selection))
             if selection == self._trashNode:
                 # Remove the "trash bin".
-                tv.delete(selection)
+                self.tree.delete(selection)
                 self._trashNode = None
                 for scId in self._ui.novel.chapters[elemId].srtScenes:
                     del self._ui.novel.scenes[scId]
@@ -1569,7 +1568,7 @@ class TreeViewer(ttk.Frame):
                     self._ui.novel.srtChapters.remove(elemId)
             elif selection.startswith(self.CHARACTER_PREFIX):
                 # Delete a character and remove references.
-                tv.delete(selection)
+                self.tree.delete(selection)
                 del self._ui.novel.characters[elemId]
                 for scId in self._ui.novel.scenes:
                     try:
@@ -1578,7 +1577,7 @@ class TreeViewer(ttk.Frame):
                         pass
             elif selection.startswith(self.LOCATION_PREFIX):
                 # Delete a location and remove references.
-                tv.delete(selection)
+                self.tree.delete(selection)
                 del self._ui.novel.locations[elemId]
                 for scId in self._ui.novel.scenes:
                     try:
@@ -1587,7 +1586,7 @@ class TreeViewer(ttk.Frame):
                         pass
             elif selection.startswith(self.ITEM_PREFIX):
                 # Delete an item and remove references.
-                tv.delete(selection)
+                self.tree.delete(selection)
                 del self._ui.novel.items[elemId]
                 for scId in self._ui.novel.scenes:
                     try:
@@ -1596,7 +1595,7 @@ class TreeViewer(ttk.Frame):
                         pass
             elif selection.startswith(self.PRJ_NOTE_PREFIX):
                 # Delete a project note and remove references.
-                tv.delete(selection)
+                self.tree.delete(selection)
                 del self._ui.novel.projectNotes[elemId]
             else:
                 # Part/chapter/scene selected.
@@ -1613,7 +1612,7 @@ class TreeViewer(ttk.Frame):
                 if selection.startswith(self.SCENE_PREFIX):
                     if self.tree.parent(selection) == self._trashNode:
                         # Remove scene, if already in trash bin.
-                        tv.delete(selection)
+                        self.tree.delete(selection)
                         del self._ui.novel.scenes[elemId]
                     else:
                         # Move scene to the "trash bin".
@@ -1621,7 +1620,7 @@ class TreeViewer(ttk.Frame):
                 else:
                     # Delete part/chapter and move child scenes to the "trash bin".
                     waste_scenes(selection)
-                    tv.delete(selection)
+                    self.tree.delete(selection)
                 # Make sure the whole "trash bin" is unused.
                 self._set_type([self._trashNode], 3)
             self.update_prj_structure()
