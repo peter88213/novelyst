@@ -778,6 +778,12 @@ class TreeViewer(ttk.Frame):
     def join_scenes(self):
         """Join the selected scene with the previous one.
         """
+
+        def get_text(text):
+            if text is None:
+                text = ''
+            return text
+
         if self._ui.isLocked:
             return
 
@@ -796,11 +802,25 @@ class TreeViewer(ttk.Frame):
 
         prevScId = prevNode[2:]
 
-        # Join content and description.
-        joinedContent = f'{self._ui.novel.scenes[prevScId].sceneContent}\n{self._ui.novel.scenes[thisScId].sceneContent}'
-        self._ui.novel.scenes[prevScId].sceneContent = joinedContent
-        joinedDescriptions = f'{self._ui.novel.scenes[prevScId].desc}\n{self._ui.novel.scenes[thisScId].desc}'
-        self._ui.novel.scenes[prevScId].desc = joinedDescriptions
+        # TODO: Check type and viewpoint.
+
+        # Join titles.
+        joinedTitles = f'{self._ui.novel.scenes[prevScId].title} & {self._ui.novel.scenes[thisScId].title}'
+        self._ui.novel.scenes[prevScId].title = joinedTitles
+
+        # Join content.
+        prevContent = get_text(self._ui.novel.scenes[prevScId].sceneContent)
+        thisContent = get_text(self._ui.novel.scenes[thisScId].sceneContent)
+        if prevContent or thisContent:
+            self._ui.novel.scenes[prevScId].sceneContent = f'{prevContent}\n{thisContent}'.strip()
+
+        # Join description.
+        prevDesc = get_text(self._ui.novel.scenes[prevScId].desc)
+        thisDesc = get_text(self._ui.novel.scenes[thisScId].desc)
+        if prevDesc or thisDesc:
+            self._ui.novel.scenes[prevScId].desc = f'{prevDesc}\n{thisDesc}'.strip()
+
+        # TODO: Join characters/locations/items.
 
         # Join tags.
         tags = self._ui.novel.scenes[thisScId].tags
@@ -822,6 +842,8 @@ class TreeViewer(ttk.Frame):
         pointIds = string_to_list(self._ui.novel.scenes[thisScId].kwVar.get('Field_SceneAssoc', None))
         for ptId in pointIds:
             self._ui.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = prevScId
+
+        # TODO: Join goal/conflict/outcome.
 
         # Remove selected scene from the chapter.
         parent = self.tree.parent(selection)
