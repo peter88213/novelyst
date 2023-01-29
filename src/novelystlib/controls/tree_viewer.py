@@ -780,10 +780,22 @@ class TreeViewer(ttk.Frame):
         """Join the selected scene with the previous one.
         """
 
-        def get_text(text):
-            if text is None:
-                text = ''
-            return text
+        def join_str(prevText, thisText):
+            if prevText is None:
+                prevText = ''
+            if thisText is None:
+                thisText = ''
+            if prevText or thisText:
+                prevText = f'{prevText}\n{thisText}'.strip()
+            return prevText
+
+        def join_lst(prevList, thisList):
+            if thisList:
+                for elemId in thisList:
+                    if not prevList:
+                        prevList = []
+                    if not elemId in prevList:
+                        prevList.append(elemId)
 
         if self._ui.isLocked:
             return
@@ -828,70 +840,22 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.scenes[prevScId].title = joinedTitles
 
         # Join content.
-        prevContent = get_text(self._ui.novel.scenes[prevScId].sceneContent)
-        thisContent = get_text(self._ui.novel.scenes[thisScId].sceneContent)
-        if prevContent or thisContent:
-            self._ui.novel.scenes[prevScId].sceneContent = f'{prevContent}\n{thisContent}'.strip()
+        prevContent = self._ui.novel.scenes[prevScId].sceneContent
+        thisContent = self._ui.novel.scenes[thisScId].sceneContent
+        # this is because sceneContent is a property
+        self._ui.novel.scenes[prevScId].sceneContent = join_str(prevContent, thisContent)
 
-        # Join description.
-        prevDesc = get_text(self._ui.novel.scenes[prevScId].desc)
-        thisDesc = get_text(self._ui.novel.scenes[thisScId].desc)
-        if prevDesc or thisDesc:
-            self._ui.novel.scenes[prevScId].desc = f'{prevDesc}\n{thisDesc}'.strip()
+        # Join description, goal, conflict, outcome.
+        self._ui.novel.scenes[prevScId].desc = join_str(self._ui.novel.scenes[prevScId].desc, self._ui.novel.scenes[thisScId].desc)
+        self._ui.novel.scenes[prevScId].goal = join_str(self._ui.novel.scenes[prevScId].goal, self._ui.novel.scenes[thisScId].goal)
+        self._ui.novel.scenes[prevScId].conflict = join_str(self._ui.novel.scenes[prevScId].conflict, self._ui.novel.scenes[thisScId].conflict)
+        self._ui.novel.scenes[prevScId].outcome = join_str(self._ui.novel.scenes[prevScId].outcome, self._ui.novel.scenes[thisScId].outcome)
 
-        # Join goal.
-        prevGoal = get_text(self._ui.novel.scenes[prevScId].goal)
-        thisGoal = get_text(self._ui.novel.scenes[thisScId].goal)
-        if prevGoal or thisGoal:
-            self._ui.novel.scenes[prevScId].goal = f'{prevGoal}\n{thisGoal}'.strip()
-
-        # Join conflict.
-        prevConflict = get_text(self._ui.novel.scenes[prevScId].conflict)
-        thisConflict = get_text(self._ui.novel.scenes[thisScId].conflict)
-        if prevConflict or thisConflict:
-            self._ui.novel.scenes[prevScId].conflict = f'{prevConflict}\n{thisConflict}'.strip()
-
-        # Join outcome.
-        prevOutcome = get_text(self._ui.novel.scenes[prevScId].outcome)
-        thisOutcome = get_text(self._ui.novel.scenes[thisScId].outcome)
-        if prevOutcome or thisOutcome:
-            self._ui.novel.scenes[prevScId].outcome = f'{prevOutcome}\n{thisOutcome}'.strip()
-
-        # Join characters.
-        characters = self._ui.novel.scenes[thisScId].characters
-        if characters:
-            for crId in characters:
-                if not crId in self._ui.novel.scenes[prevScId].characters:
-                    if not self._ui.novel.scenes[prevScId].characters:
-                        self._ui.novel.scenes[prevScId].characters = []
-                    self._ui.novel.scenes[prevScId].characters.append(crId)
-
-        # Join locations.
-        locations = self._ui.novel.scenes[thisScId].locations
-        if locations:
-            for lcId in locations:
-                if not lcId in self._ui.novel.scenes[prevScId].locations:
-                    if not self._ui.novel.scenes[prevScId].locations:
-                        self._ui.novel.scenes[prevScId].locations = []
-                    self._ui.novel.scenes[prevScId].locations.append(lcId)
-
-        # Join items.
-        items = self._ui.novel.scenes[thisScId].items
-        if items:
-            for itId in items:
-                if not itId in self._ui.novel.scenes[prevScId].items:
-                    if not self._ui.novel.scenes[prevScId].items:
-                        self._ui.novel.scenes[prevScId].items = []
-                    self._ui.novel.scenes[prevScId].items.append(itId)
-
-        # Join tags.
-        tags = self._ui.novel.scenes[thisScId].tags
-        if tags:
-            for tag in tags:
-                if not tag in self._ui.novel.scenes[prevScId].tags:
-                    if not self._ui.novel.scenes[prevScId].tags:
-                        self._ui.novel.scenes[prevScId].tags = []
-                    self._ui.novel.scenes[prevScId].tags.append(tag)
+        # Join characters, locations, items, tags.
+        join_lst(self._ui.novel.scenes[prevScId].characters, self._ui.novel.scenes[thisScId].characters)
+        join_lst(self._ui.novel.scenes[prevScId].locations, self._ui.novel.scenes[thisScId].locations)
+        join_lst(self._ui.novel.scenes[prevScId].items, self._ui.novel.scenes[thisScId].items)
+        join_lst(self._ui.novel.scenes[prevScId].tags, self._ui.novel.scenes[thisScId].tags)
 
         # Join arcs.
         arcs = string_to_list(self._ui.novel.scenes[prevScId].scnArcs)
