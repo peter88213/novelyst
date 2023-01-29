@@ -839,6 +839,24 @@ class TreeViewer(ttk.Frame):
         if prevDesc or thisDesc:
             self._ui.novel.scenes[prevScId].desc = f'{prevDesc}\n{thisDesc}'.strip()
 
+        # Join goal.
+        prevGoal = get_text(self._ui.novel.scenes[prevScId].goal)
+        thisGoal = get_text(self._ui.novel.scenes[thisScId].goal)
+        if prevGoal or thisGoal:
+            self._ui.novel.scenes[prevScId].goal = f'{prevGoal}\n{thisGoal}'.strip()
+
+        # Join conflict.
+        prevConflict = get_text(self._ui.novel.scenes[prevScId].conflict)
+        thisConflict = get_text(self._ui.novel.scenes[thisScId].conflict)
+        if prevConflict or thisConflict:
+            self._ui.novel.scenes[prevScId].conflict = f'{prevConflict}\n{thisConflict}'.strip()
+
+        # Join outcome.
+        prevOutcome = get_text(self._ui.novel.scenes[prevScId].outcome)
+        thisOutcome = get_text(self._ui.novel.scenes[thisScId].outcome)
+        if prevOutcome or thisOutcome:
+            self._ui.novel.scenes[prevScId].outcome = f'{prevOutcome}\n{thisOutcome}'.strip()
+
         # Join characters.
         characters = self._ui.novel.scenes[thisScId].characters
         if characters:
