@@ -839,7 +839,20 @@ class TreeViewer(ttk.Frame):
         if prevDesc or thisDesc:
             self._ui.novel.scenes[prevScId].desc = f'{prevDesc}\n{thisDesc}'.strip()
 
-        # TODO: Join characters/locations/items.
+        # Join characters.
+        for crId in self._ui.novel.scenes[thisScId].characters:
+            if not crId in self._ui.novel.scenes[prevScId].characters:
+                self._ui.novel.scenes[prevScId].characters.append(crId)
+
+        # Join locations.
+        for lcId in self._ui.novel.scenes[thisScId].locations:
+            if not lcId in self._ui.novel.scenes[prevScId].locations:
+                self._ui.novel.scenes[prevScId].locations.append(lcId)
+
+        # Join items.
+        for itId in self._ui.novel.scenes[thisScId].items:
+            if not itId in self._ui.novel.scenes[prevScId].items:
+                self._ui.novel.scenes[prevScId].items.append(itId)
 
         # Join tags.
         tags = self._ui.novel.scenes[thisScId].tags
