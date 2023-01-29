@@ -840,27 +840,39 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.scenes[prevScId].desc = f'{prevDesc}\n{thisDesc}'.strip()
 
         # Join characters.
-        for crId in self._ui.novel.scenes[thisScId].characters:
-            if not crId in self._ui.novel.scenes[prevScId].characters:
-                self._ui.novel.scenes[prevScId].characters.append(crId)
+        characters = self._ui.novel.scenes[thisScId].characters
+        if characters:
+            for crId in characters:
+                if not crId in self._ui.novel.scenes[prevScId].characters:
+                    if not self._ui.novel.scenes[prevScId].characters:
+                        self._ui.novel.scenes[prevScId].characters = []
+                    self._ui.novel.scenes[prevScId].characters.append(crId)
 
         # Join locations.
-        for lcId in self._ui.novel.scenes[thisScId].locations:
-            if not lcId in self._ui.novel.scenes[prevScId].locations:
-                self._ui.novel.scenes[prevScId].locations.append(lcId)
+        locations = self._ui.novel.scenes[thisScId].locations
+        if locations:
+            for lcId in locations:
+                if not lcId in self._ui.novel.scenes[prevScId].locations:
+                    if not self._ui.novel.scenes[prevScId].locations:
+                        self._ui.novel.scenes[prevScId].locations = []
+                    self._ui.novel.scenes[prevScId].locations.append(lcId)
 
         # Join items.
-        for itId in self._ui.novel.scenes[thisScId].items:
-            if not itId in self._ui.novel.scenes[prevScId].items:
-                self._ui.novel.scenes[prevScId].items.append(itId)
+        items = self._ui.novel.scenes[thisScId].items
+        if items:
+            for itId in items:
+                if not itId in self._ui.novel.scenes[prevScId].items:
+                    if not self._ui.novel.scenes[prevScId].items:
+                        self._ui.novel.scenes[prevScId].items = []
+                    self._ui.novel.scenes[prevScId].items.append(itId)
 
         # Join tags.
         tags = self._ui.novel.scenes[thisScId].tags
         if tags:
-            if not self._ui.novel.scenes[prevScId].tags:
-                self._ui.novel.scenes[prevScId].tags = []
             for tag in tags:
                 if not tag in self._ui.novel.scenes[prevScId].tags:
+                    if not self._ui.novel.scenes[prevScId].tags:
+                        self._ui.novel.scenes[prevScId].tags = []
                     self._ui.novel.scenes[prevScId].tags.append(tag)
 
         # Join arcs.
@@ -884,7 +896,7 @@ class TreeViewer(ttk.Frame):
         # Remove selected scene from the tree.
         self.tree.delete(selection)
 
-        # Deleted selected scene instance.
+        # Delete selected scene instance.
         del(self._ui.novel.scenes[thisScId])
         self.update_prj_structure()
         self.tree.selection_set(prevNode)
