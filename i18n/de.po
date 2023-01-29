@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.8.2\n"
-"POT-Creation-Date: 2023-01-26 22:09:14\n"
-"PO-Revision-Date: 2023-01-26 22:09:14\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-01-29 13:21:37\n"
+"PO-Revision-Date: 2023-01-29 13:25:42\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -114,6 +114,9 @@ msgstr "Kann Datei nicht erzeugen"
 
 msgid "Cannot generate date/time"
 msgstr "Kann Datum/Zeit nicht erzeugen"
+
+msgid "Cannot join scenes"
+msgstr "Kann Abschnitte nicht zusammenfassen"
 
 msgid "Cannot overwrite file"
 msgstr "Kann Datei nicht überschreiben"
@@ -393,6 +396,9 @@ msgstr "Gegenstandsliste"
 
 msgid "Items"
 msgstr "Gegenstände"
+
+msgid "Join with previous"
+msgstr "Mit dem vorhergehenden zusammenfassen"
 
 msgid "Language code"
 msgstr "Sprachencode"
@@ -675,6 +681,15 @@ msgstr "Das Plugin bleibt bis zum nächsten Start aktiv."
 
 msgid "The previous scene has no date/time set."
 msgstr "Der vorhergehende Abschnitt hat keine Datum/Zeitangaben"
+
+msgid "The scenes are not of the same type"
+msgstr "Die Abschnitte sind nicht vom selben Typ"
+
+msgid "The scenes have different viewpoints"
+msgstr "Die Abschnitte haben unterschiedliche Perspektiven"
+
+msgid "There is no previous scene in the chapter"
+msgstr "Im Kapitel gibt es keinen vorhergehenden Abschnitt"
 
 msgid "Time"
 msgstr "Zeit"

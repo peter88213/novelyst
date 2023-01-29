@@ -7,6 +7,7 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
+from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
@@ -795,15 +796,32 @@ class TreeViewer(ttk.Frame):
         if not selection.startswith(self.SCENE_PREFIX):
             return
 
-        parent = self.tree.parent(selection)
-        prevNode = self.prev_node(selection, parent)
-        if not prevNode:
+        try:
+            parent = self.tree.parent(selection)
+            prevNode = self.prev_node(selection, parent)
+            if not prevNode:
+                raise Error(_('There is no previous scene in the chapter'))
+
+            thisScId = selection[2:]
+            prevScId = prevNode[2:]
+
+            # Check type.
+            if self._ui.novel.scenes[thisScId].scType != self._ui.novel.scenes[prevScId].scType:
+                raise Error(_('The scenes are not of the same type'))
+
+            # Check viewpoint.
+            if self._ui.novel.scenes[thisScId].characters:
+                if self._ui.novel.scenes[thisScId].characters:
+                    if self._ui.novel.scenes[prevScId].characters:
+                        if self._ui.novel.scenes[thisScId].characters[0] != self._ui.novel.scenes[prevScId].characters[0]:
+                            raise Error(_('The scenes have different viewpoints'))
+
+                    else:
+                        self._ui.novel.scenes[prevScId].characters.append(self._ui.novel.scenes[thisScId].characters[0])
+
+        except Error as ex:
+            messagebox.showerror(_('Cannot join scenes'), str(ex))
             return
-
-        thisScId = selection[2:]
-        prevScId = prevNode[2:]
-
-        # TODO: Check type and viewpoint.
 
         # Join titles.
         joinedTitles = f'{self._ui.novel.scenes[prevScId].title} & {self._ui.novel.scenes[thisScId].title}'
@@ -1310,8 +1328,9 @@ class TreeViewer(ttk.Frame):
                             self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
                             self._nvCtxtMenu.entryconfig(_('Set Style'), state='disabled')
                     else:
-                        # Context is a scene.
                         self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
+                    if prefix.startswith(self.SCENE_PREFIX):
+                        # Context is a scene.
                         self._nvCtxtMenu.entryconfig(_('Join with previous'), state='normal')
                 try:
                     self._nvCtxtMenu.tk_popup(event.x_root, event.y_root, 0)
