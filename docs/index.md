@@ -13,7 +13,9 @@ With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) 
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters. The chapter level can be changed in several ways via context menu.
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
 - All "Notes type" parts are placed in the "Research" branch.  
-- All "To do type" parts are placed in the "Planning" branch. 
+- All "To do type" parts are placed in the "Planning" branch.
+- Tree elements can be added, moved, and deleted.
+- Within chapters, scenes of the same type and with the same viewpoint can be joined.
 - "Notes" and "To do" type chapters can be exported to a separate ODT document. 
 - A text viewer window can be toggled on and off.
 - There is a wide range of ODF-type file export for *OpenOffice* and *LibreOffice*.
@@ -79,9 +81,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 4.9.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.9.0.zip)
+[Download the latest release (version 4.9.1)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.9.1.zip)
 
-- Unzip the downloaded zipfile "novelyst_v4.9.0.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v4.9.1.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.

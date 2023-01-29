@@ -13,7 +13,9 @@ With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) 
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters. The chapter level can be changed in several ways via context menu.
 - The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
 - All "Notes type" parts are placed in the "Research" branch.  
-- All "To do type" parts are placed in the "Planning" branch. 
+- All "To do type" parts are placed in the "Planning" branch.
+- Tree elements can be added, moved, and deleted.
+- Within chapters, scenes of the same type and with the same viewpoint can be joined.
 - "Notes" and "To do" type chapters can be exported to a separate ODT document. 
 - A text viewer window can be toggled on and off.
 - There is a wide range of ODF-type file export for *OpenOffice* and *LibreOffice*.

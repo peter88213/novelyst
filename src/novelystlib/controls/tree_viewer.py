@@ -1,6 +1,6 @@
 """Provide a tkinter based novelyst tree view.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
@@ -845,11 +845,12 @@ class TreeViewer(ttk.Frame):
         # this is because sceneContent is a property
         self._ui.novel.scenes[prevScId].sceneContent = join_str(prevContent, thisContent)
 
-        # Join description, goal, conflict, outcome.
+        # Join description, goal, conflict, outcome, notes.
         self._ui.novel.scenes[prevScId].desc = join_str(self._ui.novel.scenes[prevScId].desc, self._ui.novel.scenes[thisScId].desc)
         self._ui.novel.scenes[prevScId].goal = join_str(self._ui.novel.scenes[prevScId].goal, self._ui.novel.scenes[thisScId].goal)
         self._ui.novel.scenes[prevScId].conflict = join_str(self._ui.novel.scenes[prevScId].conflict, self._ui.novel.scenes[thisScId].conflict)
         self._ui.novel.scenes[prevScId].outcome = join_str(self._ui.novel.scenes[prevScId].outcome, self._ui.novel.scenes[thisScId].outcome)
+        self._ui.novel.scenes[prevScId].notes = join_str(self._ui.novel.scenes[prevScId].notes, self._ui.novel.scenes[thisScId].notes)
 
         # Join characters, locations, items, tags.
         join_lst(self._ui.novel.scenes[prevScId].characters, self._ui.novel.scenes[thisScId].characters)

@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.9.1
+
+- When joining scenes, add the scene notes.
+
+Based on PyWriter v11.0.2
+
 ### v4.9.0
 
 - Allow scene joining. 
