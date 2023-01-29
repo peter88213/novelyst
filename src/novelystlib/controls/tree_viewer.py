@@ -869,7 +869,37 @@ class TreeViewer(ttk.Frame):
         for ptId in pointIds:
             self._ui.novel.scenes[ptId].kwVar['Field_SceneAssoc'] = prevScId
 
-        # TODO: Join goal/conflict/outcome.
+        # Add duration.
+        try:
+            thisLastsMin = int(self._ui.novel.scenes[thisScId].lastsMinutes)
+        except:
+            thisLastsMin = 0
+        try:
+            prevLastsMin = int(self._ui.novel.scenes[prevScId].lastsMinutes)
+        except:
+            prevLastsMin = 0
+        hoursLeft, prevLastsMin = divmod((prevLastsMin + thisLastsMin), 60)
+        self._ui.novel.scenes[prevScId].lastsMinutes = str(prevLastsMin)
+        try:
+            thisLastsHours = int(self._ui.novel.scenes[thisScId].lastsHours)
+        except:
+            thisLastsHours = 0
+        try:
+            prevLastsHours = int(self._ui.novel.scenes[prevScId].lastsHours)
+        except:
+            prevLastsHours = 0
+        daysLeft, prevLastsHours = divmod((prevLastsHours + thisLastsHours + hoursLeft), 24)
+        self._ui.novel.scenes[prevScId].lastsHours = str(prevLastsHours)
+        try:
+            thisLastsDays = int(self._ui.novel.scenes[thisScId].lastsDays)
+        except:
+            thisLastsDays = 0
+        try:
+            prevLastsDays = int(self._ui.novel.scenes[prevScId].lastsDays)
+        except:
+            prevLastsDays = 0
+        prevLastsDays = prevLastsDays + thisLastsDays + daysLeft
+        self._ui.novel.scenes[prevScId].lastsDays = str(prevLastsDays)
 
         # Remove selected scene from the chapter.
         chId = parent[2:]
