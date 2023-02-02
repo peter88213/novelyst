@@ -80,7 +80,7 @@ class ContentsViewer:
             if chapter.title:
                 heading = f'{chapter.title}\n'
             else:
-                    heading = f"[{_('Unnamed')}\n"
+                    heading = f"[{_('Unnamed')}]\n"
             taggedText.append((heading, headingTag))
 
             for scId in self._ui.novel.chapters[chId].srtScenes:
