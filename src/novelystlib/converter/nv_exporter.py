@@ -11,22 +11,22 @@ from datetime import datetime
 from pywriter.pywriter_globals import *
 from pywriter.file.doc_open import open_document
 from pywriter.converter.export_target_factory import ExportTargetFactory
-from pywriter.odt.odt_proof import OdtProof
-from pywriter.odt.odt_manuscript import OdtManuscript
-from pywriter.odt.odt_scenedesc import OdtSceneDesc
-from pywriter.odt.odt_chapterdesc import OdtChapterDesc
-from pywriter.odt.odt_partdesc import OdtPartDesc
-from pywriter.odt.odt_brief_synopsis import OdtBriefSynopsis
-from pywriter.odt.odt_export import OdtExport
-from pywriter.odt.odt_items import OdtItems
-from pywriter.odt.odt_locations import OdtLocations
-from pywriter.odt.odt_xref import OdtXref
-from pywriter.odt.odt_notes import OdtNotes
-from pywriter.odt.odt_todo import OdtTodo
-from pywriter.ods.ods_charlist import OdsCharList
-from pywriter.ods.ods_loclist import OdsLocList
-from pywriter.ods.ods_itemlist import OdsItemList
-from pywriter.ods.ods_scenelist import OdsSceneList
+from pywriter.odt_w.odt_w_proof import OdtWProof
+from pywriter.odt_w.odt_w_manuscript import OdtWManuscript
+from pywriter.odt_w.odt_w_scenedesc import OdtWSceneDesc
+from pywriter.odt_w.odt_w_chapterdesc import OdtWChapterDesc
+from pywriter.odt_w.odt_w_partdesc import OdtWPartDesc
+from pywriter.odt_w.odt_w_brief_synopsis import OdtWBriefSynopsis
+from pywriter.odt_w.odt_w_export import OdtWExport
+from pywriter.odt_w.odt_w_items import OdtWItems
+from pywriter.odt_w.odt_w_locations import OdtWLocations
+from pywriter.odt_w.odt_w_xref import OdtWXref
+from pywriter.odt_w.odt_w_notes import OdtWNotes
+from pywriter.odt_w.odt_w_todo import OdtWTodo
+from pywriter.ods_w.ods_w_charlist import OdsWCharList
+from pywriter.ods_w.ods_w_loclist import OdsWLocList
+from pywriter.ods_w.ods_w_itemlist import OdsWItemList
+from pywriter.ods_w.ods_w_scenelist import OdsWSceneList
 from pywriter.yw.data_files import DataFiles
 from novelystlib.files.odt_characters_nv import OdtCharactersNv
 from novelystlib.files.wrimo_file import WrimoFile
@@ -39,24 +39,24 @@ class NvExporter:
     Public methods:
         run(source, suffix, lock=True, show=True) -- Create a target object and run conversion.    
     """
-    EXPORT_TARGET_CLASSES = [OdtProof,
-                             OdtManuscript,
-                             OdtBriefSynopsis,
-                             OdtSceneDesc,
-                             OdtChapterDesc,
-                             OdtPartDesc,
-                             OdtExport,
+    EXPORT_TARGET_CLASSES = [OdtWProof,
+                             OdtWManuscript,
+                             OdtWBriefSynopsis,
+                             OdtWSceneDesc,
+                             OdtWChapterDesc,
+                             OdtWPartDesc,
+                             OdtWExport,
                              OdtArcs,
                              OdtCharactersNv,
-                             OdtItems,
-                             OdtLocations,
-                             OdtXref,
-                             OdtNotes,
-                             OdtTodo,
-                             OdsCharList,
-                             OdsLocList,
-                             OdsItemList,
-                             OdsSceneList,
+                             OdtWItems,
+                             OdtWLocations,
+                             OdtWXref,
+                             OdtWNotes,
+                             OdtWTodo,
+                             OdsWCharList,
+                             OdsWLocList,
+                             OdsWItemList,
+                             OdsWSceneList,
                              DataFiles,
                              WrimoFile,
                              ]

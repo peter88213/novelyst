@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.9.1\n"
-"POT-Creation-Date: 2023-01-29 19:46:40\n"
-"PO-Revision-Date: 2023-01-29 19:46:40\n"
+"Project-Id-Version: 4.10.0\n"
+"POT-Creation-Date: 2023-02-06 22:15:26\n"
+"PO-Revision-Date: 2023-02-06 22:15:26\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -594,12 +594,6 @@ msgstr "Neu laden"
 
 msgid "Remove all scenes from the story arc"
 msgstr "Alle Abschnitte vom Handlungsbogen entfernen"
-
-msgid "Remove custom fields"
-msgstr "Zusatzfelder löschen"
-
-msgid "Remove novelyst project settings and save?"
-msgstr "Novelyst-Projekteinstellungen löschen und speichern?"
 
 msgid "Remove part \"{}\" and keep the chapters?"
 msgstr "Teil \"{}\" löschen und die Kapitel behalten?"

@@ -39,13 +39,18 @@ class WorkFile(Yw7File):
     Public properties:
         fileDate -- str: ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
 
+    Public class constants:
+        PRJ_KWVAR -- List of the names of the project keyword variables.
+        CHP_KWVAR -- List of the names of the chapter keyword variables.
+        SCN_KWVAR -- List of the names of the scene keyword variables.
+
     Extends the superclass.
     """
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
 
     # Configure part/chapter numbering
-    _PRJ_KWVAR = [
+    PRJ_KWVAR = [
         'Field_RenumberChapters',
         'Field_RenumberParts',
         'Field_RenumberWithinParts',
@@ -64,12 +69,12 @@ class WorkFile(Yw7File):
         'Field_LanguageCode',
         'Field_CountryCode',
         ]
-    _CHP_KWVAR = [
+    CHP_KWVAR = [
         'Field_NoNumber',
         'Field_ArcDefinition',
         'Field_Arc_Definition',
         ]
-    _SCN_KWVAR = [
+    SCN_KWVAR = [
         'Field_SceneArcs',
         'Field_SceneAssoc',
         'Field_CustomAR',
@@ -491,7 +496,7 @@ class WorkFile(Yw7File):
                         self.novel.chapters[chId].title = f'{scnArc} - {_("Narrative arc")}'
                         self.novel.chapters[chId].chLevel = 0
                         self.novel.chapters[chId].chType = 2
-                        for fieldName in self._CHP_KWVAR:
+                        for fieldName in self.CHP_KWVAR:
                             self.novel.chapters[chId].kwVar[fieldName] = None
                         self.novel.chapters[chId].kwVar['Field_ArcDefinition'] = scnArc
                         self.novel.srtChapters.append(chId)

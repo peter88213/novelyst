@@ -6,10 +6,10 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 from string import Template
 from pywriter.pywriter_globals import *
-from pywriter.odt.odt_todo import OdtTodo
+from pywriter.odt_w.odt_w_todo import OdtWTodo
 
 
-class OdtArcs(OdtTodo):
+class OdtArcs(OdtWTodo):
     """ODT arc defining chapters file representation.
 
     Export a manuscript with invisibly tagged chapters and scenes.

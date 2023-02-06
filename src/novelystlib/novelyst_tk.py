@@ -269,7 +269,6 @@ class NovelystTk(MainTk):
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label=_('Save'), accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self.fileMenu.add_command(label=_('Save as...'), accelerator=self._KEY_SAVE_AS[1], command=self.save_as)
-        self.fileMenu.add_command(label=_('Remove custom fields'), command=self.remove_custom_fields)
         self.fileMenu.add_command(label=_('Close'), command=self.close_project)
         self.fileMenu.add_command(label=_('Exit'), accelerator=self._KEY_QUIT_PROGRAM[1], command=self.on_quit)
 
@@ -647,7 +646,6 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Lock'), state='disabled')
         self.fileMenu.entryconfig(_('Unlock'), state='disabled')
         self.fileMenu.entryconfig(_('Open Project folder'), state='disabled')
-        self.fileMenu.entryconfig(_('Remove custom fields'), state='disabled')
         self.fileMenu.entryconfig(_('Save'), state='disabled')
         self.fileMenu.entryconfig(_('Save as...'), state='disabled')
 
@@ -673,7 +671,6 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Refresh Tree'), state='normal')
         self.fileMenu.entryconfig(_('Lock'), state='normal')
         self.fileMenu.entryconfig(_('Open Project folder'), state='normal')
-        self.fileMenu.entryconfig(_('Remove custom fields'), state='normal')
         self.fileMenu.entryconfig(_('Save'), state='normal')
         self.fileMenu.entryconfig(_('Save as...'), state='normal')
 
@@ -682,15 +679,6 @@ class NovelystTk(MainTk):
     def show_chapter_level(self, event=None):
         """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
         self.tv.show_chapters(self.tv.NV_ROOT)
-
-    def remove_custom_fields(self, event=None):
-        """Remove custom fields from the .yw7 file and save the project."""
-        if self.prjFile is not None:
-            if self.ask_yes_no(_('Remove novelyst project settings and save?')):
-                self.tv.tree.selection_set('')
-                self.view_nothing()
-                if self.prjFile.reset_custom_variables():
-                    self.set_info_how(self.prjFile.write())
 
     def open_project(self, fileName=''):
         """Create a novelyst project instance and read the file.

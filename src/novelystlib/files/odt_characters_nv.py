@@ -1,15 +1,18 @@
 """Provide a class for ODT invisibly tagged character descriptions export.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 from pywriter.pywriter_globals import *
-from pywriter.odt.odt_characters import OdtCharacters
+from pywriter.odt_w.odt_w_characters import OdtWCharacters
 
 
-class OdtCharactersNv(OdtCharacters):
+class OdtCharactersNv(OdtWCharacters):
     """ODT character descriptions file representation.
+
+    Public class constants:
+        PRJ_KWVAR -- List of the names of the project keyword variables.
 
     Export a character sheet with invisibly tagged descriptions.
     """
@@ -34,7 +37,7 @@ class OdtCharactersNv(OdtCharacters):
 </text:section>
 </text:section>
 '''
-    _PRJ_KWVAR = (
+    PRJ_KWVAR = (
         'Field_CustomChrBio',
         'Field_CustomChrGoals',
         )

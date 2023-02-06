@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.10.0
+
+- Update for PyWriter v12.
+- Move the 'Remove custom fields' feature to the novelyst_ywriter plugin.
+
+Based on PyWriter v12.1.0
+
 ### v4.9.1
 
 - When joining scenes, add the scene notes.
