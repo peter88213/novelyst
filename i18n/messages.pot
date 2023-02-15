@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.10.0\n"
-"POT-Creation-Date: 2023-02-06 22:15:26\n"
+"Project-Id-Version: 4.10.1\n"
+"POT-Creation-Date: 2023-02-15 11:28:05\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -96,6 +96,9 @@ msgid "Brief synopsis (export only)"
 msgstr ""
 
 msgid "C"
+msgstr ""
+
+msgid "Can not do"
 msgstr ""
 
 msgid "Can not process file"
@@ -675,6 +678,9 @@ msgid "The plugin remains active until next start."
 msgstr ""
 
 msgid "The previous scene has no date/time set."
+msgstr ""
+
+msgid "The project is locked.\nUnlock?"
 msgstr ""
 
 msgid "The scenes are not of the same type"

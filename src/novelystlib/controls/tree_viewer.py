@@ -542,7 +542,7 @@ class TreeViewer(ttk.Frame):
         
         Return the chapter ID, if successful.
         """
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
         try:
             selection = self.tree.selection()[0]
@@ -599,7 +599,7 @@ class TreeViewer(ttk.Frame):
         
         Return the chapter ID, if successful.
         """
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
         try:
             selection = self.tree.selection()[0]
@@ -654,7 +654,7 @@ class TreeViewer(ttk.Frame):
         
         Return the scene ID, if successful.
         """
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         if not selection:
@@ -706,7 +706,7 @@ class TreeViewer(ttk.Frame):
 
         Return the element's ID, if successful.
         """
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         if selection is None:
@@ -797,7 +797,7 @@ class TreeViewer(ttk.Frame):
                     if not elemId in prevList:
                         prevList.append(elemId)
 
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         try:
@@ -1405,7 +1405,7 @@ class TreeViewer(ttk.Frame):
         
         nodes must be an iterable.
         """
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         has_changed = False
@@ -1432,7 +1432,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_scn_status(self, nodes, scnStatus):
         """Recursively set scene editing status (Outline/Draft..)."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         has_changed = False
@@ -1452,7 +1452,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_scn_style(self, nodes, scnStyle):
         """Set scene narrative mode (Scene/Description/summary)."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         has_changed = False
@@ -1471,7 +1471,7 @@ class TreeViewer(ttk.Frame):
 
     def _set_chr_status(self, chrStatus):
         """Set character status (Major/Minor)."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         has_changed = False
@@ -1512,7 +1512,7 @@ class TreeViewer(ttk.Frame):
 
     def _cancel_part(self, event):
         """Remove a part but keep its chapters."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         selection = self.tree.selection()[0]
@@ -1531,7 +1531,7 @@ class TreeViewer(ttk.Frame):
 
     def _promote_chapter(self, event):
         """Make a chapter a part."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         selection = self.tree.selection()[0]
@@ -1548,7 +1548,7 @@ class TreeViewer(ttk.Frame):
 
     def _demote_part(self, event):
         """Make a part a chapter."""
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         selection = self.tree.selection()[0]
@@ -1584,7 +1584,7 @@ class TreeViewer(ttk.Frame):
                 for childNode in self.tree.get_children(node):
                     waste_scenes(childNode)
 
-        if self._ui.isLocked:
+        if self._ui.check_lock():
             return
 
         for  selection in self.tree.selection():

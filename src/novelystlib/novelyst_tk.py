@@ -1,6 +1,6 @@
 """Provide a tkinter GUI framework for novelyst.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
@@ -454,6 +454,18 @@ class NovelystTk(MainTk):
             if self.ask_yes_no(_('File has changed on disk. Reload?')):
                 self.open_project(self.prjFile.filePath)
 
+    def check_lock(self, event=None):
+        """Show a message and return True, if the project is locked."""
+        if self.isLocked:
+            if messagebox.askyesno(_('Can not do'), _('The project is locked.\nUnlock?')):
+                self.unlock()
+                return False
+
+            else:
+                return True
+        else:
+            return False
+
     def toggle_viewer(self, event=None):
         """Show/hide the contents viewer text box."""
         if self.middleFrame.winfo_manager():
@@ -748,7 +760,7 @@ class NovelystTk(MainTk):
         
         Return True on success, otherwise return False.
         """
-        if self.isLocked:
+        if self.check_lock():
             self.set_info_how(f'!{_("Cannot save: The project is locked")}.')
             return False
 

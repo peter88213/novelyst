@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.10.1
+
+- Improve handling of locked project.
+- Improve error handling.
+
+Based on PyWriter v12.1.1
+
 ### v4.10.0
 
 - Update for PyWriter v12.
