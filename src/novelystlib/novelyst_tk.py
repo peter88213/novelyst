@@ -859,4 +859,5 @@ class NovelystTk(MainTk):
 
     def _build_main_menu(self):
         """Unused; overrides the superclass template method."""
+        return
 

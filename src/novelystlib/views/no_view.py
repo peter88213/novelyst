@@ -55,10 +55,12 @@ class NoView(BasicView):
         
         Overrides the superclass method.
         """
+        return
 
     def apply_changes(self):
         """Do nothing.
         
         Overrides the superclass method.
         """
+        return
 
