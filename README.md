@@ -86,25 +86,35 @@ An easy way may be to put a posting in the [novelyst forum](https://github.com/p
 .
 ├── PyWriter/
 │   └── src/
-│       └── pywriter/
+│       ├── pywriter/
+│       ├── inliner.py
+│       ├── pgettext.py
+│       ├── translations.py
+│       └── msgfmt.py
 └── novelyst/
     ├── src/
     ├── test/
     └── tools/ 
-        └── build.xml
+        ├── build.xml
+        ├── build_novelyst.py
+        ├── make_pot.py
+        └── translate_de.py
 ```
 
 ### Conventions
 
-- Minimum Python version is 3.6. 
-- The Python **source code formatting** follows widely the [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guide, except the maximum line length, which is 120 characters here.
+See https://github.com/peter88213/PyWriter/blob/main/docs/conventions.md
 
-### Development tools
+## Development tools
 
-- [Python](https://python.org) version 3.9
-- [Eclipse IDE](https://eclipse.org) with [PyDev](https://pydev.org) and [EGit](https://www.eclipse.org/egit/)
-- [Apache Ant](https://ant.apache.org/) for building the application script
+- [Python](https://python.org) version 3.9.
+- [Eclipse IDE](https://eclipse.org) with [PyDev](https://pydev.org) and *EGit*.
+- Apache Ant is used for building the application.
+
+### Documentation tools
+
 - [Gaphor](https://gaphor.org/) for creating UML diagrams
+
 
 
 ## Credits
