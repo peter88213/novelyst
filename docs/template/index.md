@@ -36,6 +36,8 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
 - The character data categories "Bio" and "Goals" can be renamed.
 - *novelyst* can generate a scene's start date/time from the previous scene's end date/time.
+- With *novelyst* you can set a document language for spell checking with *OpenOffice/LibreOffice*.
+- *novelyst* preserves the markup for foreign language text passages as imported from *OpenOffice/LibreOffice*.
 - The necessary data is stored along in the *.yw7* file, without breaking the compatibility to *yWriter*.
 
 ## Plugins

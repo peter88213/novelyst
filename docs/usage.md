@@ -78,6 +78,32 @@ When exporting to ODT format, *novelyst* replaces these formattings as follows:
 With *arcs*, you can link your plot to the narrative. See the [Arcs help page](https://peter88213.github.io/novelyst/help/arcs)
 
 
+## About document language handling
+
+ODF documents are generally assigned a language that determines spell checking and country-specific character substitutions. In addition, Office Writer lets you assign text passages to languages other than the document language to mark foreign language usage or to suspend spell checking. 
+
+*novelyst* supports this language handling for *OpenOffice/LibreOffice* interoperability.
+
+### Document overall
+
+The project language (Language code acc. to ISO 639-1 and country code acc. to ISO 3166-2) can be set in the **Narrative** settings (right pane) under **Document language**. The codes are stored as *yWriter* project variables. 
+
+### Text passages in scenes
+
+Text markup for other languages is imported from ODT documents. It is represented by *yWriter* project variables. Thus it's fully compatible with *yWriter*, which interprets them as HTML instructions during document export.
+
+This then looks like this, for example:
+
+`xxx xxxx [lang=en-AU]yyy yyyy yyyy[/lang=en-AU] xxx xxx` 
+
+For the example shown above, the project variable definition for the opening tag looks like this: 
+
+- *Variable Name:* `lang=en-AU` 
+- *Value/Text:* `<HTM <SPAN LANG="en-AU"> /HTM>`
+
+The point of this is that such language assignments are preserved even after multiple conversions in both directions, so they are always effective for spell checking in the ODT document.
+
+It is recommended not to modify such markups with *novelyst* to avoid unwanted nesting and broken enclosing. 
 
 
 # License
