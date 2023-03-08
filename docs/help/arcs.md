@@ -39,6 +39,8 @@ This method can of course be combined well with arc points, which in this case c
 3. Give the chapter a descriptive title.
 4. In the right pane, type the arc's name into the **Arc name** entry. This will prefix the chapter title with the arc name. It is advised to use short arc names, for instance "A", "B", "C" for storylines, or initial letters for character arcs, etc.
 
+![Defining an arc](../Screenshots/arcs02.png)
+
 **Note:** If you open a project that was created with a novelyst version older than 4.4 and that contains scenes with assignments of undefined arcs, a new part named **Arcs**, containing the arc-defining chapters, is created automatically in the **Planning** subtree. 
 
 ## How to group arcs
@@ -77,6 +79,8 @@ This method can of course be combined well with arc points, which in this case c
 ## How to create arc points
 
 *novelyst* implements arcs as scenes in "arc" chapters. If you add a scene to an arc defining "Todo" chapter, This scene is automatically assigned to the chapter's arc. 
+
+![Arc points](../Screenshots/arcs03.png)
 
 ## How to associate points with scenes
 
