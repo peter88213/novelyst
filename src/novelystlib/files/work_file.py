@@ -455,6 +455,11 @@ class WorkFile(Yw7File):
 
                                         # Prepare a backward reference from the scene to the point.
                                         scnPoints[scId].append(ptId)
+
+                                        #--- Make sure the arc point has the same date/time as the associated scene.
+                                        self.novel.scenes[ptId].date = self.novel.scenes[scId].date
+                                        self.novel.scenes[ptId].time = self.novel.scenes[scId].time
+                                        self.novel.scenes[ptId].day = self.novel.scenes[scId].day
             else:
                 for scId in self.novel.chapters[chId].srtScenes:
                     if self.novel.scenes[scId].scType != 0:
