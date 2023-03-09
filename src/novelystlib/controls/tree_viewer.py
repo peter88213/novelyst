@@ -537,6 +537,7 @@ class TreeViewer(ttk.Frame):
         Optional arguments:
             selection -- str: Tree position where to place a new node.
             title -- str: Part title. If None, a title is auto-generated. 
+            chType -- str: Part type.  
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -598,6 +599,7 @@ class TreeViewer(ttk.Frame):
         Optional arguments:
             selection -- str: Tree position where to place a new node.
             title -- str: Chapter title. If None, a title is auto-generated. 
+            chType -- str: Chapter type.  
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -657,6 +659,7 @@ class TreeViewer(ttk.Frame):
         Optional arguments:
             selection -- str: Tree position where to place a new node.
             title -- str: Scene title. If None, a title is auto-generated. 
+            scType -- str: Scene type.  
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, do nothing. 
