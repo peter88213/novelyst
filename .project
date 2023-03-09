@@ -8,6 +8,7 @@
 		<project>novelyst_editor</project>
 		<project>novelyst_matrix</project>
 		<project>novelyst_retablex</project>
+		<project>novelyst_templates</project>
 		<project>novelyst_themes</project>
 		<project>novelyst_timeline</project>
 		<project>PyWriter</project>

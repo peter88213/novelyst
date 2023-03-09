@@ -531,11 +531,12 @@ class TreeViewer(ttk.Frame):
         prevNode, __ = search_tree(root, None, None)
         return prevNode
 
-    def add_part(self, selection=None):
+    def add_part(self, selection=None, title=None):
         """Add a Part node to the tree and create an instance.
         
         Optional arguments:
             selection -- str: Tree position where to place a new node.
+            title -- str: Part title. If None, a title is auto-generated. 
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -567,7 +568,10 @@ class TreeViewer(ttk.Frame):
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.PART_PREFIX}{chId}'
         self._ui.novel.chapters[chId] = Chapter()
-        self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
+        if title:
+            self._ui.novel.chapters[chId].title = title
+        else:
+            self._ui.novel.chapters[chId].title = f'{_("New Part")} (ID{chId})'
         self._ui.novel.chapters[chId].chLevel = 1
 
         # Initialize custom keyword variables.
@@ -588,11 +592,12 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return chId
 
-    def add_chapter(self, selection=None):
+    def add_chapter(self, selection=None, title=None):
         """Add a Chapter node to the tree and create an instance.
              
         Optional arguments:
             selection -- str: Tree position where to place a new node.
+            title -- str: Chapter title. If None, a title is auto-generated. 
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -618,7 +623,10 @@ class TreeViewer(ttk.Frame):
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.CHAPTER_PREFIX}{chId}'
         self._ui.novel.chapters[chId] = Chapter()
-        self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
+        if title:
+            self._ui.novel.chapters[chId].title = title
+        else:
+            self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
         self._ui.novel.chapters[chId].chLevel = 0
         self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
 
@@ -643,11 +651,12 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return chId
 
-    def add_scene(self, selection=None):
+    def add_scene(self, selection=None, title=None):
         """Add a Scene node to the tree and create an instance.
         
         Optional arguments:
             selection -- str: Tree position where to place a new node.
+            title -- str: Scene title. If None, a title is auto-generated. 
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, do nothing. 
@@ -677,7 +686,10 @@ class TreeViewer(ttk.Frame):
         scId = create_id(self._ui.novel.scenes)
         newNode = f'{self.SCENE_PREFIX}{scId}'
         self._ui.novel.scenes[scId] = Scene()
-        self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
+        if title:
+            self._ui.novel.scenes[scId].title = title
+        else:
+            self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
         self._ui.novel.scenes[scId].status = 1
         # Completion status = Outline
         self._ui.novel.scenes[scId].scType = 0
@@ -694,11 +706,12 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return scId
 
-    def add_other_element(self, selection=None):
+    def add_other_element(self, selection=None, title=None):
         """Add a Character/Location/Item/Project note node to the tree and create an instance.
         
         Optional arguments:
             selection -- str: Tree position where to place a new node.
+            title -- str: Element title. If None, a title is auto-generated. 
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -716,7 +729,10 @@ class TreeViewer(ttk.Frame):
             elemId = create_id(self._ui.novel.characters)
             newNode = f'{self.CHARACTER_PREFIX}{elemId}'
             self._ui.novel.characters[elemId] = Character()
-            self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
+            if title:
+                self._ui.novel.characters[elemId].title = title
+            else:
+                self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.prjFile.CRT_KWVAR:
@@ -729,7 +745,10 @@ class TreeViewer(ttk.Frame):
             elemId = create_id(self._ui.novel.locations)
             newNode = f'{self.LOCATION_PREFIX}{elemId}'
             self._ui.novel.locations[elemId] = WorldElement()
-            self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
+            if title:
+                self._ui.novel.locations[elemId].title = title
+            else:
+                self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.prjFile.LOC_KWVAR:
@@ -742,7 +761,10 @@ class TreeViewer(ttk.Frame):
             elemId = create_id(self._ui.novel.items)
             newNode = f'{self.ITEM_PREFIX}{elemId}'
             self._ui.novel.items[elemId] = WorldElement()
-            self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
+            if title:
+                self._ui.novel.items[elemId].title = title
+            else:
+                self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.prjFile.ITM_KWVAR:
@@ -755,7 +777,10 @@ class TreeViewer(ttk.Frame):
             elemId = create_id(self._ui.novel.projectNotes)
             newNode = f'{self.PRJ_NOTE_PREFIX}{elemId}'
             self._ui.novel.projectNotes[elemId] = BasicElement()
-            self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
+            if title:
+                self._ui.novel.projectNotes[elemId].title = title
+            else:
+                self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
 
             # Initialize custom keyword variables.
             for fieldName in self._ui.prjFile.ITM_KWVAR:
