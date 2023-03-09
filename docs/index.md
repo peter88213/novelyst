@@ -51,6 +51,7 @@ The purpose of *novelyst* is to create a structuring framework for novel writing
 - [A Timeline plugin](https://peter88213.github.io/novelyst_timeline/)
 - [An Aeon Timeline 2 plugin](https://peter88213.github.io/novelyst_aeon2/)
 - [A theme changer](https://peter88213.github.io/novelyst_themes/)
+- [A Story Template management plugin](https://peter88213.github.io/novelyst_templates/)
 
 There are some more examples in the release's *add-on* folder, such as a yWriter launcher, a theme changer, or an experimental "dark theme" installer.
 
