@@ -96,6 +96,8 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 [Changelog](changelog)
 
+[Announcements and discussions](https://github.com/peter88213/novelyst/discussions)
+
 ## Usage
 
 See the [instructions for use](usage)
