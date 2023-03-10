@@ -99,3 +99,9 @@ This method can of course be combined well with arc points, which in this case c
 
 1. Select the arc point you want to delete.
 2. Press the **Del** key and confirm. This clears the scene assignment, if any, and moves the scene to the *Trash" chapter. 
+
+## Load and save complete narrative structures
+
+With the [novelyst_templates plugin](https://peter88213.github.io/novelyst_templates) you can load a prefabricated story structure defined with a Markdown file. You also can save a story structure made with *novelyst* in a Markdown file for reuse.
+
+![Template](../Screenshots/template01.png)
