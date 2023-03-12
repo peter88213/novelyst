@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.12.1
+
+- Add a separator to the "Tools" menu.
+
+Based on PyWriter v12.1.2
+
 ### v4.12.0
 
 - API upgrade: When creating a new tree element, the type can be set as a parameter.

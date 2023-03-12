@@ -368,6 +368,7 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Tools'), menu=self.toolsMenu)
         self.toolsMenu.add_command(label=_('Program settings'), command=self.edit_settings)
         self.toolsMenu.add_command(label=_('Plugin Manager'), command=self.manage_plugins)
+        self.toolsMenu.add_separator()
 
         # Help
         self.helpMenu = tk.Menu(self.mainMenu, tearoff=0)
