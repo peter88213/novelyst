@@ -43,10 +43,10 @@ class TreeViewer(ttk.Frame):
         reset_tree() -- Clear the displayed tree.
         next_node(thisNode, root) -- Return the next node ID of the same element type as thisNode.
         prev_node(thisNode, root) -- Return the previous node ID of the same element type as thisNode.
-        add_part(selection=None) -- Add a Part node to the tree and create an instance.
-        add_chapter(selection=None) -- Add a Chapter node to the tree and create an instance.
-        add_scene(selection=None) -- Add a Scene node to the tree and create an instance.
-        add_other_element(selection=None) -- Add a Character/Location/Item/Project note node to the tree and create an instance.
+        add_part(**kwargs) -- Add a Part node to the tree and create an instance.
+        add_chapter(**kwargs) -- Add a Chapter node to the tree and create an instance.
+        add_scene(**kwargs) -- Add a Scene node to the tree and create an instance.
+        add_other_element(**kwargs) -- Add a Character/Location/Item/Project note node to the tree and create an instance.
         open_children(parent) -- Recursively show children nodes.
         close_children(parent) -- Recursively close children nodes.
         show_chapters(parent) -- Open Narrative/Part nodes and close chapter nodes.
@@ -531,13 +531,12 @@ class TreeViewer(ttk.Frame):
         prevNode, __ = search_tree(root, None, None)
         return prevNode
 
-    def add_part(self, selection=None, title=None, chType=0):
+    def add_part(self, **kwargs):
         """Add a Part node to the tree and create an instance.
         
-        Optional arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Part title. If None, a title is auto-generated. 
-            chType -- str: Part type.  
+        Keyword arguments:
+            title -- str: Part title. Default: Auto-generated title. 
+            chType -- str: Part type. Default: 0.  
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -569,6 +568,7 @@ class TreeViewer(ttk.Frame):
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.PART_PREFIX}{chId}'
         self._ui.novel.chapters[chId] = Chapter()
+        title = kwargs.get('title', None)
         if title:
             self._ui.novel.chapters[chId].title = title
         else:
@@ -583,7 +583,7 @@ class TreeViewer(ttk.Frame):
         elif parent.startswith(self.RS_ROOT):
             self._ui.novel.chapters[chId].chType = 1
         else:
-            self._ui.novel.chapters[chId].chType = chType
+            self._ui.novel.chapters[chId].chType = kwargs.get('chType', 0)
         self._ui.novel.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
@@ -593,13 +593,12 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return chId
 
-    def add_chapter(self, selection=None, title=None, chType=0):
+    def add_chapter(self, **kwargs):
         """Add a Chapter node to the tree and create an instance.
              
-        Optional arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Chapter title. If None, a title is auto-generated. 
-            chType -- str: Chapter type.  
+        Keyword arguments:
+            title -- str: Scene title. Default: Auto-generated title. 
+            chType -- str: Chapter type. Default: 0.  
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -625,6 +624,7 @@ class TreeViewer(ttk.Frame):
         chId = create_id(self._ui.novel.chapters)
         newNode = f'{self.CHAPTER_PREFIX}{chId}'
         self._ui.novel.chapters[chId] = Chapter()
+        title = kwargs.get('title', None)
         if title:
             self._ui.novel.chapters[chId].title = title
         else:
@@ -642,7 +642,7 @@ class TreeViewer(ttk.Frame):
         elif self.tree.parent(parent).startswith(self.RS_ROOT):
             self._ui.novel.chapters[chId].chType = 1
         else:
-            self._ui.novel.chapters[chId].chType = chType
+            self._ui.novel.chapters[chId].chType = kwargs.get('chType', 0)
 
         self._ui.novel.srtChapters.append(chId)
         title, columns, nodeTags = self._set_chapter_display(chId)
@@ -653,13 +653,13 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return chId
 
-    def add_scene(self, selection=None, title=None, scType=0):
+    def add_scene(self, **kwargs):
         """Add a Scene node to the tree and create an instance.
         
-        Optional arguments:
+        Keyword arguments:
             selection -- str: Tree position where to place a new node.
-            title -- str: Scene title. If None, a title is auto-generated. 
-            scType -- str: Scene type.  
+            title -- str: Scene title. Default: Auto-generated title. 
+            scType -- str: Scene type. Default: 0. 
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, do nothing. 
@@ -669,6 +669,7 @@ class TreeViewer(ttk.Frame):
         if self._ui.check_lock():
             return
 
+        selection = kwargs.get('selection', None)
         if not selection:
             try:
                 selection = self.tree.selection()[0]
@@ -689,13 +690,14 @@ class TreeViewer(ttk.Frame):
         scId = create_id(self._ui.novel.scenes)
         newNode = f'{self.SCENE_PREFIX}{scId}'
         self._ui.novel.scenes[scId] = Scene()
+        title = kwargs.get('title', None)
         if title:
             self._ui.novel.scenes[scId].title = title
         else:
             self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
         self._ui.novel.scenes[scId].status = 1
         # Completion status = Outline
-        self._ui.novel.scenes[scId].scType = scType
+        self._ui.novel.scenes[scId].scType = kwargs.get('scType', 0)
         # Default type = Normal by default.
         self._ui.novel.scenes[scId].appendToPrev = False
 
@@ -709,10 +711,10 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return scId
 
-    def add_other_element(self, selection=None, title=None):
+    def add_other_element(self, **kwargs):
         """Add a Character/Location/Item/Project note node to the tree and create an instance.
         
-        Optional arguments:
+        Keyword arguments:
             selection -- str: Tree position where to place a new node.
             title -- str: Element title. If None, a title is auto-generated. 
             
@@ -725,8 +727,14 @@ class TreeViewer(ttk.Frame):
         if self._ui.check_lock():
             return
 
-        if selection is None:
-            selection = self.tree.selection()[0]
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                return
+
+        title = kwargs.get('title', None)
         if self.CHARACTER_PREFIX in selection:
             # Add a character.
             elemId = create_id(self._ui.novel.characters)
