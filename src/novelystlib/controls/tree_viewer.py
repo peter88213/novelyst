@@ -46,7 +46,11 @@ class TreeViewer(ttk.Frame):
         add_part(**kwargs) -- Add a Part node to the tree and create an instance.
         add_chapter(**kwargs) -- Add a Chapter node to the tree and create an instance.
         add_scene(**kwargs) -- Add a Scene node to the tree and create an instance.
-        add_other_element(**kwargs) -- Add a Character/Location/Item/Project note node to the tree and create an instance.
+        add_character(**kwargs) -- Add a Character node to the tree and create an instance.
+        add_location(**kwargs) -- Add a Location node to the tree and create an instance.
+        add_item(**kwargs) -- Add an Item node to the tree and create an instance.
+        add_project_note(**kwargs) -- Add a Project note node to the tree and create an instance.
+        add_other_element() -- Add a Character/Location/Item/Project note node to the tree and create an instance.
         open_children(parent) -- Recursively show children nodes.
         close_children(parent) -- Recursively close children nodes.
         show_chapters(parent) -- Open Narrative/Part nodes and close chapter nodes.
@@ -903,8 +907,7 @@ class TreeViewer(ttk.Frame):
     def add_other_element(self):
         """Add a Character/Location/Item/Project note node to the tree and create an instance.
         
-        Keyword arguments:
-            selection -- str: Tree position where to place a new node.
+        This method is meant to be called by the context menu, so a node must be selected.
         """
         try:
             selection = self.tree.selection()[0]
@@ -921,8 +924,7 @@ class TreeViewer(ttk.Frame):
             self.add_project_note()
 
     def join_scenes(self):
-        """Join the selected scene with the previous one.
-        """
+        """Join the selected scene with the previous one."""
 
         def join_str(prevText, thisText):
             if prevText is None:
