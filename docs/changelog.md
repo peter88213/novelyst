@@ -11,7 +11,7 @@ See the [GitHub "Features" project](https://github.com/users/peter88213/projects
 ### v4.13.0
 
 - Insert new characters, locations, items, and project notes as specified in the help text.
-- Extend the range of keyword arguments for several TreeViewer new node methods.
+- API upgrade: Extend the range of keyword arguments for several TreeViewer new node methods.
 
 Based on PyWriter v12.1.2
 
