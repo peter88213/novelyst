@@ -313,7 +313,7 @@ class NovelystTk(MainTk):
         # Character
         self.characterMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Characters'), menu=self.characterMenu)
-        self.characterMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(selection=self.tv.CR_ROOT))
+        self.characterMenu.add_command(label=_('Add'), command=self.tv.add_character)
         self.characterMenu.add_separator()
         self.characterMenu.add_cascade(label=_('Set Status'), menu=self.tv.crStatusMenu)
         self.characterMenu.add_separator()
@@ -324,7 +324,7 @@ class NovelystTk(MainTk):
         # Location
         self.locationMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Locations'), menu=self.locationMenu)
-        self.locationMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(selection=self.tv.LC_ROOT))
+        self.locationMenu.add_command(label=_('Add'), command=self.tv.add_location)
         self.locationMenu.add_separator()
         self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self._export_document('_locations'))
         self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self._export_document('_loclist'))
@@ -333,7 +333,7 @@ class NovelystTk(MainTk):
         # Item
         self.itemMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
-        self.itemMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(selection=self.tv.IT_ROOT))
+        self.itemMenu.add_command(label=_('Add'), command=self.tv.add_item)
         self.itemMenu.add_separator()
         self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self._export_document('_items'))
         self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self._export_document('_itemlist'))
@@ -342,7 +342,7 @@ class NovelystTk(MainTk):
         # Project notes
         self.prjNoteMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Project notes'), menu=self.prjNoteMenu)
-        self.prjNoteMenu.add_command(label=_('Add'), command=lambda: self.tv.add_other_element(selection=self.tv.PN_ROOT))
+        self.prjNoteMenu.add_command(label=_('Add'), command=self.tv.add_project_note)
         self.prjNoteMenu.add_separator()
         self.prjNoteMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_projectnote_report'))
 

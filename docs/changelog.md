@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.13.0
+
+- Insert new characters, locations, items, and project notes as specified in the help text.
+- Extend the range of keyword arguments for several TreeViewer new node methods.
+
+Based on PyWriter v12.1.2
+
 ### v4.12.1
 
 - Add a separator to the "Tools" menu.

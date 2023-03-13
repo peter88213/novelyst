@@ -205,7 +205,7 @@ class TreeViewer(ttk.Frame):
 
         #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self.tree, tearoff=0)
-        self._wrCtxtMenu.add_command(label=_('Add'), command=lambda: self.add_other_element())
+        self._wrCtxtMenu.add_command(label=_('Add'), command=self.add_other_element)
         self._wrCtxtMenu.add_separator()
         self._wrCtxtMenu.add_command(label=_('Delete'), command=lambda: self.tree.event_generate('<Delete>', when='tail'))
         self._wrCtxtMenu.add_separator()
@@ -535,9 +535,11 @@ class TreeViewer(ttk.Frame):
         """Add a Part node to the tree and create an instance.
         
         Keyword arguments:
+            selection -- str: Tree position where to place a new node.
             title -- str: Part title. Default: Auto-generated title. 
-            chType -- str: Part type. Default: 0.  
-            
+            chType -- int: Part type. Default: 0.  
+            NoNumber -- str: Do not auto-number this part. Default: None.
+           
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
         
@@ -545,10 +547,13 @@ class TreeViewer(ttk.Frame):
         """
         if self._ui.check_lock():
             return
-        try:
-            selection = self.tree.selection()[0]
-        except:
-            selection = ''
+
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                selection = ''
         parent = self.NV_ROOT
         index = 0
         if selection.startswith(self.SCENE_PREFIX):
@@ -578,6 +583,7 @@ class TreeViewer(ttk.Frame):
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile.CHP_KWVAR:
             self._ui.novel.chapters[chId].kwVar[fieldName] = None
+        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = kwargs.get('NoNumber', None)
         if parent.startswith(self.PL_ROOT):
             self._ui.novel.chapters[chId].chType = 2
         elif parent.startswith(self.RS_ROOT):
@@ -597,8 +603,10 @@ class TreeViewer(ttk.Frame):
         """Add a Chapter node to the tree and create an instance.
              
         Keyword arguments:
+            selection -- str: Tree position where to place a new node.
             title -- str: Scene title. Default: Auto-generated title. 
-            chType -- str: Chapter type. Default: 0.  
+            chType -- int: Chapter type. Default: 0.
+            NoNumber -- str: Do not auto-number this chapter. Default: None.
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -607,10 +615,13 @@ class TreeViewer(ttk.Frame):
         """
         if self._ui.check_lock():
             return
-        try:
-            selection = self.tree.selection()[0]
-        except:
-            selection = ''
+
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                selection = ''
         parent = self.NV_ROOT
         index = 0
         if selection.startswith(self.SCENE_PREFIX):
@@ -630,11 +641,11 @@ class TreeViewer(ttk.Frame):
         else:
             self._ui.novel.chapters[chId].title = f'{_("New Chapter")} (ID{chId})'
         self._ui.novel.chapters[chId].chLevel = 0
-        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = None
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile.CHP_KWVAR:
             self._ui.novel.chapters[chId].kwVar[fieldName] = None
+        self._ui.novel.chapters[chId].kwVar['Field_NoNumber'] = kwargs.get('NoNumber', None)
 
         # Inherit part type, if "Todo" or "Notes".
         if self.tree.parent(parent).startswith(self.PL_ROOT):
@@ -659,7 +670,9 @@ class TreeViewer(ttk.Frame):
         Keyword arguments:
             selection -- str: Tree position where to place a new node.
             title -- str: Scene title. Default: Auto-generated title. 
-            scType -- str: Scene type. Default: 0. 
+            scType -- int: Scene type. Default: 0.
+            status -- int: Scene status. Default: 1.
+            appendToPrev -- boolean: Append to previous scene. Default: False.
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, do nothing. 
@@ -695,11 +708,11 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.scenes[scId].title = title
         else:
             self._ui.novel.scenes[scId].title = f'{_("New Scene")} (ID{scId})'
-        self._ui.novel.scenes[scId].status = 1
-        # Completion status = Outline
+        self._ui.novel.scenes[scId].status = kwargs.get('status', 1)
+        # Completion status = Outline by default
         self._ui.novel.scenes[scId].scType = kwargs.get('scType', 0)
-        # Default type = Normal by default.
-        self._ui.novel.scenes[scId].appendToPrev = False
+        # Default type = Normal by default
+        self._ui.novel.scenes[scId].appendToPrev = kwargs.get('appendToPrev', False)
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile.SCN_KWVAR:
@@ -711,12 +724,13 @@ class TreeViewer(ttk.Frame):
         self.tree.see(newNode)
         return scId
 
-    def add_other_element(self, **kwargs):
-        """Add a Character/Location/Item/Project note node to the tree and create an instance.
+    def add_character(self, **kwargs):
+        """Add a Character node to the tree and create an instance.
         
         Keyword arguments:
             selection -- str: Tree position where to place a new node.
-            title -- str: Element title. If None, a title is auto-generated. 
+            title -- str: Element title. Default: Auto-generated title.
+            isMajor -- boolean: If True, make the new character a major character. Default: False.
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -732,85 +746,179 @@ class TreeViewer(ttk.Frame):
             try:
                 selection = self.tree.selection()[0]
             except:
-                return
-
+                selection = ''
         title = kwargs.get('title', None)
-        if self.CHARACTER_PREFIX in selection:
-            # Add a character.
-            elemId = create_id(self._ui.novel.characters)
-            newNode = f'{self.CHARACTER_PREFIX}{elemId}'
-            self._ui.novel.characters[elemId] = Character()
-            if title:
-                self._ui.novel.characters[elemId].title = title
-            else:
-                self._ui.novel.characters[elemId].title = f'{_("New Character")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile.CRT_KWVAR:
-                self._ui.novel.characters[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_character_display(elemId)
-            root = self.CR_ROOT
-            prefix = self.CHARACTER_PREFIX
-        elif self.LOCATION_PREFIX in selection:
-            # Add a location.
-            elemId = create_id(self._ui.novel.locations)
-            newNode = f'{self.LOCATION_PREFIX}{elemId}'
-            self._ui.novel.locations[elemId] = WorldElement()
-            if title:
-                self._ui.novel.locations[elemId].title = title
-            else:
-                self._ui.novel.locations[elemId].title = f'{_("New Location")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile.LOC_KWVAR:
-                self._ui.novel.locations[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_location_display(elemId)
-            root = self.LC_ROOT
-            prefix = self.LOCATION_PREFIX
-        elif self.ITEM_PREFIX in selection:
-            # Add an item.
-            elemId = create_id(self._ui.novel.items)
-            newNode = f'{self.ITEM_PREFIX}{elemId}'
-            self._ui.novel.items[elemId] = WorldElement()
-            if title:
-                self._ui.novel.items[elemId].title = title
-            else:
-                self._ui.novel.items[elemId].title = f'{_("New Item")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile.ITM_KWVAR:
-                self._ui.novel.items[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_item_display(elemId)
-            root = self.IT_ROOT
-            prefix = self.ITEM_PREFIX
-        elif self.PRJ_NOTE_PREFIX in selection:
-            # Add a project note.
-            elemId = create_id(self._ui.novel.projectNotes)
-            newNode = f'{self.PRJ_NOTE_PREFIX}{elemId}'
-            self._ui.novel.projectNotes[elemId] = BasicElement()
-            if title:
-                self._ui.novel.projectNotes[elemId].title = title
-            else:
-                self._ui.novel.projectNotes[elemId].title = f'{_("New Note")} (ID{elemId})'
-
-            # Initialize custom keyword variables.
-            for fieldName in self._ui.prjFile.ITM_KWVAR:
-                self._ui.novel.projectNotes[elemId].kwVar[fieldName] = None
-            title, columns, nodeTags = self._set_prjNote_display(elemId)
-            root = self.PN_ROOT
-            prefix = self.PRJ_NOTE_PREFIX
-        else:
-            return
-
-        if selection.startswith(prefix):
+        isMajor = kwargs.get('isMajor', False)
+        index = 0
+        if selection.startswith(self.CHARACTER_PREFIX):
             index = self.tree.index(selection) + 1
+        crId = create_id(self._ui.novel.characters)
+        newNode = f'{self.CHARACTER_PREFIX}{crId}'
+        self._ui.novel.characters[crId] = Character()
+        if title:
+            self._ui.novel.characters[crId].title = title
         else:
-            index = 0
-        self.tree.insert(root, index, newNode, text=title, values=columns, tags=nodeTags)
+            self._ui.novel.characters[crId].title = f'{_("New Character")} (ID{crId})'
+        self._ui.novel.characters[crId].isMajor = isMajor
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile.CRT_KWVAR:
+            self._ui.novel.characters[crId].kwVar[fieldName] = None
+        title, columns, nodeTags = self._set_character_display(crId)
+        self.tree.insert(self.CR_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
         self.tree.selection_set(newNode)
         self.tree.see(newNode)
-        return elemId
+        return crId
+
+    def add_location(self, **kwargs):
+        """Add a Location node to the tree and create an instance.
+        
+        Keyword arguments:
+            selection -- str: Tree position where to place a new node.
+            title -- str: Element title. Default: Auto-generated title. 
+            
+        - If the selection is of the same type as the new node, 
+          place the new node after the selected node and select it.
+        - Otherwise, place the new node at the first position.   
+
+        Return the element's ID, if successful.
+        """
+        if self._ui.check_lock():
+            return
+
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                selection = ''
+        title = kwargs.get('title', None)
+        index = 0
+        if selection.startswith(self.LOCATION_PREFIX):
+            index = self.tree.index(selection) + 1
+        lcId = create_id(self._ui.novel.locations)
+        newNode = f'{self.LOCATION_PREFIX}{lcId}'
+        self._ui.novel.locations[lcId] = WorldElement()
+        if title:
+            self._ui.novel.locations[lcId].title = title
+        else:
+            self._ui.novel.locations[lcId].title = f'{_("New Location")} (ID{lcId})'
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile.LOC_KWVAR:
+            self._ui.novel.locations[lcId].kwVar[fieldName] = None
+        title, columns, nodeTags = self._set_location_display(lcId)
+        self.tree.insert(self.LC_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return lcId
+
+    def add_item(self, **kwargs):
+        """Add a Item node to the tree and create an instance.
+        
+        Keyword arguments:
+            selection -- str: Tree position where to place a new node.
+            title -- str: Element title. Default: Auto-generated title. 
+            
+        - If the selection is of the same type as the new node, 
+          place the new node after the selected node and select it.
+        - Otherwise, place the new node at the first position.   
+
+        Return the element's ID, if successful.
+        """
+        if self._ui.check_lock():
+            return
+
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                selection = ''
+        title = kwargs.get('title', None)
+        index = 0
+        if selection.startswith(self.ITEM_PREFIX):
+            index = self.tree.index(selection) + 1
+        itId = create_id(self._ui.novel.items)
+        newNode = f'{self.ITEM_PREFIX}{itId}'
+        self._ui.novel.items[itId] = WorldElement()
+        if title:
+            self._ui.novel.items[itId].title = title
+        else:
+            self._ui.novel.items[itId].title = f'{_("New Item")} (ID{itId})'
+
+        # Initialize custom keyword variables.
+        for fieldName in self._ui.prjFile.ITM_KWVAR:
+            self._ui.novel.items[itId].kwVar[fieldName] = None
+        title, columns, nodeTags = self._set_item_display(itId)
+        self.tree.insert(self.IT_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return itId
+
+    def add_project_note(self, **kwargs):
+        """Add a Project note node to the tree and create an instance.
+        
+        Keyword arguments:
+            selection -- str: Tree position where to place a new node.
+            title -- str: Element title. Default: Auto-generated title. 
+            
+        - If the selection is of the same type as the new node, 
+          place the new node after the selected node and select it.
+        - Otherwise, place the new node at the first position.   
+
+        Return the element's ID, if successful.
+        """
+        if self._ui.check_lock():
+            return
+
+        selection = kwargs.get('selection', None)
+        if not selection:
+            try:
+                selection = self.tree.selection()[0]
+            except:
+                selection = ''
+        title = kwargs.get('title', None)
+        index = 0
+        if selection.startswith(self.PRJ_NOTE_PREFIX):
+            index = self.tree.index(selection) + 1
+        pnId = create_id(self._ui.novel.projectNotes)
+        newNode = f'{self.PRJ_NOTE_PREFIX}{pnId}'
+        self._ui.novel.projectNotes[pnId] = BasicElement()
+        if title:
+            self._ui.novel.projectNotes[pnId].title = title
+        else:
+            self._ui.novel.projectNotes[pnId].title = f'{_("New Note")} (ID{pnId})'
+
+        title, columns, nodeTags = self._set_prjNote_display(pnId)
+        self.tree.insert(self.PN_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
+        self.update_prj_structure()
+        self.tree.selection_set(newNode)
+        self.tree.see(newNode)
+        return pnId
+
+    def add_other_element(self):
+        """Add a Character/Location/Item/Project note node to the tree and create an instance.
+        
+        Keyword arguments:
+            selection -- str: Tree position where to place a new node.
+        """
+        try:
+            selection = self.tree.selection()[0]
+        except:
+            return
+
+        if self.CHARACTER_PREFIX in selection:
+            self.add_character()
+        elif self.LOCATION_PREFIX in selection:
+            self.add_location()
+        elif self.ITEM_PREFIX in selection:
+            self.add_item()
+        elif self.PRJ_NOTE_PREFIX in selection:
+            self.add_project_note()
 
     def join_scenes(self):
         """Join the selected scene with the previous one.
