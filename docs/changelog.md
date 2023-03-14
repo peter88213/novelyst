@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.13.1
+
+- Fix the status setting for the "Characters" tree.
+
+Based on PyWriter v12.1.2
+
 ### v4.13.0
 
 - Insert new characters, locations, items, and project notes as specified in the help text.

@@ -177,8 +177,8 @@ class TreeViewer(ttk.Frame):
 
         #--- Create a character status submenu.
         self.crStatusMenu = tk.Menu(self.tree, tearoff=0)
-        self.crStatusMenu.add_command(label=_('Major Character'), command=lambda: self._set_chr_status(True))
-        self.crStatusMenu.add_command(label=_('Minor Character'), command=lambda: self._set_chr_status(False))
+        self.crStatusMenu.add_command(label=_('Major Character'), command=lambda: self._set_chr_status(self.tree.selection(), True))
+        self.crStatusMenu.add_command(label=_('Minor Character'), command=lambda: self._set_chr_status(self.tree.selection(), False))
 
         #--- Create local context menus.
 
@@ -1615,23 +1615,21 @@ class TreeViewer(ttk.Frame):
         if has_changed:
             self.update_prj_structure()
 
-    def _set_chr_status(self, chrStatus):
+    def _set_chr_status(self, nodes, chrStatus):
         """Set character status (Major/Minor)."""
         if self._ui.check_lock():
             return
 
         has_changed = False
-        nodes = self.tree.selection()
         for node in nodes:
             if node.startswith(self.CHARACTER_PREFIX):
                 if self._ui.novel.characters[node[2:]].isMajor != chrStatus:
                     self._ui.novel.characters[node[2:]].isMajor = chrStatus
                     has_changed = True
-            elif node.endswith(self.CHARACTER_PREFIX):
-                # Go one level down.
-                for childNode in self.tree.get_children(node):
-                    self._set_chr_status(childNode, chrStatus)
-                has_changed = True
+            elif node == self.CR_ROOT:
+
+                # Set status of all characters.
+                self._set_chr_status(self.tree.get_children(node), chrStatus)
         if has_changed:
             self.update_prj_structure()
 
