@@ -18,9 +18,9 @@ class NodeList(ttk.frame):
         
         Positional arguments:
             parent -- Parent widget.
-            ui -- NovelystTk: Reference to the user interface.
-            pickBtnTxt - Str: Text on the "Pick" button.
-            clearBtnTxt - Str: Text on the "Clear" button.
+            ui: NovelystTk -- Reference to the user interface.
+            pickBtnTxt: str -- Text on the "Pick" button.
+            clearBtnTxt: str -- Text on the "Clear" button.
 
 
         Extends the superclass constructor.

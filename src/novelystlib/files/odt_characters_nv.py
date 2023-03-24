@@ -46,7 +46,7 @@ class OdtCharactersNv(OdtWCharacters):
         """Return a mapping dictionary for a character section.
         
         Positional arguments:
-            crId -- str: character ID.
+            crId: str -- character ID.
         
         Use custom titles, if any.
         Extends the superclass method.

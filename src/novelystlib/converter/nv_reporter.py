@@ -34,7 +34,7 @@ class NvReporter:
         """Create strategy class instances.
         
         Positional arguments:
-            ui -- Ui: Reference to the user interface (for messaging).
+            ui: Ui -- Reference to the user interface (for messaging).
         
         Extends the superclass constructor.
         """
@@ -46,7 +46,7 @@ class NvReporter:
 
         Positional arguments: 
             source -- Yw7File instance.
-            suffix -- str: Target file name suffix.
+            suffix: str -- Target file name suffix.
         """
         kwargs = {'suffix':suffix}
         try:

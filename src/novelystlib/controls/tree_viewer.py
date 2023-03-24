@@ -57,12 +57,12 @@ class TreeViewer(ttk.Frame):
         on_quit() -- Write column width to the applicaton's keyword arguments.
         
     Public instance variables:
-        tree -- ttk.Treeview: The treeview widget to display.
+        tree: ttk.Treeview -- The treeview widget to display.
         columns -- list of tuples (ID, title, width).
-        scStyleMenu -- tk.Menu: Scene "Style" submenu.
-        scTypeMenu -- tk.Menu: Scene "Type" submenu.
-        scStatusMenu -- tk.Menu: Scene "Status" submenu.
-        crStatusMenu -- tk.Menu: Character "Status" submenu.        
+        scStyleMenu: tk.Menu -- Scene "Style" submenu.
+        scTypeMenu: tk.Menu -- Scene "Type" submenu.
+        scStatusMenu: tk.Menu -- Scene "Status" submenu.
+        crStatusMenu: tk.Menu -- Character "Status" submenu.        
     """
     PART_PREFIX = 'pt'
     CHAPTER_PREFIX = 'ch'
@@ -116,22 +116,22 @@ class TreeViewer(ttk.Frame):
             ui -- GUI class reference.
         
         Required keyword arguments:
-            button_context_menu -- str: Mouse button to show the treeveiw context menu.
-            wc_width -- int: width of the wordcount column.
-            status_width -- int: width of the scene status column.
-            vp_width -- int: width of the scene viewpoint column.
-            tags_width -- int: width of the tags column.
-            color_chapter -- str: tk color name for normal parts and chapters.
-            color_unused -- str: tk color name for unused chapters and scenes.
-            color_notes -- str: tk color name for "Notes" chapters and scenes.
-            color_todo -- str: tk color name for "To do" chapters and scenes.
-            color_major -- str: tk color name for major characters.
-            color_minor -- str: tk color name for minor characters.
-            color_outline -- str: tk color name for "Outline" status.
-            color_draft -- str: tk color name for "Draft" status.
-            color_1st_edit -- str: tk color name for "First Edit" status.
-            color_2nd_edit -- str: tk color name for "Second Edit" status.
-            color_done -- str: tk color name for "Done" status.   
+            button_context_menu: str -- Mouse button to show the treeveiw context menu.
+            wc_width: int -- width of the wordcount column.
+            status_width: int -- width of the scene status column.
+            vp_width: int -- width of the scene viewpoint column.
+            tags_width: int -- width of the tags column.
+            color_chapter: str -- tk color name for normal parts and chapters.
+            color_unused: str -- tk color name for unused chapters and scenes.
+            color_notes: str -- tk color name for "Notes" chapters and scenes.
+            color_todo: str -- tk color name for "To do" chapters and scenes.
+            color_major: str -- tk color name for major characters.
+            color_minor: str -- tk color name for minor characters.
+            color_outline: str -- tk color name for "Outline" status.
+            color_draft: str -- tk color name for "Draft" status.
+            color_1st_edit: str -- tk color name for "First Edit" status.
+            color_2nd_edit: str -- tk color name for "Second Edit" status.
+            color_done: str -- tk color name for "Done" status.   
         """
         super().__init__(master, **kw)
         self._ui = ui
@@ -249,10 +249,10 @@ class TreeViewer(ttk.Frame):
         """Determine the order of the columnns.
         
         Read from the ui keyword arguments:
-            column_order -- str: ordered column IDs, semicolon-separated.
+            column_order: str -- ordered column IDs, semicolon-separated.
         
         Write instance variables:
-            _colPos -- dict: key=ID, value=index.
+            _colPos: dict -- key=ID, value=index.
             columns -- list of tuples (ID, title, width).
         """
         # Column position by column ID.
@@ -411,10 +411,10 @@ class TreeViewer(ttk.Frame):
             """Recursive tree walker.
             
             Positional arguments: 
-                node -- str: Node ID to start from.
-                chId -- str: Chapter ID where the recursion starts.
+                node: str -- Node ID to start from.
+                chId: str -- Chapter ID where the recursion starts.
             Optional arguments:
-                scnPos -- int: Word count so far.
+                scnPos: int -- Word count so far.
             
             Return the incremented word count.
             """
@@ -485,8 +485,8 @@ class TreeViewer(ttk.Frame):
         """Return the next node ID  of the same element type as thisNode.
         
         Positional arguments: 
-            thisNode -- str: node ID
-            root -- str: root ID of the subtree to search 
+            thisNode: str -- node ID
+            root: str -- root ID of the subtree to search 
         """
 
         def search_tree(parent, result, flag):
@@ -512,8 +512,8 @@ class TreeViewer(ttk.Frame):
         """Return the previous node ID of the same element type as thisNode.
 
         Positional arguments: 
-            thisNode -- str: node ID
-            root -- str: root ID of the subtree to search 
+            thisNode: str -- node ID
+            root: str -- root ID of the subtree to search 
         """
 
         def search_tree(parent, result, prevNode):
@@ -539,10 +539,10 @@ class TreeViewer(ttk.Frame):
         """Add a Part node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Part title. Default: Auto-generated title. 
-            chType -- int: Part type. Default: 0.  
-            NoNumber -- str: Do not auto-number this part. Default: None.
+            selection: str -- Tree position where to place a new node.
+            title: str: Part title. Default -- Auto-generated title. 
+            chType: int: Part type. Default -- 0.  
+            NoNumber: str: Do not auto-number this part. Default -- None.
            
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -607,10 +607,10 @@ class TreeViewer(ttk.Frame):
         """Add a Chapter node to the tree and create an instance.
              
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Scene title. Default: Auto-generated title. 
-            chType -- int: Chapter type. Default: 0.
-            NoNumber -- str: Do not auto-number this chapter. Default: None.
+            selection: str -- Tree position where to place a new node.
+            title: str -- Scene title. Default: Auto-generated title. 
+            chType: int -- Chapter type. Default: 0.
+            NoNumber: str -- Do not auto-number this chapter. Default: None.
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, put the new node at the beginning of the "Narrative". 
@@ -672,11 +672,11 @@ class TreeViewer(ttk.Frame):
         """Add a Scene node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Scene title. Default: Auto-generated title. 
-            scType -- int: Scene type. Default: 0.
-            status -- int: Scene status. Default: 1.
-            appendToPrev -- boolean: Append to previous scene. Default: False.
+            selection: str -- Tree position where to place a new node.
+            title: str -- Scene title. Default: Auto-generated title. 
+            scType: int -- Scene type. Default: 0.
+            status: int -- Scene status. Default: 1.
+            appendToPrev: boolean -- Append to previous scene. Default: False.
             
         - Place the new node at the next free position after the selection, if possible.
         - Otherwise, do nothing. 
@@ -732,9 +732,9 @@ class TreeViewer(ttk.Frame):
         """Add a Character node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Element title. Default: Auto-generated title.
-            isMajor -- boolean: If True, make the new character a major character. Default: False.
+            selection: str -- Tree position where to place a new node.
+            title: str -- Element title. Default: Auto-generated title.
+            isMajor: boolean -- If True, make the new character a major character. Default: False.
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -779,8 +779,8 @@ class TreeViewer(ttk.Frame):
         """Add a Location node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Element title. Default: Auto-generated title. 
+            selection: str -- Tree position where to place a new node.
+            title: str -- Element title. Default: Auto-generated title. 
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -823,8 +823,8 @@ class TreeViewer(ttk.Frame):
         """Add a Item node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Element title. Default: Auto-generated title. 
+            selection: str -- Tree position where to place a new node.
+            title: str -- Element title. Default: Auto-generated title. 
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -867,8 +867,8 @@ class TreeViewer(ttk.Frame):
         """Add a Project note node to the tree and create an instance.
         
         Keyword arguments:
-            selection -- str: Tree position where to place a new node.
-            title -- str: Element title. Default: Auto-generated title. 
+            selection: str -- Tree position where to place a new node.
+            title: str -- Element title. Default: Auto-generated title. 
             
         - If the selection is of the same type as the new node, 
           place the new node after the selected node and select it.
@@ -1064,7 +1064,7 @@ class TreeViewer(ttk.Frame):
         """Recursively show children nodes.
         
         Positional arguments:
-            parent -- str: Root node of the subtree to open.
+            parent: str -- Root node of the subtree to open.
         """
         self.tree.item(parent, open=True)
         for child in self.tree.get_children(parent):
@@ -1074,7 +1074,7 @@ class TreeViewer(ttk.Frame):
         """Recursively close children nodes.
         
         Positional arguments:
-            parent -- str: Root node of the subtree to close.
+            parent: str -- Root node of the subtree to close.
         """
         self.tree.item(parent, open=False)
         for child in self.tree.get_children(parent):
@@ -1084,7 +1084,7 @@ class TreeViewer(ttk.Frame):
         """Open Narrative/Part nodes and close chapter nodes.
         
         Positional arguments:
-            parent -- str: Root node of the subtree to process.
+            parent: str -- Root node of the subtree to process.
         """
         if parent.startswith(self.CHAPTER_PREFIX):
             self.tree.item(parent, open=False)

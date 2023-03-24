@@ -32,7 +32,7 @@ class TodoChapterView(BasicView):
         """Initialize the view once before element data is available.
         
         Positional arguments:
-            ui -- NovelystTk: Reference to the user interface.
+            ui: NovelystTk -- Reference to the user interface.
 
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.

@@ -34,10 +34,10 @@ class WorkFile(Yw7File):
         check_arcs() -- Check and update all relationships relevant for arcs and arc points.
 
     Public instance variables:
-        timestamp -- float: Time of last file modification (number of seconds since the epoch).
+        timestamp: float -- Time of last file modification (number of seconds since the epoch).
 
     Public properties:
-        fileDate -- str: ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
+        fileDate: str -- ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
 
     Public class constants:
         PRJ_KWVAR -- List of the names of the project keyword variables.
@@ -84,7 +84,7 @@ class WorkFile(Yw7File):
         """Initialize instance variables.
         
         Positional arguments:
-            filePath -- str: path to the project file.
+            filePath: str -- path to the project file.
             
         Optional arguments:
             kwargs -- keyword arguments (not used here).            
@@ -365,8 +365,8 @@ class WorkFile(Yw7File):
     def count_words(self):
         """Return a tuple of word count totals.
         
-        count -- int: Total words of "normal" type scenes.
-        totalCount -- int: Total words of "normal" and "unused" scenes.
+        count: int -- Total words of "normal" type scenes.
+        totalCount: int -- Total words of "normal" and "unused" scenes.
         """
         count = 0
         totalCount = 0

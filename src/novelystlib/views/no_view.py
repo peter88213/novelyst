@@ -22,7 +22,7 @@ class NoView(BasicView):
         """Initialize the instance variable.
 
         Positional arguments:
-            ui -- NovelystTk: Reference to the user interface.
+            ui: NovelystTk -- Reference to the user interface.
         
         Overrides the superclass constructor.
         """

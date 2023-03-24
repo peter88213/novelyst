@@ -21,8 +21,8 @@ class ContentsViewer:
         update() -- Reload the text to view.
 
     Public instance variables:
-        textBox -- RichTextTk: text viewer widget.
-        showMarkup -- Boolean: If True, display yWriter raw markup; if False, hide it.
+        textBox: RichTextTk -- text viewer widget.
+        showMarkup: Boolean -- If True, display yWriter raw markup; if False, hide it.
 
     Show the novel contents in a text box.
     """
@@ -133,7 +133,7 @@ class ContentsViewer:
         """Scroll the text to the position of the idStr node.
         
         Positional arguments:
-            idStr -- str: Chapter or scene node (tree selection).
+            idStr: str -- Chapter or scene node (tree selection).
         """
         try:
             self._index = self._textMarks[idStr]

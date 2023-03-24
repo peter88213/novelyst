@@ -84,9 +84,9 @@ class NvExporter:
 
         Positional arguments: 
             source -- Yw7File instance.
-            suffix -- str: Target file name suffix.
-            lock -- boolean: Lock the project, if True.
-            show -- boolean: After document creation, ask if open it with Office.
+            suffix: str -- Target file name suffix.
+            lock: boolean -- Lock the project, if True.
+            show: boolean -- After document creation, ask if open it with Office.
         """
         self._source = source
         self._lock = lock
