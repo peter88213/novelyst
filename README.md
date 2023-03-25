@@ -1,6 +1,6 @@
 # novelyst
 
-*novelyst* is an organizer tool for writing novels with LibreOffice or OpenOffice Writer. It is written in Python and should run on various operating systems.
+*novelyst* is an organizer tool for writing novels with LibreOffice or OpenOffice Writer. It is written in Python and should run on several operating systems.
 
 For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
 
