@@ -8,7 +8,6 @@ import sys
 import webbrowser
 from tkinter import ttk
 from tkinter import filedialog
-from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from pywriter.model.novel import Novel
 from pywriter.ui.main_tk import MainTk
@@ -458,7 +457,7 @@ class NovelystTk(MainTk):
     def check_lock(self, event=None):
         """Show a message and return True, if the project is locked."""
         if self.isLocked:
-            if messagebox.askyesno(_('Can not do'), _('The project is locked.\nUnlock?')):
+            if self.ask_yes_no(_('The project is locked.\nUnlock?'), title=_('Can not do')):
                 self.unlock()
                 return False
 
@@ -845,7 +844,7 @@ class NovelystTk(MainTk):
             self.tv.on_quit()
             super().on_quit()
         except Exception as ex:
-            messagebox.showerror('ERROR: Unhandled exception on exit', str(ex))
+            self.show_error(str(ex), title='ERROR: Unhandled exception on exit')
             self.root.quit()
 
     def _export_document(self, suffix, **kwargs):
@@ -860,5 +859,5 @@ class NovelystTk(MainTk):
 
     def _build_main_menu(self):
         """Unused; overrides the superclass template method."""
-        return
+        pass
 
