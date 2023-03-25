@@ -39,34 +39,34 @@ class NovelystTk(MainTk):
     """Controller of the tkinter GUI framework for novelyst.
     
     Public methods:
+        check_lock() -- Show a message and return True, if the project is locked.
+        close_project() -- Close the current project.
+        disable_menu() -- Disable menu entries when no project is open.
+        edit_settings() -- Open a toplevel window to edit the program settings.
+        enable_menu() -- Enable menu entries when a project is open.
         lock() -- Lock the project.
-        unlock() -- Unlock the project.
-        toggle_viewer() -- Show/hide the contents viewer text box.
+        manage_plugins() -- Open a toplevel window to manage the plugins.
+        new_project() -- Create a novelyst project instance.
+        on_quit() -- Save keyword arguments before exiting the program.
+        open_project(fileName='') -- Create a novelyst project instance and read the file.
         open_project_folder() -- Open the project folder with the OS file manager.
-        view_nothing() -- Event handler for invalid tree selection.
-        view_narrative() -- Event handler for narrative tree root selection.
-        view_chapter(chId) -- Event handler for chapter selection.
-        view_scene(scId) -- Event handler for scene selection.
-        view_character(crId) -- Event handler for character selection.
-        view_location(lcId) -- Event handler for location selection.
-        view_item(itId) -- Event handler for item selection.
-        view_projectNote(pnId) -- Event handler for project note selection.
         refresh_tree() -- Apply changes and refresh the tree.
         reload_project() -- Discard changes and reload the project.
-        show_status(message=None) -- Display project statistics at the status bar.
-        disable_menu() -- Disable menu entries when no project is open.
-        enable_menu() -- Enable menu entries when a project is open.
-        show_chapter_level() -- Open all Narrative/Part nodes and close all chapter nodes in the tree viewer.
-        remove_custom_fields() -- Remove custom fields from the .yw7 file and save the project.
-        open_project(fileName='') -- Create a novelyst project instance and read the file.
-        new_project() -- Create a novelyst project instance.
-        close_project() -- Close the current project.
-        save_project() -- Save the novelyst project to disk and set "unchanged" status.
         save_as() -- Rename the project file and save it to disk.
-        manage_plugins() -- Open a toplevel window to manage the plugins.
-        edit_settings() -- Open a toplevel window to edit the program settings.
-        on_quit() -- Save keyword arguments before exiting the program.
-
+        save_project() -- Save the novelyst project to disk and set "unchanged" status.
+        show_chapter_level() -- Open all Narrative/Part nodes and close all chapter nodes in the tree viewer.
+        show_status(message=None) -- Display project statistics at the status bar.
+        toggle_viewer() -- Show/hide the contents viewer text box.
+        unlock() -- Unlock the project.
+        view_chapter(chId) -- Event handler for chapter selection.
+        view_character(crId) -- Event handler for character selection.
+        view_item(itId) -- Event handler for item selection.
+        view_location(lcId) -- Event handler for location selection.
+        view_narrative() -- Event handler for narrative tree root selection.
+        view_nothing() -- Event handler for invalid tree selection.
+        view_projectNote(pnId) -- Event handler for project note selection.
+        view_scene(scId) -- Event handler for scene selection.
+        
     Public instance variables:
         guiStyle -- ttk.Style object.
         plugins: PluginCollection -- Dict-like Container for registered plugin objects.
@@ -151,6 +151,8 @@ class NovelystTk(MainTk):
         self._reporter = NvReporter(self)
         self.wordCount = 0
         self.reloading = False
+
+        #--- Build the GUI frames.
 
         # Create an application window with three frames.
         self.appWindow = ttk.Frame(self.mainWindow)
@@ -433,27 +435,6 @@ class NovelystTk(MainTk):
             self.fileMenu.entryconfig(_('Lock'), state='normal')
             self.fileMenu.entryconfig(_('Unlock'), state='disabled')
 
-    def lock(self, event=None):
-        """Lock the project."""
-        if self.prjFile.filePath is not None:
-            self.isLocked = True
-            # actually, this is a setter method with conditions
-            if self.isLocked:
-                self.prjFile.lock()
-                # make it persistent
-                return True
-
-        return False
-
-    def unlock(self, event=None):
-        """Unlock the project."""
-        self.isLocked = False
-        self.prjFile.unlock()
-        # make it persistent
-        if self.prjFile.has_changed_on_disk():
-            if self.ask_yes_no(_('File has changed on disk. Reload?')):
-                self.open_project(self.prjFile.filePath)
-
     def check_lock(self, event=None):
         """Show a message and return True, if the project is locked."""
         if self.isLocked:
@@ -466,176 +447,31 @@ class NovelystTk(MainTk):
         else:
             return False
 
-    def toggle_viewer(self, event=None):
-        """Show/hide the contents viewer text box."""
-        if self.middleFrame.winfo_manager():
-            self.middleFrame.pack_forget()
-        else:
-            self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
-
-    def open_projectFolder(self, event=None):
-        """Open the project folder with the OS file manager."""
-        projectDir, __ = os.path.split(self.prjFile.filePath)
-        try:
-            os.startfile(norm_path(projectDir))
-            # Windows
-        except:
-            try:
-                os.system('xdg-open "%s"' % norm_path(projectDir))
-                # Linux
-            except:
-                try:
-                    os.system('open "%s"' % norm_path(projectDir))
-                    # Mac
-                except:
-                    pass
-
-    def view_nothing(self):
-        """Event handler for invalid tree selection."""
-        if not self._elementView is self._noView:
-            self._elementView.apply_changes()
-            self._elementView.hide()
-            self._elementView = self._noView
-            self._elementView.show(None)
-
-    def view_narrative(self):
-        """Event handler for narrative tree root selection."""
-        self._elementView.apply_changes()
-        if not self._elementView is self._projectView:
-            self._elementView.hide()
-            self._elementView = self._projectView
-            self._elementView.show(self.novel)
-        self._elementView.set_data(self.novel)
-
-    def view_chapter(self, chId):
-        """Event handler for chapter selection.
-                
-        Positional arguments:
-            chId: str -- chapter ID
-        """
-        self._elementView.apply_changes()
-        if self.novel.chapters[chId].chLevel == 0 and self.novel.chapters[chId].chType == 2:
-            if not self._elementView is self._todoChapterView:
-                self._elementView.hide()
-                self._elementView = self._todoChapterView
-                self._elementView.show(self.novel.chapters[chId])
-        else:
-            if not self._elementView is self._chapterView:
-                self._elementView.hide()
-                self._elementView = self._chapterView
-                self._elementView.show(self.novel.chapters[chId])
-        self._elementView.set_data(self.novel.chapters[chId])
-        self.contentsViewer.see(f'ch{chId}')
-
-    def view_scene(self, scId):
-        """Event handler for scene selection.
-                
-        Positional arguments:
-            scId: str -- scene ID
-        """
-        self._elementView.apply_changes()
-        if self.novel.scenes[scId].scType == 2:
-            if not self._elementView is self._todoSceneView:
-                self._elementView.hide()
-                self._elementView = self._todoSceneView
-                self._elementView.show(self.novel.scenes[scId])
-        elif self.novel.scenes[scId].scType == 1:
-            if not self._elementView is self._notesSceneView:
-                self._elementView.hide()
-                self._elementView = self._notesSceneView
-                self._elementView.show(self.novel.scenes[scId])
-        else:
-            if not self._elementView is self._sceneView:
-                self._elementView.hide()
-                self._elementView = self._sceneView
-                self._elementView.show(self.novel.scenes[scId])
-        self._elementView.set_data(self.novel.scenes[scId])
-        self.contentsViewer.see(f'sc{scId}')
-
-    def view_character(self, crId):
-        """Event handler for character selection.
-                
-        Positional arguments:
-            crId: str -- character ID
-        """
-        self._elementView.apply_changes()
-        if not self._elementView is self._characterView:
-            self._elementView.hide()
-            self._elementView = self._characterView
-            self._elementView.show(self.novel.characters[crId])
-        self._elementView.set_data(self.novel.characters[crId])
-
-    def view_location(self, lcId):
-        """Event handler for location selection.
-                
-        Positional arguments:
-            lcId: str -- location ID
-        """
-        self._elementView.apply_changes()
-        if not self._elementView is self._worldElementView:
-            self._elementView.hide()
-            self._elementView = self._worldElementView
-            self._elementView.show(self.novel.locations[lcId])
-        self._elementView.set_data(self.novel.locations[lcId])
-
-    def view_item(self, itId):
-        """Event handler for item selection.
-                
-        Positional arguments:
-            itId: str -- item ID
-        """
-        self._elementView.apply_changes()
-        if not self._elementView is self._worldElementView:
-            self._elementView.hide()
-            self._elementView = self._worldElementView
-            self._elementView.show(self.novel.items[itId])
-        self._elementView.set_data(self.novel.items[itId])
-
-    def view_projectNote(self, pnId):
-        """Event handler for project note selection.
+    def close_project(self, event=None):
+        """Close the current project.
         
-        Positional arguments:
-            pnId: str -- Project note ID
-        """
-        self._elementView.apply_changes()
-        if not self._elementView is self._basicView:
-            self._elementView.hide()
-            self._elementView = self._basicView
-            self._elementView.show(self.novel.projectNotes[pnId])
-        self._elementView.set_data(self.novel.projectNotes[pnId])
-
-    def refresh_tree(self, event=None):
-        """Apply changes and refresh the tree."""
-        self._elementView.apply_changes()
-        self.tv.refresh_tree()
-
-    def reload_project(self, event=None):
-        """Discard changes and reload the project."""
-        if self.prjFile.is_locked():
-            self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
-            return
-
-        if self.isModified and not self.ask_yes_no(_('Discard changes and reload the project?')):
-            return
-
-        if self.prjFile.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Reload anyway?')):
-            return
-
-        self.reloading = True
-        # This is to avoid another question when closing the project
-        self.open_project(self.prjFile.filePath)
-        # Includes closing
-
-    def show_status(self, message=None):
-        """Display project statistics at the status bar.
+        - Save changes
+        - clear all views
+        - reset flags
+        - trigger plugins.
         
         Extends the superclass method.
         """
-        if self.prjFile is not None and not message:
-            wordCount, sceneCount, chapterCount, partCount = self.prjFile.get_counts()
-            message = _('{0} parts, {1} chapters, {2} scenes, {3} words').format(partCount, chapterCount, sceneCount, wordCount)
-            self.wordCount = wordCount
-        super().show_status(message)
+        self.contentsViewer.reset_view()
+        self.plugins.on_close()
+
+        # this closes the current element view after checking for modifications
+        if self.isModified and not self.reloading:
+            if self.ask_yes_no(_('Save changes?')):
+                self.save_project()
+        self.isModified = False
+        self.view_nothing()
+        self.tv.reset_tree()
+        # this removes all children from the tree
+        self.reloading = False
+        self.isLocked = False
+        self.novel = None
+        super().close_project()
 
     def disable_menu(self):
         """Disable menu entries when no project is open.
@@ -663,6 +499,13 @@ class NovelystTk(MainTk):
 
         self.plugins.disable_menu()
 
+    def edit_settings(self, event=None):
+        """Open a toplevel window to edit the program settings."""
+        offset = 300
+        __, x, y = self.root.geometry().split('+')
+        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
+        SettingsWindow(self.tv, self, windowGeometry)
+
     def enable_menu(self):
         """Enable menu entries when a project is open.
         
@@ -688,9 +531,64 @@ class NovelystTk(MainTk):
 
         self.plugins.enable_menu()
 
-    def show_chapter_level(self, event=None):
-        """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
-        self.tv.show_chapters(self.tv.NV_ROOT)
+    def lock(self, event=None):
+        """Lock the project."""
+        if self.prjFile.filePath is not None:
+            self.isLocked = True
+            # actually, this is a setter method with conditions
+            if self.isLocked:
+                self.prjFile.lock()
+                # make it persistent
+                return True
+
+        return False
+
+    def manage_plugins(self, event=None):
+        """Open a toplevel window to manage the plugins."""
+        offset = 300
+        __, x, y = self.root.geometry().split('+')
+        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
+        PluginManager(self, windowGeometry)
+
+    def new_project(self, event=None):
+        """Create a novelyst project instance."""
+        if self.prjFile is not None:
+            self.close_project()
+        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self._fileTypes[0][1])
+        if fileName:
+            self.prjFile = WorkFile(fileName)
+            self.novel = Novel()
+            self.novel.wordCountStart = 0
+            self.novel.wordTarget = 0
+            self.prjFile.novel = self.novel
+            self.set_title()
+            self.show_path(norm_path(fileName))
+            self.enable_menu()
+            self.tv.build_tree()
+            self.show_status()
+            self.isModified = True
+
+    def on_quit(self, event=None):
+        """Save keyword arguments before exiting the program."""
+        try:
+            self.close_project()
+            self.plugins.on_quit()
+
+            # save contents window "show markup" state.
+            self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
+
+            # save contents window toggle state.
+            if self.middleFrame.winfo_manager():
+                self.kwargs['show_contents'] = True
+            else:
+                self.kwargs['show_contents'] = False
+
+            # save windows size and position
+            self.tv.on_quit()
+            super().on_quit()
+        except Exception as ex:
+            self.show_error(str(ex), title='ERROR: Unhandled exception on exit')
+            self.root.quit()
 
     def open_project(self, fileName=''):
         """Create a novelyst project instance and read the file.
@@ -711,49 +609,67 @@ class NovelystTk(MainTk):
             self.isLocked = True
         return True
 
-    def new_project(self, event=None):
-        """Create a novelyst project instance."""
-        if self.prjFile is not None:
-            self.close_project()
+    def open_projectFolder(self, event=None):
+        """Open the project folder with the OS file manager."""
+        projectDir, __ = os.path.split(self.prjFile.filePath)
+        try:
+            os.startfile(norm_path(projectDir))
+            # Windows
+        except:
+            try:
+                os.system('xdg-open "%s"' % norm_path(projectDir))
+                # Linux
+            except:
+                try:
+                    os.system('open "%s"' % norm_path(projectDir))
+                    # Mac
+                except:
+                    pass
+
+    def refresh_tree(self, event=None):
+        """Apply changes and refresh the tree."""
+        self._elementView.apply_changes()
+        self.tv.refresh_tree()
+
+    def reload_project(self, event=None):
+        """Discard changes and reload the project."""
+        if self.prjFile.is_locked():
+            self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
+            return
+
+        if self.isModified and not self.ask_yes_no(_('Discard changes and reload the project?')):
+            return
+
+        if self.prjFile.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Reload anyway?')):
+            return
+
+        self.reloading = True
+        # This is to avoid another question when closing the project
+        self.open_project(self.prjFile.filePath)
+        # Includes closing
+
+    def save_as(self, event=None):
+        """Rename the project file and save it to disk.
+        
+        Return True on success, otherwise return False.
+        """
         fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self._fileTypes[0][1])
         if fileName:
-            self.prjFile = WorkFile(fileName)
-            self.novel = Novel()
-            self.novel.wordCountStart = 0
-            self.novel.wordTarget = 0
-            self.prjFile.novel = self.novel
-            self.set_title()
-            self.show_path(norm_path(fileName))
-            self.enable_menu()
-            self.tv.build_tree()
-            self.show_status()
-            self.isModified = True
+            if self.prjFile is not None:
+                self.prjFile.filePath = fileName
+                try:
+                    self.prjFile.write()
+                except Error as ex:
+                    self.set_info_how(f'!{str(ex)}')
+                else:
+                    self.unlock()
+                    self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
+                    self.isModified = False
+                    self.restore_status(event)
+                    self.kwargs['yw_last_open'] = self.prjFile.filePath
+                    return True
 
-    def close_project(self, event=None):
-        """Close the current project.
-        
-        - Save changes
-        - clear all views
-        - reset flags
-        - trigger plugins.
-        
-        Extends the superclass method.
-        """
-        self.contentsViewer.reset_view()
-        self.plugins.on_close()
-
-        # this closes the current element view after checking for modifications
-        if self.isModified and not self.reloading:
-            if self.ask_yes_no(_('Save changes?')):
-                self.save_project()
-        self.isModified = False
-        self.view_nothing()
-        self.tv.reset_tree()
-        # this removes all children from the tree
-        self.reloading = False
-        self.isLocked = False
-        self.novel = None
-        super().close_project()
+        return False
 
     def save_project(self, event=None):
         """Save the novelyst project to disk and set "unchanged" status.
@@ -788,64 +704,154 @@ class NovelystTk(MainTk):
         self.kwargs['yw_last_open'] = self.prjFile.filePath
         return True
 
-    def save_as(self, event=None):
-        """Rename the project file and save it to disk.
+    def show_chapter_level(self, event=None):
+        """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
+        self.tv.show_chapters(self.tv.NV_ROOT)
+
+    def show_status(self, message=None):
+        """Display project statistics at the status bar.
         
-        Return True on success, otherwise return False.
+        Extends the superclass method.
         """
-        fileName = filedialog.asksaveasfilename(filetypes=self._fileTypes, defaultextension=self._fileTypes[0][1])
-        if fileName:
-            if self.prjFile is not None:
-                self.prjFile.filePath = fileName
-                try:
-                    self.prjFile.write()
-                except Error as ex:
-                    self.set_info_how(f'!{str(ex)}')
-                else:
-                    self.unlock()
-                    self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
-                    self.isModified = False
-                    self.restore_status(event)
-                    self.kwargs['yw_last_open'] = self.prjFile.filePath
-                    return True
+        if self.prjFile is not None and not message:
+            wordCount, sceneCount, chapterCount, partCount = self.prjFile.get_counts()
+            message = _('{0} parts, {1} chapters, {2} scenes, {3} words').format(partCount, chapterCount, sceneCount, wordCount)
+            self.wordCount = wordCount
+        super().show_status(message)
 
-        return False
+    def toggle_viewer(self, event=None):
+        """Show/hide the contents viewer text box."""
+        if self.middleFrame.winfo_manager():
+            self.middleFrame.pack_forget()
+        else:
+            self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
 
-    def manage_plugins(self, event=None):
-        """Open a toplevel window to manage the plugins."""
-        offset = 300
-        __, x, y = self.root.geometry().split('+')
-        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
-        PluginManager(self, windowGeometry)
+    def unlock(self, event=None):
+        """Unlock the project."""
+        self.isLocked = False
+        self.prjFile.unlock()
+        # make it persistent
+        if self.prjFile.has_changed_on_disk():
+            if self.ask_yes_no(_('File has changed on disk. Reload?')):
+                self.open_project(self.prjFile.filePath)
 
-    def edit_settings(self, event=None):
-        """Open a toplevel window to edit the program settings."""
-        offset = 300
-        __, x, y = self.root.geometry().split('+')
-        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
-        SettingsWindow(self.tv, self, windowGeometry)
+    def view_chapter(self, chId):
+        """Event handler for chapter selection.
+                
+        Positional arguments:
+            chId: str -- chapter ID
+        """
+        self._elementView.apply_changes()
+        if self.novel.chapters[chId].chLevel == 0 and self.novel.chapters[chId].chType == 2:
+            if not self._elementView is self._todoChapterView:
+                self._elementView.hide()
+                self._elementView = self._todoChapterView
+                self._elementView.show(self.novel.chapters[chId])
+        else:
+            if not self._elementView is self._chapterView:
+                self._elementView.hide()
+                self._elementView = self._chapterView
+                self._elementView.show(self.novel.chapters[chId])
+        self._elementView.set_data(self.novel.chapters[chId])
+        self.contentsViewer.see(f'ch{chId}')
 
-    def on_quit(self, event=None):
-        """Save keyword arguments before exiting the program."""
-        try:
-            self.close_project()
-            self.plugins.on_quit()
+    def view_character(self, crId):
+        """Event handler for character selection.
+                
+        Positional arguments:
+            crId: str -- character ID
+        """
+        self._elementView.apply_changes()
+        if not self._elementView is self._characterView:
+            self._elementView.hide()
+            self._elementView = self._characterView
+            self._elementView.show(self.novel.characters[crId])
+        self._elementView.set_data(self.novel.characters[crId])
 
-            # save contents window "show markup" state.
-            self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
+    def view_item(self, itId):
+        """Event handler for item selection.
+                
+        Positional arguments:
+            itId: str -- item ID
+        """
+        self._elementView.apply_changes()
+        if not self._elementView is self._worldElementView:
+            self._elementView.hide()
+            self._elementView = self._worldElementView
+            self._elementView.show(self.novel.items[itId])
+        self._elementView.set_data(self.novel.items[itId])
 
-            # save contents window toggle state.
-            if self.middleFrame.winfo_manager():
-                self.kwargs['show_contents'] = True
-            else:
-                self.kwargs['show_contents'] = False
+    def view_location(self, lcId):
+        """Event handler for location selection.
+                
+        Positional arguments:
+            lcId: str -- location ID
+        """
+        self._elementView.apply_changes()
+        if not self._elementView is self._worldElementView:
+            self._elementView.hide()
+            self._elementView = self._worldElementView
+            self._elementView.show(self.novel.locations[lcId])
+        self._elementView.set_data(self.novel.locations[lcId])
 
-            # save windows size and position
-            self.tv.on_quit()
-            super().on_quit()
-        except Exception as ex:
-            self.show_error(str(ex), title='ERROR: Unhandled exception on exit')
-            self.root.quit()
+    def view_narrative(self):
+        """Event handler for narrative tree root selection."""
+        self._elementView.apply_changes()
+        if not self._elementView is self._projectView:
+            self._elementView.hide()
+            self._elementView = self._projectView
+            self._elementView.show(self.novel)
+        self._elementView.set_data(self.novel)
+
+    def view_nothing(self):
+        """Event handler for invalid tree selection."""
+        if not self._elementView is self._noView:
+            self._elementView.apply_changes()
+            self._elementView.hide()
+            self._elementView = self._noView
+            self._elementView.show(None)
+
+    def view_projectNote(self, pnId):
+        """Event handler for project note selection.
+        
+        Positional arguments:
+            pnId: str -- Project note ID
+        """
+        self._elementView.apply_changes()
+        if not self._elementView is self._basicView:
+            self._elementView.hide()
+            self._elementView = self._basicView
+            self._elementView.show(self.novel.projectNotes[pnId])
+        self._elementView.set_data(self.novel.projectNotes[pnId])
+
+    def view_scene(self, scId):
+        """Event handler for scene selection.
+                
+        Positional arguments:
+            scId: str -- scene ID
+        """
+        self._elementView.apply_changes()
+        if self.novel.scenes[scId].scType == 2:
+            if not self._elementView is self._todoSceneView:
+                self._elementView.hide()
+                self._elementView = self._todoSceneView
+                self._elementView.show(self.novel.scenes[scId])
+        elif self.novel.scenes[scId].scType == 1:
+            if not self._elementView is self._notesSceneView:
+                self._elementView.hide()
+                self._elementView = self._notesSceneView
+                self._elementView.show(self.novel.scenes[scId])
+        else:
+            if not self._elementView is self._sceneView:
+                self._elementView.hide()
+                self._elementView = self._sceneView
+                self._elementView.show(self.novel.scenes[scId])
+        self._elementView.set_data(self.novel.scenes[scId])
+        self.contentsViewer.see(f'sc{scId}')
+
+    def _build_main_menu(self):
+        """Unused; overrides the superclass template method."""
+        pass
 
     def _export_document(self, suffix, **kwargs):
         self.restore_status()
@@ -856,8 +862,4 @@ class NovelystTk(MainTk):
         self.restore_status()
         self._elementView.apply_changes()
         self._reporter.run(self.prjFile, suffix)
-
-    def _build_main_menu(self):
-        """Unused; overrides the superclass template method."""
-        pass
 
