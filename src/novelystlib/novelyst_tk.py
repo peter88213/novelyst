@@ -170,7 +170,7 @@ class NovelystTk(MainTk):
         # Right frame (intended for the element info pane).
 
         # Master frame for placement of navigation elements below the actual frame.
-        self.rightFrameMaster = ttk.Frame(self.appWindow, width=kwargs['right_frame_width'])
+        self.rightFrameMaster = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
         self.rightFrameMaster.pack_propagate(0)
         self.rightFrameMaster.pack(expand=True, fill=tk.BOTH)
 
@@ -180,7 +180,7 @@ class NovelystTk(MainTk):
         self.rightFrame.pack(expand=True, fill=tk.BOTH)
 
         # Create a novel tree window.
-        self.tv = TreeViewer(self.leftFrame, self, kwargs)
+        self.tv = TreeViewer(self.leftFrame, self, self.kwargs)
         self.tv.pack(expand=True, fill=tk.BOTH)
 
         # Create a text viewer in the middle frame.
