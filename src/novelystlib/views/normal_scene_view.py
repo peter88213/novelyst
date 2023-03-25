@@ -6,7 +6,6 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from novelystlib.views.notes_scene_view import NotesSceneView
 from novelystlib.widgets.label_combo import LabelCombo
@@ -324,7 +323,7 @@ class NormalSceneView(NotesSceneView):
                             break
                     else:
                         # No break occurred: there is no element with the specified title
-                        messagebox.showerror(_('Input rejected'), f'{_("Wrong name")}: "{elemTitle}"')
+                        self._ui.show_error(f'{_("Wrong name")}: "{elemTitle}"', title=_('Input rejected'))
                 return elemIds
 
         return None

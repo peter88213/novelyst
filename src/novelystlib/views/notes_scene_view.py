@@ -378,7 +378,7 @@ class NotesSceneView(SceneView):
                 self._startDay.set(newDay)
                 self.apply_changes()
             else:
-                messagebox.showerror(_('Cannot generate date/time'), _('The previous scene has no date/time set.'))
+                self._ui.show_error(_('The previous scene has no date/time set.'), title=_('Cannot generate date/time'))
 
     def _clear_duration(self):
         """Remove duration data from the scene.

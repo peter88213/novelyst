@@ -7,7 +7,6 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkFont
-from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from pywriter.model.chapter import Chapter
 from pywriter.model.scene import Scene
@@ -978,7 +977,7 @@ class TreeViewer(ttk.Frame):
                         self._ui.novel.scenes[prevScId].characters.append(self._ui.novel.scenes[thisScId].characters[0])
 
         except Error as ex:
-            messagebox.showerror(_('Cannot join scenes'), str(ex))
+            self._ui.show_error(str(ex), title=_('Cannot join scenes'))
             return
 
         # Join titles.

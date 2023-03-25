@@ -5,7 +5,6 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
-from tkinter import messagebox
 import webbrowser
 from tkinter import ttk
 from pywriter.pywriter_globals import *
@@ -89,7 +88,7 @@ class PluginManager(tk.Toplevel):
             if self._ui.plugins.delete_file(moduleName):
                 self._deleteButton.configure(state=tk.DISABLED)
                 if self._ui.plugins[moduleName].isActive:
-                    messagebox.showinfo(f'{moduleName} {_("deleted")}', _('The plugin remains active until next start.'))
+                    self._ui.show_info(_('The plugin remains active until next start.'), title=f'{moduleName} {_("deleted")}')
                 else:
                     self._moduleCollection.delete(moduleName)
 
