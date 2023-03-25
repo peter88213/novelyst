@@ -6,7 +6,6 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
 from datetime import datetime
 from datetime import date
 from datetime import time
