@@ -1,6 +1,6 @@
 # novelyst
 
-The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story, and ensuring a smooth workflow. For this purpose,  there are the appropriate export functions and a simple locking mechanism that gives enough freedom, so that the user remains responsible for making sure that nothing gets mixed up.
+*novelyst* is an organizer tool for writing novels with LibreOffice or OpenOffice Writer. It is written in Python and should run on various operating systems.
 
 For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
 

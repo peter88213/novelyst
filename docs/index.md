@@ -1,6 +1,8 @@
-The *novelyst* Python program provides a tree view with parts, chapters and scenes for *.yw7* novel projects. I wrote it for my own use to work on my novels in combination with *OpenOffice* or *LibreOffice*. 
+*novelyst* is an organizer tool for writing novels with LibreOffice or OpenOffice Writer. This means managing a variety of metadata along with the structure of the story and ensuring a smooth workflow. For this purpose, there are a tree view, export functions, and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
 
 ![Screenshot](Screenshots/screen01.png)
+
+*novelyst* is written in Python and should run on several operating systems.
 
 With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) and the [lo2yw7 extension for LibreOffice](https://peter88213.github.io/lo2yw7), you can write your edited Office documents back to the project.
 
@@ -28,9 +30,7 @@ When structuring a novel, *novelyst* builds on the concept of *yWriter*, and ext
 
 ![Screenshot](Screenshots/compare.png)
 
-Please note that *novelyst* is not intended to compete with or replace *yWriter*. Quite deliberately, *novelyst* does not support many of *yWriter's* unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features.
-
-The purpose of *novelyst* is to create a structuring framework for novel writing with *LibreOffice* or *OpenOffice Writer*. This means managing a variety of metadata along with the structure of the story, and ensuring a smooth workflow. For this purpose,  there are the appropriate export functions and a simple locking mechanism that gives enough freedom, so that the user remains responsible for making sure that nothing gets mixed up.
+Please note that *novelyst* is not intended to compete with or replace *yWriter*. Quite deliberately, *novelyst* does not support many of *yWriter's* unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features. On the other hand, *novelyst* as a Python program can be used on operating systems other than Windows without any problems.
 
 - Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or the [arcs](help/arcs), which offer a powerful concept to support plotting. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
