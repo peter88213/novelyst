@@ -1,4 +1,4 @@
-*novelyst* is an organizer tool for writing novels with LibreOffice or OpenOffice Writer. This means managing a variety of metadata along with the structure of the story and ensuring a smooth workflow. For this purpose, there are a tree view, export functions, and a simple locking mechanism that gives enough freedom so that the user remains responsible for making sure that nothing gets mixed up.
+*novelyst* is an organizer tool for writing novels with *LibreOffice Writer* or *OpenOffice Writer*. The entire novel is stored in a single file with all additional information. The manuscript is exported for editing with *Writer*, and then written back so that everything is always consistent and in one place. *novelyst* uses the file format of [yWriter 7](http://spacejock.com/yWriter7.html) and is largely compatible with it. 
 
 ![Screenshot](Screenshots/screen01.png)
 
@@ -9,7 +9,6 @@ With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) 
 
 ## Features
 
-- *novelyst* reads and writes [yWriter 7](http://spacejock.com/yWriter7.html) project files.
 - The entire project is displayed in a tree, with branches for the narrative, characters, locations, and items.
 - The right sidebar displays the essential properties of the selected element for editing.
 - Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters. The chapter level can be changed in several ways via context menu.
