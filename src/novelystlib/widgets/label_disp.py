@@ -1,6 +1,6 @@
 """Provide a tkinter based display box with a label.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 https://github.com/peter88213
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """

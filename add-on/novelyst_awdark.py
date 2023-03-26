@@ -16,7 +16,7 @@ To restore the default colors after having uninstalled the plugin, close novelys
 and delete the novelyst.ini file in the novelyst/config directory.
 
 Requires Python 3.6+
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """

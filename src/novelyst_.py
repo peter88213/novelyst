@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 from pywriter.pywriter_globals import *
 from pywriter.config.configuration import Configuration
-from novelystlib.novelyst_tk import NovelystTk
+from novelystlib.view_controller.novelyst_tk import NovelystTk
 
 APPNAME = 'novelyst'
 SETTINGS = dict(

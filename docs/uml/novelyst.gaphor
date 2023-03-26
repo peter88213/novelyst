@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.14.2">
+<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.17.0">
 <StyleSheet id="58d6989a-66f8-11ec-b4c8-0456e5e540ed"/>
 <Package id="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed">
 <name>
@@ -97,7 +97,6 @@
 <ref refid="363be528-748e-11ed-9ce9-600292569ae4"/>
 <ref refid="caea9953-748e-11ed-9184-600292569ae4"/>
 <ref refid="7e962449-7490-11ed-be7c-600292569ae4"/>
-<ref refid="a0235f4c-7490-11ed-adf9-600292569ae4"/>
 <ref refid="853fdc9a-7491-11ed-af1a-600292569ae4"/>
 <ref refid="aef48ffc-a0d4-11ed-8cd0-600292569ae4"/>
 <ref refid="ff27b727-a0d4-11ed-a027-600292569ae4"/>
@@ -889,7 +888,6 @@
 <ref refid="5a07f8f1-748f-11ed-b139-600292569ae4"/>
 <ref refid="bde53afb-748f-11ed-a5eb-600292569ae4"/>
 <ref refid="7dabb4d2-7490-11ed-8bde-600292569ae4"/>
-<ref refid="9d8ab004-7490-11ed-a97f-600292569ae4"/>
 <ref refid="26a56e9d-7491-11ed-815d-600292569ae4"/>
 <ref refid="52e92e25-7491-11ed-a56c-600292569ae4"/>
 <ref refid="83eb3054-7491-11ed-be0e-600292569ae4"/>
@@ -898,6 +896,7 @@
 <ref refid="999f4346-a0d6-11ed-9016-600292569ae4"/>
 <ref refid="a6584402-a0d7-11ed-9d28-600292569ae4"/>
 <ref refid="da19dc4a-a0d7-11ed-bf7f-600292569ae4"/>
+<ref refid="32ea706c-cbc7-11ed-8ad4-600292569ae4"/>
 </reflist>
 </ownedPresentation>
 </Diagram>
@@ -921,7 +920,7 @@
 <val>(1.0, 0.0, 0.0, 1.0, 155.0, 263.0)</val>
 </matrix>
 <points>
-<val>[(375.38709677419354, 83.0), (272.5348837209302, 81.38747666122961)]</val>
+<val>[(375.38709677419354, 83.0), (272.5348837209302, 83.0)]</val>
 </points>
 <head-connection>
 <ref refid="d111df72-71b6-11ec-a409-f47b099bf663"/>
@@ -2024,7 +2023,6 @@ associating them to their use cases.</val>
 <ref refid="ead5e3e7-2c3d-11ed-8add-600292569ae4"/>
 <ref refid="9736aad1-2cef-11ed-8aaa-600292569ae4"/>
 <ref refid="4fd8cb7e-748f-11ed-aca8-600292569ae4"/>
-<ref refid="18ff3e6f-748f-11ed-a959-600292569ae4"/>
 <ref refid="592e6670-a0d4-11ed-aef5-600292569ae4"/>
 </reflist>
 </ownedType>
@@ -2038,21 +2036,15 @@ associating them to their use cases.</val>
 </name>
 <nestedPackage>
 <reflist>
-<ref refid="07c7a582-2c38-11ed-91ed-600292569ae4"/>
 <ref refid="8e694378-2cf0-11ed-983b-600292569ae4"/>
-<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
+<ref refid="566a8f73-cbc7-11ed-a3c4-600292569ae4"/>
 </reflist>
 </nestedPackage>
 <ownedType>
 <reflist>
-<ref refid="d111bb8c-71b6-11ec-a409-f47b099bf663"/>
 <ref refid="2afd3428-2c36-11ed-ac68-600292569ae4"/>
 <ref refid="db49d79c-71b6-11ec-a409-f47b099bf663"/>
-<ref refid="8b09ca8a-71b6-11ec-a409-f47b099bf663"/>
-<ref refid="352edba2-2c40-11ed-95f9-600292569ae4"/>
-<ref refid="5aed4594-2c40-11ed-a87d-600292569ae4"/>
-<ref refid="b1d4549e-748e-11ed-8351-600292569ae4"/>
-<ref refid="f89a9f5a-748d-11ed-b459-600292569ae4"/>
 </reflist>
 </ownedType>
 <package>
@@ -2159,7 +2151,7 @@ associating them to their use cases.</val>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="b736e20c-cbc8-11ed-b57b-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -2216,19 +2208,19 @@ associating them to their use cases.</val>
 <ref refid="a0da631e-2cf5-11ed-a6bb-600292569ae4"/>
 <ref refid="a6c217d4-2cf5-11ed-b9d8-600292569ae4"/>
 <ref refid="363c0c26-748e-11ed-bfd9-600292569ae4"/>
-<ref refid="7e964b53-7490-11ed-b453-600292569ae4"/>
 <ref refid="97575416-2cf5-11ed-aee0-600292569ae4"/>
 <ref refid="2afd3429-2c36-11ed-8ff2-600292569ae4"/>
 <ref refid="aef5532f-a0d4-11ed-ae85-600292569ae4"/>
 <ref refid="b0d8dfa3-2cf5-11ed-94b3-600292569ae4"/>
-<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
 <ref refid="ac584caf-2cf5-11ed-a342-600292569ae4"/>
 <ref refid="b6398de8-2cf5-11ed-a9f6-600292569ae4"/>
 <ref refid="b8eb403c-2cf5-11ed-8f76-600292569ae4"/>
+<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
+<ref refid="7e964b53-7490-11ed-b453-600292569ae4"/>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -2378,7 +2370,7 @@ associating them to their use cases.</val>
 </Property>
 <Package id="07c7a582-2c38-11ed-91ed-600292569ae4">
 <name>
-<val>views</val>
+<val>right_frame</val>
 </name>
 <ownedType>
 <reflist>
@@ -2396,7 +2388,7 @@ associating them to their use cases.</val>
 </reflist>
 </ownedType>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
 </package>
 </Package>
 <Class id="690c63ce-2c36-11ed-bfc3-600292569ae4">
@@ -3382,7 +3374,7 @@ associating them to their use cases.</val>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="8e694378-2cf0-11ed-983b-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -3427,7 +3419,7 @@ associating them to their use cases.</val>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="8e694378-2cf0-11ed-983b-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -3989,11 +3981,13 @@ associating them to their use cases.</val>
 </ClassItem>
 <Package id="8e694378-2cf0-11ed-983b-600292569ae4">
 <name>
-<val>files</val>
+<val>export</val>
 </name>
 <ownedType>
 <reflist>
 <ref refid="d5353bed-2c35-11ed-855e-600292569ae4"/>
+<ref refid="352edba2-2c40-11ed-95f9-600292569ae4"/>
+<ref refid="5aed4594-2c40-11ed-a87d-600292569ae4"/>
 <ref refid="a7b39df5-2cef-11ed-948b-600292569ae4"/>
 <ref refid="6f34f58a-2cf0-11ed-a6fa-600292569ae4"/>
 <ref refid="cd77b993-2cf0-11ed-8148-600292569ae4"/>
@@ -5903,7 +5897,7 @@ Controls user intaraction except tree navigation and modification.</val>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -6092,10 +6086,10 @@ Controls user intaraction except tree navigation and modification.</val>
 </Generalization>
 <Class id="b1d4549e-748e-11ed-8351-600292569ae4">
 <name>
-<val>Rejected</val>
+<val>RejectedPlugin</val>
 </name>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -6214,13 +6208,18 @@ Controls user intaraction except tree navigation and modification.</val>
 <val>RichTextYw</val>
 </name>
 <package>
-<ref refid="1818c091-2c38-11ed-a069-600292569ae4"/>
+<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
 <ref refid="18ff657e-748f-11ed-96fc-600292569ae4"/>
 </reflist>
 </presentation>
+<specialization>
+<reflist>
+<ref refid="34095983-cbc7-11ed-af13-600292569ae4"/>
+</reflist>
+</specialization>
 </Class>
 <ClassItem id="18ff657e-748f-11ed-96fc-600292569ae4">
 <matrix>
@@ -6391,7 +6390,7 @@ Controls user intaraction except tree navigation and modification.</val>
 <val>(1.0, 0.0, 0.0, 1.0, -60.44166666666678, 1414.778285623799)</val>
 </matrix>
 <points>
-<val>[(104.29287634408627, -88.2641500523332), (3.9024464994331822, -88.2641500523332)]</val>
+<val>[(104.29287634408627, -88.2641500523332), (3.902446499433239, -88.2641500523332)]</val>
 </points>
 <head-connection>
 <ref refid="4fd8f290-748f-11ed-a791-600292569ae4"/>
@@ -6414,16 +6413,16 @@ Controls user intaraction except tree navigation and modification.</val>
 </specific>
 </Generalization>
 <Class id="e0589650-748f-11ed-90b9-600292569ae4">
+<generalization>
+<reflist>
+<ref refid="34095983-cbc7-11ed-af13-600292569ae4"/>
+</reflist>
+</generalization>
 <name>
 <val>ContentsViewer</val>
 </name>
-<ownedAttribute>
-<reflist>
-<ref refid="a023ad5e-7490-11ed-b045-600292569ae4"/>
-</reflist>
-</ownedAttribute>
 <package>
-<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
+<ref refid="9f60b6bd-cbc8-11ed-afb3-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -6463,12 +6462,11 @@ Controls user intaraction except tree navigation and modification.</val>
 </name>
 <ownedType>
 <reflist>
-<ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
-<ref refid="d677feaf-7490-11ed-9ef1-600292569ae4"/>
+<ref refid="18ff3e6f-748f-11ed-a959-600292569ae4"/>
 </reflist>
 </ownedType>
 <package>
-<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
 </package>
 </Package>
 <Package id="2913e015-7490-11ed-82aa-600292569ae4">
@@ -6504,7 +6502,7 @@ Controls user intaraction except tree navigation and modification.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 355.05210237659963, 1133.778285623799)</val>
 </matrix>
 <points>
-<val>[(0.0, 2.5717744051079308), (0.30211931769974854, 60.32144147499662)]</val>
+<val>[(4.947897623400365, 2.5717744051079308), (4.947897623400365, 60.32144147499662)]</val>
 </points>
 <head-connection>
 <ref refid="8b09f082-71b6-11ec-a409-f47b099bf663"/>
@@ -6559,84 +6557,6 @@ Controls user intaraction except tree navigation and modification.</val>
 <ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
 </type>
 </Property>
-<AssociationItem id="9d8ab004-7490-11ed-a97f-600292569ae4">
-<diagram>
-<ref refid="585f224c-71b6-11ec-a409-f47b099bf663"/>
-</diagram>
-<head_subject>
-<ref refid="a0238654-7490-11ed-800c-600292569ae4"/>
-</head_subject>
-<horizontal>
-<val>0</val>
-</horizontal>
-<subject>
-<ref refid="a0235f4c-7490-11ed-adf9-600292569ae4"/>
-</subject>
-<tail_subject>
-<ref refid="a023ad5e-7490-11ed-b045-600292569ae4"/>
-</tail_subject>
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 347.91782712428886, 1287.778285623799)</val>
-</matrix>
-<points>
-<val>[(14.43639457001052, -28.75470849810813), (14.134275252310772, 17.0)]</val>
-</points>
-<head-connection>
-<ref refid="e058bd7a-748f-11ed-a262-600292569ae4"/>
-</head-connection>
-<tail-connection>
-<ref refid="18ff657e-748f-11ed-96fc-600292569ae4"/>
-</tail-connection>
-</AssociationItem>
-<Association id="a0235f4c-7490-11ed-adf9-600292569ae4">
-<memberEnd>
-<reflist>
-<ref refid="a0238654-7490-11ed-800c-600292569ae4"/>
-<ref refid="a023ad5e-7490-11ed-b045-600292569ae4"/>
-</reflist>
-</memberEnd>
-<ownedEnd>
-<reflist>
-<ref refid="a0238654-7490-11ed-800c-600292569ae4"/>
-</reflist>
-</ownedEnd>
-<package>
-<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
-</package>
-<presentation>
-<reflist>
-<ref refid="9d8ab004-7490-11ed-a97f-600292569ae4"/>
-</reflist>
-</presentation>
-</Association>
-<Property id="a0238654-7490-11ed-800c-600292569ae4">
-<association>
-<ref refid="a0235f4c-7490-11ed-adf9-600292569ae4"/>
-</association>
-<owningAssociation>
-<ref refid="a0235f4c-7490-11ed-adf9-600292569ae4"/>
-</owningAssociation>
-<type>
-<ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
-</type>
-</Property>
-<Property id="a023ad5e-7490-11ed-b045-600292569ae4">
-<aggregation>
-<val>composite</val>
-</aggregation>
-<association>
-<ref refid="a0235f4c-7490-11ed-adf9-600292569ae4"/>
-</association>
-<class_>
-<ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
-</class_>
-<name>
-<val>textBox</val>
-</name>
-<type>
-<ref refid="18ff3e6f-748f-11ed-a959-600292569ae4"/>
-</type>
-</Property>
 <Class id="d677feaf-7490-11ed-9ef1-600292569ae4">
 <generalization>
 <reflist>
@@ -6652,7 +6572,7 @@ Controls user intaraction except tree navigation and modification.</val>
 </reflist>
 </ownedAttribute>
 <package>
-<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
+<ref refid="cd8dc46f-cbc8-11ed-8f9f-600292569ae4"/>
 </package>
 <presentation>
 <reflist>
@@ -7396,4 +7316,111 @@ Controls user intaraction except tree navigation and modification.</val>
 <val>protected</val>
 </visibility>
 </Property>
+<GeneralizationItem id="32ea706c-cbc7-11ed-8ad4-600292569ae4">
+<diagram>
+<ref refid="585f224c-71b6-11ec-a409-f47b099bf663"/>
+</diagram>
+<horizontal>
+<val>0</val>
+</horizontal>
+<subject>
+<ref refid="34095983-cbc7-11ed-af13-600292569ae4"/>
+</subject>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 382.0, 1338.2117787984066)</val>
+</matrix>
+<points>
+<val>[(-22.0, -79.18820167271565), (-22.0, -33.43349317460752)]</val>
+</points>
+<head-connection>
+<ref refid="e058bd7a-748f-11ed-a262-600292569ae4"/>
+</head-connection>
+<tail-connection>
+<ref refid="18ff657e-748f-11ed-96fc-600292569ae4"/>
+</tail-connection>
+</GeneralizationItem>
+<Generalization id="34095983-cbc7-11ed-af13-600292569ae4">
+<general>
+<ref refid="18ff3e6f-748f-11ed-a959-600292569ae4"/>
+</general>
+<presentation>
+<reflist>
+<ref refid="32ea706c-cbc7-11ed-8ad4-600292569ae4"/>
+</reflist>
+</presentation>
+<specific>
+<ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
+</specific>
+</Generalization>
+<Package id="4e186585-cbc7-11ed-a907-600292569ae4">
+<name>
+<val>view_controller</val>
+</name>
+<nestedPackage>
+<reflist>
+<ref refid="07c7a582-2c38-11ed-91ed-600292569ae4"/>
+<ref refid="9f60b6bd-cbc8-11ed-afb3-600292569ae4"/>
+<ref refid="b736e20c-cbc8-11ed-b57b-600292569ae4"/>
+<ref refid="cd8dc46f-cbc8-11ed-8f9f-600292569ae4"/>
+<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
+</reflist>
+</nestedPackage>
+<ownedType>
+<reflist>
+<ref refid="b1d4549e-748e-11ed-8351-600292569ae4"/>
+<ref refid="f89a9f5a-748d-11ed-b459-600292569ae4"/>
+<ref refid="8b09ca8a-71b6-11ec-a409-f47b099bf663"/>
+</reflist>
+</ownedType>
+<package>
+<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+</package>
+</Package>
+<Package id="566a8f73-cbc7-11ed-a3c4-600292569ae4">
+<name>
+<val>model</val>
+</name>
+<package>
+<ref refid="f9bf2730-2c37-11ed-8818-600292569ae4"/>
+</package>
+</Package>
+<Package id="9f60b6bd-cbc8-11ed-afb3-600292569ae4">
+<name>
+<val>middle_frame</val>
+</name>
+<ownedType>
+<reflist>
+<ref refid="e0589650-748f-11ed-90b9-600292569ae4"/>
+</reflist>
+</ownedType>
+<package>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
+</package>
+</Package>
+<Package id="b736e20c-cbc8-11ed-b57b-600292569ae4">
+<name>
+<val>left_frame</val>
+</name>
+<ownedType>
+<reflist>
+<ref refid="d111bb8c-71b6-11ec-a409-f47b099bf663"/>
+</reflist>
+</ownedType>
+<package>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
+</package>
+</Package>
+<Package id="cd8dc46f-cbc8-11ed-8f9f-600292569ae4">
+<name>
+<val>pop_up</val>
+</name>
+<ownedType>
+<reflist>
+<ref refid="d677feaf-7490-11ed-9ef1-600292569ae4"/>
+</reflist>
+</ownedType>
+<package>
+<ref refid="4e186585-cbc7-11ed-a907-600292569ae4"/>
+</package>
+</Package>
 </gaphor>
