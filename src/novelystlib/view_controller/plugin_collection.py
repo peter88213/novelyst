@@ -180,27 +180,3 @@ class PluginCollection(dict):
                 except:
                     pass
 
-
-class RejectedPlugin:
-    """Substitute for The Plugin class of a rejected module.
-    
-    Class constants:
-        VERSION -- str: Version string.
-        NOVELYST_API -- str: API compatibility indicator.
-        URL -- str: Plugin project URL substitute.
-    
-    Public instance variables:
-        filePath -- str: File path substitute.
-        isActive -- Boolean: Acceptance flag.
-        isRejected -- Boolean: Rejection flag.
-        DESCRIPTION -- str: Error message to be displayed instead of the plugin description.   
-    """
-    VERSION = '-'
-    NOVELYST_API = '-'
-    URL = ''
-
-    def __init__(self, filePath, message):
-        self.filePath = filePath
-        self.isActive = False
-        self.isRejected = True
-        self.DESCRIPTION = message

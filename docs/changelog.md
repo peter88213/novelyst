@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.13.2
+
+- Refactor and re-organize the the code for better maintainability.
+
+Based on PyWriter v12.2.0
+
 ### v4.13.1
 
 - Fix the status setting for the "Characters" tree.
