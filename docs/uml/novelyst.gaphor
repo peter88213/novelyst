@@ -2215,8 +2215,8 @@ associating them to their use cases.</val>
 <ref refid="ac584caf-2cf5-11ed-a342-600292569ae4"/>
 <ref refid="b6398de8-2cf5-11ed-a9f6-600292569ae4"/>
 <ref refid="b8eb403c-2cf5-11ed-8f76-600292569ae4"/>
-<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
 <ref refid="7e964b53-7490-11ed-b453-600292569ae4"/>
+<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
 </reflist>
 </ownedAttribute>
 <package>
@@ -7359,17 +7359,17 @@ Controls user intaraction except tree navigation and modification.</val>
 <nestedPackage>
 <reflist>
 <ref refid="07c7a582-2c38-11ed-91ed-600292569ae4"/>
+<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
 <ref refid="9f60b6bd-cbc8-11ed-afb3-600292569ae4"/>
 <ref refid="b736e20c-cbc8-11ed-b57b-600292569ae4"/>
 <ref refid="cd8dc46f-cbc8-11ed-8f9f-600292569ae4"/>
-<ref refid="0214f93e-7490-11ed-90c9-600292569ae4"/>
 </reflist>
 </nestedPackage>
 <ownedType>
 <reflist>
-<ref refid="b1d4549e-748e-11ed-8351-600292569ae4"/>
-<ref refid="f89a9f5a-748d-11ed-b459-600292569ae4"/>
 <ref refid="8b09ca8a-71b6-11ec-a409-f47b099bf663"/>
+<ref refid="f89a9f5a-748d-11ed-b459-600292569ae4"/>
+<ref refid="b1d4549e-748e-11ed-8351-600292569ae4"/>
 </reflist>
 </ownedType>
 <package>
