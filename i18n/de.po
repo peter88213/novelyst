@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.14.0\n"
-"POT-Creation-Date: 2023-03-27 14:26:38\n"
-"PO-Revision-Date: 2023-03-27 14:26:38\n"
+"Project-Id-Version: 4.14.1\n"
+"POT-Creation-Date: 2023-03-27 18:25:04\n"
+"PO-Revision-Date: 2023-03-27 18:25:05\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -264,6 +264,9 @@ msgstr "Teil \"{}\" zum Kapitel herabstufen?"
 
 msgid "Description"
 msgstr "Beschreibung"
+
+msgid "Detach Properties"
+msgstr "Eigenschaften abtrennen"
 
 msgid "Dilemma"
 msgstr "Dilemma"
@@ -710,7 +713,7 @@ msgid "Toggle Properties"
 msgstr "Eigenschaften anzeigen/verbergen"
 
 msgid "Toggle Text viewer"
-msgstr "Textspalte anzeigen/verbergen"
+msgstr "Textbetrachter anzeigen/verbergen"
 
 msgid "Tools"
 msgstr "Extras"

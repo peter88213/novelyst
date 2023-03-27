@@ -206,8 +206,6 @@ class TreeViewer(ttk.Frame):
         self._nvCtxtMenu.add_command(label=_('Collapse'), command=lambda: self.close_children(self.tree.selection()[0]))
         self._nvCtxtMenu.add_command(label=_('Expand all'), command=lambda: self.open_children(''))
         self._nvCtxtMenu.add_command(label=_('Collapse all'), command=lambda: self.close_children(''))
-        self._nvCtxtMenu.add_command(label=_('Toggle Text viewer'), command=self._ui.toggle_viewer)
-        self._nvCtxtMenu.add_command(label=_('Toggle Properties'), command=self._ui.toggle_properties)
 
         #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self.tree, tearoff=0)
@@ -239,7 +237,7 @@ class TreeViewer(ttk.Frame):
         self.tree.tag_configure('explaining', foreground=kwargs['color_explaining'])
 
         #--- Event bindings.
-        self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
+        self.tree.bind('<<TreeviewSelect>>', self._ui.show_properties)
         self.tree.bind('<Alt-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
         self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
@@ -1276,30 +1274,6 @@ class TreeViewer(ttk.Frame):
         elif node.startswith(self.CHAPTER_PREFIX) and targetNode.startswith(self.PART_PREFIX) and not self.tree.get_children(targetNode):
             self.tree.move(node, targetNode, self.tree.index(targetNode))
         self.update_prj_structure()
-
-    def _on_select_node(self, event):
-        try:
-            nodeId = self.tree.selection()[0]
-            if nodeId.startswith(self.SCENE_PREFIX):
-                self._ui.view_scene(nodeId[2:])
-            elif nodeId.startswith(self.CHAPTER_PREFIX):
-                self._ui.view_chapter(nodeId[2:])
-            elif nodeId.startswith(self.PART_PREFIX):
-                self._ui.view_chapter(nodeId[2:])
-            elif nodeId.startswith(self.NV_ROOT):
-                self._ui.view_narrative()
-            elif nodeId.startswith(self.CHARACTER_PREFIX):
-                self._ui.view_character(nodeId[2:])
-            elif nodeId.startswith(self.LOCATION_PREFIX):
-                self._ui.view_location(nodeId[2:])
-            elif nodeId.startswith(self.ITEM_PREFIX):
-                self._ui.view_item(nodeId[2:])
-            elif nodeId.startswith(self.PRJ_NOTE_PREFIX):
-                self._ui.view_projectNote(nodeId[2:])
-            else:
-                self._ui.view_nothing()
-        except IndexError:
-            pass
 
     def _open_context_menu(self, event):
         row = self.tree.identify_row(event.y)

@@ -22,6 +22,7 @@ SETTINGS = dict(
     button_context_menu='<Button-3>',
     middle_frame_width=400,
     right_frame_width=350,
+    prop_win_geometry='299x716+260+260',
     color_chapter='green',
     color_unused='gray',
     color_notes='blue',
@@ -76,6 +77,7 @@ OPTIONS = dict(
     show_relationships=False,
     show_cr_bio=True,
     show_cr_goals=True,
+    detach_prop_win=False
 )
 
 

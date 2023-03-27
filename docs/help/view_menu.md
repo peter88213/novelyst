@@ -65,8 +65,17 @@
 
 **Show/hide the selected element's properties**
 
-- You can open or close a text window, showing part/chapter/scene titles and scene content, with **View > Toggle Properties** or **Ctrl-Alt-T**.
+- You can open or close the element properties window with **View > Toggle Properties** or **Ctrl-Alt-T**.
 - On opening, the windows shows the editable properties of the selected element.
+
+--- 
+
+## Detach Properties
+
+**Show the selected element's properties in its own window**
+
+- You can detach the element properties window with **View > Detach Properties** or **Ctrl-Alt-D**.
+- On closing the detached window, the properties are shown in the right pane agein.
 
 --- 
 

@@ -24,7 +24,7 @@ class ProjectView(BasicView):
     _INDEXCARD = True
     _ELEMENT_INFO = True
     _NOTES = False
-    _BUTTONBAR = False
+    _BUTTONBAR = True
 
     def __init__(self, ui, parent):
         """Initialize the view once before element date is available.

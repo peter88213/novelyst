@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.14.0\n"
-"POT-Creation-Date: 2023-03-27 14:26:38\n"
+"Project-Id-Version: 4.14.1\n"
+"POT-Creation-Date: 2023-03-27 18:25:04\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -264,6 +264,9 @@ msgid "Demote part \"{}\" to chapter?"
 msgstr ""
 
 msgid "Description"
+msgstr ""
+
+msgid "Detach Properties"
 msgstr ""
 
 msgid "Dilemma"

@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.14.1
+
+- The right pane (selected element's properties) can now be detached with Ctrl-Alt-D.
+- Refactor: Move the _on_select_node() method from the TreeViewer to NovelystTk, and rename it to show_properties(). 
+
+Based on PyWriter v12.3.0
+
 ### v4.14.0
 
 - The right pane (selected element's properties) can now be toggled with Ctrl-Alt-T.

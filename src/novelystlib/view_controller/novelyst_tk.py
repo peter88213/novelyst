@@ -53,6 +53,7 @@ class NovelystTk(MainTk):
         save_as() -- Rename the project file and save it to disk.
         save_project() -- Save the novelyst project to disk and set "unchanged" status.
         show_chapter_level() -- Open all Narrative/Part nodes and close all chapter nodes in the tree viewer.
+        show_properties() -- Show the properties of the selected element.
         show_status(message=None) -- Display project statistics at the status bar.
         toggle_viewer() -- Show/hide the contents viewer text box.
         unlock() -- Unlock the project.
@@ -109,6 +110,7 @@ class NovelystTk(MainTk):
     _KEY_CHAPTER_LEVEL = ('<Control-Alt-c>', 'Ctrl-Alt-C')
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
     _KEY_TOGGLE_PROPERTIES = ('<Control-Alt-t>', 'Ctrl-Alt-T')
+    _KEY_DETACH_PROPERTIES = ('<Control-Alt-d>', 'Ctrl-Alt-D')
 
     _YW_CLASS = WorkFile
 
@@ -179,23 +181,12 @@ class NovelystTk(MainTk):
         self.rightFrame.pack_propagate(0)
         if self.kwargs['show_properties']:
             self.rightFrame.pack(expand=True, fill=tk.BOTH)
-
-        # Initialize element properties views.
-        self._basicView = BasicView(self, self.rightFrame)
-        self._projectView = ProjectView(self, self.rightFrame)
-        self._chapterView = ChapterView(self, self.rightFrame)
-        self._todoChapterView = TodoChapterView(self, self.rightFrame)
-        self._todoSceneView = TodoSceneView(self, self.rightFrame)
-        self._notesSceneView = NotesSceneView(self, self.rightFrame)
-        self._sceneView = NormalSceneView(self, self.rightFrame)
-        self._characterView = CharacterView(self, self.rightFrame)
-        self._worldElementView = WorldElementView(self, self.rightFrame)
-
-        self._elementView = self._basicView
-        self._elementView.set_data(None)
-        # Requires windows and frames initialized
+        self._initialize_properties_frame(self.rightFrame)
+        if self.kwargs['detach_prop_win']:
+            self._detach_properties_frame()
 
         #--- Build the main menu
+        # Requires windows and frames initialized
 
         # Files
         self.fileMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -225,6 +216,7 @@ class NovelystTk(MainTk):
         self.viewMenu.add_separator()
         self.viewMenu.add_command(label=_('Toggle Text viewer'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
         self.viewMenu.add_command(label=_('Toggle Properties'), accelerator=self._KEY_TOGGLE_PROPERTIES[1], command=self.toggle_properties)
+        self.viewMenu.add_command(label=_('Detach Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self._detach_properties_frame)
 
         # Part
         self.partMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -333,6 +325,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_CHAPTER_LEVEL[0], self.show_chapter_level)
         self.root.bind(self._KEY_TOGGLE_VIEWER[0], self.toggle_viewer)
         self.root.bind(self._KEY_TOGGLE_PROPERTIES[0], self.toggle_properties)
+        self.root.bind(self._KEY_DETACH_PROPERTIES[0], self._detach_properties_frame)
 
     @property
     def isModified(self):
@@ -657,6 +650,31 @@ class NovelystTk(MainTk):
         """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
         self.tv.show_chapters(self.tv.NV_ROOT)
 
+    def show_properties(self, event=None):
+        """Show the properties of the selected element."""
+        try:
+            nodeId = self.tv.tree.selection()[0]
+            if nodeId.startswith(self.tv.SCENE_PREFIX):
+                self.view_scene(nodeId[2:])
+            elif nodeId.startswith(self.tv.CHAPTER_PREFIX):
+                self.view_chapter(nodeId[2:])
+            elif nodeId.startswith(self.tv.PART_PREFIX):
+                self.view_chapter(nodeId[2:])
+            elif nodeId.startswith(self.tv.NV_ROOT):
+                self.view_narrative()
+            elif nodeId.startswith(self.tv.CHARACTER_PREFIX):
+                self.view_character(nodeId[2:])
+            elif nodeId.startswith(self.tv.LOCATION_PREFIX):
+                self.view_location(nodeId[2:])
+            elif nodeId.startswith(self.tv.ITEM_PREFIX):
+                self.view_item(nodeId[2:])
+            elif nodeId.startswith(self.tv.PRJ_NOTE_PREFIX):
+                self.view_projectNote(nodeId[2:])
+            else:
+                self.view_nothing()
+        except IndexError:
+            pass
+
     def show_status(self, message=None):
         """Display project statistics at the status bar.
         
@@ -809,10 +827,49 @@ class NovelystTk(MainTk):
         """Unused; overrides the superclass template method."""
         pass
 
+    def _detach_properties_frame(self, event=None):
+        if self.rightFrame.winfo_manager():
+            self.rightFrame.pack_forget()
+        self._propertiesWindow = tk.Toplevel()
+        set_icon(self._propertiesWindow, icon='pLogo32', default=False)
+        self._propertiesWindow.geometry(self.kwargs['prop_win_geometry'])
+        self._elementView.pack_forget()
+        self._initialize_properties_frame(self._propertiesWindow)
+        self._elementView.pack()
+        self.show_properties()
+        self._propertiesWindow.protocol("WM_DELETE_WINDOW", self._dock_properties_frame)
+        self.kwargs['detach_prop_win'] = True
+
+    def _dock_properties_frame(self, event=None):
+        self._initialize_properties_frame(self.rightFrame)
+        if not self.rightFrame.winfo_manager():
+            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+        self._elementView.pack()
+        self.show_properties()
+        self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
+        self._propertiesWindow.destroy()
+        self.kwargs['detach_prop_win'] = False
+        self.root.lift()
+
     def _export_document(self, suffix, **kwargs):
         self.restore_status()
         self._elementView.apply_changes()
         self._exporter.run(self.prjFile, suffix, **kwargs)
+
+    def _initialize_properties_frame(self, parent):
+        """Initialize element properties views."""
+        self._basicView = BasicView(self, parent)
+        self._projectView = ProjectView(self, parent)
+        self._chapterView = ChapterView(self, parent)
+        self._todoChapterView = TodoChapterView(self, parent)
+        self._todoSceneView = TodoSceneView(self, parent)
+        self._notesSceneView = NotesSceneView(self, parent)
+        self._sceneView = NormalSceneView(self, parent)
+        self._characterView = CharacterView(self, parent)
+        self._worldElementView = WorldElementView(self, parent)
+
+        self._elementView = self._basicView
+        self._elementView.set_data(None)
 
     def _show_report(self, suffix):
         self.restore_status()
