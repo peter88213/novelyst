@@ -80,11 +80,6 @@ class NovelystTk(MainTk):
         rightFrame: ttk.frame -- Frame for the metadata views.
         tv: TreeViewer -- Project tree view instance.
         contentsViewer: ContentsViewer -- Text box for the novel contents.
-        indexCard: tk.Frame -- Frame for the selected element's title and description.
-        elementTitle: tk.StringVar -- The selected element's title, linked to an entry.
-        descWindow: TextBox -- Text box for the selected element's description.
-        infoFrame: ttk.Frame -- Frame for element specific informations.
-        notesWindow: TextBox -- Text box for the selected element's notes.
         fileMenu: tk.Menu -- "File" menu.
         viewMenu: tk.Menu -- "View" menu.
         partMenu: tk.Menu -- "Part" menu.
