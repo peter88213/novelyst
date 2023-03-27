@@ -10,7 +10,7 @@ from pywriter.pywriter_globals import *
 from novelystlib.widgets.text_box import TextBox
 
 
-class BasicView:
+class BasicView(ttk.Frame):
     """Generic class for viewing tree element properties.
     
     Public methods:
@@ -27,25 +27,26 @@ class BasicView:
     _LBL_X = 10
     # Width of left-placed labels.
 
-    def __init__(self, ui):
+    def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
         
         Positional arguments:
             ui: NovelystTk -- Reference to the user interface.
+            parent -- Parent widget to display this widget.
 
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         """
+        super().__init__(parent)
+
         self._ui = ui
         self._element = None
         self._tagsStr = ''
+        self._parent = parent
 
         # Frame for element specific informations.
-        self._mainFrame = ttk.Frame(self._ui.rightFrame)
-
-        # Frame for element specific informations.
-        self._elementFrame = ttk.Frame(self._mainFrame)
-        self._elementFrame.pack(expand=True, fill=tk.BOTH)
+        self._propertiesFrame = ttk.Frame(self)
+        self._propertiesFrame.pack(expand=True, fill=tk.BOTH)
 
         if self._INDEXCARD:
             self._create_index_card()
@@ -58,7 +59,7 @@ class BasicView:
 
     def _create_index_card(self):
         """Create an "index card" for element title and description."""
-        self._indexCard = tk.Frame(self._elementFrame, bd=2, relief=tk.RIDGE)
+        self._indexCard = tk.Frame(self._propertiesFrame, bd=2, relief=tk.RIDGE)
         self._indexCard.pack(expand=False, fill=tk.BOTH)
 
         # Title label.
@@ -91,12 +92,12 @@ class BasicView:
 
     def _create_element_info_window(self):
         """Create a window for element specific information."""
-        self._elementInfoWindow = ttk.Frame(self._elementFrame)
+        self._elementInfoWindow = ttk.Frame(self._propertiesFrame)
         self._elementInfoWindow.pack(fill=tk.X)
 
     def _create_notes_window(self):
         """Create a text box for element notes."""
-        self._notesWindow = TextBox(self._elementFrame,
+        self._notesWindow = TextBox(self._propertiesFrame,
                 wrap='word',
                 undo=True,
                 autoseparators=True,
@@ -113,7 +114,7 @@ class BasicView:
 
     def _create_button_bar(self):
         """Create a button bar at the bottom."""
-        self._buttonBar = ttk.Frame(self._mainFrame)
+        self._buttonBar = ttk.Frame(self)
         self._buttonBar.pack(fill=tk.X)
 
         # "Previous" button.
@@ -127,11 +128,11 @@ class BasicView:
 
     def show(self):
         """Make the view visible."""
-        self._mainFrame.pack(expand=True, fill=tk.BOTH)
+        self.pack(expand=True, fill=tk.BOTH)
 
     def hide(self):
         """Hide the view."""
-        self._mainFrame.pack_forget()
+        self.pack_forget()
 
     def set_data(self, element):
         """Update the view with element's data."""

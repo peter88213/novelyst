@@ -48,16 +48,25 @@
 
 --- 
 
-## Toggle "Contents" window
+## Toggle Text viewer
 
 **Show/hide the whole novel**
 
-- You can open or close a text window, showing part/chapter/scene titles and scene content, with **View > Toggle "Contents" window** or **Ctrl-T**.
+- You can open or close a text window, showing part/chapter/scene titles and scene content, with **View > Toggle Text viewer** or **Ctrl-T**.
 - On opening, the windows shows the text, where the tree is selected.
 - When changing the tree selection, the text moves along.
 - However, the text can be scrolled independently with the verical scrollbar, or the mousewheel. 
 - You can select text with the mouse, and copy it to the clipboard with **Ctrl-C**.
 - You cannot edit the text. For this, you might want to install an editor plugin, such as [novelyst_editor](https://peter88213.github.io/novelyst_editor/).
+
+--- 
+
+## Toggle Properties
+
+**Show/hide the selected element's properties**
+
+- You can open or close a text window, showing part/chapter/scene titles and scene content, with **View > Toggle Properties** or **Ctrl-Alt-T**.
+- On opening, the windows shows the editable properties of the selected element.
 
 --- 
 

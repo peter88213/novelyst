@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.13.3\n"
-"POT-Creation-Date: 2023-03-27 11:08:31\n"
-"PO-Revision-Date: 2023-03-27 11:08:32\n"
+"Project-Id-Version: 4.14.0\n"
+"POT-Creation-Date: 2023-03-27 14:26:38\n"
+"PO-Revision-Date: 2023-03-27 14:26:38\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -706,7 +706,10 @@ msgstr "Planungs-Kapitel"
 msgid "Todo chapters for editing"
 msgstr "Planungs-Kapitel zum Bearbeiten"
 
-msgid "Toggle \"Contents\" window"
+msgid "Toggle Properties"
+msgstr "Eigenschaften anzeigen/verbergen"
+
+msgid "Toggle Text viewer"
 msgstr "Textspalte anzeigen/verbergen"
 
 msgid "Tools"

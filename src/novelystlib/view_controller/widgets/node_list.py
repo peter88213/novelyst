@@ -15,11 +15,11 @@ class NodeList(ttk.frame):
         listbox: tk.Listbox
     """
 
-    def __init__(self, parent, ui, pickBtnTxt, clearBtnTxt, **kw):
+    def __init__(self, master, ui, pickBtnTxt, clearBtnTxt, **kw):
         """Set up listbox and controls. 
         
         Positional arguments:
-            parent -- Parent widget.
+            master -- Parent widget.
             ui: NovelystTk -- Reference to the user interface.
             pickBtnTxt: str -- Text on the "Pick" button.
             clearBtnTxt: str -- Text on the "Clear" button.
@@ -27,7 +27,7 @@ class NodeList(ttk.frame):
         Extends the superclass constructor.
         """
         self._ui = ui
-        super().__init__(parent, **kw)
+        super().__init__(master, **kw)
         self.listbox = tk.Listbox(self)
         self.listbox.pack(anchor=tk.W, fill=tk.X)
         ttk.Button(self, text=pickBtnTxt, command=self._pick_node).pack(side=tk.LEFT, padx=1, pady=2)

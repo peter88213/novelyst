@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.14.0
+
+- The right pane (selected element's properties) can now be toggled with Ctrl-Alt-T.
+
+Based on PyWriter v12.3.0
+
 ### v4.13.3
 
 - Refactor the code for better maintainability.

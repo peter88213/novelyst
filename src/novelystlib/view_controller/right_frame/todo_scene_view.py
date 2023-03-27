@@ -23,28 +23,29 @@ class TodoSceneView(SceneView):
         
     """
 
-    def __init__(self, ui):
+    def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
         
         Positional arguments:
             ui: NovelystTk -- Reference to the user interface.
+            parent -- Parent widget to display this widget.
 
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         
         Extends the superclass constructor.
         """
-        super(). __init__(ui)
+        super(). __init__(ui, parent)
 
         self._associatedScene = None
         self._lastSelected = ''
         self._treeSelectBinding = None
         self._uiEscBinding = None
 
-        ttk.Separator(self.frame2, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._sceneExtraFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         #--- Frame for arc specific widgets.
-        self._arcFrame = FoldingFrame(self.frame2, _('Arc'), self._toggle_arcFrame)
+        self._arcFrame = FoldingFrame(self._sceneExtraFrame, _('Arc'), self._toggle_arcFrame)
         self._arcInnerFrame = ttk.Frame(self._arcFrame)
 
         # Arc display.

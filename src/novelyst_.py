@@ -64,6 +64,7 @@ SETTINGS = dict(
 )
 OPTIONS = dict(
     show_contents=True,
+    show_properties=True,
     show_markup=False,
     show_language_settings=False,
     show_auto_numbering=False,

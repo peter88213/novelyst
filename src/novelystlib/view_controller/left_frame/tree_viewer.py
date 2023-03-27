@@ -109,11 +109,11 @@ class TreeViewer(ttk.Frame):
         else:
             _SCN_STATUS.append(_(status))
 
-    def __init__(self, master, ui, kwargs, **kw):
+    def __init__(self, parent, ui, kwargs, **kw):
         """Put a tkinter tree in the specified parent widget.
         
         Positional arguments:
-            master -- parent widget for displaying the tree view.
+            parent -- parent widget for displaying the tree view.
             ui -- GUI class reference.
         
         Required keyword arguments:
@@ -134,7 +134,7 @@ class TreeViewer(ttk.Frame):
             color_2nd_edit: str -- tk color name for "Second Edit" status.
             color_done: str -- tk color name for "Done" status.   
         """
-        super().__init__(master, **kw)
+        super().__init__(parent, **kw)
         self._ui = ui
         self._wordsTotal = None
         self._trashNode = None
@@ -206,7 +206,8 @@ class TreeViewer(ttk.Frame):
         self._nvCtxtMenu.add_command(label=_('Collapse'), command=lambda: self.close_children(self.tree.selection()[0]))
         self._nvCtxtMenu.add_command(label=_('Expand all'), command=lambda: self.open_children(''))
         self._nvCtxtMenu.add_command(label=_('Collapse all'), command=lambda: self.close_children(''))
-        self._nvCtxtMenu.add_command(label=_('Toggle "Contents" window'), command=self._ui.toggle_viewer)
+        self._nvCtxtMenu.add_command(label=_('Toggle Text viewer'), command=self._ui.toggle_viewer)
+        self._nvCtxtMenu.add_command(label=_('Toggle Properties'), command=self._ui.toggle_properties)
 
         #--- Create a world element context menu.
         self._wrCtxtMenu = tk.Menu(self.tree, tearoff=0)

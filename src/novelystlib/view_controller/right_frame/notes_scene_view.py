@@ -30,18 +30,19 @@ class NotesSceneView(SceneView):
     _DATE_TIME_LBL_X = 15
     # Width of left-placed labels.
 
-    def __init__(self, ui):
+    def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
         
         Positional arguments:
             ui: NovelystTk -- Reference to the user interface.
+            parent -- Parent widget to display this widget.
 
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         
         Extends the superclass constructor.
         """
-        super(). __init__(ui)
+        super(). __init__(ui, parent)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 

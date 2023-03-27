@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.13.3\n"
-"POT-Creation-Date: 2023-03-27 11:08:31\n"
+"Project-Id-Version: 4.14.0\n"
+"POT-Creation-Date: 2023-03-27 14:26:38\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -707,7 +707,10 @@ msgstr ""
 msgid "Todo chapters for editing"
 msgstr ""
 
-msgid "Toggle \"Contents\" window"
+msgid "Toggle Properties"
+msgstr ""
+
+msgid "Toggle Text viewer"
 msgstr ""
 
 msgid "Tools"

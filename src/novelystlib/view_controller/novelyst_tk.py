@@ -108,6 +108,7 @@ class NovelystTk(MainTk):
     _KEY_SAVE_AS = ('<Control-S>', 'Ctrl-Shift-S')
     _KEY_CHAPTER_LEVEL = ('<Control-Alt-c>', 'Ctrl-Alt-C')
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
+    _KEY_TOGGLE_PROPERTIES = ('<Control-Alt-t>', 'Ctrl-Alt-T')
 
     _YW_CLASS = WorkFile
 
@@ -173,21 +174,22 @@ class NovelystTk(MainTk):
         if self.kwargs['show_contents']:
             self.middleFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
 
-        #--- Right frame (intended for the element info pane).
+        #--- Right frame (intended for the element properties pane).
         self.rightFrame = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
         self.rightFrame.pack_propagate(0)
-        self.rightFrame.pack(expand=True, fill=tk.BOTH)
+        if self.kwargs['show_properties']:
+            self.rightFrame.pack(expand=True, fill=tk.BOTH)
 
-        # Initialize element views.
-        self._basicView = BasicView(self)
-        self._projectView = ProjectView(self)
-        self._chapterView = ChapterView(self)
-        self._todoChapterView = TodoChapterView(self)
-        self._todoSceneView = TodoSceneView(self)
-        self._notesSceneView = NotesSceneView(self)
-        self._sceneView = NormalSceneView(self)
-        self._characterView = CharacterView(self)
-        self._worldElementView = WorldElementView(self)
+        # Initialize element properties views.
+        self._basicView = BasicView(self, self.rightFrame)
+        self._projectView = ProjectView(self, self.rightFrame)
+        self._chapterView = ChapterView(self, self.rightFrame)
+        self._todoChapterView = TodoChapterView(self, self.rightFrame)
+        self._todoSceneView = TodoSceneView(self, self.rightFrame)
+        self._notesSceneView = NotesSceneView(self, self.rightFrame)
+        self._sceneView = NormalSceneView(self, self.rightFrame)
+        self._characterView = CharacterView(self, self.rightFrame)
+        self._worldElementView = WorldElementView(self, self.rightFrame)
 
         self._elementView = self._basicView
         self._elementView.set_data(None)
@@ -221,7 +223,8 @@ class NovelystTk(MainTk):
         self.viewMenu.add_command(label=_('Expand all'), command=lambda: self.tv.open_children(''))
         self.viewMenu.add_command(label=_('Collapse all'), command=lambda: self.tv.close_children(''))
         self.viewMenu.add_separator()
-        self.viewMenu.add_command(label=_('Toggle "Contents" window'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
+        self.viewMenu.add_command(label=_('Toggle Text viewer'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
+        self.viewMenu.add_command(label=_('Toggle Properties'), accelerator=self._KEY_TOGGLE_PROPERTIES[1], command=self.toggle_properties)
 
         # Part
         self.partMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -329,6 +332,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_SAVE_AS[0], self.save_as)
         self.root.bind(self._KEY_CHAPTER_LEVEL[0], self.show_chapter_level)
         self.root.bind(self._KEY_TOGGLE_VIEWER[0], self.toggle_viewer)
+        self.root.bind(self._KEY_TOGGLE_PROPERTIES[0], self.toggle_properties)
 
     @property
     def isModified(self):
@@ -522,6 +526,12 @@ class NovelystTk(MainTk):
             else:
                 self.kwargs['show_contents'] = False
 
+            # save properties window toggle state.
+            if self.rightFrame.winfo_manager():
+                self.kwargs['show_properties'] = True
+            else:
+                self.kwargs['show_properties'] = False
+
             # save windows size and position
             self.tv.on_quit()
             super().on_quit()
@@ -664,6 +674,13 @@ class NovelystTk(MainTk):
             self.middleFrame.pack_forget()
         else:
             self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
+
+    def toggle_properties(self, event=None):
+        """Show/hide the element properties frame."""
+        if self.rightFrame.winfo_manager():
+            self.rightFrame.pack_forget()
+        else:
+            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
 
     def unlock(self, event=None):
         """Unlock the project."""

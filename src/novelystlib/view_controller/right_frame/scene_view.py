@@ -33,25 +33,27 @@ class SceneView(BasicView):
     _REL_Y = 2
     # height of the Relations text boxes
 
-    def __init__(self, ui):
+    def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
         
         Positional arguments:
             ui: NovelystTk -- Reference to the user interface.
+            parent -- Parent widget to display this widget.
 
         - Initialize element-specific tk entry data.
         - Place element-specific widgets in the element's info window.
         
         Extends the superclass constructor.
         """
-        super(). __init__(ui)
+        super(). __init__(ui, parent)
 
         #--- 'Tags' entry.
         self._tags = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
-        self.frame2 = ttk.Frame(self._elementInfoWindow)
-        self.frame2.pack(anchor=tk.W, fill=tk.X)
+        #--- Frame for scene specific properties.
+        self._sceneExtraFrame = ttk.Frame(self._elementInfoWindow)
+        self._sceneExtraFrame.pack(anchor=tk.W, fill=tk.X)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
