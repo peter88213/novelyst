@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.14.2
+
+- Prevent detaching the right pane more than once. 
+
+Based on PyWriter v12.3.0
+
 ### v4.14.1
 
 - The right pane (selected element's properties) can now be detached with Ctrl-Alt-D.

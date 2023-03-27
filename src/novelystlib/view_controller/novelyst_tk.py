@@ -176,15 +176,6 @@ class NovelystTk(MainTk):
         if self.kwargs['show_contents']:
             self.middleFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
 
-        #--- Right frame (intended for the element properties pane).
-        self.rightFrame = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
-        self.rightFrame.pack_propagate(0)
-        if self.kwargs['show_properties']:
-            self.rightFrame.pack(expand=True, fill=tk.BOTH)
-        self._initialize_properties_frame(self.rightFrame)
-        if self.kwargs['detach_prop_win']:
-            self._detach_properties_frame()
-
         #--- Build the main menu
         # Requires windows and frames initialized
 
@@ -312,6 +303,16 @@ class NovelystTk(MainTk):
 
         self.plugins.load_plugins(PLUGIN_PATH)
         self.disable_menu()
+
+        #--- Right frame (intended for the element properties pane).
+        self.rightFrame = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
+        self.rightFrame.pack_propagate(0)
+        if self.kwargs['show_properties']:
+            self.rightFrame.pack(expand=True, fill=tk.BOTH)
+        self._initialize_properties_frame(self.rightFrame)
+        self._propWinDetached = False
+        if self.kwargs['detach_prop_win']:
+            self._detach_properties_frame()
 
         #--- Event bindings.
         self.root.bind(self._KEY_NEW_PROJECT[0], self.new_project)
@@ -828,17 +829,22 @@ class NovelystTk(MainTk):
         pass
 
     def _detach_properties_frame(self, event=None):
+        if self._propWinDetached:
+            return
+
         if self.rightFrame.winfo_manager():
             self.rightFrame.pack_forget()
         self._propertiesWindow = tk.Toplevel()
-        set_icon(self._propertiesWindow, icon='pLogo32', default=False)
         self._propertiesWindow.geometry(self.kwargs['prop_win_geometry'])
+        set_icon(self._propertiesWindow, icon='pLogo32', default=False)
         self._elementView.pack_forget()
         self._initialize_properties_frame(self._propertiesWindow)
         self._elementView.pack()
         self.show_properties()
         self._propertiesWindow.protocol("WM_DELETE_WINDOW", self._dock_properties_frame)
         self.kwargs['detach_prop_win'] = True
+        self._propWinDetached = True
+        self.viewMenu.entryconfig(_('Detach Properties'), state='disabled')
 
     def _dock_properties_frame(self, event=None):
         self._initialize_properties_frame(self.rightFrame)
@@ -849,7 +855,9 @@ class NovelystTk(MainTk):
         self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
         self._propertiesWindow.destroy()
         self.kwargs['detach_prop_win'] = False
+        self._propWinDetached = False
         self.root.lift()
+        self.viewMenu.entryconfig(_('Detach Properties'), state='normal')
 
     def _export_document(self, suffix, **kwargs):
         self.restore_status()
