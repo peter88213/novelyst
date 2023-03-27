@@ -4,7 +4,6 @@ Modules:
 basic_view -- Provide a generic class for viewing tree element properties.
 chapter_view -- Provide a class for viewing and editing chapter properties.
 character_view -- Provide a class for viewing and editing character properties.
-no view -- Provide a class for clearing the right frame.
 normal_scene-view -- Provide a tkinter based class for viewing and editing "Normal" scene properties.
 notes_scene-view -- Provide a tkinter based class for viewing and editing "Notes" scene properties.
 project_view -- Provide a tkinter based class for viewing and editing project properties.
