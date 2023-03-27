@@ -25,6 +25,11 @@ class SceneView(BasicView):
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = True
+    _BUTTONBAR = True
+
     _REL_Y = 2
     # height of the Relations text boxes
 

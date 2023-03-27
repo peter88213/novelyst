@@ -21,6 +21,10 @@ class ProjectView(BasicView):
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = False
+    _BUTTONBAR = False
 
     def __init__(self, ui):
         """Initialize the view once before element date is available.
@@ -259,7 +263,7 @@ class ProjectView(BasicView):
         Extends the superclass method.
         """
         # Title
-        title = self._ui.elementTitle.get()
+        title = self._elementTitle.get()
         if title or self._element.title:
             if self._element.title != title:
                 self._element.title = title.strip()

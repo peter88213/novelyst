@@ -20,6 +20,10 @@ class ChapterView(BasicView):
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = False
+    _BUTTONBAR = True
 
     def __init__(self, ui):
         """Initialize the view once before element data is available.          

@@ -27,6 +27,10 @@ class TodoChapterView(BasicView):
     - The number of normal scenes assigned to this arc.
     - A button to remove all scene assigments to this arc.
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = False
+    _BUTTONBAR = True
 
     def __init__(self, ui):
         """Initialize the view once before element data is available.
@@ -40,6 +44,7 @@ class TodoChapterView(BasicView):
         Extends the superclass constructor.
         """
         super(). __init__(ui)
+
         self._lastSelected = ''
 
         # 'Arc namee' entry.
@@ -116,8 +121,8 @@ class TodoChapterView(BasicView):
                 self._element.kwVar['Field_ArcDefinition'] = newArc
 
                 # Use the arc as scene title suffix.
-                newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._ui.elementTitle.get()}'
-                self._ui.elementTitle.set(newTitle)
+                newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._elementTitle.get()}'
+                self._elementTitle.set(newTitle)
                 self._ui.isModified = True
 
         super().apply_changes()

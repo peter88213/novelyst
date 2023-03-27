@@ -7,16 +7,11 @@ License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
+from novelystlib.widgets.text_box import TextBox
 
 
 class BasicView:
     """Generic class for viewing tree element properties.
-    
-    Adds to the right pane:
-    - Element title
-    - Element description
-    - Element notes (if any)
-    - A button bar at the bottom.
     
     Public methods:
         show() -- Make the ui text boxes and the view visible.
@@ -24,6 +19,11 @@ class BasicView:
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes of element title, description, and notes.   
     """
+    _INDEXCARD = False
+    _ELEMENT_INFO = False
+    _NOTES = False
+    _BUTTONBAR = False
+
     _LBL_X = 10
     # Width of left-placed labels.
 
@@ -40,11 +40,81 @@ class BasicView:
         self._element = None
         self._tagsStr = ''
 
-        #--- Window for element specific information.
-        self._elementInfoWindow = ttk.Frame(self._ui.infoFrame)
+        # Frame for element specific informations.
+        self._mainFrame = ttk.Frame(self._ui.rightFrame)
 
-        #--- Button bar at the bottom.
-        self._buttonBar = ttk.Frame(self._ui.rightFrameMaster)
+        # Frame for element specific informations.
+        self._elementFrame = ttk.Frame(self._mainFrame)
+        self._elementFrame.pack(expand=True, fill=tk.BOTH)
+
+        if self._INDEXCARD:
+            self._create_index_card()
+        if self._ELEMENT_INFO:
+            self._create_element_info_window()
+        if self._NOTES:
+            self._create_notes_window()
+        if self._BUTTONBAR:
+            self._create_button_bar()
+
+    def _create_index_card(self):
+        """Create an "index card" for element title and description."""
+        self._indexCard = tk.Frame(self._elementFrame, bd=2, relief=tk.RIDGE)
+        self._indexCard.pack(expand=False, fill=tk.BOTH)
+
+        # Title label.
+        self._elementTitle = tk.StringVar(value='')
+        titleEntry = tk.Entry(self._indexCard, bd=0, textvariable=self._elementTitle, relief=tk.FLAT)
+        titleEntry.config({'background': self._ui.kwargs['color_text_bg'],
+                           'foreground': self._ui.kwargs['color_text_fg'],
+                           'insertbackground': self._ui.kwargs['color_text_fg'],
+                           })
+        titleEntry.pack(fill=tk.X, ipady=6)
+
+        tk.Frame(self._indexCard, bg='red', height=1, bd=0).pack(fill=tk.X)
+        tk.Frame(self._indexCard, bg='white', height=1, bd=0).pack(fill=tk.X)
+
+        # Description window.
+        self._descWindow = TextBox(self._indexCard,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=15,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=self._ui.kwargs['color_text_bg'],
+                fg=self._ui.kwargs['color_text_fg'],
+                insertbackground=self._ui.kwargs['color_text_fg'],
+                )
+        self._descWindow.pack(fill=tk.X)
+
+    def _create_element_info_window(self):
+        """Create a window for element specific information."""
+        self._elementInfoWindow = ttk.Frame(self._elementFrame)
+        self._elementInfoWindow.pack(fill=tk.X)
+
+    def _create_notes_window(self):
+        """Create a text box for element notes."""
+        self._notesWindow = TextBox(self._elementFrame,
+                wrap='word',
+                undo=True,
+                autoseparators=True,
+                maxundo=-1,
+                height=4,
+                width=10,
+                padx=5,
+                pady=5,
+                bg=self._ui.kwargs['color_notes_bg'],
+                fg=self._ui.kwargs['color_notes_fg'],
+                insertbackground=self._ui.kwargs['color_notes_fg'],
+                )
+        self._notesWindow.pack(expand=True, fill=tk.BOTH)
+
+    def _create_button_bar(self):
+        """Create a button bar at the bottom."""
+        self._buttonBar = ttk.Frame(self._mainFrame)
+        self._buttonBar.pack(fill=tk.X)
 
         # "Previous" button.
         ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side=tk.LEFT, fill=tk.X, expand=True)
@@ -55,33 +125,13 @@ class BasicView:
         # "Next" button.
         ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-    def show(self, element):
+    def show(self):
         """Make the view visible."""
-        self._element = element
-
-        # "Index card" with title and description.
-        if not self._ui.indexCard.winfo_manager():
-            self._ui.indexCard.pack(expand=False, fill=tk.BOTH)
-
-        # Window for element specific information.
-        self._ui.infoFrame.pack(after=self._ui.indexCard, expand=False, fill=tk.BOTH)
-        self._elementInfoWindow.pack(fill=tk.X)
-
-        # Notes entry (if any).
-        if hasattr(self._element, 'notes'):
-            self._ui.notesWindow.pack(after=self._ui.infoFrame, expand=True, fill=tk.BOTH)
-
-        # Button bar at the bottom.
-        self._buttonBar.pack(padx=1, pady=2, fill=tk.X, side=tk.BOTTOM)
+        self._mainFrame.pack(expand=True, fill=tk.BOTH)
 
     def hide(self):
-        """Clear the ui text boxes, and hide the view."""
-        self._ui.elementTitle.set('')
-        self._ui.descWindow.delete('1.0', tk.END)
-        self._ui.notesWindow.pack_forget()
-        self._ui.infoFrame.pack_forget()
-        self._elementInfoWindow.pack_forget()
-        self._buttonBar.pack_forget()
+        """Hide the view."""
+        self._mainFrame.pack_forget()
 
     def set_data(self, element):
         """Update the view with element's data."""
@@ -91,41 +141,41 @@ class BasicView:
 
             # Title entry.
             if self._element.title is not None:
-                self._ui.elementTitle.set(self._element.title)
+                self._elementTitle.set(self._element.title)
             else:
-                self._ui.elementTitle.set('')
+                self._elementTitle.set('')
 
             # Description entry.
-            self._ui.descWindow.clear()
-            self._ui.descWindow.set_text(self._element.desc)
+            self._descWindow.clear()
+            self._descWindow.set_text(self._element.desc)
 
             # Notes entry (if any).
-            self._ui.notesWindow.clear()
             if hasattr(self._element, 'notes'):
-                self._ui.notesWindow.set_text(self._element.notes)
+                self._notesWindow.clear()
+                self._notesWindow.set_text(self._element.notes)
 
     def apply_changes(self):
         """Apply changes of element title, description, and notes."""
         if self._element is not None:
 
             # Title entry.
-            title = self._ui.elementTitle.get()
+            title = self._elementTitle.get()
             if title or self._element.title:
                 if self._element.title != title:
                     self._element.title = title.strip()
                     self._ui.isModified = True
 
             # Description entry.
-            if self._ui.descWindow.hasChanged:
-                desc = self._ui.descWindow.get_text()
+            if self._descWindow.hasChanged:
+                desc = self._descWindow.get_text()
                 if desc or self._element.desc:
                     if self._element.desc != desc:
                         self._element.desc = desc
                         self._ui.isModified = True
 
             # Notes entry (if any).
-            if self._ui.notesWindow.hasChanged:
-                notes = self._ui.notesWindow.get_text()
+            if hasattr(self._element, 'notes') and self._notesWindow.hasChanged:
+                notes = self._notesWindow.get_text()
                 if hasattr(self._element, 'notes'):
                     if notes or self._element.notes:
                         if self._element.notes != notes:

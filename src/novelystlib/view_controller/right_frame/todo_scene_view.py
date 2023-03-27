@@ -35,6 +35,7 @@ class TodoSceneView(SceneView):
         Extends the superclass constructor.
         """
         super(). __init__(ui)
+
         self._associatedScene = None
         self._lastSelected = ''
         self._treeSelectBinding = None

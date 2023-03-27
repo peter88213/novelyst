@@ -23,6 +23,10 @@ class WorldElementView(BasicView):
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = False
+    _BUTTONBAR = True
 
     def __init__(self, ui):
         """Initialize the view once before element data is available.
@@ -37,8 +41,8 @@ class WorldElementView(BasicView):
         """
         super(). __init__(ui)
 
-        self.frame1 = ttk.Frame(self._elementInfoWindow)
-        self.frame1.pack(anchor=tk.W, fill=tk.X)
+        self._fullNameFrame = ttk.Frame(self._elementInfoWindow)
+        self._fullNameFrame.pack(anchor=tk.W, fill=tk.X)
 
         # 'AKA' entry.
         self._aka = MyStringVar()

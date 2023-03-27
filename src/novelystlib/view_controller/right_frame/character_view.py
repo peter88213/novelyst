@@ -26,6 +26,11 @@ class CharacterView(WorldElementView):
         set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
     """
+    _INDEXCARD = True
+    _ELEMENT_INFO = True
+    _NOTES = True
+    _BUTTONBAR = True
+
     _LBL_X = 15
     # Width of left-placed labels.
 
@@ -44,7 +49,7 @@ class CharacterView(WorldElementView):
 
         #--- 'Full name' entry.
         self._fullName = MyStringVar()
-        LabelEntry(self.frame1, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._fullNameFrame, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 

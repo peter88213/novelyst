@@ -12,12 +12,10 @@ from pywriter.pywriter_globals import *
 from pywriter.model.novel import Novel
 from pywriter.ui.main_tk import MainTk
 from pywriter.ui.set_icon_tk import *
-from novelystlib.widgets.text_box import TextBox
 from novelystlib.model.work_file import WorkFile
 from novelystlib.view_controller.plugin_collection import PluginCollection
 from novelystlib.view_controller.left_frame.tree_viewer import TreeViewer
 from novelystlib.view_controller.middle_frame.contents_viewer import ContentsViewer
-from novelystlib.view_controller.right_frame.no_view import NoView
 from novelystlib.view_controller.right_frame.basic_view import BasicView
 from novelystlib.view_controller.right_frame.world_element_view import WorldElementView
 from novelystlib.view_controller.right_frame.project_view import ProjectView
@@ -181,70 +179,11 @@ class NovelystTk(MainTk):
             self.middleFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
 
         #--- Right frame (intended for the element info pane).
-        # Master frame for placement of navigation elements below the actual frame.
-        self.rightFrameMaster = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
-        self.rightFrameMaster.pack_propagate(0)
-        self.rightFrameMaster.pack(expand=True, fill=tk.BOTH)
-
-        # The actual right frame.
-        self.rightFrame = ttk.Frame(self.rightFrameMaster)
+        self.rightFrame = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
         self.rightFrame.pack_propagate(0)
         self.rightFrame.pack(expand=True, fill=tk.BOTH)
 
-        # Create an "index card" in the right frame.
-        self.indexCard = tk.Frame(self.rightFrame, bd=2, relief=tk.RIDGE)
-        self.indexCard.pack(expand=False, fill=tk.BOTH)
-
-        # Title label.
-        self.elementTitle = tk.StringVar(value='')
-        titleEntry = tk.Entry(self.indexCard, bd=0, textvariable=self.elementTitle, relief=tk.FLAT)
-        titleEntry.config({'background': self.kwargs['color_text_bg'],
-                           'foreground': self.kwargs['color_text_fg'],
-                           'insertbackground': self.kwargs['color_text_fg'],
-                           })
-        titleEntry.pack(fill=tk.X, ipady=6)
-
-        tk.Frame(self.indexCard, bg='red', height=1, bd=0).pack(fill=tk.X)
-        tk.Frame(self.indexCard, bg='white', height=1, bd=0).pack(fill=tk.X)
-
-        # Description window.
-        self.descWindow = TextBox(self.indexCard,
-                wrap='word',
-                undo=True,
-                autoseparators=True,
-                maxundo=-1,
-                height=15,
-                width=10,
-                padx=5,
-                pady=5,
-                bg=self.kwargs['color_text_bg'],
-                fg=self.kwargs['color_text_fg'],
-                insertbackground=self.kwargs['color_text_fg'],
-                )
-        self.descWindow.pack(fill=tk.X)
-
-        # Frame for element specific informations.
-        self.infoFrame = ttk.Frame(self.rightFrame)
-        self.infoFrame.pack(expand=True, fill=tk.BOTH)
-
-        # Notes window.
-        self.notesWindow = TextBox(self.rightFrame,
-                wrap='word',
-                undo=True,
-                autoseparators=True,
-                maxundo=-1,
-                height=4,
-                width=10,
-                padx=5,
-                pady=5,
-                bg=self.kwargs['color_notes_bg'],
-                fg=self.kwargs['color_notes_fg'],
-                insertbackground=self.kwargs['color_notes_fg'],
-                )
-        self.notesWindow.pack(expand=True, fill=tk.BOTH)
-
         # Initialize element views.
-        self._noView = NoView(self)
         self._basicView = BasicView(self)
         self._projectView = ProjectView(self)
         self._chapterView = ChapterView(self)
@@ -751,12 +690,12 @@ class NovelystTk(MainTk):
             if not self._elementView is self._todoChapterView:
                 self._elementView.hide()
                 self._elementView = self._todoChapterView
-                self._elementView.show(self.novel.chapters[chId])
+                self._elementView.show()
         else:
             if not self._elementView is self._chapterView:
                 self._elementView.hide()
                 self._elementView = self._chapterView
-                self._elementView.show(self.novel.chapters[chId])
+                self._elementView.show()
         self._elementView.set_data(self.novel.chapters[chId])
         self.contentsViewer.see(f'ch{chId}')
 
@@ -770,7 +709,7 @@ class NovelystTk(MainTk):
         if not self._elementView is self._characterView:
             self._elementView.hide()
             self._elementView = self._characterView
-            self._elementView.show(self.novel.characters[crId])
+            self._elementView.show()
         self._elementView.set_data(self.novel.characters[crId])
 
     def view_item(self, itId):
@@ -783,7 +722,7 @@ class NovelystTk(MainTk):
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
             self._elementView = self._worldElementView
-            self._elementView.show(self.novel.items[itId])
+            self._elementView.show()
         self._elementView.set_data(self.novel.items[itId])
 
     def view_location(self, lcId):
@@ -796,7 +735,7 @@ class NovelystTk(MainTk):
         if not self._elementView is self._worldElementView:
             self._elementView.hide()
             self._elementView = self._worldElementView
-            self._elementView.show(self.novel.locations[lcId])
+            self._elementView.show()
         self._elementView.set_data(self.novel.locations[lcId])
 
     def view_narrative(self):
@@ -805,16 +744,16 @@ class NovelystTk(MainTk):
         if not self._elementView is self._projectView:
             self._elementView.hide()
             self._elementView = self._projectView
-            self._elementView.show(self.novel)
+            self._elementView.show()
         self._elementView.set_data(self.novel)
 
     def view_nothing(self):
         """Event handler for invalid tree selection."""
-        if not self._elementView is self._noView:
+        if not self._elementView is self._basicView:
             self._elementView.apply_changes()
             self._elementView.hide()
-            self._elementView = self._noView
-            self._elementView.show(None)
+            self._elementView = self._basicView
+            self._elementView.show()
 
     def view_projectNote(self, pnId):
         """Event handler for project note selection.
@@ -826,7 +765,7 @@ class NovelystTk(MainTk):
         if not self._elementView is self._basicView:
             self._elementView.hide()
             self._elementView = self._basicView
-            self._elementView.show(self.novel.projectNotes[pnId])
+            self._elementView.show()
         self._elementView.set_data(self.novel.projectNotes[pnId])
 
     def view_scene(self, scId):
@@ -840,17 +779,17 @@ class NovelystTk(MainTk):
             if not self._elementView is self._todoSceneView:
                 self._elementView.hide()
                 self._elementView = self._todoSceneView
-                self._elementView.show(self.novel.scenes[scId])
+                self._elementView.show()
         elif self.novel.scenes[scId].scType == 1:
             if not self._elementView is self._notesSceneView:
                 self._elementView.hide()
                 self._elementView = self._notesSceneView
-                self._elementView.show(self.novel.scenes[scId])
+                self._elementView.show()
         else:
             if not self._elementView is self._sceneView:
                 self._elementView.hide()
                 self._elementView = self._sceneView
-                self._elementView.show(self.novel.scenes[scId])
+                self._elementView.show()
         self._elementView.set_data(self.novel.scenes[scId])
         self.contentsViewer.see(f'sc{scId}')
 
