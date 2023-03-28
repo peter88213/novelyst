@@ -207,7 +207,7 @@ class NovelystTk(MainTk):
         self.viewMenu.add_separator()
         self.viewMenu.add_command(label=_('Toggle Text viewer'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
         self.viewMenu.add_command(label=_('Toggle Properties'), accelerator=self._KEY_TOGGLE_PROPERTIES[1], command=self.toggle_properties)
-        self.viewMenu.add_command(label=_('Detach Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self._detach_properties_frame)
+        self.viewMenu.add_command(label=_('Detach/Dock Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self._detach_properties_frame)
 
         # Part
         self.partMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -394,6 +394,7 @@ class NovelystTk(MainTk):
         
         Extends the superclass method.
         """
+        self._elementView.apply_changes()
         self.contentsViewer.reset_view()
         self.plugins.on_close()
 
@@ -506,27 +507,21 @@ class NovelystTk(MainTk):
             self.isModified = True
 
     def on_quit(self, event=None):
-        """Save keyword arguments before exiting the program."""
+        """Save changes and keyword arguments before exiting the program."""
         try:
+            # Save properties.
+            self._elementView.apply_changes()
+
+            # Save changes.
             self.close_project()
             self.plugins.on_quit()
 
-            # save contents window "show markup" state.
+            # Save contents window "show markup" state.
             self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
 
-            # save contents window toggle state.
-            if self.middleFrame.winfo_manager():
-                self.kwargs['show_contents'] = True
-            else:
-                self.kwargs['show_contents'] = False
-
-            # save properties window toggle state.
-            if self.rightFrame.winfo_manager():
-                self.kwargs['show_properties'] = True
-            else:
-                self.kwargs['show_properties'] = False
-
-            # save windows size and position
+            # Save windows size and position.
+            if self._propWinDetached:
+                self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
             self.tv.on_quit()
             super().on_quit()
         except Exception as ex:
@@ -691,15 +686,20 @@ class NovelystTk(MainTk):
         """Show/hide the contents viewer text box."""
         if self.middleFrame.winfo_manager():
             self.middleFrame.pack_forget()
+            self.kwargs['show_contents'] = False
         else:
             self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.kwargs['show_contents'] = True
 
     def toggle_properties(self, event=None):
         """Show/hide the element properties frame."""
         if self.rightFrame.winfo_manager():
+            self._elementView.apply_changes()
             self.rightFrame.pack_forget()
-        else:
+            self.kwargs['show_properties'] = False
+        elif not self._propWinDetached:
             self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.kwargs['show_properties'] = True
 
     def unlock(self, event=None):
         """Unlock the project."""
@@ -830,8 +830,10 @@ class NovelystTk(MainTk):
 
     def _detach_properties_frame(self, event=None):
         if self._propWinDetached:
+            self._dock_properties_frame()
             return
 
+        self._elementView.apply_changes()
         if self.rightFrame.winfo_manager():
             self.rightFrame.pack_forget()
         self._propertiesWindow = tk.Toplevel()
@@ -844,9 +846,9 @@ class NovelystTk(MainTk):
         self._propertiesWindow.protocol("WM_DELETE_WINDOW", self._dock_properties_frame)
         self.kwargs['detach_prop_win'] = True
         self._propWinDetached = True
-        self.viewMenu.entryconfig(_('Detach Properties'), state='disabled')
 
     def _dock_properties_frame(self, event=None):
+        self._elementView.apply_changes()
         self._initialize_properties_frame(self.rightFrame)
         if not self.rightFrame.winfo_manager():
             self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
@@ -854,10 +856,10 @@ class NovelystTk(MainTk):
         self.show_properties()
         self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
         self._propertiesWindow.destroy()
+        self.kwargs['show_properties'] = True
         self.kwargs['detach_prop_win'] = False
         self._propWinDetached = False
         self.root.lift()
-        self.viewMenu.entryconfig(_('Detach Properties'), state='normal')
 
     def _export_document(self, suffix, **kwargs):
         self.restore_status()

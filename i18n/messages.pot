@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.14.2\n"
-"POT-Creation-Date: 2023-03-27 19:08:39\n"
+"Project-Id-Version: 4.14.3\n"
+"POT-Creation-Date: 2023-03-28 09:36:16\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-msgid "Detach Properties"
+msgid "Detach/Dock Properties"
 msgstr ""
 
 msgid "Dilemma"

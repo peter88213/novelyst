@@ -70,12 +70,12 @@
 
 --- 
 
-## Detach Properties
+## Detach/Dock Properties
 
-**Show the selected element's properties in its own window**
+**Show the selected element's properties either in the main window or in its own window**
 
-- You can detach the element properties window with **View > Detach Properties** or **Ctrl-Alt-D**.
-- On closing the detached window, the properties are shown in the right pane agein.
+- You can detach or dock the element properties window with **View > Detach/Dock Properties** or **Ctrl-Alt-D**.
+- On closing the detached window, the properties are docked agein.
 
 --- 
 

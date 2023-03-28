@@ -8,6 +8,16 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.14.3
+
+- Ctrl-Alt-D toggles detach/dock properties window.
+- Save properties when docking or detaching the properties window.
+- Save properties on closing the project.
+- Update icon.
+- Refactor.
+
+Based on PyWriter v12.3.0
+
 ### v4.14.2
 
 - Prevent detaching the right pane more than once. 
