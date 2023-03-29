@@ -86,10 +86,7 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 [Download the latest release (version 4.14.3)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.14.3.zip)
 
 - Unzip the downloaded zipfile "novelyst_v4.14.3.zip" into a new folder.
-- Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
-- Create a shortcut on the desktop when asked.
-- Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.
-- Open "README.md" for usage instructions.
+- Move into this new folder and open "README.md" for usage instructions.
 
 ------------------------------------------------------------------
 
