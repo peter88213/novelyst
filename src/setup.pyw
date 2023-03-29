@@ -65,8 +65,18 @@ python3 '$Apppath' %f
 
 SET_OPEN_CMD = f'''Windows Registry Editor Version 5.00
 
+[HKEY_CLASSES_ROOT\.yw7]
+@="yWriter7"
+[HKEY_CURRENT_USER\Software\Classes\yWriter7\DefaultIcon]
+@="$INSTALL\\\\icons\\\\nLogo64.ico"
 [HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\open\command]
 @="\\"$PYTHON\\" \\"$SCRIPT\\" \\"%1\\""
+
+'''
+
+RESET_ICON = f'''Windows Registry Editor Version 5.00
+
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\DefaultIcon]
 
 '''
 
@@ -81,6 +91,8 @@ You may want to run the Plugin Manager for compatibility check.
 
 SET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
+[HKEY_CLASSES_ROOT\.yw7]
+@="yWriter7"
 [-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\Open with novelyst]
 [HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\{_('Open with novelyst')}]
 [HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\{_('Open with novelyst')}\\command]
@@ -116,10 +128,11 @@ def make_context_menu(installPath):
     python = sys.executable.replace('\\', '\\\\')
     instPath = installPath.replace('/', '\\\\')
     script = f'{instPath}\\\\{START_UP_SCRIPT}'
-    mapping = dict(PYTHON=python, SCRIPT=script)
+    mapping = dict(PYTHON=python, SCRIPT=script, INSTALL=instPath)
     save_reg_file(f'{installPath}/set_open_cmd.reg', Template(SET_OPEN_CMD), mapping)
     save_reg_file(f'{installPath}/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
     save_reg_file(f'{installPath}/rem_context_menu.reg', Template(RESET_CONTEXT_MENU), {})
+    save_reg_file(f'{installPath}/reset_icon.reg', Template(RESET_ICON), {})
 
 
 def output(text):
