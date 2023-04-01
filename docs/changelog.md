@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.15.0
+
+- Chapter word count includes normal scenes only.
+- Add word count by scene status and usage to the project properties.
+
+Based on PyWriter v12.3.0
+
 ### v4.14.3
 
 - Ctrl-Alt-D toggles detach/dock properties window.

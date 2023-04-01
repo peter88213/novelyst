@@ -1423,11 +1423,11 @@ class TreeViewer(ttk.Frame):
         """Configure chapter formatting and columns."""
 
         def count_words(chId):
-            """Accumulate word counts of all relevant scenes in a chapter."""
+            """Accumulate word counts of all normal scenes in a chapter."""
             wordCount = 0
-            if self._ui.novel.chapters[chId].chType in (0, 3):
+            if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType in (0, 3):
+                    if self._ui.novel.scenes[scId].scType == 0:
                         wordCount += self._ui.novel.scenes[scId].wordCount
             return wordCount
 

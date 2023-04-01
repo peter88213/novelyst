@@ -171,6 +171,33 @@ class ProjectView(BasicView):
         LabelDisp(self._progressFrame, text=_('Words written'),
                   textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w', pady=2)
 
+        ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        self._totalUsed = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('Used'),
+                  textvariable=self._totalUsed, lblWidth=20).pack(anchor='w', pady=2)
+        self._totalOutline = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('Outline'),
+                  textvariable=self._totalOutline, lblWidth=20).pack(anchor='w', pady=2)
+        self._totalDraft = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('Draft'),
+                  textvariable=self._totalDraft, lblWidth=20).pack(anchor='w', pady=2)
+        self._total1stEdit = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('1st Edit'),
+                  textvariable=self._total1stEdit, lblWidth=20).pack(anchor='w', pady=2)
+        self._total2ndEdit = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('2nd Edit'),
+                  textvariable=self._total2ndEdit, lblWidth=20).pack(anchor='w', pady=2)
+        self._totalDone = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('Done'),
+                  textvariable=self._totalDone, lblWidth=20).pack(anchor='w', pady=2)
+        self._totalUnused = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('Unused'),
+                  textvariable=self._totalUnused, lblWidth=20).pack(anchor='w', pady=2)
+        self._totalWords = MyStringVar()
+        LabelDisp(self._progressFrame, text=_('All'),
+                  textvariable=self._totalWords, lblWidth=20).pack(anchor='w', pady=2)
+
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
     def set_data(self, element):
@@ -257,6 +284,18 @@ class ProjectView(BasicView):
 
         # 'Starting count' entry.
         self._wordCountStart.set(self._element.wordCountStart)
+
+        # Status counts.
+        normalWordsTotal, allWordsTotal = self._ui.prjFile.count_words()
+        self._totalWords.set(allWordsTotal)
+        self._totalUsed.set(normalWordsTotal)
+        self._totalUnused.set(allWordsTotal - normalWordsTotal)
+        statusCounts = self._ui.prjFile.get_status_counts()
+        self._totalOutline.set(statusCounts[1])
+        self._totalDraft.set(statusCounts[2])
+        self._total1stEdit.set(statusCounts[3])
+        self._total2ndEdit.set(statusCounts[4])
+        self._totalDone.set(statusCounts[5])
 
     def apply_changes(self):
         """Apply changes.

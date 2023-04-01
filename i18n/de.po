@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.14.3\n"
-"POT-Creation-Date: 2023-03-29 11:02:45\n"
-"PO-Revision-Date: 2023-03-29 11:02:45\n"
+"Project-Id-Version: 4.15.0\n"
+"POT-Creation-Date: 2023-04-01 12:53:40\n"
+"PO-Revision-Date: 2023-04-01 12:53:40\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,9 @@ msgstr "Teil hinzufügen"
 
 msgid "Add Scene"
 msgstr "Abschnitt hinzufügen"
+
+msgid "All"
+msgstr "Alle"
 
 msgid "Append to previous scene"
 msgstr "An den vorherigen Abschnitt anhängen"
@@ -741,6 +744,9 @@ msgstr "Römische Kapitelnummern"
 
 msgid "Use Roman part numbers"
 msgstr "Römische Teilenummern"
+
+msgid "Used"
+msgstr "Benutzt"
 
 msgid "Version"
 msgstr "Version"
