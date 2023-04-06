@@ -509,6 +509,7 @@ class NovelystTk(MainTk):
             #--- Initialize custom keyword variables.
             for fieldName in self.prjFile.PRJ_KWVAR:
                 self.novel.kwVar[fieldName] = None
+            self.novel.kwVar['Field_WorkPhase'] = 1
 
     def on_quit(self, event=None):
         """Save changes and keyword arguments before exiting the program."""

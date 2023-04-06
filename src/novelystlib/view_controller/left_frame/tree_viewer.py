@@ -1713,13 +1713,15 @@ class TreeViewer(ttk.Frame):
                     try:
                         workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
                     except TypeError:
-                        workPhase = 1
-                    if self._ui.novel.scenes[scId].status < workPhase:
-                        nodeTags.append('Behind_schedule')
-                    elif self._ui.novel.scenes[scId].status > workPhase:
-                        nodeTags.append('Before_schedule')
-                    else:
+                        workPhase = 0
                         nodeTags.append('On_schedule')
+                    else:
+                        if self._ui.novel.scenes[scId].status < workPhase:
+                            nodeTags.append('Behind_schedule')
+                        elif self._ui.novel.scenes[scId].status > workPhase:
+                            nodeTags.append('Before_schedule')
+                        else:
+                            nodeTags.append('On_schedule')
                 elif self._ui.kwargs['coloring_mode'] == _('Style'):
                     sceneStyle = self._ui.novel.scenes[scId].scnStyle
                     if sceneStyle:

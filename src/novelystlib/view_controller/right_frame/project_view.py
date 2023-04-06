@@ -304,13 +304,13 @@ class ProjectView(BasicView):
         self._totalDone.set(statusCounts[5])
 
         # 'Work phase' combobox.
-        phases = [_('Outline'), _('Draft'), _('1st Edit'), _('2nd Edit'), _('Done')]
+        phases = [_('Undefined'), _('Outline'), _('Draft'), _('1st Edit'), _('2nd Edit'), _('Done')]
         self._phaseCombobox.configure(values=phases)
         try:
             workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
         except TypeError:
-            workPhase = 1
-        self._phase.set(value=phases[workPhase - 1])
+            workPhase = 0
+        self._phase.set(value=phases[workPhase])
 
     def apply_changes(self):
         """Apply changes.
@@ -421,7 +421,10 @@ class ProjectView(BasicView):
             pass
 
         # Get work phase.
-        entry = str(self._phaseCombobox.current() + 1)
+        if not self._phaseCombobox.current():
+            entry = None
+        else:
+            entry = str(self._phaseCombobox.current())
         if self._ui.novel.kwVar['Field_WorkPhase'] != entry:
             self._ui.novel.kwVar['Field_WorkPhase'] = entry
             self._ui.isModified = True
