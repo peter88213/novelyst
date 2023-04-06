@@ -506,6 +506,10 @@ class NovelystTk(MainTk):
             self.show_status()
             self.isModified = True
 
+            #--- Initialize custom keyword variables.
+            for fieldName in self.prjFile.PRJ_KWVAR:
+                self.novel.kwVar[fieldName] = None
+
     def on_quit(self, event=None):
         """Save changes and keyword arguments before exiting the program."""
         try:
