@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.15.0\n"
-"POT-Creation-Date: 2023-04-01 12:53:40\n"
+"Project-Id-Version: 4.16.0\n"
+"POT-Creation-Date: 2023-04-06 09:55:20\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -500,6 +500,9 @@ msgstr ""
 msgid "No description"
 msgstr ""
 
+msgid "None"
+msgstr ""
+
 msgid "Normal"
 msgstr ""
 
@@ -767,6 +770,9 @@ msgstr ""
 msgid "Words written"
 msgstr ""
 
+msgid "Work phase"
+msgstr ""
+
 msgid "Writing progress"
 msgstr ""
 
@@ -791,19 +797,10 @@ msgstr ""
 msgid "manuscript"
 msgstr ""
 
-msgid "none"
-msgstr ""
-
 msgid "novelyst API"
 msgstr ""
 
 msgid "staged"
-msgstr ""
-
-msgid "status"
-msgstr ""
-
-msgid "style"
 msgstr ""
 
 msgid "summarizing"

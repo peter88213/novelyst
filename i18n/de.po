@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.15.0\n"
-"POT-Creation-Date: 2023-04-01 12:53:40\n"
-"PO-Revision-Date: 2023-04-01 12:53:40\n"
+"Project-Id-Version: 4.16.0\n"
+"POT-Creation-Date: 2023-04-06 09:55:20\n"
+"PO-Revision-Date: 2023-04-06 09:55:21\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -499,6 +499,9 @@ msgstr "Vor"
 msgid "No description"
 msgstr "Keine Beschreibung"
 
+msgid "None"
+msgstr "Keiner"
+
 msgid "Normal"
 msgstr "Normal"
 
@@ -766,6 +769,9 @@ msgstr "Wörter zu schreiben"
 msgid "Words written"
 msgstr "Wörter geschrieben"
 
+msgid "Work phase"
+msgstr "Arbeitsphase"
+
 msgid "Writing progress"
 msgstr "Schreibfortschritt"
 
@@ -790,20 +796,11 @@ msgstr "zuletzt gespeichert:"
 msgid "manuscript"
 msgstr "Manuskript"
 
-msgid "none"
-msgstr "keiner"
-
 msgid "novelyst API"
 msgstr "novelyst API"
 
 msgid "staged"
 msgstr "szenisch"
-
-msgid "status"
-msgstr "Status"
-
-msgid "style"
-msgstr "Stil"
 
 msgid "summarizing"
 msgstr "zusammenfassend"

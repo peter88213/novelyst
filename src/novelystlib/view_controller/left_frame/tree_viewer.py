@@ -235,6 +235,9 @@ class TreeViewer(ttk.Frame):
         self.tree.tag_configure('summarizing', foreground=kwargs['color_summarizing'])
         self.tree.tag_configure('descriptive', foreground=kwargs['color_descriptive'])
         self.tree.tag_configure('explaining', foreground=kwargs['color_explaining'])
+        self.tree.tag_configure('On_schedule', foreground=kwargs['color_on_schedule'])
+        self.tree.tag_configure('Behind_schedule', foreground=kwargs['color_behind_schedule'])
+        self.tree.tag_configure('Before_schedule', foreground=kwargs['color_before_schedule'])
 
         #--- Event bindings.
         self.tree.bind('<<TreeviewSelect>>', self._ui.show_properties)
@@ -1704,9 +1707,20 @@ class TreeViewer(ttk.Frame):
                 nodeTags.append('unused')
             else:
                 # Set the row color according to the color mode.
-                if self._ui.kwargs['coloring_mode'] == _('status'):
+                if self._ui.kwargs['coloring_mode'] == _('Status'):
                     nodeTags.append(Scene.STATUS[self._ui.novel.scenes[scId].status])
-                elif self._ui.kwargs['coloring_mode'] == _('style'):
+                elif self._ui.kwargs['coloring_mode'] == _('Work phase'):
+                    try:
+                        workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
+                    except TypeError:
+                        workPhase = 1
+                    if self._ui.novel.scenes[scId].status < workPhase:
+                        nodeTags.append('Behind_schedule')
+                    elif self._ui.novel.scenes[scId].status > workPhase:
+                        nodeTags.append('Before_schedule')
+                    else:
+                        nodeTags.append('On_schedule')
+                elif self._ui.kwargs['coloring_mode'] == _('Style'):
                     sceneStyle = self._ui.novel.scenes[scId].scnStyle
                     if sceneStyle:
                         nodeTags.append(sceneStyle)

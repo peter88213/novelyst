@@ -52,6 +52,7 @@ class WorkFile(Yw7File):
 
     # Configure part/chapter numbering
     PRJ_KWVAR = [
+        'Field_WorkPhase',
         'Field_RenumberChapters',
         'Field_RenumberParts',
         'Field_RenumberWithinParts',

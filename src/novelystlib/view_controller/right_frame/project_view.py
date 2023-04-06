@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
 from novelystlib.view_controller.right_frame.basic_view import BasicView
+from novelystlib.widgets.label_combo import LabelCombo
 from novelystlib.widgets.label_entry import LabelEntry
 from novelystlib.widgets.label_disp import LabelDisp
 from novelystlib.widgets.my_string_var import MyStringVar
@@ -198,6 +199,11 @@ class ProjectView(BasicView):
         LabelDisp(self._progressFrame, text=_('All'),
                   textvariable=self._totalWords, lblWidth=20).pack(anchor='w', pady=2)
 
+        #--- 'phase' combobox.
+        self._phase = MyStringVar()
+        self._phaseCombobox = LabelCombo(self._progressFrame, lblWidth=20, text=_('Work phase'), textvariable=self._phase, values=[])
+        self._phaseCombobox.pack(anchor=tk.W, pady=2)
+
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
     def set_data(self, element):
@@ -296,6 +302,15 @@ class ProjectView(BasicView):
         self._total1stEdit.set(statusCounts[3])
         self._total2ndEdit.set(statusCounts[4])
         self._totalDone.set(statusCounts[5])
+
+        # 'Work phase' combobox.
+        phases = [_('Outline'), _('Draft'), _('1st Edit'), _('2nd Edit'), _('Done')]
+        self._phaseCombobox.configure(values=phases)
+        try:
+            workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
+        except TypeError:
+            workPhase = 1
+        self._phase.set(value=phases[workPhase - 1])
 
     def apply_changes(self):
         """Apply changes.
@@ -404,6 +419,14 @@ class ProjectView(BasicView):
         except:
             # entry is no integer
             pass
+
+        # Get work phase.
+        entry = str(self._phaseCombobox.current() + 1)
+        if self._ui.novel.kwVar['Field_WorkPhase'] != entry:
+            self._ui.novel.kwVar['Field_WorkPhase'] = entry
+            self._ui.isModified = True
+            self._ui.tv.refresh_tree()
+
         super().apply_changes()
 
     def _set_initial_wc(self):

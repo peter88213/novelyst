@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="novelyst" basedir=".">
-	<property name="version" value="4.15.0" />
+	<property name="version" value="4.16.0" />
 	<property name="test-app" value="novelyst" />
 	
 	<property name="source-path" location="../src" />
