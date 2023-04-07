@@ -231,7 +231,7 @@ class NovelystTk(MainTk):
         self.sceneMenu.add_cascade(label=_('Set Type'), menu=self.tv.scTypeMenu)
         self.sceneMenu.add_cascade(label=_('Set Status'), menu=self.tv.scStatusMenu)
         self.sceneMenu.add_separator()
-        self.sceneMenu.add_cascade(label=_('Set Style'), menu=self.tv.scStyleMenu)
+        self.sceneMenu.add_cascade(label=_('Set Mode'), menu=self.tv.scStyleMenu)
         self.sceneMenu.add_separator()
         self.sceneMenu.add_command(label=_('Export scene descriptions for editing'), command=lambda: self._export_document('_scenes'))
         self.sceneMenu.add_command(label=_('Export scene list (spreadsheet)'), command=lambda: self._export_document('_scenelist'))

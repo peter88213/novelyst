@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.16.2\n"
-"POT-Creation-Date: 2023-04-06 12:47:59\n"
+"Project-Id-Version: 4.16.3\n"
+"POT-Creation-Date: 2023-04-07 15:56:32\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -449,6 +449,9 @@ msgstr ""
 msgid "Minutes"
 msgstr ""
 
+msgid "Mode"
+msgstr ""
+
 msgid "Module"
 msgstr ""
 
@@ -644,10 +647,10 @@ msgstr ""
 msgid "Scene list"
 msgstr ""
 
-msgid "Set Status"
+msgid "Set Mode"
 msgstr ""
 
-msgid "Set Style"
+msgid "Set Status"
 msgstr ""
 
 msgid "Set Type"
@@ -669,9 +672,6 @@ msgid "Starting count"
 msgstr ""
 
 msgid "Status"
-msgstr ""
-
-msgid "Style"
 msgstr ""
 
 msgid "Tagged manuscript for proofing"

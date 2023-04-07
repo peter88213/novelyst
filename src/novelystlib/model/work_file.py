@@ -79,7 +79,7 @@ class WorkFile(Yw7File):
         'Field_SceneArcs',
         'Field_SceneAssoc',
         'Field_CustomAR',
-        'Field_SceneStyle',
+        'Field_SceneStyle',  # TODO: Change the wording and use "Mode" instead of "Style".
         ]
 
     def __init__(self, filePath, **kwargs):

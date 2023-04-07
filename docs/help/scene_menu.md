@@ -21,7 +21,7 @@ You can add a scene to the tree with **Scene > Add**.
 
 - *Normal* type
 - *Outline* completion status
-- *Staged* style
+- *Staged* mode
 - No viewpoint character assigned
 - No arc or tag assigned
 - No date/time set
@@ -54,13 +54,13 @@ This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 
 --- 
 
-## Set Style
+## Set Mode
 
-**Set the scene style**
+**Set the scene mode**
 
 This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 
-### Style change for multiple scenes
+### Mode change for multiple scenes
 
 - Either select multiple scenes, or
 - select a parent node (part, chapter, or Narrative)

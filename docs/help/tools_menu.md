@@ -18,7 +18,7 @@
 
 - **none** - Normal scenes are black on white by default.
 - **status** - Normal scenes are colored according to their completion status (*Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*).
-- **style** - Normal scenes are colored according to their style (*staged*, *explaining*, *descriptive*, or *summarizing*). 
+- **mode** - Normal scenes are colored according to their mode (*staged*, *explaining*, *descriptive*, or *summarizing*). 
 
 ### Columns
 

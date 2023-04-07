@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.16.3
+
+- Show status colors according to the work phase.
+- Change the wording: Use "Mode" instead of "Style". 
+
+Based on PyWriter v12.3.0
+
 ### v4.15.0
 
 - Chapter word count includes normal scenes only.

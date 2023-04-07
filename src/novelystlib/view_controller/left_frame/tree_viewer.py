@@ -60,7 +60,7 @@ class TreeViewer(ttk.Frame):
     Public instance variables:
         tree: ttk.Treeview -- The treeview widget to display.
         columns -- list of tuples (ID, title, width).
-        scStyleMenu: tk.Menu -- Scene "Style" submenu.
+        scStyleMenu: tk.Menu -- Scene "Mode" submenu.
         scTypeMenu: tk.Menu -- Scene "Type" submenu.
         scStatusMenu: tk.Menu -- Scene "Status" submenu.
         crStatusMenu: tk.Menu -- Character "Status" submenu.        
@@ -83,7 +83,7 @@ class TreeViewer(ttk.Frame):
     _COLUMNS = dict(
         wc=(_('Words'), 'wc_width'),
         vp=(_('Viewpoint'), 'vp_width'),
-        sy=(_('Style'), 'style_width'),
+        sy=(_('Mode'), 'mode_width'),
         st=(_('Status'), 'status_width'),
         nt=(_('N'), 'nt_width'),
         dt=(_('Date'), 'date_width'),
@@ -154,12 +154,13 @@ class TreeViewer(ttk.Frame):
 
         #--- Create public submenus.
 
-        #--- Create a scene style submenu.
+        #--- Create a scene mode submenu.
+        # TODO: Change the wording and use "Mode" instead of "Style".
         self.scStyleMenu = tk.Menu(self.tree, tearoff=0)
-        self.scStyleMenu.add_command(label=_('staged'), command=lambda: self._set_scn_style(self.tree.selection(), None))
-        self.scStyleMenu.add_command(label=_('explaining'), command=lambda: self._set_scn_style(self.tree.selection(), 'explaining'))
-        self.scStyleMenu.add_command(label=_('descriptive'), command=lambda: self._set_scn_style(self.tree.selection(), 'descriptive'))
-        self.scStyleMenu.add_command(label=_('summarizing'), command=lambda: self._set_scn_style(self.tree.selection(), 'summarizing'))
+        self.scStyleMenu.add_command(label=_('staged'), command=lambda: self._set_scn_mode(self.tree.selection(), None))
+        self.scStyleMenu.add_command(label=_('explaining'), command=lambda: self._set_scn_mode(self.tree.selection(), 'explaining'))
+        self.scStyleMenu.add_command(label=_('descriptive'), command=lambda: self._set_scn_mode(self.tree.selection(), 'descriptive'))
+        self.scStyleMenu.add_command(label=_('summarizing'), command=lambda: self._set_scn_mode(self.tree.selection(), 'summarizing'))
 
         #--- Create a scene type submenu.
         self.scTypeMenu = tk.Menu(self.tree, tearoff=0)
@@ -197,7 +198,7 @@ class TreeViewer(ttk.Frame):
         self._nvCtxtMenu.add_cascade(label=_('Set Type'), menu=self.scTypeMenu)
         self._nvCtxtMenu.add_cascade(label=_('Set Status'), menu=self.scStatusMenu)
         self._nvCtxtMenu.add_separator()
-        self._nvCtxtMenu.add_cascade(label=_('Set Style'), menu=self.scStyleMenu)
+        self._nvCtxtMenu.add_cascade(label=_('Set Mode'), menu=self.scStyleMenu)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label=_('Join with previous'), command=self.join_scenes)
         self._nvCtxtMenu.add_separator()
@@ -1291,7 +1292,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
-                    self._nvCtxtMenu.entryconfig(_('Set Style'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Set Mode'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Scene'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='disabled')
@@ -1304,7 +1305,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='normal')
-                    self._nvCtxtMenu.entryconfig(_('Set Style'), state='normal')
+                    self._nvCtxtMenu.entryconfig(_('Set Mode'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Add Scene'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='normal')
@@ -1317,7 +1318,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
-                    self._nvCtxtMenu.entryconfig(_('Set Style'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Set Mode'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Scene'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='normal')
@@ -1330,7 +1331,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
-                    self._nvCtxtMenu.entryconfig(_('Set Style'), state='disabled')
+                    self._nvCtxtMenu.entryconfig(_('Set Mode'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Scene'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='normal')
@@ -1343,7 +1344,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='normal')
-                    self._nvCtxtMenu.entryconfig(_('Set Style'), state='normal')
+                    self._nvCtxtMenu.entryconfig(_('Set Mode'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Add Scene'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='normal')
                     self._nvCtxtMenu.entryconfig(_('Add Part'), state='normal')
@@ -1369,7 +1370,7 @@ class TreeViewer(ttk.Frame):
                             self._nvCtxtMenu.entryconfig(_('Add Chapter'), state='disabled')
                             self._nvCtxtMenu.entryconfig(_('Add Part'), state='disabled')
                             self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
-                            self._nvCtxtMenu.entryconfig(_('Set Style'), state='disabled')
+                            self._nvCtxtMenu.entryconfig(_('Set Mode'), state='disabled')
                     else:
                         self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
                     if prefix.startswith(self.SCENE_PREFIX):
@@ -1722,10 +1723,10 @@ class TreeViewer(ttk.Frame):
                             nodeTags.append('Behind_schedule')
                         else:
                             nodeTags.append('Before_schedule')
-                elif self._ui.kwargs['coloring_mode'] == _('Style'):
-                    sceneStyle = self._ui.novel.scenes[scId].scnStyle
-                    if sceneStyle:
-                        nodeTags.append(sceneStyle)
+                elif self._ui.kwargs['coloring_mode'] == _('Mode'):
+                    sceneMode = self._ui.novel.scenes[scId].scnStyle
+                    if sceneMode:
+                        nodeTags.append(sceneMode)
                 try:
                     positionStr = f'{round(100 * position / self._wordsTotal, 1)}%'
                 except:
@@ -1733,12 +1734,12 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['po']] = positionStr
             columns[self._colPos['wc']] = self._ui.novel.scenes[scId].wordCount
             columns[self._colPos['st']] = self._SCN_STATUS[self._ui.novel.scenes[scId].status]
-            sceneStyle = self._ui.novel.scenes[scId].scnStyle
-            if sceneStyle:
-                sceneStyle = _(sceneStyle)
+            sceneMode = self._ui.novel.scenes[scId].scnStyle
+            if sceneMode:
+                sceneMode = _(sceneMode)
             else:
-                sceneStyle = _('staged')
-            columns[self._colPos['sy']] = sceneStyle
+                sceneMode = _('staged')
+            columns[self._colPos['sy']] = sceneMode
             try:
                 columns[self._colPos['vp']] = self._ui.novel.characters[self._ui.novel.scenes[scId].characters[0]].title
             except:
@@ -1793,7 +1794,7 @@ class TreeViewer(ttk.Frame):
             self.update_prj_structure()
             self.refresh_tree()
 
-    def _set_scn_style(self, nodes, scnStyle):
+    def _set_scn_mode(self, nodes, scnMode):
         """Set scene narrative mode (Scene/Description/summary)."""
         if self._ui.check_lock():
             return
@@ -1801,14 +1802,14 @@ class TreeViewer(ttk.Frame):
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                if  self._ui.novel.scenes[node[2:]].scnStyle != scnStyle:
-                    self._ui.novel.scenes[node[2:]].scnStyle = scnStyle
+                if  self._ui.novel.scenes[node[2:]].scnStyle != scnMode:
+                    self._ui.novel.scenes[node[2:]].scnStyle = scnMode
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
                 self.tree.item(node, open=True)
 
                 # Go one level down.
-                self._set_scn_style(self.tree.get_children(node), scnStyle)
+                self._set_scn_mode(self.tree.get_children(node), scnMode)
         if has_changed:
             self.update_prj_structure()
 

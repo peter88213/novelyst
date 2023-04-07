@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.16.2\n"
-"POT-Creation-Date: 2023-04-06 12:47:59\n"
-"PO-Revision-Date: 2023-04-06 12:47:59\n"
+"Project-Id-Version: 4.16.3\n"
+"POT-Creation-Date: 2023-04-07 15:56:32\n"
+"PO-Revision-Date: 2023-04-07 15:56:32\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -448,6 +448,9 @@ msgstr "Nebenfigur"
 msgid "Minutes"
 msgstr "Minuten"
 
+msgid "Mode"
+msgstr "Modus"
+
 msgid "Module"
 msgstr "Modul"
 
@@ -643,11 +646,11 @@ msgstr "Abschnittsbeschreibungen"
 msgid "Scene list"
 msgstr "Abschnittsliste"
 
+msgid "Set Mode"
+msgstr "Modus bestimmen"
+
 msgid "Set Status"
 msgstr "Status setzen"
-
-msgid "Set Style"
-msgstr "Stil bestimmen"
 
 msgid "Set Type"
 msgstr "Typ wählen"
@@ -669,9 +672,6 @@ msgstr "Anfangswert"
 
 msgid "Status"
 msgstr "Status"
-
-msgid "Style"
-msgstr "Stil"
 
 msgid "Tagged manuscript for proofing"
 msgstr "Manuskript mit Markierungen zum Überarbeiten"

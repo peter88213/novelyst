@@ -135,7 +135,7 @@ class Plugin:
 
         Warning: This command will remove the novelyst specific project settings, 
         such as auto-numbering mode and renamings. This will also remove 
-        special scene properties such as arc and style assignments.
+        special scene properties such as arc and mode assignments.
         """
         if self._ui.prjFile is not None:
             if self._ui.ask_yes_no('Remove novelyst project settings and save?'):

@@ -31,7 +31,7 @@ When structuring a novel, *novelyst* builds on the concept of *yWriter*, and ext
 
 Please note that *novelyst* is not intended to compete with or replace *yWriter*. Quite deliberately, *novelyst* does not support many of *yWriter's* unique features. It has no scene editor included, no progress control, neither LaTeX nor ebook export. Definition and replacement of global variables and project variables is not supported, neither is inline code. Not to mention yWriter's sophisticated backup features. On the other hand, *novelyst* as a Python program can be used on operating systems other than Windows without any problems.
 
-- Besides, in *novelyst* you can assign additional properties to the scenes, for example, the style (*staged*, *explaining*, *descriptive*, or *summarizing*), or the [arcs](help/arcs), which offer a powerful concept to support plotting. 
+- Besides, in *novelyst* you can assign additional properties to the scenes, for example, the mode (*staged*, *explaining*, *descriptive*, or *summarizing*), or the [arcs](help/arcs), which offer a powerful concept to support plotting. 
 - In addition to the *Action/Reaction* scheme, another custom scene category can be defined by the user. 
 - The character data categories "Bio" and "Goals" can be renamed.
 - *novelyst* can generate a scene's start date/time from the previous scene's end date/time.
@@ -83,9 +83,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 4.16.2)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.16.2.zip)
+[Download the latest release (version 4.16.3)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.16.3.zip)
 
-- Unzip the downloaded zipfile "novelyst_v4.16.2.zip" into a new folder.
+- Unzip the downloaded zipfile "novelyst_v4.16.3.zip" into a new folder.
 - Move into this new folder and open "README.md" for usage instructions.
 
 ------------------------------------------------------------------

@@ -12,7 +12,7 @@ from novelystlib.widgets.drag_drop_listbox import DragDropListbox
 
 class SettingsWindow(tk.Toplevel):
 
-    COLORING_MODES = [_('None'), _('Status'), _('Work phase'), _('Style')]
+    COLORING_MODES = [_('None'), _('Status'), _('Work phase'), _('Mode')]
 
     def __init__(self, tv, ui, size, **kw):
         self._tv = tv
