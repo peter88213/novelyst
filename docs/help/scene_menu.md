@@ -56,7 +56,7 @@ This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 
 ## Set Mode
 
-**Set the scene mode**
+**Set the mode of discourse**
 
 This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 
