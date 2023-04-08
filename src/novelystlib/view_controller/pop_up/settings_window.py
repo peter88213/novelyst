@@ -12,8 +12,6 @@ from novelystlib.widgets.drag_drop_listbox import DragDropListbox
 
 class SettingsWindow(tk.Toplevel):
 
-    COLORING_MODES = [_('None'), _('Status'), _('Work phase'), _('Mode')]
-
     def __init__(self, tv, ui, size, **kw):
         self._tv = tv
         self._ui = ui
@@ -31,20 +29,14 @@ class SettingsWindow(tk.Toplevel):
         # Combobox for coloring mode setting.
         colorFrame = ttk.Frame(window)
         colorFrame.pack(fill=tk.BOTH, side=tk.LEFT)
-        try:
-            coloringMode = int(self._ui.kwargs['coloring_mode'])
-        except TypeError:
-            coloringMode = 0
-        if coloringMode > len(self.COLORING_MODES):
-            coloringMode = 0
-        self._coloringMode = tk.StringVar(value=self.COLORING_MODES[coloringMode])
-        self._coloringMode.trace('w', self._change_colors)
+        self._coloringModeStr = tk.StringVar(value=self._ui.COLORING_MODES[self._ui.coloringMode])
+        self._coloringModeStr.trace('w', self._change_colors)
         ttk.Label(colorFrame,
                   text=_('Coloring mode')
                   ).pack(padx=5, pady=5, anchor=tk.W)
         ttk.Combobox(colorFrame,
-                   textvariable=self._coloringMode,
-                   values=self.COLORING_MODES,
+                   textvariable=self._coloringModeStr,
+                   values=self._ui.COLORING_MODES,
                    width=20
                    ).pack(padx=5, pady=5, anchor=tk.W)
 
@@ -73,8 +65,8 @@ class SettingsWindow(tk.Toplevel):
                    ).pack(padx=5, pady=5, anchor=tk.E)
 
     def _change_colors(self, *args, **kwargs):
-        cmStr = self._coloringMode.get()
-        self._ui.kwargs['coloring_mode'] = self.COLORING_MODES.index(cmStr)
+        cmStr = self._coloringModeStr.get()
+        self._ui.coloringMode = self._ui.COLORING_MODES.index(cmStr)
         self._tv.refresh_tree()
 
     def _change_column_order(self, *args, **kwargs):

@@ -74,7 +74,8 @@ class NovelystTk(MainTk):
         wordCount - int: Total words of "normal" type scenes.
         reloading: bool -- If True, suppress popup message when reopening a project that has changed on disk.
         prjFile: WorkFile
-        novel: Novel 
+        novel: Novel
+        coloringMode: int -- Scene row coloring mode indicating a COLORING_MODES item.
         appWindow: ttk.frame -- Application window with three frames.
         leftFrame: ttk.frame -- Frame for the project tree.
         middleFrame: ttk.frame -- Frame for the contents viewer.
@@ -96,8 +97,12 @@ class NovelystTk(MainTk):
         
     Public properties:
         isModified: Boolean -- True if there are unsaved changes.
-        isLocked: Boolean -- True if a lock file exists for the current project.     
+        isLocked: Boolean -- True if a lock file exists for the current project.  
+        
+    Public class constants:
+        COLORING_MODES: List[str] -- Scene row coloring modes.
     """
+    COLORING_MODES = [_('None'), _('Status'), _('Work phase'), _('Mode')]
     _HELP_URL = 'https://peter88213.github.io/novelyst/usage'
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
@@ -127,6 +132,7 @@ class NovelystTk(MainTk):
             color_modified_fg: str -- tk color name for Footer foreground when modified.
             color_text_bg: str -- tk color name for text box background.
             color_text_fg: str -- tk color name for text box foreground.
+            coloring_mode: int -- Scene row coloring mode.
     
         Extends the superclass constructor.
         """
@@ -151,6 +157,14 @@ class NovelystTk(MainTk):
         self.reloading = False
         self.prjFile = None
         self.novel = None
+
+        # Scene coloring mode.
+        try:
+            self.coloringMode = int(self.kwargs['coloring_mode'])
+        except TypeError:
+            self.coloringMode = 0
+        if self.coloringMode > len(self.COLORING_MODES):
+            self.coloringMode = 0
 
         #--- Build the GUI frames.
 
@@ -523,6 +537,9 @@ class NovelystTk(MainTk):
 
             # Save contents window "show markup" state.
             self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
+
+            # Save scene coloring mode.
+            self.kwargs['coloring_mode'] = self.coloringMode
 
             # Save windows size and position.
             if self._propWinDetached:
