@@ -31,10 +31,13 @@ class SettingsWindow(tk.Toplevel):
         # Combobox for coloring mode setting.
         colorFrame = ttk.Frame(window)
         colorFrame.pack(fill=tk.BOTH, side=tk.LEFT)
-        cm = self._ui.kwargs['coloring_mode']
-        if not cm in self.COLORING_MODES:
-            cm = self.COLORING_MODES[0]
-        self._coloringMode = tk.StringVar(value=cm)
+        try:
+            coloringMode = int(self._ui.kwargs['coloring_mode'])
+        except TypeError:
+            coloringMode = 0
+        if coloringMode > len(self.COLORING_MODES):
+            coloringMode = 0
+        self._coloringMode = tk.StringVar(value=self.COLORING_MODES[coloringMode])
         self._coloringMode.trace('w', self._change_colors)
         ttk.Label(colorFrame,
                   text=_('Coloring mode')
@@ -70,7 +73,8 @@ class SettingsWindow(tk.Toplevel):
                    ).pack(padx=5, pady=5, anchor=tk.E)
 
     def _change_colors(self, *args, **kwargs):
-        self._ui.kwargs['coloring_mode'] = self._coloringMode.get()
+        cmStr = self._coloringMode.get()
+        self._ui.kwargs['coloring_mode'] = self.COLORING_MODES.index(cmStr)
         self._tv.refresh_tree()
 
     def _change_column_order(self, *args, **kwargs):

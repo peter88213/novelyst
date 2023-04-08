@@ -1708,9 +1708,13 @@ class TreeViewer(ttk.Frame):
                 nodeTags.append('unused')
             else:
                 # Set the row color according to the color mode.
-                if self._ui.kwargs['coloring_mode'] == _('Status'):
+                try:
+                    coloringMode = int(self._ui.kwargs['coloring_mode'])
+                except TypeError:
+                    coloringMode = 0
+                if coloringMode == 1:
                     nodeTags.append(Scene.STATUS[self._ui.novel.scenes[scId].status])
-                elif self._ui.kwargs['coloring_mode'] == _('Work phase'):
+                elif coloringMode == 2:
                     try:
                         workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
                     except TypeError:
@@ -1723,7 +1727,7 @@ class TreeViewer(ttk.Frame):
                             nodeTags.append('Behind_schedule')
                         else:
                             nodeTags.append('Before_schedule')
-                elif self._ui.kwargs['coloring_mode'] == _('Mode'):
+                elif coloringMode == 3:
                     sceneMode = self._ui.novel.scenes[scId].scnStyle
                     if sceneMode:
                         nodeTags.append(sceneMode)

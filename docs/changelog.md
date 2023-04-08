@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.16.4
+
+- Store the coloring_mode setting as an integer value to make it locale-independent. 
+
+Based on PyWriter v12.3.0
+
 ### v4.16.3
 
 - Show status colors according to the work phase.
