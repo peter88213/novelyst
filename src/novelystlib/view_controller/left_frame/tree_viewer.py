@@ -1117,10 +1117,13 @@ class TreeViewer(ttk.Frame):
                 self.tree.selection_set(self.tree.prev(selection))
             else:
                 self.tree.selection_set(self.tree.parent(selection))
-            del self._ui.novel.chapters[elemId]
-            self._ui.novel.srtChapters.remove(elemId)
+            self._ui.novel.chapters[elemId].chLevel = 0
             self.update_prj_structure()
             self.refresh_tree()
+            del self._ui.novel.chapters[elemId]
+            self._ui.novel.srtChapters.remove(elemId)
+            self.tree.delete(f'{self.CHAPTER_PREFIX}{elemId}')
+            self.update_prj_structure()
 
     def _delete_node(self, event):
         """Delete a node and its children.
@@ -1713,7 +1716,7 @@ class TreeViewer(ttk.Frame):
                 elif self._ui.coloringMode == 2:
                     try:
                         workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
-                    except TypeError:
+                    except:
                         workPhase = 0
                         nodeTags.append('On_schedule')
                     else:

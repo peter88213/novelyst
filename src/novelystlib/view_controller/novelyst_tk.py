@@ -161,7 +161,7 @@ class NovelystTk(MainTk):
         # Scene coloring mode.
         try:
             self.coloringMode = int(self.kwargs['coloring_mode'])
-        except TypeError:
+        except:
             self.coloringMode = 0
         if self.coloringMode > len(self.COLORING_MODES):
             self.coloringMode = 0

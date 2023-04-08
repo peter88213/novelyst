@@ -8,6 +8,14 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.16.5
+
+- Fix a bug where cancelling parts did not work.
+- Improve error handling.
+- Refactor: Make the scene row coloring mode a type checked NovelystTk instance variable.
+
+Based on PyWriter v12.3.0
+
 ### v4.16.4
 
 - Store the coloring_mode setting as an integer value to make it locale-independent. 

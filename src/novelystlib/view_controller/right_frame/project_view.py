@@ -308,7 +308,7 @@ class ProjectView(BasicView):
         self._phaseCombobox.configure(values=phases)
         try:
             workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
-        except TypeError:
+        except:
             workPhase = 0
         self._phase.set(value=phases[workPhase])
 
