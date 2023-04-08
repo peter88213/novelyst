@@ -51,10 +51,8 @@ class ContentsViewer(RichTextYw):
 
         def convert_from_yw(text):
             if not self.showMarkup.get():
-                text = re.sub('\[.+?\]', '', text)
-                # text = re.sub('\[\/*[i|b|h|c|r|s|u]\d*\]', '', text)
-                # text = re.sub('\[\/*?lang=.+?\]', '', text)
-                # Remove raw markup from text
+                # Remove yw7 markup from text.
+                text = re.sub('\[.+?\]|^\> ', '', text)
             return text
 
         taggedText = []

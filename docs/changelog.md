@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.16.6
+
+- When suppressing markup in the Text viewer, consider '>' (quoted text).
+
+Based on PyWriter v12.3.0
+
 ### v4.16.5
 
 - Fix a bug where cancelling parts did not work.
