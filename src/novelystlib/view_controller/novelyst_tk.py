@@ -640,10 +640,6 @@ class NovelystTk(MainTk):
             self.set_info_how(f'!{_("Cannot save: The project is locked")}.')
             return False
 
-        if len(self.novel.srtChapters) < 1:
-            self.set_info_how(f'!{_("Cannot save: The project must have at least one chapter or part")}.')
-            return False
-
         if self.prjFile.is_locked():
             self.set_info_how(f'!{_("yWriter seems to be open. Please close first")}.')
             return False

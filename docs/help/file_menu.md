@@ -14,8 +14,7 @@
 
 - You can create a new project with **File > New** or **Ctrl-N**. This will close the current project
   and open a file dialog asking for the location and file name of the project to create.
-- Once you specified a valid file path, a blank project appears. You have to add at least one chapter 
-  before you can save it to disk. This is required for yWriter compatibility.
+- Once you specified a valid file path, a blank project appears. Be aware, it's not saved on disk yet.
 
 --- 
 

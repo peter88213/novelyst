@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.16.7
+
+- Projects can now be saved even if they do not contain chapters.
+
+Based on PyWriter v12.3.1
+
 ### v4.16.6
 
 - When suppressing markup in the Text viewer, consider '>' (quoted text).
