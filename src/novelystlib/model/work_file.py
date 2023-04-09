@@ -95,6 +95,7 @@ class WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self.timestamp = None
+        self.cleanUp = False
 
     @property
     def fileDate(self):
@@ -478,6 +479,8 @@ class WorkFile(Yw7File):
         
         Extends the superclass method.
         """
+        if self.cleanUp:
+            self.tree = None
         super().write()
         self.timestamp = os.path.getmtime(self.filePath)
 
