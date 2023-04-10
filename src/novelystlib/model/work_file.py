@@ -36,7 +36,8 @@ class WorkFile(Yw7File):
 
     Public instance variables:
         timestamp: float -- Time of last file modification (number of seconds since the epoch).
-
+        wcLog: dict[str, list[str, str]] -- Daily word count logs.
+    
     Public properties:
         fileDate: str -- ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
 
@@ -95,6 +96,7 @@ class WorkFile(Yw7File):
         """
         super().__init__(filePath)
         self.timestamp = None
+        self.wcLog = {}
 
     @property
     def fileDate(self):
@@ -329,6 +331,16 @@ class WorkFile(Yw7File):
         """
         super().read()
 
+        #--- Read wordcount log.
+        root = self.tree.getroot()
+        xmlWclog = root.find('WCLog')
+        if xmlWclog is not None:
+            for xmlWc in xmlWclog.findall('WC'):
+                wcDate = xmlWc.find('Date').text
+                wcCount = xmlWc.find('Count').text
+                wcTotalCount = xmlWc.find('TotalCount').text
+                self.wcLog[wcDate] = [wcCount, wcTotalCount]
+
         #--- Convert field created with novelyst v4.3
         for chId in self.novel.chapters:
             oldField = self.novel.chapters[chId].kwVar.get('Field_Arc_Definition', None)
@@ -485,41 +497,32 @@ class WorkFile(Yw7File):
         """Extends the superclass method."""
         super()._build_element_tree()
 
-        root = self.tree.getroot()
-
-        #--- Process word count log.
-        if self.novel.kwVar.get('Field_SaveWordCount', ''):
+        #--- Add today's word count, if it has changed.
+        if self.novel.kwVar.get('Field_SaveWordCount', False):
             newCountInt, newTotalCountInt = self.count_words()
             newCount = str(newCountInt)
             newTotalCount = str(newTotalCountInt)
-            today = date.today().isoformat()
-            wcLog = root.find('WCLog')
-            if wcLog is None:
-                wcLog = ET.SubElement(root, 'WCLog')
-                wc = ET.SubElement(wcLog, 'WC')
-                ET.SubElement(wc, 'Date').text = today
-                ET.SubElement(wc, 'Count').text = newCount
-                ET.SubElement(wc, 'TotalCount').text = newTotalCount
-            else:
-                for wc in wcLog.findall('WC'):
-                    editDate = wc.find('Date')
-                    count = wc.find('Count')
-                    totalCount = wc.find('TotalCount')
-                if wc is None:
-                    wc = ET.SubElement(wcLog, 'WC')
-                    ET.SubElement(wc, 'Date').text = today
-                    ET.SubElement(wc, 'Count').text = newCount
-                    ET.SubElement(wc, 'TotalCount').text = newTotalCount
-                elif newCount != count.text or newTotalCount != totalCount.text:
-                    if editDate.text != today:
-                        wc = ET.SubElement(wcLog, 'WC')
-                        ET.SubElement(wc, 'Date').text = today
-                        ET.SubElement(wc, 'Count').text = newCount
-                        ET.SubElement(wc, 'TotalCount').text = newTotalCount
-                    else:
-                        count.text = newCount
-                        totalCount.text = newTotalCount
+            latestDate = list(self.wcLog)[-1]
+            latestCount = self.wcLog[latestDate][0]
+            latestTotalCount = self.wcLog[latestDate][1]
+            if newCount != latestCount or newTotalCount != latestTotalCount:
+                today = date.today().isoformat()
+                self.wcLog[today] = [newCount, newTotalCount]
 
+        #--- Rebuild the word count log.
+        root = self.tree.getroot()
+        xmlWcLog = root.find('WCLog')
+        if xmlWcLog is not None:
+            root.remove(xmlWcLog)
+        if self.wcLog:
+            xmlWcLog = ET.SubElement(root, 'WCLog')
+            for wc in self.wcLog:
+                xmlWc = ET.SubElement(xmlWcLog, 'WC')
+                ET.SubElement(xmlWc, 'Date').text = wc
+                ET.SubElement(xmlWc, 'Count').text = self.wcLog[wc][0]
+                ET.SubElement(xmlWc, 'TotalCount').text = self.wcLog[wc][1]
+
+        #--- Prepare the XML tree for saving.
         indent(root)
         self.tree = ET.ElementTree(root)
 

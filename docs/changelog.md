@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.17.0
+
+- Add an option to delete yWriter-only data when writing .yw7.
+
+Based on PyWriter v12.3.1
+
 ### v4.16.7
 
 - Projects can now be saved even if they do not contain chapters.
