@@ -80,7 +80,8 @@ OPTIONS = dict(
     show_relationships=False,
     show_cr_bio=True,
     show_cr_goals=True,
-    detach_prop_win=False
+    detach_prop_win=False,
+    clean_up_yw=False,
 )
 
 

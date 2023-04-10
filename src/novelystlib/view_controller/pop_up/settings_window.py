@@ -25,39 +25,50 @@ class SettingsWindow(tk.Toplevel):
                     padx=5,
                     pady=5
                     )
+        frame1 = ttk.Frame(window)
+        frame1.pack(fill=tk.BOTH, side=tk.LEFT)
+        ttk.Separator(window, orient=tk.VERTICAL).pack(fill=tk.Y, padx=10, side=tk.LEFT)
+        frame2 = ttk.Frame(window)
+        frame2.pack(fill=tk.BOTH, side=tk.LEFT)
 
         # Combobox for coloring mode setting.
-        colorFrame = ttk.Frame(window)
-        colorFrame.pack(fill=tk.BOTH, side=tk.LEFT)
         self._coloringModeStr = tk.StringVar(value=self._ui.COLORING_MODES[self._ui.coloringMode])
         self._coloringModeStr.trace('w', self._change_colors)
-        ttk.Label(colorFrame,
+        ttk.Label(frame1,
                   text=_('Coloring mode')
                   ).pack(padx=5, pady=5, anchor=tk.W)
-        ttk.Combobox(colorFrame,
+        ttk.Combobox(frame1,
                    textvariable=self._coloringModeStr,
                    values=self._ui.COLORING_MODES,
                    width=20
                    ).pack(padx=5, pady=5, anchor=tk.W)
 
+        ttk.Separator(frame1, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=10)
+
+        # Checkbox for deleting yWriter-only data on save.
+        self._cleanUpYw = tk.BooleanVar(frame1, value=self._ui.cleanUpYw)
+        ttk.Checkbutton(frame1, text=_('Delete yWriter-only data on save'), variable=self._cleanUpYw).pack(anchor=tk.W)
+        self._cleanUpYw.trace('w', self._update_cleanup)
+
         # Listbox for column reordering.
-        columnFrame = ttk.Frame(window)
-        columnFrame.pack(fill=tk.BOTH, side=tk.LEFT)
-        ttk.Label(columnFrame,
+        ttk.Label(frame2,
                   text=_('Columns')
                   ).pack(padx=5, pady=5, anchor=tk.W)
         self._coIdsByTitle = {}
         for coId, title, __ in self._tv.columns:
             self._coIdsByTitle[title] = coId
         self._colEntries = tk.Variable(value=list(self._coIdsByTitle))
-        DragDropListbox(columnFrame,
+        DragDropListbox(frame2,
                         listvariable=self._colEntries,
                         width=20
                         ).pack(padx=5, pady=5, anchor=tk.W)
-        ttk.Button(columnFrame,
+        ttk.Button(frame2,
                    text=_('Apply'),
                    command=self._change_column_order
                    ).pack(padx=5, pady=5, anchor=tk.W)
+
+        ttk.Separator(self, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
         # "Exit" button.
         ttk.Button(self,
                    text=_('Exit'),
@@ -78,3 +89,5 @@ class SettingsWindow(tk.Toplevel):
         self._tv.configure_columns()
         self._tv.build_tree()
 
+    def _update_cleanup(self, *args, **kwargs):
+        self._ui.cleanUpYw = self._cleanUpYw.get()

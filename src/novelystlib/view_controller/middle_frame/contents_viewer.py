@@ -15,10 +15,10 @@ class ContentsViewer(RichTextYw):
     """A tkinter text box class for novelyst file viewing.
     
     Public methods:
-        view_text(taggedText) -- Build a list of "tagged text" tuples and send it to the text box.
         reset_view() -- Clear the text box.
         see(idStr) -- Scroll the text to the position of the idStr node.
         update() -- Reload the text to view.
+        view_text(taggedText) -- Build a list of "tagged text" tuples and send it to the text box.
 
     Public instance variables:
         showMarkup: Boolean -- If True, display yWriter raw markup; if False, hide it.

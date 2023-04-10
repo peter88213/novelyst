@@ -76,6 +76,7 @@ class NovelystTk(MainTk):
         prjFile: WorkFile
         novel: Novel
         coloringMode: int -- Scene row coloring mode indicating a COLORING_MODES item.
+        cleanUpYw: bool -- If True, delete yWriter-only data on saving the project.
         appWindow: ttk.frame -- Application window with three frames.
         leftFrame: ttk.frame -- Frame for the project tree.
         middleFrame: ttk.frame -- Frame for the contents viewer.
@@ -165,6 +166,9 @@ class NovelystTk(MainTk):
             self.coloringMode = 0
         if self.coloringMode > len(self.COLORING_MODES):
             self.coloringMode = 0
+
+        # "Delete yWriter-only data on save" state.
+        self.cleanUpYw = self.kwargs['clean_up_yw']
 
         #--- Build the GUI frames.
 
@@ -538,6 +542,9 @@ class NovelystTk(MainTk):
             # Save contents window "show markup" state.
             self.kwargs['show_markup'] = self.contentsViewer.showMarkup.get()
 
+            # Save "Delete yWriter-only data on save" state.
+            self.kwargs['clean_up_yw'] = self.cleanUpYw
+
             # Save scene coloring mode.
             self.kwargs['coloring_mode'] = self.coloringMode
 
@@ -649,6 +656,8 @@ class NovelystTk(MainTk):
 
         self._elementView.apply_changes()
         try:
+            if self.cleanUpYw:
+                self.prjFile.tree = None
             self.prjFile.write()
         except Error as ex:
             self.set_info_how(f'!{str(ex)}')
