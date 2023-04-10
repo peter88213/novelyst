@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.16.7\n"
-"POT-Creation-Date: 2023-04-09 20:54:06\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-04-10 09:59:08\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -252,6 +252,9 @@ msgid "Delete"
 msgstr ""
 
 msgid "Delete file"
+msgstr ""
+
+msgid "Delete yWriter-only data on save"
 msgstr ""
 
 msgid "Delete {}?"

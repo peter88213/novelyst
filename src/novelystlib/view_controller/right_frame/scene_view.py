@@ -22,8 +22,8 @@ class SceneView(BasicView):
     - A folding frame for relationships (characters/locations/items)
        
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
@@ -114,55 +114,6 @@ class SceneView(BasicView):
                 )
         self._itemWindow.pack(fill=tk.X)
 
-    def set_data(self, element):
-        """Update the widgets with element's data.
-        
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        # 'Tags' entry.
-        if self._element.tags is not None:
-            self._tagsStr = list_to_string(self._element.tags)
-        else:
-            self._tagsStr = ''
-        self._tags.set(self._tagsStr)
-
-        #--- Frame for 'Relationships'.
-        if self._ui.kwargs['show_relationships']:
-            self._relationFrame.show()
-        else:
-            self._relationFrame.hide()
-
-        # 'Characters' window.
-        self._crTitles = self._get_relation_title_string(element.characters, self._ui.novel.characters)
-        self._characterWindow.set_text(self._crTitles)
-
-        # 'Locations' window.
-        self._lcTitles = self._get_relation_title_string(element.locations, self._ui.novel.locations)
-        self._locationWindow.set_text(self._lcTitles)
-
-        # 'Items' window.
-        self._itTitles = self._get_relation_title_string(element.items, self._ui.novel.items)
-        self._itemWindow.set_text(self._itTitles)
-
-    def _get_relation_title_string(self, elemIds, elements):
-        """Write element titles to a text box and return the text.
-        
-        Positional arguments:
-        elemIds -- list of IDs of elements related to the scene (character/location/item IDs)
-        elements -- list of element objects (characters/locations/items) on the project level.          
-        """
-        elemTitles = []
-        if elemIds:
-            for elemId in elemIds:
-                try:
-                    elemTitles.append(elements[elemId].title)
-                except:
-                    pass
-        titleStr = list_to_string(elemTitles)
-        return titleStr
-
     def apply_changes(self):
         """Apply changes.
         
@@ -202,6 +153,38 @@ class SceneView(BasicView):
 
         super().apply_changes()
 
+    def set_data(self, element):
+        """Update the widgets with element's data.
+        
+        Extends the superclass constructor.
+        """
+        super().set_data(element)
+
+        # 'Tags' entry.
+        if self._element.tags is not None:
+            self._tagsStr = list_to_string(self._element.tags)
+        else:
+            self._tagsStr = ''
+        self._tags.set(self._tagsStr)
+
+        #--- Frame for 'Relationships'.
+        if self._ui.kwargs['show_relationships']:
+            self._relationFrame.show()
+        else:
+            self._relationFrame.hide()
+
+        # 'Characters' window.
+        self._crTitles = self._get_relation_title_string(element.characters, self._ui.novel.characters)
+        self._characterWindow.set_text(self._crTitles)
+
+        # 'Locations' window.
+        self._lcTitles = self._get_relation_title_string(element.locations, self._ui.novel.locations)
+        self._locationWindow.set_text(self._lcTitles)
+
+        # 'Items' window.
+        self._itTitles = self._get_relation_title_string(element.items, self._ui.novel.items)
+        self._itemWindow.set_text(self._itTitles)
+
     def _get_relation_id_list(self, newTitleStr, oldTitleStr, elements):
         """Return a list of valid IDs from a string containing semicolon-separated titles."""
         if newTitleStr or oldTitleStr:
@@ -218,6 +201,23 @@ class SceneView(BasicView):
                 return elemIds
 
         return None
+
+    def _get_relation_title_string(self, elemIds, elements):
+        """Write element titles to a text box and return the text.
+        
+        Positional arguments:
+        elemIds -- list of IDs of elements related to the scene (character/location/item IDs)
+        elements -- list of element objects (characters/locations/items) on the project level.          
+        """
+        elemTitles = []
+        if elemIds:
+            for elemId in elemIds:
+                try:
+                    elemTitles.append(elements[elemId].title)
+                except:
+                    pass
+        titleStr = list_to_string(elemTitles)
+        return titleStr
 
     def _toggle_relationFrame(self, event=None):
         """Hide/show the 'Relationships' frame."""

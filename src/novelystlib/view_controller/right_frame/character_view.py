@@ -23,8 +23,8 @@ class CharacterView(WorldElementView):
     - A "Goals" folding frame.
    
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
@@ -90,38 +90,6 @@ class CharacterView(WorldElementView):
                 )
         self._goalsEntry.pack(fill=tk.X)
 
-    def set_data(self, element):
-        """Update the view with element's data.
-        
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        # 'Full name' entry.
-        self._fullName.set(self._element.fullName)
-
-        #--- 'Bio' entry
-        if self._ui.novel.kwVar.get('Field_CustomChrBio', None):
-            self._bioFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrBio']
-        else:
-            self._bioFrame.buttonText = _('Bio')
-        if self._ui.kwargs['show_cr_bio']:
-            self._bioFrame.show()
-        else:
-            self._bioFrame.hide()
-        self._bioEntry.set_text(self._element.bio)
-
-        #--- 'Goals' entry.
-        if self._ui.novel.kwVar.get('Field_CustomChrGoals', None):
-            self._goalsFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrGoals']
-        else:
-            self._goalsFrame.buttonText = _('Goals')
-        if self._ui.kwargs['show_cr_goals']:
-            self._goalsFrame.show()
-        else:
-            self._goalsFrame.hide()
-        self._goalsEntry.set_text(self._element.goals)
-
     def apply_changes(self):
         """Apply changes.
         
@@ -155,6 +123,38 @@ class CharacterView(WorldElementView):
             self._ui.tv.update_prj_structure()
 
         super().apply_changes()
+
+    def set_data(self, element):
+        """Update the view with element's data.
+        
+        Extends the superclass constructor.
+        """
+        super().set_data(element)
+
+        # 'Full name' entry.
+        self._fullName.set(self._element.fullName)
+
+        #--- 'Bio' entry
+        if self._ui.novel.kwVar.get('Field_CustomChrBio', None):
+            self._bioFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrBio']
+        else:
+            self._bioFrame.buttonText = _('Bio')
+        if self._ui.kwargs['show_cr_bio']:
+            self._bioFrame.show()
+        else:
+            self._bioFrame.hide()
+        self._bioEntry.set_text(self._element.bio)
+
+        #--- 'Goals' entry.
+        if self._ui.novel.kwVar.get('Field_CustomChrGoals', None):
+            self._goalsFrame.buttonText = self._ui.novel.kwVar['Field_CustomChrGoals']
+        else:
+            self._goalsFrame.buttonText = _('Goals')
+        if self._ui.kwargs['show_cr_goals']:
+            self._goalsFrame.show()
+        else:
+            self._goalsFrame.hide()
+        self._goalsEntry.set_text(self._element.goals)
 
     def _toggle_bioWindow(self, event=None):
         """Hide/show the 'Bio' textbox."""

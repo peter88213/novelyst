@@ -24,8 +24,8 @@ class NotesSceneView(SceneView):
     - A folding frame for date/time.
 
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _DATE_TIME_LBL_X = 15
     # Width of left-placed labels.
@@ -114,33 +114,6 @@ class NotesSceneView(SceneView):
         ttk.Button(sceneDurationFrame,
                    text=_('Clear duration'),
                    command=self._clear_duration).pack(side=tk.LEFT, padx=1, pady=2)
-
-    def set_data(self, element):
-        """Update the widgets with element's data.
-        
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        self._startDate.set(self._element.date)
-
-        # Remove the seconds for the display.
-        if self._element.time is not None:
-            dispTime = self._element.time.rsplit(':', 1)[0]
-        else:
-            dispTime = None
-        self._startTime.set(dispTime)
-
-        self._startDay.set(self._element.day)
-        self._lastsDays.set(self._element.lastsDays)
-        self._lastsHours.set(self._element.lastsHours)
-        self._lastsMinutes.set(self._element.lastsMinutes)
-
-        #--- Frame for date/time.
-        if self._ui.kwargs['show_date_time']:
-            self._dateTimeFrame.show()
-        else:
-            self._dateTimeFrame.hide()
 
     def apply_changes(self):
         """Apply changes.
@@ -290,37 +263,35 @@ class NotesSceneView(SceneView):
         if switchTimeMode:
             self.set_data(self._element)
 
-    def _toggle_dateTimeFrame(self, event=None):
-        """Hide/show the 'Date/Time' frame."""
-        if self._ui.kwargs['show_date_time']:
-            self._dateTimeFrame.hide()
-            self._ui.kwargs['show_date_time'] = False
-        else:
-            self._dateTimeFrame.show()
-            self._ui.kwargs['show_date_time'] = True
-
-    def _clear_start(self):
-        """Remove start data from the scene.
+    def set_data(self, element):
+        """Update the widgets with element's data.
+        
+        Extends the superclass constructor.
         """
-        startData = [
-            self._element.date,
-            self._element.time,
-            self._element.day,
-            ]
-        hasData = False
-        for dataElement in startData:
-            if dataElement:
-                hasData = True
-        if hasData and self._ui.ask_yes_no(_('Clear date/time from this scene?')):
-            self._element.date = None
-            self._element.time = None
-            self._element.day = None
-            self.set_data(self._element)
-            self._ui.isModified = True
+        super().set_data(element)
+
+        self._startDate.set(self._element.date)
+
+        # Remove the seconds for the display.
+        if self._element.time is not None:
+            dispTime = self._element.time.rsplit(':', 1)[0]
+        else:
+            dispTime = None
+        self._startTime.set(dispTime)
+
+        self._startDay.set(self._element.day)
+        self._lastsDays.set(self._element.lastsDays)
+        self._lastsHours.set(self._element.lastsHours)
+        self._lastsMinutes.set(self._element.lastsMinutes)
+
+        #--- Frame for date/time.
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.show()
+        else:
+            self._dateTimeFrame.hide()
 
     def _auto_set(self):
-        """Set scene start to the end of the previous scene.
-        """
+        """Set scene start to the end of the previous scene."""
 
         def get_scene_end(scene):
             """Return a scene end (date, time, day) tuple calculated from start and duration.
@@ -381,8 +352,7 @@ class NotesSceneView(SceneView):
                 self._ui.show_error(_('The previous scene has no date/time set.'), title=_('Cannot generate date/time'))
 
     def _clear_duration(self):
-        """Remove duration data from the scene.
-        """
+        """Remove duration data from the scene."""
         durationData = [
             self._element.lastsDays,
             self._element.lastsHours,
@@ -398,3 +368,31 @@ class NotesSceneView(SceneView):
             self._element.lastsMinutes = None
             self.set_data(self._element)
             self._ui.isModified = True
+
+    def _clear_start(self):
+        """Remove start data from the scene."""
+        startData = [
+            self._element.date,
+            self._element.time,
+            self._element.day,
+            ]
+        hasData = False
+        for dataElement in startData:
+            if dataElement:
+                hasData = True
+        if hasData and self._ui.ask_yes_no(_('Clear date/time from this scene?')):
+            self._element.date = None
+            self._element.time = None
+            self._element.day = None
+            self.set_data(self._element)
+            self._ui.isModified = True
+
+    def _toggle_dateTimeFrame(self, event=None):
+        """Hide/show the 'Date/Time' frame."""
+        if self._ui.kwargs['show_date_time']:
+            self._dateTimeFrame.hide()
+            self._ui.kwargs['show_date_time'] = False
+        else:
+            self._dateTimeFrame.show()
+            self._ui.kwargs['show_date_time'] = True
+

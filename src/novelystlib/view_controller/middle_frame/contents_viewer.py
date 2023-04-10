@@ -46,6 +46,33 @@ class ContentsViewer(RichTextYw):
         self._textMarks = {}
         self._index = '1.0'
 
+    def reset_view(self):
+        """Clear the text box."""
+        self.state = 'normal'
+        self.delete('1.0', tk.END)
+        self.state = 'disabled'
+
+    def see(self, idStr):
+        """Scroll the text to the position of the idStr node.
+        
+        Positional arguments:
+            idStr: str -- Chapter or scene node (tree selection).
+        """
+        try:
+            self._index = self._textMarks[idStr]
+            super().see(self._index)
+        except KeyError:
+            pass
+
+    def update(self, event=None, *args):
+        """Reload the text to view."""
+        self.reset_view()
+        self.view_text()
+        try:
+            super().see(self._index)
+        except KeyError:
+            pass
+
     def view_text(self):
         """Build a list of "tagged text" tuples and send it to the text box."""
 
@@ -124,31 +151,4 @@ class ContentsViewer(RichTextYw):
                 index = f"{self.count('1.0', tk.END, 'lines')[0]}.0"
                 self._textMarks[entry] = index
         self.state = 'disabled'
-
-    def reset_view(self):
-        """Clear the text box."""
-        self.state = 'normal'
-        self.delete('1.0', tk.END)
-        self.state = 'disabled'
-
-    def see(self, idStr):
-        """Scroll the text to the position of the idStr node.
-        
-        Positional arguments:
-            idStr: str -- Chapter or scene node (tree selection).
-        """
-        try:
-            self._index = self._textMarks[idStr]
-            super().see(self._index)
-        except KeyError:
-            pass
-
-    def update(self, event=None, *args):
-        """Reload the text to view."""
-        self.reset_view()
-        self.view_text()
-        try:
-            super().see(self._index)
-        except KeyError:
-            pass
 

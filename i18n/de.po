@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.16.7\n"
-"POT-Creation-Date: 2023-04-09 20:54:06\n"
-"PO-Revision-Date: 2023-04-09 20:54:07\n"
+"Project-Id-Version: unknown\n"
+"POT-Creation-Date: 2023-04-10 09:59:08\n"
+"PO-Revision-Date: 2023-04-10 09:59:14\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -252,6 +252,9 @@ msgstr "Löschen"
 
 msgid "Delete file"
 msgstr "Lösche Datei"
+
+msgid "Delete yWriter-only data on save"
+msgstr "yWriter-spezifische Daten beim Speichern löschen"
 
 msgid "Delete {}?"
 msgstr "{} löschen?"

@@ -25,8 +25,8 @@ class NormalSceneView(NotesSceneView):
     - An "Action/Reaction" folding frame for Goal/Reaction/Outcome.
 
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _GCO_Y = 5
     # height of the Goals/Conflict/Outcome text boxes
@@ -139,6 +139,90 @@ class NormalSceneView(NotesSceneView):
                 )
         self._outcomeWindow.pack(fill=tk.X)
 
+    def apply_changes(self):
+        """Apply changes.
+        
+        Extends the superclass method.
+        """
+        # 'Viewpoint' combobox.
+        option = self._characterCombobox.current()
+        if self._element.characters:
+            oldVpId = self._element.characters[0]
+        else:
+            oldVpId = None
+        if option >= 0:
+            newVpId = self._ui.novel.srtCharacters[option]
+            if oldVpId:
+                if newVpId != oldVpId:
+                    try:
+                        self._element.characters.remove(newVpId)
+                    except:
+                        pass
+                    self._element.characters.insert(0, newVpId)
+                    self._ui.isModified = True
+            else:
+                self._element.characters = []
+                self._element.characters.append(newVpId)
+                self._ui.isModified = True
+
+        # 'Arcs' entry (if any).
+        newArcs = self._arcs.get()
+        if self._element.scnArcs or newArcs:
+            if self._element.scnArcs != newArcs:
+                self._element.scnArcs = newArcs
+                self._ui.isModified = True
+
+                # Refresh the "points" display in case an arc has been removed.
+                self._ui.tv.update_prj_structure()
+                self.set_data(self._element)
+
+        # 'Append to previous scene' checkbox.
+        appendToPrev = self._appendToPrev.get()
+        if self._element.appendToPrev or appendToPrev:
+            if self._element.appendToPrev != appendToPrev:
+                self._element.appendToPrev = appendToPrev
+                self._ui.isModified = True
+
+        # 'Action'/'Reaction'/'Custom' radiobuttons.
+        isReactionScene = self._scenePacingType.get() == 1
+        if self._element.isReactionScene != isReactionScene:
+            self._element.isReactionScene = isReactionScene
+            self._ui.isModified = True
+        if self._scenePacingType.get() == 2:
+            value = '1'
+        else:
+            value = None
+        if self._element.kwVar.get('Field_CustomAR', None) or value:
+            if self._element.kwVar['Field_CustomAR'] != value:
+                self._element.kwVar['Field_CustomAR'] = value
+                self._ui.isModified = True
+
+        # 'Goal/Reaction' window.
+        if self._goalWindow.hasChanged:
+            goal = self._goalWindow.get_text()
+            if goal or self._element.goal:
+                if self._element.goal != goal:
+                    self._element.goal = goal
+                    self._ui.isModified = True
+
+        # 'Conflict/Dilemma' window.
+        if self._conflictWindow.hasChanged:
+            conflict = self._conflictWindow.get_text()
+            if conflict or self._element.conflict:
+                if self._element.conflict != conflict:
+                    self._element.conflict = conflict
+                    self._ui.isModified = True
+
+        # 'Outcome/Choice' window.
+        if self._outcomeWindow.hasChanged:
+            outcome = self._outcomeWindow.get_text()
+            if outcome or self._element.outcome:
+                if self._element.outcome != outcome:
+                    self._element.outcome = outcome
+                    self._ui.isModified = True
+
+        super().apply_changes()
+
     def set_data(self, element):
         """Update the widgets with element's data.
         
@@ -228,90 +312,6 @@ class NormalSceneView(NotesSceneView):
         else:
             self._set_action_scene()
 
-    def apply_changes(self):
-        """Apply changes.
-        
-        Extends the superclass method.
-        """
-        # 'Viewpoint' combobox.
-        option = self._characterCombobox.current()
-        if self._element.characters:
-            oldVpId = self._element.characters[0]
-        else:
-            oldVpId = None
-        if option >= 0:
-            newVpId = self._ui.novel.srtCharacters[option]
-            if oldVpId:
-                if newVpId != oldVpId:
-                    try:
-                        self._element.characters.remove(newVpId)
-                    except:
-                        pass
-                    self._element.characters.insert(0, newVpId)
-                    self._ui.isModified = True
-            else:
-                self._element.characters = []
-                self._element.characters.append(newVpId)
-                self._ui.isModified = True
-
-        # 'Arcs' entry (if any).
-        newArcs = self._arcs.get()
-        if self._element.scnArcs or newArcs:
-            if self._element.scnArcs != newArcs:
-                self._element.scnArcs = newArcs
-                self._ui.isModified = True
-
-                # Refresh the "points" display in case an arc has been removed.
-                self._ui.tv.update_prj_structure()
-                self.set_data(self._element)
-
-        # 'Append to previous scene' checkbox.
-        appendToPrev = self._appendToPrev.get()
-        if self._element.appendToPrev or appendToPrev:
-            if self._element.appendToPrev != appendToPrev:
-                self._element.appendToPrev = appendToPrev
-                self._ui.isModified = True
-
-        # 'Action'/'Reaction'/'Custom' radiobuttons.
-        isReactionScene = self._scenePacingType.get() == 1
-        if self._element.isReactionScene != isReactionScene:
-            self._element.isReactionScene = isReactionScene
-            self._ui.isModified = True
-        if self._scenePacingType.get() == 2:
-            value = '1'
-        else:
-            value = None
-        if self._element.kwVar.get('Field_CustomAR', None) or value:
-            if self._element.kwVar['Field_CustomAR'] != value:
-                self._element.kwVar['Field_CustomAR'] = value
-                self._ui.isModified = True
-
-        # 'Goal/Reaction' window.
-        if self._goalWindow.hasChanged:
-            goal = self._goalWindow.get_text()
-            if goal or self._element.goal:
-                if self._element.goal != goal:
-                    self._element.goal = goal
-                    self._ui.isModified = True
-
-        # 'Conflict/Dilemma' window.
-        if self._conflictWindow.hasChanged:
-            conflict = self._conflictWindow.get_text()
-            if conflict or self._element.conflict:
-                if self._element.conflict != conflict:
-                    self._element.conflict = conflict
-                    self._ui.isModified = True
-
-        # 'Outcome/Choice' window.
-        if self._outcomeWindow.hasChanged:
-            outcome = self._outcomeWindow.get_text()
-            if outcome or self._element.outcome:
-                if self._element.outcome != outcome:
-                    self._element.outcome = outcome
-                    self._ui.isModified = True
-
-        super().apply_changes()
-
     def _get_relation_id_list(self, newTitleStr, oldTitleStr, elements):
         """Return a list of valid IDs from a string containing semicolon-separated titles."""
         if newTitleStr or oldTitleStr:
@@ -334,15 +334,15 @@ class NormalSceneView(NotesSceneView):
         self._conflictLabel.config(text=_('Conflict'))
         self._outcomeLabel.config(text=_('Outcome'))
 
-    def _set_reaction_scene(self, event=None):
-        self._goalLabel.config(text=_('Reaction'))
-        self._conflictLabel.config(text=_('Dilemma'))
-        self._outcomeLabel.config(text=_('Choice'))
-
     def _set_custom_ar_scene(self, event=None):
         self._goalLabel.config(text=self._customGoal)
         self._conflictLabel.config(text=self._customConflict)
         self._outcomeLabel.config(text=self._customOutcome)
+
+    def _set_reaction_scene(self, event=None):
+        self._goalLabel.config(text=_('Reaction'))
+        self._conflictLabel.config(text=_('Dilemma'))
+        self._outcomeLabel.config(text=_('Choice'))
 
     def _toggle_arcFrame(self, event=None):
         """Hide/show the narrative arcs frame."""

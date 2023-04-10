@@ -17,8 +17,8 @@ class ChapterView(BasicView):
     - A "Do not auto-number" checkbox.
 
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
@@ -42,6 +42,19 @@ class ChapterView(BasicView):
         # 'Do not auto-number...' checkbutton.
         self._noNumber = tk.BooleanVar()
         self._noNumberButton = ttk.Checkbutton(self._elementInfoWindow, variable=self._noNumber, onvalue=True, offvalue=False)
+
+    def apply_changes(self):
+        """Apply changes.
+        
+        Extends the superclass method.
+        """
+        if self._element.isTrash:
+            return
+
+        # 'Do not auto-number...' checkbutton.
+        if self._update_field_bool(self._noNumber, 'Field_NoNumber'):
+            self._ui.isModified = True
+        super().apply_changes()
 
     def set_data(self, element):
         """Update the view with element's data.
@@ -74,17 +87,4 @@ class ChapterView(BasicView):
                 self._noNumberButton.pack(anchor='w', pady=2)
         elif self._noNumberButton.winfo_manager():
             self._noNumberButton.pack_forget()
-
-    def apply_changes(self):
-        """Apply changes.
-        
-        Extends the superclass method.
-        """
-        if self._element.isTrash:
-            return
-
-        # 'Do not auto-number...' checkbutton.
-        if self._update_field_bool(self._noNumber, 'Field_NoNumber'):
-            self._ui.isModified = True
-        super().apply_changes()
 

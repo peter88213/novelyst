@@ -72,16 +72,6 @@ class PluginManager(tk.Toplevel):
         # "Exit" button.
         ttk.Button(window, text=_('Exit'), command=self.destroy).pack(padx=5, pady=5, side=tk.LEFT)
 
-    def _open_home_page(self, event=None):
-        moduleName = self._moduleCollection.selection()[0]
-        if moduleName:
-            try:
-                url = self._ui.plugins[moduleName].URL
-                if url:
-                    webbrowser.open(url)
-            except:
-                pass
-
     def _delete_module(self, event=None):
         moduleName = self._moduleCollection.selection()[0]
         if moduleName:
@@ -109,4 +99,14 @@ class PluginManager(tk.Toplevel):
                 pass
         self._homeButton.configure(state=homeButtonState)
         self._deleteButton.configure(state=deleteButtonState)
+
+    def _open_home_page(self, event=None):
+        moduleName = self._moduleCollection.selection()[0]
+        if moduleName:
+            try:
+                url = self._ui.plugins[moduleName].URL
+                if url:
+                    webbrowser.open(url)
+            except:
+                pass
 

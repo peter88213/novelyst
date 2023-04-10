@@ -19,8 +19,8 @@ class TodoChapterView(BasicView):
     - An "Arc" entry.
       
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
 
     If one story arc is assigned to a "Todo" chapter, this chapter is used 
     for defining this arc. In this case, there is an extra display:    
@@ -59,39 +59,6 @@ class TodoChapterView(BasicView):
         self._nrScenes.pack(side=tk.LEFT, pady=2)
         ttk.Button(self._arcFrame, text=_('Clear scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
 
-    def set_data(self, element):
-        """Update the view with element's data.
-        
-        - Hide the info window, if the chapter ist the "trash bin". 
-        - Show/hide the "Do not auto-number" button, depending on the chapter type.       
-        - Configure the "Do not auto-number" button, depending on the chapter level.       
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        # Count the scenes assigned to this arc.
-        self._scenesAssigned = []
-        arc = self._element.kwVar['Field_ArcDefinition']
-        if arc:
-            for scId in self._ui.novel.scenes:
-                if self._ui.novel.scenes[scId].scType == 0:
-                    if arc in string_to_list(self._ui.novel.scenes[scId].scnArcs):
-                        self._scenesAssigned.append(scId)
-        else:
-            arc = ''
-
-        # 'Arc name' entry.
-        self._arcs.set(arc)
-
-        # Frame for arc specific widgets.
-        if len(self._scenesAssigned) > 0:
-            self._nrScenes['text'] = f'{_("Number of scenes")}: {len(self._scenesAssigned)}'
-            if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
-        else:
-            if self._arcFrame.winfo_manager():
-                self._arcFrame.pack_forget()
-
     def apply_changes(self):
         """Apply changes.
         
@@ -127,6 +94,39 @@ class TodoChapterView(BasicView):
                 self._ui.isModified = True
 
         super().apply_changes()
+
+    def set_data(self, element):
+        """Update the view with element's data.
+        
+        - Hide the info window, if the chapter ist the "trash bin". 
+        - Show/hide the "Do not auto-number" button, depending on the chapter type.       
+        - Configure the "Do not auto-number" button, depending on the chapter level.       
+        Extends the superclass constructor.
+        """
+        super().set_data(element)
+
+        # Count the scenes assigned to this arc.
+        self._scenesAssigned = []
+        arc = self._element.kwVar['Field_ArcDefinition']
+        if arc:
+            for scId in self._ui.novel.scenes:
+                if self._ui.novel.scenes[scId].scType == 0:
+                    if arc in string_to_list(self._ui.novel.scenes[scId].scnArcs):
+                        self._scenesAssigned.append(scId)
+        else:
+            arc = ''
+
+        # 'Arc name' entry.
+        self._arcs.set(arc)
+
+        # Frame for arc specific widgets.
+        if len(self._scenesAssigned) > 0:
+            self._nrScenes['text'] = f'{_("Number of scenes")}: {len(self._scenesAssigned)}'
+            if not self._arcFrame.winfo_manager():
+                self._arcFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
+        else:
+            if self._arcFrame.winfo_manager():
+                self._arcFrame.pack_forget()
 
     def _removeArcRef(self):
         """Remove arc reference from all scenes.

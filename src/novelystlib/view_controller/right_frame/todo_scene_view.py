@@ -18,8 +18,8 @@ class TodoSceneView(SceneView):
     - A folding frame for arc points.    
           
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
         
     """
 
@@ -60,6 +60,18 @@ class TodoSceneView(SceneView):
         ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side=tk.LEFT, padx=1, pady=2)
         ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side=tk.LEFT, padx=1, pady=2)
 
+    def apply_changes(self):
+        """Apply changes.
+        
+        Extends the superclass method.
+        """
+        # 'Arc name' entry.
+        if self._element.kwVar.get('Field_SceneAssoc', None) != self._associatedScene:
+            self._element.kwVar['Field_SceneAssoc'] = self._associatedScene
+            self._ui.isModified = True
+
+        super().apply_changes()
+
     def set_data(self, element):
         """Update the widgets with element's data.
         
@@ -91,37 +103,6 @@ class TodoSceneView(SceneView):
         else:
             if self._arcInnerFrame.winfo_manager():
                 self._arcInnerFrame.pack_forget()
-
-    def apply_changes(self):
-        """Apply changes.
-        
-        Extends the superclass method.
-        """
-        # 'Arc name' entry.
-        if self._element.kwVar.get('Field_SceneAssoc', None) != self._associatedScene:
-            self._element.kwVar['Field_SceneAssoc'] = self._associatedScene
-            self._ui.isModified = True
-
-        super().apply_changes()
-
-    def _pick_scene(self):
-        """Enter the "associate scene" selection mode.
-        
-        Change the mouse cursor to "+" and expand the "Narrative" subtree.
-        Now the tree selection does not trigger the viewer, 
-        but tries to associate the selected node to the Arc point.  
-        
-        To end the "associate scene" selection mode, either select any node, 
-        or press the Escape key.
-        """
-        self._lastSelected = self._ui.tv.tree.selection()[0]
-        self._ui.tv.config(cursor='plus')
-        self._ui.tv.open_children('')
-        self._ui.tv.tree.see(self._ui.tv.NV_ROOT)
-        self._treeSelectBinding = self._ui.tv.tree.bind('<<TreeviewSelect>>')
-        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._assign_scene)
-        self._uiEscBinding = self._ui.root.bind('<Esc>')
-        self._ui.root.bind('<Escape>', self._assign_scene)
 
     def _assign_scene(self, event=None):
         """Associate the selected scene with the Arc point.
@@ -164,6 +145,25 @@ class TodoSceneView(SceneView):
         self.set_data(self._element)
         self._ui.tv.tree.see(self._lastSelected)
         self._ui.tv.tree.selection_set(self._lastSelected)
+
+    def _pick_scene(self):
+        """Enter the "associate scene" selection mode.
+        
+        Change the mouse cursor to "+" and expand the "Narrative" subtree.
+        Now the tree selection does not trigger the viewer, 
+        but tries to associate the selected node to the Arc point.  
+        
+        To end the "associate scene" selection mode, either select any node, 
+        or press the Escape key.
+        """
+        self._lastSelected = self._ui.tv.tree.selection()[0]
+        self._ui.tv.config(cursor='plus')
+        self._ui.tv.open_children('')
+        self._ui.tv.tree.see(self._ui.tv.NV_ROOT)
+        self._treeSelectBinding = self._ui.tv.tree.bind('<<TreeviewSelect>>')
+        self._ui.tv.tree.bind('<<TreeviewSelect>>', self._assign_scene)
+        self._uiEscBinding = self._ui.root.bind('<Esc>')
+        self._ui.root.bind('<Escape>', self._assign_scene)
 
     def _toggle_arcFrame(self, event=None):
         """Hide/show the narrative arcs frame."""

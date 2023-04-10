@@ -14,10 +14,10 @@ class BasicView(ttk.Frame):
     """Generic class for viewing tree element properties.
     
     Public methods:
-        show() -- Make the ui text boxes and the view visible.
+        apply_changes() -- Apply changes of element title, description, and notes.   
         hide() -- Clear the ui text boxes, and hide the view.
         set_data() -- Update the view with element's data.
-        apply_changes() -- Apply changes of element title, description, and notes.   
+        show() -- Make the ui text boxes and the view visible.
     """
     _INDEXCARD = False
     _ELEMENT_INFO = False
@@ -57,6 +57,85 @@ class BasicView(ttk.Frame):
         if self._BUTTONBAR:
             self._create_button_bar()
 
+    def apply_changes(self):
+        """Apply changes of element title, description, and notes."""
+        if self._element is not None:
+
+            # Title entry.
+            title = self._elementTitle.get()
+            if title or self._element.title:
+                if self._element.title != title:
+                    self._element.title = title.strip()
+                    self._ui.isModified = True
+
+            # Description entry.
+            if self._descWindow.hasChanged:
+                desc = self._descWindow.get_text()
+                if desc or self._element.desc:
+                    if self._element.desc != desc:
+                        self._element.desc = desc
+                        self._ui.isModified = True
+
+            # Notes entry (if any).
+            if hasattr(self._element, 'notes') and self._notesWindow.hasChanged:
+                notes = self._notesWindow.get_text()
+                if hasattr(self._element, 'notes'):
+                    if notes or self._element.notes:
+                        if self._element.notes != notes:
+                            self._element.notes = notes
+                            self._ui.isModified = True
+
+        if self._ui.isModified:
+            self._ui.tv.update_prj_structure()
+
+    def hide(self):
+        """Hide the view."""
+        self.pack_forget()
+
+    def set_data(self, element):
+        """Update the view with element's data."""
+        self._tagsStr = ''
+        self._element = element
+        if self._element is not None:
+
+            # Title entry.
+            if self._element.title is not None:
+                self._elementTitle.set(self._element.title)
+            else:
+                self._elementTitle.set('')
+
+            # Description entry.
+            self._descWindow.clear()
+            self._descWindow.set_text(self._element.desc)
+
+            # Notes entry (if any).
+            if hasattr(self._element, 'notes'):
+                self._notesWindow.clear()
+                self._notesWindow.set_text(self._element.notes)
+
+    def show(self):
+        """Make the view visible."""
+        self.pack(expand=True, fill=tk.BOTH)
+
+    def _create_button_bar(self):
+        """Create a button bar at the bottom."""
+        self._buttonBar = ttk.Frame(self)
+        self._buttonBar.pack(fill=tk.X)
+
+        # "Previous" button.
+        ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        # "Apply changes" button.
+        ttk.Button(self._buttonBar, text=_('Apply changes'), command=self.apply_changes).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        # "Next" button.
+        ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+    def _create_element_info_window(self):
+        """Create a window for element specific information."""
+        self._elementInfoWindow = ttk.Frame(self._propertiesFrame)
+        self._elementInfoWindow.pack(fill=tk.X)
+
     def _create_index_card(self):
         """Create an "index card" for element title and description."""
         self._indexCard = tk.Frame(self._propertiesFrame, bd=2, relief=tk.RIDGE)
@@ -90,11 +169,6 @@ class BasicView(ttk.Frame):
                 )
         self._descWindow.pack(fill=tk.X)
 
-    def _create_element_info_window(self):
-        """Create a window for element specific information."""
-        self._elementInfoWindow = ttk.Frame(self._propertiesFrame)
-        self._elementInfoWindow.pack(fill=tk.X)
-
     def _create_notes_window(self):
         """Create a text box for element notes."""
         self._notesWindow = TextBox(self._propertiesFrame,
@@ -112,93 +186,21 @@ class BasicView(ttk.Frame):
                 )
         self._notesWindow.pack(expand=True, fill=tk.BOTH)
 
-    def _create_button_bar(self):
-        """Create a button bar at the bottom."""
-        self._buttonBar = ttk.Frame(self)
-        self._buttonBar.pack(fill=tk.X)
+    def _load_next(self):
+        """Load the next tree element of the same type."""
+        thisNode = self._ui.tv.tree.selection()[0]
+        nextNode = self._ui.tv.next_node(thisNode, '')
+        if nextNode:
+            self._ui.tv.tree.see(nextNode)
+            self._ui.tv.tree.selection_set(nextNode)
 
-        # "Previous" button.
-        ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side=tk.LEFT, fill=tk.X, expand=True)
-
-        # "Apply changes" button.
-        ttk.Button(self._buttonBar, text=_('Apply changes'), command=self.apply_changes).pack(side=tk.LEFT, fill=tk.X, expand=True)
-
-        # "Next" button.
-        ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
-
-    def show(self):
-        """Make the view visible."""
-        self.pack(expand=True, fill=tk.BOTH)
-
-    def hide(self):
-        """Hide the view."""
-        self.pack_forget()
-
-    def set_data(self, element):
-        """Update the view with element's data."""
-        self._tagsStr = ''
-        self._element = element
-        if self._element is not None:
-
-            # Title entry.
-            if self._element.title is not None:
-                self._elementTitle.set(self._element.title)
-            else:
-                self._elementTitle.set('')
-
-            # Description entry.
-            self._descWindow.clear()
-            self._descWindow.set_text(self._element.desc)
-
-            # Notes entry (if any).
-            if hasattr(self._element, 'notes'):
-                self._notesWindow.clear()
-                self._notesWindow.set_text(self._element.notes)
-
-    def apply_changes(self):
-        """Apply changes of element title, description, and notes."""
-        if self._element is not None:
-
-            # Title entry.
-            title = self._elementTitle.get()
-            if title or self._element.title:
-                if self._element.title != title:
-                    self._element.title = title.strip()
-                    self._ui.isModified = True
-
-            # Description entry.
-            if self._descWindow.hasChanged:
-                desc = self._descWindow.get_text()
-                if desc or self._element.desc:
-                    if self._element.desc != desc:
-                        self._element.desc = desc
-                        self._ui.isModified = True
-
-            # Notes entry (if any).
-            if hasattr(self._element, 'notes') and self._notesWindow.hasChanged:
-                notes = self._notesWindow.get_text()
-                if hasattr(self._element, 'notes'):
-                    if notes or self._element.notes:
-                        if self._element.notes != notes:
-                            self._element.notes = notes
-                            self._ui.isModified = True
-
-        if self._ui.isModified:
-            self._ui.tv.update_prj_structure()
-
-    def _update_field_str(self, tkValue, fieldname):
-        """Update a custom field and return True if changed. 
-               
-        Positional arguments:
-            tkValue -- widget variable holding a string that is not None.
-            fieldname -- keyword of a custom field whose value might be None.
-        """
-        entry = tkValue.get()
-        if self._element.kwVar.get(fieldname, None) or entry:
-            if self._element.kwVar.get(fieldname, None) != entry:
-                self._element.kwVar[fieldname] = entry
-                return True
-        return False
+    def _load_prev(self):
+        """Load the next tree element of the same type."""
+        thisNode = self._ui.tv.tree.selection()[0]
+        prevNode = self._ui.tv.prev_node(thisNode, '')
+        if prevNode:
+            self._ui.tv.tree.see(prevNode)
+            self._ui.tv.tree.selection_set(prevNode)
 
     def _update_field_bool(self, tkValue, fieldname):
         """Update a custom field and return True if changed.
@@ -222,18 +224,17 @@ class BasicView(ttk.Frame):
                 return True
         return False
 
-    def _load_prev(self):
-        """Load the next tree element of the same type."""
-        thisNode = self._ui.tv.tree.selection()[0]
-        prevNode = self._ui.tv.prev_node(thisNode, '')
-        if prevNode:
-            self._ui.tv.tree.see(prevNode)
-            self._ui.tv.tree.selection_set(prevNode)
+    def _update_field_str(self, tkValue, fieldname):
+        """Update a custom field and return True if changed. 
+               
+        Positional arguments:
+            tkValue -- widget variable holding a string that is not None.
+            fieldname -- keyword of a custom field whose value might be None.
+        """
+        entry = tkValue.get()
+        if self._element.kwVar.get(fieldname, None) or entry:
+            if self._element.kwVar.get(fieldname, None) != entry:
+                self._element.kwVar[fieldname] = entry
+                return True
+        return False
 
-    def _load_next(self):
-        """Load the next tree element of the same type."""
-        thisNode = self._ui.tv.tree.selection()[0]
-        nextNode = self._ui.tv.next_node(thisNode, '')
-        if nextNode:
-            self._ui.tv.tree.see(nextNode)
-            self._ui.tv.tree.selection_set(nextNode)

@@ -105,6 +105,43 @@ class NvExporter:
         else:
             self._export()
 
+    def _ask(self):
+        """Ask whether to overwrite or to open the existing document, and do what's necessary."""
+        targetTimestamp = os.path.getmtime(self._target.filePath)
+        try:
+            if  targetTimestamp > self.ui.prjFile.timestamp:
+                timeStatus = _('Newer than the project file')
+                self._isNewer = True
+            else:
+                timeStatus = _('Older than the project file')
+        except:
+            timeStatus = ''
+        self._targetFileDate = datetime.fromtimestamp(targetTimestamp).replace(microsecond=0).isoformat(sep=' ')
+        message = _('{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?').format(
+                    norm_path(self._target.DESCRIPTION), timeStatus, self._targetFileDate)
+        offset = 300
+        __, x, y = self.ui.root.geometry().split('+')
+        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
+        self._popup = tk.Toplevel()
+        self._popup.resizable(0, 0)
+        self._popup.geometry(windowGeometry)
+        self._popup.title(self.ui.novel.title)
+        self._popup.grab_set()
+        tk.Label(self._popup, text=message, bg='white').pack(ipadx=10, ipady=30)
+        cancelButton = ttk.Button(self._popup, text=_('Cancel'), command=self._cancel)
+        cancelButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        openButton = ttk.Button(self._popup, text=_('Open existing'), command=self._open_existing)
+        openButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        overwriteButton = ttk.Button(self._popup, text=_('Overwrite'), command=self._export)
+        overwriteButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        overwriteButton.focus_set()
+
+    def _cancel(self):
+        """Neither overwrite, nor open the existing document. Show a message instead."""
+        if self._popup is not None:
+            self._popup.destroy()
+        self.ui.set_info_how(f'!{_("Action canceled by user")}.')
+
     def _export(self):
         """Generate a new document. Overwrite the existing document, if any."""
         if self._popup is not None:
@@ -137,41 +174,4 @@ class NvExporter:
         self.ui.set_info_how(f'{prefix}{_("Opened existing {0} (last saved on {1})").format(self._target.DESCRIPTION, self._targetFileDate)}.')
         if self._lock and not self.ui.isLocked:
             self.ui.isLocked = True
-
-    def _cancel(self):
-        """Neither overwrite, nor open the existing document. Show a message instead."""
-        if self._popup is not None:
-            self._popup.destroy()
-        self.ui.set_info_how(f'!{_("Action canceled by user")}.')
-
-    def _ask(self):
-        """Ask whether to overwrite or to open the existing document, and do what's necessary."""
-        targetTimestamp = os.path.getmtime(self._target.filePath)
-        try:
-            if  targetTimestamp > self.ui.prjFile.timestamp:
-                timeStatus = _('Newer than the project file')
-                self._isNewer = True
-            else:
-                timeStatus = _('Older than the project file')
-        except:
-            timeStatus = ''
-        self._targetFileDate = datetime.fromtimestamp(targetTimestamp).replace(microsecond=0).isoformat(sep=' ')
-        message = _('{0} already exists.\n{1} (last saved on {2}).\nOpen this document instead of overwriting it?').format(
-                    norm_path(self._target.DESCRIPTION), timeStatus, self._targetFileDate)
-        offset = 300
-        __, x, y = self.ui.root.geometry().split('+')
-        windowGeometry = f'+{int(x)+offset}+{int(y)+offset}'
-        self._popup = tk.Toplevel()
-        self._popup.resizable(0, 0)
-        self._popup.geometry(windowGeometry)
-        self._popup.title(self.ui.novel.title)
-        self._popup.grab_set()
-        tk.Label(self._popup, text=message, bg='white').pack(ipadx=10, ipady=30)
-        cancelButton = ttk.Button(self._popup, text=_('Cancel'), command=self._cancel)
-        cancelButton.pack(side=tk.RIGHT, padx=5, pady=10)
-        openButton = ttk.Button(self._popup, text=_('Open existing'), command=self._open_existing)
-        openButton.pack(side=tk.RIGHT, padx=5, pady=10)
-        overwriteButton = ttk.Button(self._popup, text=_('Overwrite'), command=self._export)
-        overwriteButton.pack(side=tk.RIGHT, padx=5, pady=10)
-        overwriteButton.focus_set()
 

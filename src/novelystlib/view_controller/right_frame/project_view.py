@@ -19,8 +19,8 @@ class ProjectView(BasicView):
     """Class for viewing and editing project properties.
     
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
@@ -206,112 +206,6 @@ class ProjectView(BasicView):
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
-    def set_data(self, element):
-        """Update the widgets with element's data.
-        
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        #--- Author entry.
-        self._authorName.set(self._element.authorName)
-
-        #--- "Project settings" frame.
-        if self._ui.kwargs['show_language_settings']:
-            self._languageFrame.show()
-        else:
-            self._languageFrame.hide()
-
-        # 'Language code' entry.
-        self._languageCode.set(self._element.languageCode)
-
-        # 'Country code' entry.
-        self._countryCode.set(self._element.countryCode)
-
-        # 'Auto number chapters' checkbox.
-        renChapters = self._element.kwVar.get('Field_RenumberChapters', None) == '1'
-        self._renChapters.set(renChapters)
-
-        # 'Chapter number prefix' entry.
-        self._chHdPrefix.set(self._element.kwVar.get('Field_ChapterHeadingPrefix', ''))
-
-        # 'Chapter number suffix' entry.
-        self._chHdSuffix = MyStringVar(value=self._element.kwVar.get('Field_ChapterHeadingSuffix', ''))
-
-        # 'Use Roman chapter numbers' checkbox.
-        romanChapters = self._element.kwVar.get('Field_RomanChapterNumbers', None) == '1'
-        self._romanChapters.set(romanChapters)
-
-        # 'Reset chapter number..." checkbox
-        renWithinParts = self._element.kwVar.get('Field_RenumberWithinParts', None) == '1'
-        self._renWithinParts.set(renWithinParts)
-
-        # 'Auto number parts' checkbox.
-        renParts = self._element.kwVar.get('Field_RenumberParts', None) == '1'
-        self._renParts.set(renParts)
-
-        # 'Part number prefix' entry.
-        self._ptHdPrefix.set(self._element.kwVar.get('Field_PartHeadingPrefix', ''))
-
-        # 'Part number suffix' entry.
-        self._ptHdSuffix.set(self._element.kwVar.get('Field_PartHeadingSuffix', ''))
-
-        # 'Use Roman part numbers' checkbox.
-        romanParts = self._element.kwVar.get('Field_RomanPartNumbers', None) == 1
-        self._romanParts.set(romanParts)
-
-        # 'Use Roman part numbers' checkbox.
-        self._customGoal.set(self._element.kwVar.get('Field_CustomGoal', _('Goal')))
-
-        # 'Custom Conflict' entry.
-        self._customConflict.set(self._element.kwVar.get('Field_CustomConflict', _('Conflict')))
-
-        # 'Custom Outcome' entry.
-        self._customOutcome.set(self._element.kwVar.get('Field_CustomOutcome', _('Outcome')))
-
-        # 'Custom Bio' entry.
-        self._customChrBio.set(self._element.kwVar.get('Field_CustomChrBio', _('Bio')))
-
-        # 'Custom chara Goals' entry.
-        self._customChrGoals.set(self._element.kwVar.get('Field_CustomChrGoals', _('Goals')))
-
-        # 'Save word count' entry.
-        saveWordCount = self._element.kwVar.get('Field_SaveWordCount', None) == '1'
-        self._saveWordCount.set(saveWordCount)
-
-        #--- "Writing progress" frame.
-        if self._ui.kwargs['show_writing_progress']:
-            self._progressFrame.show()
-        else:
-            self._progressFrame.hide()
-
-        # 'Words to write' entry.
-        self._wordTarget.set(self._element.wordTarget)
-
-        # 'Starting count' entry.
-        self._wordCountStart.set(self._element.wordCountStart)
-
-        # Status counts.
-        normalWordsTotal, allWordsTotal = self._ui.prjFile.count_words()
-        self._totalWords.set(allWordsTotal)
-        self._totalUsed.set(normalWordsTotal)
-        self._totalUnused.set(allWordsTotal - normalWordsTotal)
-        statusCounts = self._ui.prjFile.get_status_counts()
-        self._totalOutline.set(statusCounts[1])
-        self._totalDraft.set(statusCounts[2])
-        self._total1stEdit.set(statusCounts[3])
-        self._total2ndEdit.set(statusCounts[4])
-        self._totalDone.set(statusCounts[5])
-
-        # 'Work phase' combobox.
-        phases = [_('Undefined'), _('Outline'), _('Draft'), _('1st Edit'), _('2nd Edit'), _('Done')]
-        self._phaseCombobox.configure(values=phases)
-        try:
-            workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
-        except:
-            workPhase = 0
-        self._phase.set(value=phases[workPhase])
-
     def apply_changes(self):
         """Apply changes.
         
@@ -432,6 +326,112 @@ class ProjectView(BasicView):
 
         super().apply_changes()
 
+    def set_data(self, element):
+        """Update the widgets with element's data.
+        
+        Extends the superclass constructor.
+        """
+        super().set_data(element)
+
+        #--- Author entry.
+        self._authorName.set(self._element.authorName)
+
+        #--- "Project settings" frame.
+        if self._ui.kwargs['show_language_settings']:
+            self._languageFrame.show()
+        else:
+            self._languageFrame.hide()
+
+        # 'Language code' entry.
+        self._languageCode.set(self._element.languageCode)
+
+        # 'Country code' entry.
+        self._countryCode.set(self._element.countryCode)
+
+        # 'Auto number chapters' checkbox.
+        renChapters = self._element.kwVar.get('Field_RenumberChapters', None) == '1'
+        self._renChapters.set(renChapters)
+
+        # 'Chapter number prefix' entry.
+        self._chHdPrefix.set(self._element.kwVar.get('Field_ChapterHeadingPrefix', ''))
+
+        # 'Chapter number suffix' entry.
+        self._chHdSuffix = MyStringVar(value=self._element.kwVar.get('Field_ChapterHeadingSuffix', ''))
+
+        # 'Use Roman chapter numbers' checkbox.
+        romanChapters = self._element.kwVar.get('Field_RomanChapterNumbers', None) == '1'
+        self._romanChapters.set(romanChapters)
+
+        # 'Reset chapter number..." checkbox
+        renWithinParts = self._element.kwVar.get('Field_RenumberWithinParts', None) == '1'
+        self._renWithinParts.set(renWithinParts)
+
+        # 'Auto number parts' checkbox.
+        renParts = self._element.kwVar.get('Field_RenumberParts', None) == '1'
+        self._renParts.set(renParts)
+
+        # 'Part number prefix' entry.
+        self._ptHdPrefix.set(self._element.kwVar.get('Field_PartHeadingPrefix', ''))
+
+        # 'Part number suffix' entry.
+        self._ptHdSuffix.set(self._element.kwVar.get('Field_PartHeadingSuffix', ''))
+
+        # 'Use Roman part numbers' checkbox.
+        romanParts = self._element.kwVar.get('Field_RomanPartNumbers', None) == 1
+        self._romanParts.set(romanParts)
+
+        # 'Use Roman part numbers' checkbox.
+        self._customGoal.set(self._element.kwVar.get('Field_CustomGoal', _('Goal')))
+
+        # 'Custom Conflict' entry.
+        self._customConflict.set(self._element.kwVar.get('Field_CustomConflict', _('Conflict')))
+
+        # 'Custom Outcome' entry.
+        self._customOutcome.set(self._element.kwVar.get('Field_CustomOutcome', _('Outcome')))
+
+        # 'Custom Bio' entry.
+        self._customChrBio.set(self._element.kwVar.get('Field_CustomChrBio', _('Bio')))
+
+        # 'Custom chara Goals' entry.
+        self._customChrGoals.set(self._element.kwVar.get('Field_CustomChrGoals', _('Goals')))
+
+        # 'Save word count' entry.
+        saveWordCount = self._element.kwVar.get('Field_SaveWordCount', None) == '1'
+        self._saveWordCount.set(saveWordCount)
+
+        #--- "Writing progress" frame.
+        if self._ui.kwargs['show_writing_progress']:
+            self._progressFrame.show()
+        else:
+            self._progressFrame.hide()
+
+        # 'Words to write' entry.
+        self._wordTarget.set(self._element.wordTarget)
+
+        # 'Starting count' entry.
+        self._wordCountStart.set(self._element.wordCountStart)
+
+        # Status counts.
+        normalWordsTotal, allWordsTotal = self._ui.prjFile.count_words()
+        self._totalWords.set(allWordsTotal)
+        self._totalUsed.set(normalWordsTotal)
+        self._totalUnused.set(allWordsTotal - normalWordsTotal)
+        statusCounts = self._ui.prjFile.get_status_counts()
+        self._totalOutline.set(statusCounts[1])
+        self._totalDraft.set(statusCounts[2])
+        self._total1stEdit.set(statusCounts[3])
+        self._total2ndEdit.set(statusCounts[4])
+        self._totalDone.set(statusCounts[5])
+
+        # 'Work phase' combobox.
+        phases = [_('Undefined'), _('Outline'), _('Draft'), _('1st Edit'), _('2nd Edit'), _('Done')]
+        self._phaseCombobox.configure(values=phases)
+        try:
+            workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
+        except:
+            workPhase = 0
+        self._phase.set(value=phases[workPhase])
+
     def _set_initial_wc(self):
         """Set actual wordcount as start.
         
@@ -463,18 +463,6 @@ class ProjectView(BasicView):
             self._numberingFrame.show()
             self._ui.kwargs['show_auto_numbering'] = True
 
-    def _toggle_renamingsFrame(self, event=None):
-        """Hide/show the "Renamings" frame.
-        
-        Callback procedure for the FoldingFrame's button.
-        """
-        if self._ui.kwargs['show_renamings']:
-            self._renamingsFrame.hide()
-            self._ui.kwargs['show_renamings'] = False
-        else:
-            self._renamingsFrame.show()
-            self._ui.kwargs['show_renamings'] = True
-
     def _toggle_progressFrame(self, event=None):
         """Hide/show the "Writing progress" frame.
         
@@ -486,6 +474,18 @@ class ProjectView(BasicView):
         else:
             self._progressFrame.show()
             self._ui.kwargs['show_writing_progress'] = True
+
+    def _toggle_renamingsFrame(self, event=None):
+        """Hide/show the "Renamings" frame.
+        
+        Callback procedure for the FoldingFrame's button.
+        """
+        if self._ui.kwargs['show_renamings']:
+            self._renamingsFrame.hide()
+            self._ui.kwargs['show_renamings'] = False
+        else:
+            self._renamingsFrame.show()
+            self._ui.kwargs['show_renamings'] = True
 
     def _update_wordsWritten(self, n, m, x):
         """Calculate the percentage of written words.

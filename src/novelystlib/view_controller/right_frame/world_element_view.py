@@ -20,8 +20,8 @@ class WorldElementView(BasicView):
     - A "Tags" entry.   
      
     Public methods:
-        set_data() -- Update the view with element's data.
         apply_changes() -- Apply changes.   
+        set_data() -- Update the view with element's data.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
@@ -53,23 +53,6 @@ class WorldElementView(BasicView):
         self._tags = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
 
-    def set_data(self, element):
-        """Update the widgets with element's data.
-        
-        Extends the superclass constructor.
-        """
-        super().set_data(element)
-
-        # 'AKA' entry.
-        self._aka.set(self._element.aka)
-
-        # 'Tags' entry.
-        if self._element.tags is not None:
-            self._tagsStr = list_to_string(self._element.tags)
-        else:
-            self._tagsStr = ''
-        self._tags.set(self._tagsStr)
-
     def apply_changes(self):
         """Apply changes of element title, description and notes."""
 
@@ -90,4 +73,21 @@ class WorldElementView(BasicView):
                 self._ui.isModified = True
 
         super().apply_changes()
+
+    def set_data(self, element):
+        """Update the widgets with element's data.
+        
+        Extends the superclass constructor.
+        """
+        super().set_data(element)
+
+        # 'AKA' entry.
+        self._aka.set(self._element.aka)
+
+        # 'Tags' entry.
+        if self._element.tags is not None:
+            self._tagsStr = list_to_string(self._element.tags)
+        else:
+            self._tagsStr = ''
+        self._tags.set(self._tagsStr)
 
