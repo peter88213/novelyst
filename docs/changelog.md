@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.17.1
+
+- Make it work on virtual file systems.
+
+Based on PyWriter v12.3.2
+
 ### v4.17.0
 
 - Add an option to delete yWriter-only data when writing .yw7.
