@@ -490,17 +490,13 @@ class WorkFile(Yw7File):
         
         Extends the superclass method.
         """
-        #--- Add today's word count, if it has changed.
+        #--- Add today's word count.
         if self.novel.kwVar.get('Field_SaveWordCount', False):
             newCountInt, newTotalCountInt = self.count_words()
             newCount = str(newCountInt)
             newTotalCount = str(newTotalCountInt)
-            latestDate = list(self.wcLog)[-1]
-            latestCount = self.wcLog[latestDate][0]
-            latestTotalCount = self.wcLog[latestDate][1]
-            if newCount != latestCount or newTotalCount != latestTotalCount:
-                today = date.today().isoformat()
-                self.wcLog[today] = [newCount, newTotalCount]
+            today = date.today().isoformat()
+            self.wcLog[today] = [newCount, newTotalCount]
 
         super().write()
         self.timestamp = os.path.getmtime(self.filePath)
