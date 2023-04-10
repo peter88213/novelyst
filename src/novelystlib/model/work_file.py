@@ -29,10 +29,10 @@ class WorkFile(Yw7File):
         has_changed_on_disk() -- Return True if the yw project file has changed since last opened.
         has_lockfile() -- Return True if a project lockfile exists.
         lock() -- Create a project lockfile.
-        read() -- Read file, get custom data and timestamp.
+        read() -- Read file, get custom data, word count log, and timestamp.
         renumber_chapters() -- Modify chapter headings.
         unlock() -- Delete the project lockfile, if any.
-        write() -- Write the file and update the timestamp.
+        write() -- Update the word count log, write the file, and update the timestamp.
 
     Public instance variables:
         timestamp: float -- Time of last file modification (number of seconds since the epoch).
@@ -325,7 +325,7 @@ class WorkFile(Yw7File):
                 f.write('')
 
     def read(self):
-        """Read file, get custom data and timestamp.
+        """Read file, get custom data, word count log, and timestamp.
         
         Extends the superclass method.
         """
@@ -334,12 +334,21 @@ class WorkFile(Yw7File):
         #--- Read wordcount log.
         root = self.tree.getroot()
         xmlWclog = root.find('WCLog')
+        wcLastCount = None
+        wcLastTotalCount = None
         if xmlWclog is not None:
             for xmlWc in xmlWclog.findall('WC'):
                 wcDate = xmlWc.find('Date').text
                 wcCount = xmlWc.find('Count').text
                 wcTotalCount = xmlWc.find('TotalCount').text
+
+                # Discard entries with unchanged word count.
+                if wcCount == wcLastCount and wcTotalCount == wcLastTotalCount:
+                    continue
+
                 self.wcLog[wcDate] = [wcCount, wcTotalCount]
+                wcLastCount = wcCount
+                wcLastTotalCount = wcTotalCount
 
         #--- Convert field created with novelyst v4.3
         for chId in self.novel.chapters:
@@ -486,17 +495,10 @@ class WorkFile(Yw7File):
             pass
 
     def write(self):
-        """Write the file and update the timestamp.
+        """Update the word count log, write the file, and update the timestamp.
         
         Extends the superclass method.
         """
-        super().write()
-        self.timestamp = os.path.getmtime(self.filePath)
-
-    def _build_element_tree(self):
-        """Extends the superclass method."""
-        super()._build_element_tree()
-
         #--- Add today's word count, if it has changed.
         if self.novel.kwVar.get('Field_SaveWordCount', False):
             newCountInt, newTotalCountInt = self.count_words()
@@ -508,6 +510,13 @@ class WorkFile(Yw7File):
             if newCount != latestCount or newTotalCount != latestTotalCount:
                 today = date.today().isoformat()
                 self.wcLog[today] = [newCount, newTotalCount]
+
+        super().write()
+        self.timestamp = os.path.getmtime(self.filePath)
+
+    def _build_element_tree(self):
+        """Extends the superclass method."""
+        super()._build_element_tree()
 
         #--- Rebuild the word count log.
         root = self.tree.getroot()
