@@ -334,21 +334,12 @@ class WorkFile(Yw7File):
         #--- Read wordcount log.
         root = self.tree.getroot()
         xmlWclog = root.find('WCLog')
-        wcLastCount = None
-        wcLastTotalCount = None
         if xmlWclog is not None:
             for xmlWc in xmlWclog.findall('WC'):
                 wcDate = xmlWc.find('Date').text
                 wcCount = xmlWc.find('Count').text
                 wcTotalCount = xmlWc.find('TotalCount').text
-
-                # Discard entries with unchanged word count.
-                if wcCount == wcLastCount and wcTotalCount == wcLastTotalCount:
-                    continue
-
                 self.wcLog[wcDate] = [wcCount, wcTotalCount]
-                wcLastCount = wcCount
-                wcLastTotalCount = wcTotalCount
 
         #--- Convert field created with novelyst v4.3
         for chId in self.novel.chapters:
@@ -525,7 +516,16 @@ class WorkFile(Yw7File):
             root.remove(xmlWcLog)
         if self.wcLog:
             xmlWcLog = ET.SubElement(root, 'WCLog')
+            wcLastCount = None
+            wcLastTotalCount = None
             for wc in self.wcLog:
+                if self.novel.kwVar.get('Field_SaveWordCount', False):
+                    # Discard entries with unchanged word count.
+                    if self.wcLog[wc][0] == wcLastCount and self.wcLog[wc][1] == wcLastTotalCount:
+                        continue
+
+                    wcLastCount = self.wcLog[wc][0]
+                    wcLastTotalCount = self.wcLog[wc][1]
                 xmlWc = ET.SubElement(xmlWcLog, 'WC')
                 ET.SubElement(xmlWc, 'Date').text = wc
                 ET.SubElement(xmlWc, 'Count').text = self.wcLog[wc][0]

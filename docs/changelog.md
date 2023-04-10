@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.17.3
+
+- Do not touch the log unless "Save word count" is ckecked.
+
+Based on PyWriter v12.3.2
+
 ### v4.17.2
 
 - Remove entries with unchanged word count from the log.
