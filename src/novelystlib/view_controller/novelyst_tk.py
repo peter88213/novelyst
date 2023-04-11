@@ -571,7 +571,10 @@ class NovelystTk(MainTk):
         self.tv.build_tree()
         self.show_status()
         self.contentsViewer.view_text()
-        self.isModified = False
+        if self.prjFile.wcLogUpdate and self.novel.kwVar.get('Field_SaveWordCount', False):
+            self.isModified = True
+        else:
+            self.isModified = False
         if self.prjFile.has_lockfile():
             self.isLocked = True
         return True

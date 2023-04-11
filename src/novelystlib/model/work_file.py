@@ -37,6 +37,7 @@ class WorkFile(Yw7File):
     Public instance variables:
         timestamp: float -- Time of last file modification (number of seconds since the epoch).
         wcLog: dict[str, list[str, str]] -- Daily word count logs.
+        wcLogUpdate: dict[str, list[str, str]] -- Word counts missing in the log.
     
     Public properties:
         fileDate: str -- ISO-formatted file date/time (YYYY-MM-DD hh:mm:ss).
@@ -97,6 +98,7 @@ class WorkFile(Yw7File):
         super().__init__(filePath)
         self.timestamp = None
         self.wcLog = {}
+        self.wcLogUpdate = {}
 
     @property
     def fileDate(self):
@@ -331,7 +333,13 @@ class WorkFile(Yw7File):
         """
         super().read()
 
-        #--- Read wordcount log.
+        #--- Read the file timestamp.
+        try:
+            self.timestamp = os.path.getmtime(self.filePath)
+        except:
+            self.timestamp = None
+
+        #--- Read the word count log.
         root = self.tree.getroot()
         xmlWclog = root.find('WCLog')
         if xmlWclog is not None:
@@ -340,6 +348,21 @@ class WorkFile(Yw7File):
                 wcCount = xmlWc.find('Count').text
                 wcTotalCount = xmlWc.find('TotalCount').text
                 self.wcLog[wcDate] = [wcCount, wcTotalCount]
+
+        #--- Keep the actual wordcount, if not logged.
+        # Thus the words written with another word processor can be logged on writing.
+        actualCountInt, actualTotalCountInt = self.count_words()
+        actualCount = str(actualCountInt)
+        actualTotalCount = str(actualTotalCountInt)
+        latestDate = list(self.wcLog)[-1]
+        latestCount = self.wcLog[latestDate][0]
+        latestTotalCount = self.wcLog[latestDate][1]
+        if actualCount != latestCount or actualTotalCount != latestTotalCount:
+            try:
+                fileDate = date.fromtimestamp(self.timestamp).isoformat()
+            except:
+                fileDate = date.today().isoformat()
+            self.wcLogUpdate[fileDate] = [actualCount, actualTotalCount]
 
         #--- Convert field created with novelyst v4.3
         for chId in self.novel.chapters:
@@ -380,12 +403,6 @@ class WorkFile(Yw7File):
                 self.novel.scenes[scId].items = []
             if self.novel.scenes[scId].status is None:
                 self.novel.scenes[scId].status = 1
-
-        #--- Read the file timestamp.
-        try:
-            self.timestamp = os.path.getmtime(self.filePath)
-        except:
-            self.timestamp = None
 
         #--- If no reasonable looking locale is set, set the system locale.
         self.novel.check_locale()
@@ -490,13 +507,16 @@ class WorkFile(Yw7File):
         
         Extends the superclass method.
         """
-        #--- Add today's word count.
         if self.novel.kwVar.get('Field_SaveWordCount', False):
+            # Add today's word count and word count on reading, if not logged.
             newCountInt, newTotalCountInt = self.count_words()
             newCount = str(newCountInt)
             newTotalCount = str(newTotalCountInt)
             today = date.today().isoformat()
-            self.wcLog[today] = [newCount, newTotalCount]
+            self.wcLogUpdate[today] = [newCount, newTotalCount]
+            for wcDate in self.wcLogUpdate:
+                self.wcLog[wcDate] = self.wcLogUpdate[wcDate]
+        self.wcLogUpdate = {}
 
         super().write()
         self.timestamp = os.path.getmtime(self.filePath)
