@@ -44,6 +44,7 @@ Please note that *novelyst* is not intended to compete with or replace *yWriter*
 *novelyst's* functionality can be extended by plugins. Here are some examples:
 
 - [A simple "markup" scene editor](https://peter88213.github.io/novelyst_editor/)
+- [A daily progress log viewer](https://peter88213.github.io/novelyst_progress/)
 - [A book/series collection manager](https://peter88213.github.io/novelyst_collection/)
 - [A relationship matrix](https://peter88213.github.io/novelyst_matrix/)
 - [A csv relationship table exporter](https://peter88213.github.io/novelyst_retablex)
