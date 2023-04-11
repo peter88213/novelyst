@@ -144,9 +144,9 @@ class ProjectView(BasicView):
         #--- "Writing progress" frame.
         self._progressFrame = FoldingFrame(self._elementInfoWindow, _('Writing progress'), self._toggle_progressFrame)
 
-        # 'Save word count' entry.
+        # 'Log writing progress' entry.
         self._saveWordCount = tk.BooleanVar()
-        ttk.Checkbutton(self._progressFrame, text=_('Save word count'),
+        ttk.Checkbutton(self._progressFrame, text=_('Log writing progress'),
                         variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
 
         ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)

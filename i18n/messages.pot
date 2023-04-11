@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.17.4\n"
-"POT-Creation-Date: 2023-04-11 10:15:27\n"
+"Project-Id-Version: 4.18.0\n"
+"POT-Creation-Date: 2023-04-11 12:33:43\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -428,6 +428,9 @@ msgstr ""
 msgid "Lock"
 msgstr ""
 
+msgid "Log writing progress"
+msgstr ""
+
 msgid "Major Character"
 msgstr ""
 
@@ -633,9 +636,6 @@ msgid "Save as..."
 msgstr ""
 
 msgid "Save changes?"
-msgstr ""
-
-msgid "Save word count"
 msgstr ""
 
 msgid "Scene"

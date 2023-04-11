@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.17.4\n"
-"POT-Creation-Date: 2023-04-11 10:15:27\n"
-"PO-Revision-Date: 2023-04-11 10:15:27\n"
+"Project-Id-Version: 4.18.0\n"
+"POT-Creation-Date: 2023-04-11 12:33:43\n"
+"PO-Revision-Date: 2023-04-11 12:33:43\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -427,6 +427,9 @@ msgstr "Schauplätze"
 msgid "Lock"
 msgstr "Sperren"
 
+msgid "Log writing progress"
+msgstr "Schreibfortschritt protokollieren"
+
 msgid "Major Character"
 msgstr "Hauptfigur"
 
@@ -633,9 +636,6 @@ msgstr "Speichern unter..."
 
 msgid "Save changes?"
 msgstr "Änderungen speichern?"
-
-msgid "Save word count"
-msgstr "Wortzählung speichern"
 
 msgid "Scene"
 msgstr "Abschnitt"

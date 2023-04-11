@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.18.0
+
+- The API for logging the writing progress is fixed.
+
+Based on PyWriter v12.3.2
+
 ### v4.17.4
 
 - Log word counts achieved with other word processors.
