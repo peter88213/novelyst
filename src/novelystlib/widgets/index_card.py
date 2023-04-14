@@ -21,8 +21,10 @@ class IndexCard(tk.Frame):
         super().__init__(master=master, cnf=cnf, **kw)
         # Title label.
         self.title = tk.StringVar(value='')
-        titleFrame = tk.Frame(self, borderwidth=3, bg=bg)
+        titleFrame = tk.Frame(self, bg=bg)
         titleFrame.pack(fill=tk.X)
+        spacer = tk.Frame(titleFrame, bg=bg)
+        spacer.pack(side=tk.LEFT, ipadx=2)
         titleEntry = tk.Entry(titleFrame,
                               bd=0,
                               textvariable=self.title,
@@ -36,7 +38,7 @@ class IndexCard(tk.Frame):
         titleEntry.pack(fill=tk.X, ipady=6)
 
         tk.Frame(self, bg='red', height=1, bd=0).pack(fill=tk.X)
-        tk.Frame(self, bg=bg, height=2, bd=0).pack(fill=tk.X)
+        tk.Frame(self, bg=bg, height=1, bd=0).pack(fill=tk.X)
 
         # Description window.
         self.bodyBox = TextBox(self,
