@@ -89,8 +89,8 @@ class TodoChapterView(BasicView):
                 self._element.kwVar['Field_ArcDefinition'] = newArc
 
                 # Use the arc as scene title suffix.
-                newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._elementTitle.get()}'
-                self._elementTitle.set(newTitle)
+                newTitle = f'{self._element.kwVar["Field_ArcDefinition"]} - {self._indexCard.title.get()}'
+                self._indexCard.title.set(newTitle)
                 self._ui.isModified = True
 
         super().apply_changes()

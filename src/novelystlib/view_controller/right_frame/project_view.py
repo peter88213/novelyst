@@ -212,7 +212,7 @@ class ProjectView(BasicView):
         Extends the superclass method.
         """
         # Title
-        title = self._elementTitle.get()
+        title = self._indexCard.title.get()
         if title or self._element.title:
             if self._element.title != title:
                 self._element.title = title.strip()

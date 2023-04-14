@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
 from novelystlib.widgets.text_box import TextBox
+from novelystlib.widgets.index_card import IndexCard
 
 
 class BasicView(ttk.Frame):
@@ -62,15 +63,15 @@ class BasicView(ttk.Frame):
         if self._element is not None:
 
             # Title entry.
-            title = self._elementTitle.get()
+            title = self._indexCard.title.get()
             if title or self._element.title:
                 if self._element.title != title:
                     self._element.title = title.strip()
                     self._ui.isModified = True
 
             # Description entry.
-            if self._descWindow.hasChanged:
-                desc = self._descWindow.get_text()
+            if self._indexCard.bodyBox.hasChanged:
+                desc = self._indexCard.bodyBox.get_text()
                 if desc or self._element.desc:
                     if self._element.desc != desc:
                         self._element.desc = desc
@@ -100,13 +101,13 @@ class BasicView(ttk.Frame):
 
             # Title entry.
             if self._element.title is not None:
-                self._elementTitle.set(self._element.title)
+                self._indexCard.title.set(self._element.title)
             else:
-                self._elementTitle.set('')
+                self._indexCard.title.set('')
 
             # Description entry.
-            self._descWindow.clear()
-            self._descWindow.set_text(self._element.desc)
+            self._indexCard.bodyBox.clear()
+            self._indexCard.bodyBox.set_text(self._element.desc)
 
             # Notes entry (if any).
             if hasattr(self._element, 'notes'):
@@ -138,36 +139,14 @@ class BasicView(ttk.Frame):
 
     def _create_index_card(self):
         """Create an "index card" for element title and description."""
-        self._indexCard = tk.Frame(self._propertiesFrame, bd=2, relief=tk.RIDGE)
+        self._indexCard = IndexCard(self._propertiesFrame,
+                                    bd=2,
+                                    fg=self._ui.kwargs['color_text_fg'],
+                                    bg=self._ui.kwargs['color_text_bg'],
+                                    relief=tk.RIDGE
+                                    )
+        self._indexCard.bodyBox['height'] = 15
         self._indexCard.pack(expand=False, fill=tk.BOTH)
-
-        # Title label.
-        self._elementTitle = tk.StringVar(value='')
-        titleEntry = tk.Entry(self._indexCard, bd=0, textvariable=self._elementTitle, relief=tk.FLAT)
-        titleEntry.config({'background': self._ui.kwargs['color_text_bg'],
-                           'foreground': self._ui.kwargs['color_text_fg'],
-                           'insertbackground': self._ui.kwargs['color_text_fg'],
-                           })
-        titleEntry.pack(fill=tk.X, ipady=6)
-
-        tk.Frame(self._indexCard, bg='red', height=1, bd=0).pack(fill=tk.X)
-        tk.Frame(self._indexCard, bg='white', height=1, bd=0).pack(fill=tk.X)
-
-        # Description window.
-        self._descWindow = TextBox(self._indexCard,
-                wrap='word',
-                undo=True,
-                autoseparators=True,
-                maxundo=-1,
-                height=15,
-                width=10,
-                padx=5,
-                pady=5,
-                bg=self._ui.kwargs['color_text_bg'],
-                fg=self._ui.kwargs['color_text_fg'],
-                insertbackground=self._ui.kwargs['color_text_fg'],
-                )
-        self._descWindow.pack(fill=tk.X)
 
     def _create_notes_window(self):
         """Create a text box for element notes."""
