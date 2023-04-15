@@ -9,15 +9,14 @@ from novelystlib.widgets.text_box import TextBox
 
 
 class IndexCard(tk.Frame):
-    """An "index card" class.
+    """An "index card" class displaying a title and a text body.
     
     Public instance variables:
         title: tk.StringVar -- Editable title text.
-        bodyBox: TextBox -- Body text editor.
-    
+        bodyBox: TextBox -- Body text editor.   
     """
 
-    def __init__(self, master=None, cnf={}, fg='black', bg='white', font='Courier 10', **kw):
+    def __init__(self, master=None, cnf={}, fg='black', bg='white', font=None, **kw):
         super().__init__(master=master, cnf=cnf, **kw)
         # Title label.
         self.title = tk.StringVar(value='')

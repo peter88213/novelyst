@@ -8,11 +8,11 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
-### v4.19.1
+### v4.19.2
 
 - Make the "index card" a widget of its own. 
 
-Based on PyWriter v12.3.2
+Based on PyWriter v12.4.0
 
 ### v4.18.0
 
