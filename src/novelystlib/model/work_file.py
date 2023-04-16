@@ -351,18 +351,19 @@ class WorkFile(Yw7File):
 
         #--- Keep the actual wordcount, if not logged.
         # Thus the words written with another word processor can be logged on writing.
-        actualCountInt, actualTotalCountInt = self.count_words()
-        actualCount = str(actualCountInt)
-        actualTotalCount = str(actualTotalCountInt)
-        latestDate = list(self.wcLog)[-1]
-        latestCount = self.wcLog[latestDate][0]
-        latestTotalCount = self.wcLog[latestDate][1]
-        if actualCount != latestCount or actualTotalCount != latestTotalCount:
-            try:
-                fileDate = date.fromtimestamp(self.timestamp).isoformat()
-            except:
-                fileDate = date.today().isoformat()
-            self.wcLogUpdate[fileDate] = [actualCount, actualTotalCount]
+        if self.wcLog:
+            actualCountInt, actualTotalCountInt = self.count_words()
+            actualCount = str(actualCountInt)
+            actualTotalCount = str(actualTotalCountInt)
+            latestDate = list(self.wcLog)[-1]
+            latestCount = self.wcLog[latestDate][0]
+            latestTotalCount = self.wcLog[latestDate][1]
+            if actualCount != latestCount or actualTotalCount != latestTotalCount:
+                try:
+                    fileDate = date.fromtimestamp(self.timestamp).isoformat()
+                except:
+                    fileDate = date.today().isoformat()
+                self.wcLogUpdate[fileDate] = [actualCount, actualTotalCount]
 
         #--- Convert field created with novelyst v4.3
         for chId in self.novel.chapters:
