@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.19.3
+
+- Set the TextBox default font "Courier 10" (applies to Linux).
+- Keep the "shebang" line when building the application.
+
+Based on PyWriter v12.4.0
+
 ### v4.19.2
 
 - Make the "index card" a widget of its own. 

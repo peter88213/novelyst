@@ -23,6 +23,8 @@ class TextBox(tk.Text):
         self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         kw.update({'yscrollcommand': self.vbar.set})
+        if kw.get('font', None) is None:
+            kw['font'] = 'Courier 10'
         tk.Text.__init__(self, self.frame, **kw)
         self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.vbar['command'] = self.yview
