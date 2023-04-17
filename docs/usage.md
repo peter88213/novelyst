@@ -9,8 +9,8 @@ The *novelyst* Python program provides a tree view for *.yw7* novel projects.
 
 ## Installation
 
-- Unzip the downloaded zipfile into a new folder.
-- Move into this new folder and launch **setup.pyw**. This installs the application for the local user.
+- Unzip the downloaded zipfile.
+- Move into the unzipped folder and launch **setup.pyw**. This installs the application for the local user.
 - Create a shortcut on the desktop when asked.
 - Optionally, you can replace the "Python" icon by the *novelyst* logo you may find in the installation's **icons** subdirectory.
 

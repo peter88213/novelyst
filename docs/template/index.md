@@ -1,3 +1,5 @@
+# novelyst
+
 *novelyst* is an organizer tool for writing novels with *LibreOffice Writer* or *OpenOffice Writer*. The entire novel is stored in a single file with all additional information. The manuscript is exported for editing with *Writer*, and then written back so that everything is always consistent and in one place. *novelyst* uses the file format of [yWriter 7](http://spacejock.com/yWriter7.html) and is largely compatible with it. 
 
 ![Screenshot](Screenshots/screen01.png)
@@ -86,10 +88,10 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 [Download the latest release (version 0.99.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v0.99.0.zip)
 
-- Unzip the downloaded zipfile "novelyst_v0.99.0.zip" into a new folder.
-- Move into this new folder and open "README.md" for usage instructions.
+- Extract the "novelyst_v0.99.0" folder from the downloaded zipfile "novelyst_v0.99.0.zip".
+- Move into this new folder and open "README.md" for further instructions.
 
-------------------------------------------------------------------
+---
 
 [Changelog](changelog)
 
