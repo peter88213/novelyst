@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.19.6
+
+- Save space in the right window for smaller screens.
+
+Based on PyWriter v12.4.1
+
 ### v4.19.5
 
 - Remove the indenting spacer from the IndexCard title entry, because it doesn't look good on Linux.

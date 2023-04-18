@@ -155,7 +155,7 @@ class BasicView(ttk.Frame):
                 undo=True,
                 autoseparators=True,
                 maxundo=-1,
-                height=4,
+                height=0,
                 width=10,
                 padx=5,
                 pady=5,

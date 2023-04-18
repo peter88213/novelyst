@@ -43,7 +43,7 @@ class ProjectView(BasicView):
 
         #--- Author entry.
         self._authorName = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Author'), textvariable=self._authorName, lblWidth=20).pack(anchor='w', pady=2)
+        LabelEntry(self._elementInfoWindow, text=_('Author'), textvariable=self._authorName, lblWidth=20).pack(anchor='w')
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
@@ -55,10 +55,10 @@ class ProjectView(BasicView):
         # Language and country code.
         self._languageCode = MyStringVar()
         LabelEntry(self._languageFrame, text=_('Language code'),
-                   textvariable=self._languageCode, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._languageCode, lblWidth=20).pack(anchor='w')
         self._countryCode = MyStringVar()
         LabelEntry(self._languageFrame, text=_('Country code'),
-                   textvariable=self._countryCode, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._countryCode, lblWidth=20).pack(anchor='w')
 
         #--- "Auto numbering" frame.
         self._numberingFrame = FoldingFrame(self._elementInfoWindow, _('Auto numbering'), self._toggle_numberingFrame)
@@ -68,46 +68,46 @@ class ProjectView(BasicView):
         # 'Auto number chapters...' checkbox.
         self._renChapters = tk.BooleanVar(value=False)
         ttk.Checkbutton(self._numberingFrame, text=_('Auto number chapters when refreshing the tree'),
-                        variable=self._renChapters, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+                        variable=self._renChapters, onvalue=True, offvalue=False).pack(anchor='w')
 
         # 'Chapter number prefix' entry.
         self._chHdPrefix = MyStringVar()
         LabelEntry(self._numberingFrame, text=_('Chapter number prefix'),
-                   textvariable=self._chHdPrefix, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._chHdPrefix, lblWidth=20).pack(anchor='w')
 
         # 'Chapter number suffix' entry.
         self._chHdSuffix = MyStringVar()
         LabelEntry(self._numberingFrame, text=_('Chapter number suffix'),
-                   textvariable=self._chHdSuffix, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._chHdSuffix, lblWidth=20).pack(anchor='w')
 
         # 'Use Roman chapter numbers' checkbox.
         self._romanChapters = tk.BooleanVar()
         ttk.Checkbutton(self._numberingFrame, text=_('Use Roman chapter numbers'),
-                        variable=self._romanChapters, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+                        variable=self._romanChapters, onvalue=True, offvalue=False).pack(anchor='w')
 
         # 'Reset chapter number..." checkbox
         self._renWithinParts = tk.BooleanVar()
         ttk.Checkbutton(self._numberingFrame, text=_('Reset chapter number when starting a new part'),
-                        variable=self._renWithinParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+                        variable=self._renWithinParts, onvalue=True, offvalue=False).pack(anchor='w')
 
         # 'Auto number parts' checkbox.
         self._renParts = tk.BooleanVar()
         ttk.Checkbutton(self._numberingFrame, text=_('Auto number parts when refreshing the tree'),
-                        variable=self._renParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+                        variable=self._renParts, onvalue=True, offvalue=False).pack(anchor='w')
 
         # 'Part number prefix' entry.
         self._ptHdPrefix = MyStringVar()
         LabelEntry(self._numberingFrame, text=_('Part number prefix'),
-                   textvariable=self._ptHdPrefix, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._ptHdPrefix, lblWidth=20).pack(anchor='w')
 
         # 'Part number suffix' entry.
         self._ptHdSuffix = MyStringVar()
         LabelEntry(self._numberingFrame, text=_('Part number suffix'),
-                   textvariable=self._ptHdSuffix, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._ptHdSuffix, lblWidth=20).pack(anchor='w')
 
         # 'Use Roman part numbers' checkbox.
         self._romanParts = tk.BooleanVar()
-        ttk.Checkbutton(self._numberingFrame, text=_('Use Roman part numbers'), variable=self._romanParts, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+        ttk.Checkbutton(self._numberingFrame, text=_('Use Roman part numbers'), variable=self._romanParts, onvalue=True, offvalue=False).pack(anchor='w')
 
         #--- "Renamings" frame.
         self._renamingsFrame = FoldingFrame(self._elementInfoWindow, _('Renamings'), self._toggle_renamingsFrame)
@@ -117,29 +117,29 @@ class ProjectView(BasicView):
         # 'Custom Goal' checkbox.
         self._customGoal = MyStringVar()
         LabelEntry(self._renamingsFrame, text=_('Custom Goal'),
-                   textvariable=self._customGoal, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._customGoal, lblWidth=20).pack(anchor='w')
 
         # 'Custom Conflict' entry.
         self._customConflict = MyStringVar()
         LabelEntry(self._renamingsFrame, text=_('Custom Conflict'),
-                   textvariable=self._customConflict, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._customConflict, lblWidth=20).pack(anchor='w')
 
         # 'Custom Outcome' entry.
         self._customOutcome = MyStringVar()
         LabelEntry(self._renamingsFrame, text=_('Custom Outcome'),
-                   textvariable=self._customOutcome, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._customOutcome, lblWidth=20).pack(anchor='w')
 
         ttk.Separator(self._renamingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # 'Custom Bio' entry.
         self._customChrBio = MyStringVar()
         LabelEntry(self._renamingsFrame, text=_('Custom chara Bio'),
-                   textvariable=self._customChrBio, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._customChrBio, lblWidth=20).pack(anchor='w')
 
         # 'Custom chara Goals' entry.
         self._customChrGoals = MyStringVar()
         LabelEntry(self._renamingsFrame, text=_('Custom chara Goals'),
-                   textvariable=self._customChrGoals, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._customChrGoals, lblWidth=20).pack(anchor='w')
 
         #--- "Writing progress" frame.
         self._progressFrame = FoldingFrame(self._elementInfoWindow, _('Writing progress'), self._toggle_progressFrame)
@@ -147,19 +147,19 @@ class ProjectView(BasicView):
         # 'Log writing progress' entry.
         self._saveWordCount = tk.BooleanVar()
         ttk.Checkbutton(self._progressFrame, text=_('Log writing progress'),
-                        variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w', pady=2)
+                        variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w')
 
         ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         # 'Words to write' entry.
         self._wordTarget = tk.IntVar()
         LabelEntry(self._progressFrame, text=_('Words to write'),
-                   textvariable=self._wordTarget, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._wordTarget, lblWidth=20).pack(anchor='w')
 
         # 'Starting count' entry.
         self._wordCountStart = tk.IntVar()
         LabelEntry(self._progressFrame, text=_('Starting count'),
-                   textvariable=self._wordCountStart, lblWidth=20).pack(anchor='w', pady=2)
+                   textvariable=self._wordCountStart, lblWidth=20).pack(anchor='w')
 
         # 'Set actual wordcount as start' button.
         ttk.Button(self._progressFrame, text=_('Set actual wordcount as start'),
@@ -170,39 +170,39 @@ class ProjectView(BasicView):
         self._wordTarget.trace_add('write', self._update_wordsWritten)
         self._wordCountStart.trace_add('write', self._update_wordsWritten)
         LabelDisp(self._progressFrame, text=_('Words written'),
-                  textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w')
 
         ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
         self._totalUsed = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Used'),
-                  textvariable=self._totalUsed, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalUsed, lblWidth=20).pack(anchor='w')
         self._totalOutline = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Outline'),
-                  textvariable=self._totalOutline, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalOutline, lblWidth=20).pack(anchor='w')
         self._totalDraft = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Draft'),
-                  textvariable=self._totalDraft, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalDraft, lblWidth=20).pack(anchor='w')
         self._total1stEdit = MyStringVar()
         LabelDisp(self._progressFrame, text=_('1st Edit'),
-                  textvariable=self._total1stEdit, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._total1stEdit, lblWidth=20).pack(anchor='w')
         self._total2ndEdit = MyStringVar()
         LabelDisp(self._progressFrame, text=_('2nd Edit'),
-                  textvariable=self._total2ndEdit, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._total2ndEdit, lblWidth=20).pack(anchor='w')
         self._totalDone = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Done'),
-                  textvariable=self._totalDone, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalDone, lblWidth=20).pack(anchor='w')
         self._totalUnused = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Unused'),
-                  textvariable=self._totalUnused, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalUnused, lblWidth=20).pack(anchor='w')
         self._totalWords = MyStringVar()
         LabelDisp(self._progressFrame, text=_('All'),
-                  textvariable=self._totalWords, lblWidth=20).pack(anchor='w', pady=2)
+                  textvariable=self._totalWords, lblWidth=20).pack(anchor='w')
 
         #--- 'phase' combobox.
         self._phase = MyStringVar()
         self._phaseCombobox = LabelCombo(self._progressFrame, lblWidth=20, text=_('Work phase'), textvariable=self._phase, values=[])
-        self._phaseCombobox.pack(anchor=tk.W, pady=2)
+        self._phaseCombobox.pack(anchor=tk.W)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
 

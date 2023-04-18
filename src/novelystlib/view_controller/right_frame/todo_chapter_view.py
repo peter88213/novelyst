@@ -51,12 +51,12 @@ class TodoChapterView(BasicView):
         # 'Arc namee' entry.
         self._arcs = MyStringVar()
         self._arcsEntry = LabelEntry(self._elementInfoWindow, text=_('Arc name'), textvariable=self._arcs, lblWidth=22)
-        self._arcsEntry.pack(anchor=tk.W, pady=2)
+        self._arcsEntry.pack(anchor=tk.W)
 
         # Frame for arc specific widgets.
         self._arcFrame = ttk.Frame(self._elementInfoWindow)
         self._nrScenes = ttk.Label(self._arcFrame)
-        self._nrScenes.pack(side=tk.LEFT, pady=2)
+        self._nrScenes.pack(side=tk.LEFT)
         ttk.Button(self._arcFrame, text=_('Clear scene assignments'), command=self._removeArcRef).pack(padx=1, pady=2)
 
     def apply_changes(self):
@@ -123,7 +123,7 @@ class TodoChapterView(BasicView):
         if len(self._scenesAssigned) > 0:
             self._nrScenes['text'] = f'{_("Number of scenes")}: {len(self._scenesAssigned)}'
             if not self._arcFrame.winfo_manager():
-                self._arcFrame.pack(after=self._arcsEntry, pady=2, fill=tk.X)
+                self._arcFrame.pack(after=self._arcsEntry, fill=tk.X)
         else:
             if self._arcFrame.winfo_manager():
                 self._arcFrame.pack_forget()

@@ -50,65 +50,65 @@ class NotesSceneView(SceneView):
         self._dateTimeFrame = FoldingFrame(self._elementInfoWindow, _('Date/Time'), self._toggle_dateTimeFrame)
         sceneStartFrame = ttk.Frame(self._dateTimeFrame)
         sceneStartFrame.pack(fill=tk.X)
-        ttk.Label(sceneStartFrame, text=_('Start')).pack(anchor=tk.W, pady=2)
+        ttk.Label(sceneStartFrame, text=_('Start')).pack(anchor=tk.W)
 
         # 'Start date' entry.
         self._startDate = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Date'),
                    textvariable=self._startDate,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Start time' entry.
         self._startTime = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Time'),
                    textvariable=self._startTime,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Start day' entry.
         self._startDay = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Day'),
                    textvariable=self._startDay,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Clear date/time' button.
         ttk.Button(sceneStartFrame,
                    text=_('Clear date/time'),
-                   command=self._clear_start).pack(side=tk.LEFT, padx=1, pady=2)
+                   command=self._clear_start).pack(side=tk.LEFT, padx=1)
 
         # 'Generate' button.
         ttk.Button(sceneStartFrame,
                    text=_('Generate'),
                    command=self._auto_set).pack(side=tk.LEFT, padx=1, pady=2)
 
-        ttk.Separator(self._dateTimeFrame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=8)
+        ttk.Separator(self._dateTimeFrame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=2)
 
         sceneDurationFrame = ttk.Frame(self._dateTimeFrame)
         sceneDurationFrame.pack(fill=tk.X)
-        ttk.Label(sceneDurationFrame, text=_('Duration')).pack(anchor=tk.W, pady=2)
+        ttk.Label(sceneDurationFrame, text=_('Duration')).pack(anchor=tk.W)
 
         # 'Duration days' entry.
         self._lastsDays = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Days'),
                    textvariable=self._lastsDays,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Duration hours' entry.
         self._lastsHours = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Hours'),
                    textvariable=self._lastsHours,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Duration minutes' entry.
         self._lastsMinutes = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Minutes'),
                    textvariable=self._lastsMinutes,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W, pady=2)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
 
         # 'Clear duration' button.
         ttk.Button(sceneDurationFrame,

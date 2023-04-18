@@ -28,7 +28,7 @@ class NormalSceneView(NotesSceneView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _GCO_Y = 5
+    _GCO_Y = 4
     # height of the Goals/Conflict/Outcome text boxes
 
     def __init__(self, ui, parent):
@@ -63,11 +63,11 @@ class NormalSceneView(NotesSceneView):
 
         # 'Arcs' entry (if any).
         self._arcs = MyStringVar()
-        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W)
 
         #--- 'Arc points' label.
         self._arcPointsDisplay = tk.Label(self._arcFrame, anchor=tk.W, bg='white')
-        self._arcPointsDisplay.pack(anchor=tk.W, pady=2, fill=tk.X)
+        self._arcPointsDisplay.pack(anchor=tk.W, fill=tk.X)
 
         ttk.Separator(self._sceneExtraFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
 
@@ -81,11 +81,11 @@ class NormalSceneView(NotesSceneView):
         self._customOutcome = ''
         self._scenePacingType = tk.IntVar()
         ttk.Radiobutton(selectionFrame, text=_('Action'),
-                                         variable=self._scenePacingType, value=0, command=self._set_action_scene).pack(side=tk.LEFT, anchor=tk.W, pady=2)
+                                         variable=self._scenePacingType, value=0, command=self._set_action_scene).pack(side=tk.LEFT, anchor=tk.W)
         ttk.Radiobutton(selectionFrame, text=_('Reaction'),
-                                         variable=self._scenePacingType, value=1, command=self._set_reaction_scene).pack(side=tk.LEFT, anchor=tk.W, pady=2)
+                                         variable=self._scenePacingType, value=1, command=self._set_reaction_scene).pack(side=tk.LEFT, anchor=tk.W)
         ttk.Radiobutton(selectionFrame, text=_('Custom'),
-                                         variable=self._scenePacingType, value=2, command=self._set_custom_ar_scene).pack(anchor=tk.W, pady=2)
+                                         variable=self._scenePacingType, value=2, command=self._set_custom_ar_scene).pack(anchor=tk.W)
         selectionFrame.pack(fill=tk.X)
 
         # 'Goal/Reaction' window. The labels are configured dynamically.
