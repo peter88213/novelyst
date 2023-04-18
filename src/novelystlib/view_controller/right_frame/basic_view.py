@@ -145,7 +145,7 @@ class BasicView(ttk.Frame):
                                     bg=self._ui.kwargs['color_text_bg'],
                                     relief=tk.RIDGE
                                     )
-        self._indexCard.bodyBox['height'] = 15
+        self._indexCard.bodyBox['height'] = self._ui.kwargs['index_card_height']
         self._indexCard.pack(expand=False, fill=tk.BOTH)
 
     def _create_notes_window(self):

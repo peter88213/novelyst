@@ -28,8 +28,6 @@ class NormalSceneView(NotesSceneView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _GCO_Y = 4
-    # height of the Goals/Conflict/Outcome text boxes
 
     def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
@@ -96,7 +94,7 @@ class NormalSceneView(NotesSceneView):
                 undo=True,
                 autoseparators=True,
                 maxundo=-1,
-                height=self._GCO_Y,
+                height=self._ui.kwargs['gco_height'],
                 padx=5,
                 pady=5,
                 bg=ui.kwargs['color_text_bg'],
@@ -113,7 +111,7 @@ class NormalSceneView(NotesSceneView):
                 undo=True,
                 autoseparators=True,
                 maxundo=-1,
-                height=self._GCO_Y,
+                height=self._ui.kwargs['gco_height'],
                 padx=5,
                 pady=5,
                 bg=ui.kwargs['color_text_bg'],
@@ -130,7 +128,7 @@ class NormalSceneView(NotesSceneView):
                 undo=True,
                 autoseparators=True,
                 maxundo=-1,
-                height=self._GCO_Y,
+                height=self._ui.kwargs['gco_height'],
                 padx=5,
                 pady=5,
                 bg=ui.kwargs['color_text_bg'],

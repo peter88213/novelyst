@@ -259,7 +259,7 @@ def install(pywriterPath):
     if platform.system() == 'Windows':
         shebang = ''
     else:
-        shebang = '#!/usr/bin/python3\n'
+        shebang = '#!/usr/bin/env python3\n'
     with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
         f.write(f'{shebang}{START_UP_CODE}')
 
@@ -270,7 +270,7 @@ if __name__ == '__main__':
     os.chdir(scriptDir)
 
     # Open a tk window.
-    root.geometry("800x600")
+    root.geometry("800x700")
     root.title(f'Install {APPNAME}{VERSION}')
     header = tk.Label(root, text='')
     header.pack(padx=5, pady=5)

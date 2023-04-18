@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.19.7
+
+- Make the height of the "index card" and the "Goals/Conflict/Outcome" text boxes configurable.
+
+Based on PyWriter v12.4.1
+
 ### v4.19.6
 
 - Save space in the right window for smaller screens.
