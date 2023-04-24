@@ -1,4 +1,4 @@
-"""Provide a tkinter Rich Text box class with a ttk scrollbar and a change flag.
+"""Provide a tkinter Text box class with a ttk scrollbar and a change flag.
 
 Copyright (c) 2023 Peter Triesberger
 https://github.com/peter88213
@@ -10,11 +10,17 @@ from tkinter import ttk
 
 class TextBox(tk.Text):
     """A text box with a ttk scrollbar and a change flag.
+
+    Public methods:
+        clear() -- Clear the box and reset the change flag.
+        get_text() -- Return the whole text.
+        set_text(text) -- Clear the box, reset the change flag, and load text.         
     """
 
     def __init__(self, master=None, **kw):
-        """Define some tags for novelyst-specific colors.
+        """Initialize the change flag and add a vertical scrollbar.
         
+        If no font is defined, set the default font (mainly for Linux).        
         Copied from tkinter.scrolledtext and modified (use ttk widgets).
         Extends the supeclass constructor.
         """
@@ -43,21 +49,24 @@ class TextBox(tk.Text):
         self.hasChanged = False
         self.bind('<KeyRelease>', self._on_edit)
 
-    def _on_edit(self, event=None):
-        """Event handler to indicate changes."""
-        self.hasChanged = True
+    def clear(self):
+        """Clear the box and reset the change flag."""
+        self.delete('1.0', tk.END)
+        self.hasChanged = False
 
     def get_text(self):
+        """Return the whole text."""
         return self.get('1.0', tk.END).strip(' \n')
 
     def set_text(self, text):
+        """Clear the box, reset the change flag, and load text."""
         self.clear()
         if text:
             self.insert(tk.END, text)
             self.edit_reset()
             # this is to prevent the user from clearing the box with Ctrl-Z
 
-    def clear(self):
-        self.delete('1.0', tk.END)
-        self.hasChanged = False
+    def _on_edit(self, event=None):
+        """Event handler to indicate changes."""
+        self.hasChanged = True
 
