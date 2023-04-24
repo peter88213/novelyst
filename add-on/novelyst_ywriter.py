@@ -4,8 +4,8 @@ Adds a 'yWriter' entry to the 'File' menu to launch
 yWriter with the current project.
 Binds the Ctrl-Alt-Y shortcut to the launcher.
 
-Adds a 'Remove custom fields' entry to the 'File' menu to 
-remove all the novelyst specific fields from the project file.
+Adds a 'Remove non-yWriter data' entry to the 'File' menu to 
+remove all the novelyst specific fields, project variables, and tags from the project file.
 
 Requirements:
 - Windows
@@ -20,6 +20,7 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
+import re
 
 APPLICATION = 'yWriter'
 KEY_YWRITER = ('<Control-Alt-y>', 'Ctrl-Alt-Y')
@@ -74,6 +75,30 @@ def reset_custom_variables(prjFile):
     return hasChanged
 
 
+def remove_language_tags(novel):
+    """Remove language tags from the document.
+    
+    Positional arguments:
+        novel -- Novel instance to process.    
+    
+    Remove the language tags from the scene contents.
+    Return True, if changes have been made to novel.
+    """
+    languageTag = re.compile('\[\/*?lang=.*?\]')
+    hasChanged = False
+    for scId in novel.scenes:
+        text = novel.scenes[scId].sceneContent
+        try:
+            text = languageTag.sub('', text)
+        except:
+            pass
+        else:
+            if  novel.scenes[scId].sceneContent != text:
+                novel.scenes[scId].sceneContent = text
+                hasChanged = True
+    return hasChanged
+
+
 class Plugin:
     """yWriter launcher plugin class. 
     
@@ -82,7 +107,7 @@ class Plugin:
         enable_menu() -- enable menu entries when a project is open.
         
     """
-    VERSION = '4.10.0'
+    VERSION = '4.11.0'
     NOVELYST_API = '4.10'
     DESCRIPTION = 'yWriter service plugin'
     URL = 'https://peter88213.github.io/novelyst'
@@ -100,7 +125,7 @@ class Plugin:
 
         # Create a menu entry.
         self._ui.fileMenu.add_separator()
-        self._ui.fileMenu.add_command(label='Remove custom fields', command=self._remove_custom_fields)
+        self._ui.fileMenu.add_command(label='Remove non-yWriter data', command=self._remove_custom_data)
         self._ui.fileMenu.add_command(label=APPLICATION, accelerator=KEY_YWRITER[1], command=self._launch_yWriter)
 
         # Add a key binding.
@@ -109,12 +134,12 @@ class Plugin:
     def disable_menu(self):
         """Disable menu entries when no project is open."""
         self._ui.fileMenu.entryconfig(APPLICATION, state='disabled')
-        self._ui.fileMenu.entryconfig('Remove custom fields', state='disabled')
+        self._ui.fileMenu.entryconfig('Remove non-yWriter data', state='disabled')
 
     def enable_menu(self):
         """Enable menu entries when a project is open."""
         self._ui.fileMenu.entryconfig(APPLICATION, state='normal')
-        self._ui.fileMenu.entryconfig('Remove custom fields', state='normal')
+        self._ui.fileMenu.entryconfig('Remove non-yWriter data', state='normal')
 
     def _launch_yWriter(self, event=None):
         """Launch yWriter with the current project."""
@@ -122,26 +147,31 @@ class Plugin:
         if self._ui.lock():
             os.startfile(os.path.normpath(self._ui.ywPrj.filePath))
 
-    def _remove_custom_fields(self, event=None):
-        """Remove custom fields from the .yw7 file and save the project.
+    def _remove_custom_data(self, event=None):
+        """Remove non-yWriter data from the .yw7 file and save the project.
         
-        Remove custom fields to restore a "yWriter only" file
+        Remove non-yWriter data to restore a "yWriter only" file
         -----------------------------------------------------
         novelyst customizes the .yw7 file format in a compatible way. 
         However, if you don't want to use your project witn novelyst any more, 
         you can "clean up" your project, removing all custom extensions 
-        from the project file, with "File > Remove custom fields". 
+        from the project file, with "File > Remove non-yWriter data". 
         You will get a warning before novelyst-only data is deleted.
 
         Warning: This command will remove the novelyst specific project settings, 
         such as auto-numbering mode and renamings. This will also remove 
         special scene properties such as arc and mode assignments.
         """
+        hasChanged = False
         if self._ui.prjFile is not None:
-            if self._ui.ask_yes_no('Remove novelyst project settings and save?'):
+            if self._ui.ask_yes_no('Remove novelyst settings and language tags and save?'):
                 self._ui.tv.tree.selection_set('')
                 self._ui.view_nothing()
                 if reset_custom_variables(self._ui.prjFile):
+                    hasChanged = True
+                if remove_language_tags(self._ui.novel):
+                    hasChanged = True
+                if hasChanged:
                     try:
                         self._ui.prjFile.write()
                     except Exception as ex:
