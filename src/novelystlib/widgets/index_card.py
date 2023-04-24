@@ -16,7 +16,7 @@ class IndexCard(tk.Frame):
         bodyBox: TextBox -- Body text editor.   
     """
 
-    def __init__(self, master=None, cnf={}, fg='black', bg='white', font=None, **kw):
+    def __init__(self, master=None, cnf={}, fg='black', bg='white', font=None, scrollbar=True, **kw):
         super().__init__(master=master, cnf=cnf, **kw)
         # Title label.
         self.title = tk.StringVar(value='')
@@ -38,6 +38,7 @@ class IndexCard(tk.Frame):
 
         # Description window.
         self.bodyBox = TextBox(self,
+                scrollbar=scrollbar,
                 wrap='word',
                 undo=True,
                 autoseparators=True,

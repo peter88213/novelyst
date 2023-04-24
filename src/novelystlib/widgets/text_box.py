@@ -17,33 +17,37 @@ class TextBox(tk.Text):
         set_text(text) -- Clear the box, reset the change flag, and load text.         
     """
 
-    def __init__(self, master=None, **kw):
+    def __init__(self, master=None, scrollbar=True, **kw):
         """Initialize the change flag and add a vertical scrollbar.
         
         If no font is defined, set the default font (mainly for Linux).        
         Copied from tkinter.scrolledtext and modified (use ttk widgets).
         Extends the supeclass constructor.
         """
-        self.frame = ttk.Frame(master)
-        self.vbar = ttk.Scrollbar(self.frame)
-        self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
-
-        kw.update({'yscrollcommand': self.vbar.set})
         if kw.get('font', None) is None:
             kw['font'] = 'Courier 10'
-        tk.Text.__init__(self, self.frame, **kw)
-        self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.vbar['command'] = self.yview
+        if scrollbar:
+            # Add a scrollbar:
+            self.frame = ttk.Frame(master)
+            self.vbar = ttk.Scrollbar(self.frame)
+            self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # Copy geometry methods of self.frame without overriding Text
-        # methods -- hack!
-        text_meths = vars(tk.Text).keys()
-        methods = vars(tk.Pack).keys() | vars(tk.Grid).keys() | vars(tk.Place).keys()
-        methods = methods.difference(text_meths)
+            kw.update({'yscrollcommand': self.vbar.set})
+            tk.Text.__init__(self, self.frame, **kw)
+            self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            self.vbar['command'] = self.yview
 
-        for m in methods:
-            if m[0] != '_' and m != 'config' and m != 'configure':
-                setattr(self, m, getattr(self.frame, m))
+            # Copy geometry methods of self.frame without overriding Text
+            # methods -- hack!
+            text_meths = vars(tk.Text).keys()
+            methods = vars(tk.Pack).keys() | vars(tk.Grid).keys() | vars(tk.Place).keys()
+            methods = methods.difference(text_meths)
+
+            for m in methods:
+                if m[0] != '_' and m != 'config' and m != 'configure':
+                    setattr(self, m, getattr(self.frame, m))
+        else:
+            tk.Text.__init__(self, master, **kw)
 
         # This part is project-specific:
         self.hasChanged = False
