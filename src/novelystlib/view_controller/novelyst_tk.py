@@ -25,6 +25,7 @@ from novelystlib.view_controller.right_frame.normal_scene_view import NormalScen
 from novelystlib.view_controller.right_frame.notes_scene_view import NotesSceneView
 from novelystlib.view_controller.right_frame.todo_scene_view import TodoSceneView
 from novelystlib.view_controller.right_frame.character_view import CharacterView
+from novelystlib.view_controller.right_frame.projectnote_view import ProjectnoteView
 from novelystlib.view_controller.pop_up.settings_window import SettingsWindow
 from novelystlib.view_controller.pop_up.plugin_manager import PluginManager
 from novelystlib.export.nv_exporter import NvExporter
@@ -823,9 +824,9 @@ class NovelystTk(MainTk):
             pnId: str -- Project note ID
         """
         self._elementView.apply_changes()
-        if not self._elementView is self._basicView:
+        if not self._elementView is self._projectnoteView:
             self._elementView.hide()
-            self._elementView = self._basicView
+            self._elementView = self._projectnoteView
             self._elementView.show()
         self._elementView.set_data(self.novel.projectNotes[pnId])
 
@@ -906,6 +907,7 @@ class NovelystTk(MainTk):
         self._notesSceneView = NotesSceneView(self, parent)
         self._sceneView = NormalSceneView(self, parent)
         self._characterView = CharacterView(self, parent)
+        self._projectnoteView = ProjectnoteView(self, parent)
         self._worldElementView = WorldElementView(self, parent)
 
         self._elementView = self._basicView

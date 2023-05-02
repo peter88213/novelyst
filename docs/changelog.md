@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.19.8
+
+- Fix a regression from v4.13.3 where the "index card" is missing for project notes. 
+
+Based on PyWriter v12.5.1
+
 ### v4.19.7
 
 - Make the height of the "index card" and the "Goals/Conflict/Outcome" text boxes configurable.
