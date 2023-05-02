@@ -293,7 +293,7 @@ class WorkFile(Yw7File):
         """
         counts = [None, 0, 0, 0, 0, 0]
         for scId in self.novel.scenes:
-            if self.novel.scenes[scId].scType == 0:
+            if self.novel.scenes[scId].scType == 0 and not self.novel.scenes[scId].doNotExport:
                 if self.novel.scenes[scId].status is not None:
                     counts[self.novel.scenes[scId].status] += self.novel.scenes[scId].wordCount
         return counts

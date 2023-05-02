@@ -710,8 +710,8 @@ class TreeViewer(ttk.Frame):
                     parentNode = partNode
                 self.tree.insert(parentNode, 'end', f'{self.SCENE_PREFIX}{scId}', text=title, values=columns, tags=nodeTags)
 
-                # add word count, if the scenen is "Normal".
-                if self._ui.novel.scenes[scId].scType == 0:
+                # add word count, if the scene is "Normal".
+                if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                     wordCount += self._ui.novel.scenes[scId].wordCount
 
         #--- Build character tree.
@@ -1052,7 +1052,7 @@ class TreeViewer(ttk.Frame):
                     scId = childNode[2:]
                     self._ui.novel.chapters[chId].srtScenes.append(scId)
                     title, columns, nodeTags = self._set_scene_display(scId, scnPos)
-                    if self._ui.novel.scenes[scId].scType == 0:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                         scnPos += self._ui.novel.scenes[scId].wordCount
                 elif childNode.startswith(self.CHARACTER_PREFIX):
                     crId = childNode[2:]
@@ -1445,7 +1445,7 @@ class TreeViewer(ttk.Frame):
             vpNames = []
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType == 0:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                         try:
                             crId = self._ui.novel.scenes[scId].characters[0]
                             viewpoint = self._ui.novel.characters[crId].title
@@ -1460,7 +1460,7 @@ class TreeViewer(ttk.Frame):
             tags = []
             if self._ui.novel.chapters[chId].chType != 3:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType != 3:
+                    if self._ui.novel.scenes[scId].scType != 3 and not self._ui.novel.scenes[scId].doNotExport:
                         if self._ui.novel.scenes[scId].tags:
                             for tag in self._ui.novel.scenes[scId].tags:
                                 if not tag in tags:
@@ -1472,7 +1472,7 @@ class TreeViewer(ttk.Frame):
             indicator = ''
             if self._ui.novel.chapters[chId].chType != 3:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType != 3:
+                    if self._ui.novel.scenes[scId].scType != 3 and not self._ui.novel.scenes[scId].doNotExport:
                         if self._ui.novel.scenes[scId].notes:
                             indicator = _('N')
             return indicator
@@ -1502,7 +1502,7 @@ class TreeViewer(ttk.Frame):
                 if arc:
                     wordCount = 0
                     for sid in self._ui.novel.scenes:
-                        if self._ui.novel.scenes[sid].scType == 0:
+                        if self._ui.novel.scenes[sid].scType == 0 and not self._ui.novel.scenes[sid].doNotExport:
                             if arc in string_to_list(self._ui.novel.scenes[sid].scnArcs):
                                 wordCount += self._ui.novel.scenes[sid].wordCount
                     columns[self._colPos['wc']] = wordCount
@@ -1552,7 +1552,7 @@ class TreeViewer(ttk.Frame):
         for scId in self._ui.novel.scenes:
             if self._ui.novel.scenes[scId].scType == 0:
                 if self._ui.novel.scenes[scId].characters:
-                    if self._ui.novel.scenes[scId].characters[0] == crId:
+                    if self._ui.novel.scenes[scId].characters[0] == crId and not self._ui.novel.scenes[scId].doNotExport:
                         wordCount += self._ui.novel.scenes[scId].wordCount
         if wordCount > 0:
             columns[self._colPos['wc']] = wordCount
