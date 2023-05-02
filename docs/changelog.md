@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.20.1
+
+- Identify "not exported" scenes in the tree view.
+- Words in "not exported" scenes don't count.
+
+Based on PyWriter v12.6.0
+
 ### v4.20.0
 
 - Extend the Plugin API.

@@ -124,6 +124,7 @@ class TreeViewer(ttk.Frame):
             tags_width: int -- width of the tags column.
             color_chapter: str -- tk color name for normal parts and chapters.
             color_unused: str -- tk color name for unused chapters and scenes.
+            color_not_exported: str -- tk color name for not exported scenes.
             color_notes: str -- tk color name for "Notes" chapters and scenes.
             color_todo: str -- tk color name for "To do" chapters and scenes.
             color_major: str -- tk color name for major characters.
@@ -221,6 +222,7 @@ class TreeViewer(ttk.Frame):
         self.tree.tag_configure('root', font=('', fontSize, 'bold'))
         self.tree.tag_configure('chapter', foreground=kwargs['color_chapter'])
         self.tree.tag_configure('unused', foreground=kwargs['color_unused'])
+        self.tree.tag_configure('not exported', foreground=kwargs['color_not_exported'])
         self.tree.tag_configure('notes', foreground=kwargs['color_notes'])
         self.tree.tag_configure('todo', foreground=kwargs['color_todo'])
         self.tree.tag_configure('todo part', font=('', fontSize, 'bold'), foreground=kwargs['color_todo'])
@@ -1434,7 +1436,7 @@ class TreeViewer(ttk.Frame):
             wordCount = 0
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType == 0:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                         wordCount += self._ui.novel.scenes[scId].wordCount
             return wordCount
 
@@ -1685,7 +1687,9 @@ class TreeViewer(ttk.Frame):
         for __ in self.columns:
             columns.append('')
         nodeTags = []
-        if self._ui.novel.scenes[scId].scType == 2:
+        if self._ui.novel.scenes[scId].doNotExport:
+            nodeTags.append('not exported')
+        elif self._ui.novel.scenes[scId].scType == 2:
             #   is Todo type.
             nodeTags.append('todo')
 

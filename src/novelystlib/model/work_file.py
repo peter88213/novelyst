@@ -251,7 +251,7 @@ class WorkFile(Yw7File):
         for chId in self.novel.srtChapters:
             if not self.novel.chapters[chId].isTrash:
                 for scId in self.novel.chapters[chId].srtScenes:
-                    if self.novel.scenes[scId].scType in (0, 3):
+                    if self.novel.scenes[scId].scType in (0, 3) and not self.novel.scenes[scId].doNotExport:
                         totalCount += self.novel.scenes[scId].wordCount
                         if self.novel.scenes[scId].scType == 0:
                             count += self.novel.scenes[scId].wordCount
@@ -272,7 +272,7 @@ class WorkFile(Yw7File):
         for chId in self.novel.srtChapters:
             if self.novel.chapters[chId].chType == 0:
                 for scId in self.novel.chapters[chId].srtScenes:
-                    if self.novel.scenes[scId].scType == 0:
+                    if self.novel.scenes[scId].scType == 0 and not self.novel.scenes[scId].doNotExport:
                         sceneCount += 1
                         wordCount += self.novel.scenes[scId].wordCount
                 if self.novel.chapters[chId].chLevel == 1:
