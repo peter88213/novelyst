@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.20.0
+
+- Extend the Plugin API.
+- Do not show "not exported" scenes in the contents viewer.
+
+Based on PyWriter v12.6.0
+
 ### v4.19.8
 
 - Fix a regression from v4.13.3 where the "index card" is missing for project notes. 

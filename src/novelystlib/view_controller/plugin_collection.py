@@ -31,6 +31,7 @@ class PluginCollection(dict):
         enable_menu() -- Enable menu entries when a project is open.
         on_quit() -- Perform actions before the application is closed.
         on_close() -- Perform actions before a project is closed.
+        open_node() -- Actions on double-clicking on a node or pressing the Return key.
     """
 
     def __init__(self, ui):
@@ -57,7 +58,7 @@ class PluginCollection(dict):
         except ValueError:
             # Set defaults for testing.
             self.majorVersion = 4
-            self.minorVersion = 19
+            self.minorVersion = 20
 
     def delete_file(self, moduleName):
         """Remove a module from the file system.
@@ -138,10 +139,15 @@ class PluginCollection(dict):
             print('Plugin directory not found.')
             return False
 
+        # Set Key bindings to be used by all plugins.
+        self._ui.tv.tree.bind('<Double-1>', self.open_node)
+        self._ui.tv.tree.bind('<Return>', self.open_node)
+
+        # Load all plugins in the Plugin path.
         sys.path.append(pluginPath)
-        files = glob.glob(f'{pluginPath}/novelyst_*.py')
-        for file in files:
+        for file in glob.iglob(f'{pluginPath}/novelyst_*.py'):
             self.load_file(file)
+
         return True
 
     def disable_menu(self):
@@ -177,6 +183,15 @@ class PluginCollection(dict):
             if self[moduleName].isActive:
                 try:
                     self[moduleName].on_close()
+                except:
+                    pass
+
+    def open_node(self, event=None):
+        """Actions on double-clicking on a node or pressing the Return key."""
+        for moduleName in self:
+            if self[moduleName].isActive:
+                try:
+                    self[moduleName].open_node()
                 except:
                     pass
 

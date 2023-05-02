@@ -114,6 +114,9 @@ class ContentsViewer(RichTextYw):
 
             for scId in self._ui.novel.chapters[chId].srtScenes:
                 scene = self._ui.novel.scenes[scId]
+                if scene.doNotExport:
+                    continue
+
                 taggedText.append(f'sc{scId}')
                 textTag = ''
                 if scene.scType == 2:

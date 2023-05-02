@@ -7,6 +7,7 @@ character_view -- Provide a class for viewing and editing character properties.
 normal_scene-view -- Provide a tkinter based class for viewing and editing "Normal" scene properties.
 notes_scene-view -- Provide a tkinter based class for viewing and editing "Notes" scene properties.
 project_view -- Provide a tkinter based class for viewing and editing project properties.
+projectnote_view -- Provide a tkinter based class for viewing and editing project notes.
 scene_view -- Provide a tkinter based class for viewing and editing scene properties.
 todo_scene_view -- Provide a class for viewing and editing "Todo" scene properties.
 world_element_view -- Provide a tkinter based class for viewing world element properties.
