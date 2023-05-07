@@ -72,6 +72,14 @@ If the plugin is a *novelyst* add-on, reinstall it from your latest *novelyst* r
 
 Select the plugin, and click on the **Delete** button. 
 
+--- 
+
+## Open installation folder
+
+**Launch the file manager**
+
+- You can launch the file manager with the *novelyst* installation folder with **File > Open installation folder**. This might be helpful, if you wish to edit configuration files, or install your own plugins.
+
 ---
 
 [<< Previous](export_menu) -- [First >>](file_menu)
