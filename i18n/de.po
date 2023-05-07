@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.20.2\n"
-"POT-Creation-Date: 2023-05-02 22:09:42\n"
-"PO-Revision-Date: 2023-05-02 22:09:42\n"
+"Project-Id-Version: 4.21.0\n"
+"POT-Creation-Date: 2023-05-07 11:06:47\n"
+"PO-Revision-Date: 2023-05-07 11:06:47\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -537,6 +537,9 @@ msgstr "Projektordner öffnen"
 
 msgid "Open existing"
 msgstr "Bestehendes öffnen"
+
+msgid "Open installation folder"
+msgstr "Installationsordner öffnen"
 
 msgid "Open..."
 msgstr "Öffnen..."

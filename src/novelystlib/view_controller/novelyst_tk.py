@@ -313,6 +313,7 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Tools'), menu=self.toolsMenu)
         self.toolsMenu.add_command(label=_('Program settings'), command=self.edit_settings)
         self.toolsMenu.add_command(label=_('Plugin Manager'), command=self.manage_plugins)
+        self.toolsMenu.add_command(label=_('Open installation folder'), command=self.open_installationFolder)
         self.toolsMenu.add_separator()
 
         # Help
@@ -579,6 +580,23 @@ class NovelystTk(MainTk):
         if self.prjFile.has_lockfile():
             self.isLocked = True
         return True
+
+    def open_installationFolder(self, event=None):
+        """Open the installation folder with the OS file manager."""
+        installDir = os.path.dirname(sys.argv[0])
+        try:
+            os.startfile(norm_path(installDir))
+            # Windows
+        except:
+            try:
+                os.system('xdg-open "%s"' % norm_path(installDir))
+                # Linux
+            except:
+                try:
+                    os.system('open "%s"' % norm_path(installDir))
+                    # Mac
+                except:
+                    pass
 
     def open_projectFolder(self, event=None):
         """Open the project folder with the OS file manager."""

@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.21.0
+
+- New menu entry: **Tools > Open installation folder**.
+
+Based on PyWriter v12.6.0
+
 ### v4.20.2
 
 - Skip "not exported" scenes when collecting chapter display data in the tree view.
