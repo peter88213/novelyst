@@ -12,7 +12,7 @@ Greyed-out entries are not available, e.g. due to "project lock".
 
 ### Add Scene
 
-Add a new scene.
+Adds a new scene.
 
 - The new scene is placed at the next free position after the selection.
 - The new scene has an auto-generated title. You can change it in the right pane.
@@ -28,7 +28,7 @@ Add a new scene.
 
 ### Add Chapter
 
-Add a new chapter.
+Adds a new chapter.
 
 - The new chapter is placed at the next free position after the selection.
 - The new chapter has an auto-generated title. You can change it in the right pane.
@@ -41,7 +41,7 @@ Converts the selected chapter into a part.
 
 ### Add Part
 
-Add a new part.
+Adds a new part.
 - The new part is placed at the next free position after the selection.
 - The new part has an auto-generated title. You can change it in the right pane.
 
