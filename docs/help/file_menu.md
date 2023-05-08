@@ -43,7 +43,7 @@
 Hit the **F5** key to synchronize the tree with the project structure. This ensures for instance, 
 that scenes within a "Notes", "Unused", or "To do" chapter are of the same type after moving them there.
 - Refreshing the tree may trigger the "Modified" flag.
-- When refreshing the tree, "Normal type" chapters in the *Research* tree are moved to the *Narrative* tree.
+- When refreshing the tree, "Normal type" chapters in the *Research* tree are moved to the *Book* tree.
 - When refreshing the tree, parts and chapters are renumbered according to the settings. 
 
 --- 

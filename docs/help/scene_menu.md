@@ -50,7 +50,7 @@ This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 ### Status change for multiple scenes
 
 - Either select multiple scenes, or
-- select a parent node (part, chapter, or Narrative)
+- select a parent node (part, chapter, or Book)
 
 --- 
 
@@ -63,7 +63,7 @@ This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 ### Mode change for multiple scenes
 
 - Either select multiple scenes, or
-- select a parent node (part, chapter, or Narrative)
+- select a parent node (part, chapter, or Book)
 
 --- 
 

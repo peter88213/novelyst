@@ -14,7 +14,7 @@
 
 You can add a chapter to the tree with **Chapter > Add**.
 - The new chapter is placed at the next free position after the selection, if possible.
-- Otherwise, the new chapter is placed at the beginning of the "Narrative". 
+- Otherwise, the new chapter is placed at the beginning of the "Book" tree. 
 - The new chapter has an auto-generated title. You can change it in the right pane.
 
 --- 

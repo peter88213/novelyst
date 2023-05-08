@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.21.1\n"
-"POT-Creation-Date: 2023-05-08 09:35:09\n"
+"Project-Id-Version: 4.22.0\n"
+"POT-Creation-Date: 2023-05-08 16:20:31\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -90,6 +90,9 @@ msgid "Auto numbering"
 msgstr ""
 
 msgid "Bio"
+msgstr ""
+
+msgid "Book"
 msgstr ""
 
 msgid "Brief synopsis"
@@ -467,9 +470,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-msgid "Narrative"
-msgstr ""
-
 msgid "Narrative arc"
 msgstr ""
 
@@ -585,6 +585,9 @@ msgid "Previous"
 msgstr ""
 
 msgid "Program settings"
+msgstr ""
+
+msgid "Project"
 msgstr ""
 
 msgid "Project note"

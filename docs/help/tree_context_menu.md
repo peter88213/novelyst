@@ -10,7 +10,7 @@ Greyed-out entries are not available, e.g. due to "project lock".
 
 ---
 
-## Narrative/Research/Planning context menu entries
+## Book/Research/Planning context menu entries
 
 ### Add Scene
 

@@ -149,7 +149,7 @@ class TodoSceneView(SceneView):
     def _pick_scene(self):
         """Enter the "associate scene" selection mode.
         
-        Change the mouse cursor to "+" and expand the "Narrative" subtree.
+        Change the mouse cursor to "+" and expand the "Book" subtree.
         Now the tree selection does not trigger the viewer, 
         but tries to associate the selected node to the Arc point.  
         

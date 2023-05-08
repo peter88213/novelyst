@@ -81,9 +81,9 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 ## Download and install
 
-[Download the latest release (version 4.21.1)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.21.1.zip)
+[Download the latest release (version 4.22.0)](https://raw.githubusercontent.com/peter88213/novelyst/main/dist/novelyst_v4.22.0.zip)
 
-- Extract the "novelyst_v4.21.1" folder from the downloaded zipfile "novelyst_v4.21.1.zip".
+- Extract the "novelyst_v4.22.0" folder from the downloaded zipfile "novelyst_v4.22.0.zip".
 - Move into this new folder and open "README.md" for further instructions.
 
 ---

@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.22.0
+
+- Add a "Project" node for the project settings.
+- Rename the "Narrative" node to "Book". 
+
+Based on PyWriter v12.6.0
+
 ### v4.21.1
 
 - Change the online help link.

@@ -31,7 +31,7 @@ You can mark parts, chapters, and scenes as unused to exclude them from word cou
 You can mark parts, chapters, and scenes as "Notes" to exclude them from word count and regular export. 
 Such elements may contain background information or research data.
 
-- "Notes" type chapters and scenes can be subelements of the "Narrative" or "Research" branch. 
+- "Notes" type chapters and scenes can be subelements of the "Book" or "Research" branch. 
 - The subelements of "Notes" parts and chapters are of the "Notes" type as well.
 - All "Notes" type parts are placed in the "Research" branch.
 - All "Notes" type chapters can be exported to a single ODT document for editing.
@@ -43,7 +43,7 @@ You can mark parts, chapters, and scenes as "Todo" to exclude them from word cou
 Such elements may carry information about plot or story structure.
 
 - The subelements of "Todo" parts and chapters are of the "Todo" Type as well.
-- "Todo" type chapters and scenes can be subelements of the "Narrative" or "Planning" branch.
+- "Todo" type chapters and scenes can be subelements of the "Book" or "Planning" branch.
 - All "Todo" type parts are placed in the "Planning" branch.
 - "Todo" type chapters and scenes are used for [arc](arcs) definition.
 - All "Todo" type chapters can be exported to a single ODT document for editing.
@@ -96,7 +96,7 @@ ODF documents are generally assigned a language that determines spell checking a
 
 ### Document overall
 
-The project language (Language code acc. to ISO 639-1 and country code acc. to ISO 3166-2) can be set in the **Narrative** settings (right pane) under **Document language**. The codes are stored as *yWriter* project variables. 
+The project language (Language code acc. to ISO 639-1 and country code acc. to ISO 3166-2) can be set in the **Project** settings (right pane) under **Document language**. The codes are stored as *yWriter* project variables. 
 
 ### Text passages in scenes
 

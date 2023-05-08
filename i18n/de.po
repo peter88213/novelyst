@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.21.1\n"
-"POT-Creation-Date: 2023-05-08 09:35:09\n"
-"PO-Revision-Date: 2023-05-08 09:35:09\n"
+"Project-Id-Version: 4.22.0\n"
+"POT-Creation-Date: 2023-05-08 16:20:31\n"
+"PO-Revision-Date: 2023-05-08 16:20:32\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -90,6 +90,9 @@ msgstr "Automatische Nummerierung"
 
 msgid "Bio"
 msgstr "Biographie"
+
+msgid "Book"
+msgstr "Buch"
 
 msgid "Brief synopsis"
 msgstr "Kurzzusammenfassung"
@@ -466,9 +469,6 @@ msgstr "N/A"
 msgid "Name"
 msgstr "Name"
 
-msgid "Narrative"
-msgstr "Handlung"
-
 msgid "Narrative arc"
 msgstr "Handlungsbogen"
 
@@ -585,6 +585,9 @@ msgstr "Zurück"
 
 msgid "Program settings"
 msgstr "Programmeinstellungen"
+
+msgid "Project"
+msgstr "Projekt"
 
 msgid "Project note"
 msgstr "Projektnotiz"

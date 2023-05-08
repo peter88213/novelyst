@@ -53,7 +53,7 @@ class NovelystTk(MainTk):
         reload_project() -- Discard changes and reload the project.
         save_as() -- Rename the project file and save it to disk.
         save_project() -- Save the novelyst project to disk and set "unchanged" status.
-        show_chapter_level() -- Open all Narrative/Part nodes and close all chapter nodes in the tree viewer.
+        show_chapter_level() -- Open all Book/Part nodes and close all chapter nodes in the tree viewer.
         show_properties() -- Show the properties of the selected element.
         show_status(message=None) -- Display project statistics at the status bar.
         toggle_viewer() -- Show/hide the contents viewer text box.
@@ -692,7 +692,7 @@ class NovelystTk(MainTk):
         return True
 
     def show_chapter_level(self, event=None):
-        """Open all Narrative/part nodes and close all chapter nodes in the tree viewer."""
+        """Open all Book/part nodes and close all chapter nodes in the tree viewer."""
         self.tv.show_chapters(self.tv.NV_ROOT)
 
     def show_properties(self, event=None):
@@ -705,7 +705,7 @@ class NovelystTk(MainTk):
                 self.view_chapter(nodeId[2:])
             elif nodeId.startswith(self.tv.PART_PREFIX):
                 self.view_chapter(nodeId[2:])
-            elif nodeId.startswith(self.tv.NV_ROOT):
+            elif nodeId.startswith(self.tv.PJ_ROOT):
                 self.view_narrative()
             elif nodeId.startswith(self.tv.CHARACTER_PREFIX):
                 self.view_character(nodeId[2:])

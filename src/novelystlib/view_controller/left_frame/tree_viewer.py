@@ -27,7 +27,8 @@ class TreeViewer(ttk.Frame):
         LOCATION_PREFIX -- Location node ID prefix
         ITEM_PREFIX -- Item node ID prefix
         PRJ_NOTE_PREFIX -- project note node ID prefix
-        NV_ROOT -- Root of the Narrative subtree
+        PJ_ROOT -- Project part
+        NV_ROOT -- Root of the Book subtree
         RS_ROOT -- Root of the Research subtree
         PL_ROOT -- Root of the Research subtree
         CR_ROOT -- Root of the Characters subtree
@@ -72,6 +73,7 @@ class TreeViewer(ttk.Frame):
     LOCATION_PREFIX = 'lc'
     ITEM_PREFIX = 'it'
     PRJ_NOTE_PREFIX = 'pn'
+    PJ_ROOT = 'pj'
     NV_ROOT = 'nv'
     RS_ROOT = 'rs'
     PL_ROOT = 'pl'
@@ -261,7 +263,7 @@ class TreeViewer(ttk.Frame):
             NoNumber: str -- Do not auto-number this chapter. Default: None.
             
         - Place the new node at the next free position after the selection, if possible.
-        - Otherwise, put the new node at the beginning of the "Narrative". 
+        - Otherwise, put the new node at the beginning of the "Book" tree. 
         
         Return the chapter ID, if successful.
         """
@@ -480,7 +482,7 @@ class TreeViewer(ttk.Frame):
             NoNumber: str: Do not auto-number this part. Default -- None.
            
         - Place the new node at the next free position after the selection, if possible.
-        - Otherwise, put the new node at the beginning of the "Narrative". 
+        - Otherwise, put the new node at the beginning of the "Book" tree. 
         
         Return the chapter ID, if successful.
         """
@@ -644,7 +646,8 @@ class TreeViewer(ttk.Frame):
         self.reset_tree()
 
         #--- Build the toplevel  structure.
-        self.tree.insert('', 'end', self.NV_ROOT, text=_('Narrative'), tags='root', open=True)
+        self.tree.insert('', 'end', self.PJ_ROOT, text=_('Project'), tags='root', open=True)
+        self.tree.insert('', 'end', self.NV_ROOT, text=_('Book'), tags='root', open=True)
         self.tree.insert('', 'end', self.CR_ROOT, text=_('Characters'), tags='root', open=False)
         self.tree.insert('', 'end', self.LC_ROOT, text=_('Locations'), tags='root', open=False)
         self.tree.insert('', 'end', self.IT_ROOT, text=_('Items'), tags='root', open=False)
@@ -734,7 +737,7 @@ class TreeViewer(ttk.Frame):
             title, columns, nodeTags = self._set_prjNote_display(pnId)
             self.tree.insert(self.PN_ROOT, 'end', f'{self.PRJ_NOTE_PREFIX}{pnId}', text=title, values=columns, tags=nodeTags)
 
-        self.tree.selection_set(self.NV_ROOT)
+        self.tree.selection_set(self.PJ_ROOT)
 
     def close_children(self, parent):
         """Recursively close children nodes.
@@ -1021,7 +1024,7 @@ class TreeViewer(ttk.Frame):
             self.tree.delete(child)
 
     def show_chapters(self, parent):
-        """Open Narrative/Part nodes and close chapter nodes.
+        """Open Book/Part nodes and close chapter nodes.
         
         Positional arguments:
             parent: str -- Root node of the subtree to process.
@@ -1291,7 +1294,7 @@ class TreeViewer(ttk.Frame):
             self.tree.selection_set(row)
             prefix = row[:2]
             if prefix in (self.NV_ROOT, self.RS_ROOT, self.PL_ROOT, self.PART_PREFIX, self.CHAPTER_PREFIX, self.SCENE_PREFIX):
-                # Context is within the "Narrative" or the "Research" subtree.
+                # Context is within the "Book" or the "Research" subtree.
                 if self._ui.isLocked:
                     # No changes allowed.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
@@ -1306,7 +1309,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.NV_ROOT):
-                    # Context is the "Narrative" subtree.
+                    # Context is the "Book" subtree.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='normal')
