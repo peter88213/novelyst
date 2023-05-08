@@ -43,7 +43,7 @@ You can mark parts, chapters, and scenes as "Todo" to exclude them from word cou
 Such elements may carry information about plot or story structure.
 
 - The subelements of "Todo" parts and chapters are of the "Todo" Type as well.
-- "To do" type chapters and scenes can be subelements of the "Narrative" or "Planning" branch.
+- "Todo" type chapters and scenes can be subelements of the "Narrative" or "Planning" branch.
 - All "Todo" type parts are placed in the "Planning" branch.
 - "Todo" type chapters and scenes are used for [arc](arcs) definition.
 - All "Todo" type chapters can be exported to a single ODT document for editing.
