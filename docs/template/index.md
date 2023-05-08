@@ -11,15 +11,10 @@ With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) 
 
 ## Features
 
-- The entire project is displayed in a tree, with branches for the narrative, characters, locations, and items.
-- The right sidebar displays the essential properties of the selected element for editing.
-- Chapters marked as "Start of a new section" in yWriter are treated as parts on a higher level. Normal chapters that follow such a chapter are shown as subtree of the part. In this way, parts can be moved or deleted along with their chapters. The chapter level can be changed in several ways via context menu.
-- The type of chapters and scenes, as well as the editing status of the scenes are color coded and can be changed via context menu.
-- All "Notes type" parts are placed in the "Research" branch.  
-- All "To do type" parts are placed in the "Planning" branch.
+- The entire project is displayed in a tree, with branches for the narrative, research, planning, characters, locations, and items.
 - Tree elements can be added, moved, and deleted.
-- Within chapters, scenes of the same type and with the same viewpoint can be joined.
-- "Notes" and "To do" type chapters can be exported to a separate ODT document. 
+- There are three levels: part, chapter, and scene.
+- The right sidebar displays the essential properties of the selected element for editing.
 - A text viewer window can be toggled on and off.
 - There is a wide range of ODF-type file export for *OpenOffice* and *LibreOffice*.
 - Several reports can be presented in list form. 

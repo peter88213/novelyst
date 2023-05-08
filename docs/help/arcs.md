@@ -1,4 +1,4 @@
-[Project homepage](../index) > [Instructions for use](../usage) > Arcs
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Arcs
 
 --- 
 

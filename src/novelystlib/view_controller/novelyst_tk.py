@@ -105,7 +105,7 @@ class NovelystTk(MainTk):
         COLORING_MODES: List[str] -- Scene row coloring modes.
     """
     COLORING_MODES = [_('None'), _('Status'), _('Work phase'), _('Mode')]
-    _HELP_URL = 'https://peter88213.github.io/novelyst/usage'
+    _HELP_URL = 'https://peter88213.github.io/novelyst/help/help'
     _KEY_NEW_PROJECT = ('<Control-n>', 'Ctrl-N')
     _KEY_LOCK_PROJECT = ('<Control-l>', 'Ctrl-L')
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')

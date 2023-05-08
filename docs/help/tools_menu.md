@@ -1,4 +1,4 @@
-[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Tools menu
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Command reference: Tools menu
 
 --- 
 
@@ -16,9 +16,10 @@
 
 **Set criteria according to which normal scenes are colored in the tree**
 
-- **none** - Normal scenes are black on white by default.
-- **status** - Normal scenes are colored according to their completion status (*Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*).
-- **mode** - Normal scenes are colored according to their mode (*staged*, *explaining*, *descriptive*, or *summarizing*). 
+- **None** - Normal scenes are black on white by default.
+- **Status** - Normal scenes are colored according to their completion status (*Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*).
+- **Work phase** - Normal scenes are highlighted if their completion status is behind the work phase defined in the project properties.
+- **Mode** - Normal scenes are colored according to their mode (*staged*, *explaining*, *descriptive*, or *summarizing*). 
 
 ### Columns
 

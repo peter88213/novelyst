@@ -1,4 +1,4 @@
-[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Scene menu
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Command reference: Scene menu
 
 --- 
 

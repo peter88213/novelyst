@@ -1,4 +1,4 @@
-[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Locations menu
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Command reference: Locations menu
 
 --- 
 

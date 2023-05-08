@@ -1,4 +1,4 @@
-[Project homepage](../index) > [Instructions for use](../usage) > Command reference: Items menu
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Command reference: Items menu
 
 --- 
 

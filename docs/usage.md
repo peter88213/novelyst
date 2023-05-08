@@ -61,93 +61,11 @@ You can either
 
 --- 
 
-# Online help
+# [Online help](https://peter88213.github.io/novelyst/help/help)
 
-You can open this page with **Help > Online help**.
-
-## Command reference
-
-- **[File menu](https://peter88213.github.io/novelyst/help/file_menu)**
-- **[View menu](https://peter88213.github.io/novelyst/help/view_menu)**
-- **[Part menu](https://peter88213.github.io/novelyst/help/part_menu)**
-- **[Chapter menu](https://peter88213.github.io/novelyst/help/chapter_menu)**
-- **[Scene menu](https://peter88213.github.io/novelyst/help/scene_menu)**
-- **[Characters menu](https://peter88213.github.io/novelyst/help/characters_menu)**
-- **[Locations menu](https://peter88213.github.io/novelyst/help/locations_menu)**
-- **[Items menu](https://peter88213.github.io/novelyst/help/items_menu)**
-- **[Project notes menu](https://peter88213.github.io/novelyst/help/project_notes_menu)**
-- **[Export menu](https://peter88213.github.io/novelyst/help/export_menu)**
-- **[Tools menu](https://peter88213.github.io/novelyst/help/tools_menu)**
-
+You can open the online help page with **Help > Online help**.
 
 --- 
-
-
-# Tree view operation
-
-### Move parts, chapters, and scenes
-
-Drag and drop while pressing the **Alt** key. Be aware, there is no "Undo" feature. 
-- When moving a normal chapter from the narrative to the "Research" branch, be sure to
-  change its type to "Notes".
-
-### Delete parts, chapters, and scenes
-
-Select item and hit the **Del** key.
-
-- When deleting a part, chapter oder scene, the scenes are moved to the _Trash_ chapter at the bottom. 
-- The _Trash_ chapter is created automatically, if needed. 
-- When deleting the _Trash_ chapter, all scenes are deleted.
-
-
-# Basic concepts
-
-## Formatting text
-
-It is assumed that very few types of text markup are needed for a novel text:
-
-- *Emphasized* (usually shown as italics).
-- *Strongly emphasized* (usually shown as capitalized).
-- *Citation* (paragraph visually distinguished from body text).
-
-When exporting to ODT format, *novelyst* replaces these formattings as follows: 
-
-- Text with `[i]Italic markup[/i]` is formatted as *Emphasized*.
-- Text with `[b]Bold markup[/b]` is formatted as *Strongly emphasized*. 
-- Paragraphs starting with `> ` are formatted as *Quote*.
-
-## Arcs
-
-With *arcs*, you can link your plot to the narrative. See the [Arcs help page](https://peter88213.github.io/novelyst/help/arcs)
-
-
-## About document language handling
-
-ODF documents are generally assigned a language that determines spell checking and country-specific character substitutions. In addition, Office Writer lets you assign text passages to languages other than the document language to mark foreign language usage or to suspend spell checking. 
-
-*novelyst* supports this language handling for *OpenOffice/LibreOffice* interoperability.
-
-### Document overall
-
-The project language (Language code acc. to ISO 639-1 and country code acc. to ISO 3166-2) can be set in the **Narrative** settings (right pane) under **Document language**. The codes are stored as *yWriter* project variables. 
-
-### Text passages in scenes
-
-Text markup for other languages is imported from ODT documents. It is represented by *yWriter* project variables. Thus it's fully compatible with *yWriter*, which interprets them as HTML instructions during document export.
-
-This then looks like this, for example:
-
-`xxx xxxx [lang=en-AU]yyy yyyy yyyy[/lang=en-AU] xxx xxx` 
-
-For the example shown above, the project variable definition for the opening tag looks like this: 
-
-- *Variable Name:* `lang=en-AU` 
-- *Value/Text:* `<HTM <SPAN LANG="en-AU"> /HTM>`
-
-The point of this is that such language assignments are preserved even after multiple conversions in both directions, so they are always effective for spell checking in the ODT document.
-
-It is recommended not to modify such markups with *novelyst* to avoid unwanted nesting and broken enclosing. 
-
 
 # License
 
