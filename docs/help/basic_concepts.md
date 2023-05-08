@@ -56,7 +56,7 @@ Such elements may carry information about plot or story structure.
 You can assign a status to each "Normal" type scene via context menu or Scene menu.
 
 - Newly created scenes are set to "Outline" by default.
-- Word counts by status appear in project properties.
+- Word counts by status appear in the "Book" properties.
 
 ---
 

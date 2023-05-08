@@ -18,7 +18,7 @@
 
 ## Expand selected
 
-**Show a whole subtree**
+**Show a whole branch**
 
 - You can expand a selected tree element with **View > Expand selected**. 
 
@@ -28,7 +28,7 @@
 
 **Hide child elements**
 
-- You can collapse a selected subtree with **View > Collapse selected**. 
+- You can collapse a selected branch with **View > Collapse selected**. 
 
 --- 
 

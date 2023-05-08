@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.22.1
+
+- Remove the "Project" node. 
+- Update help.
+
+Based on PyWriter v12.6.0
+
 ### v4.22.0
 
 - Add a "Project" node for the project settings.

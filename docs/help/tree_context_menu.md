@@ -108,7 +108,7 @@ Hides the scenes by collapsing the tree, so that only parts and chapters are vis
 
 ### Expand
 
-Shows a whole subtree by expanding the selected tree element.
+Shows a whole branch by expanding the selected tree element.
 
 ### Collapse
 

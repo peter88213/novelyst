@@ -27,7 +27,6 @@ class TreeViewer(ttk.Frame):
         LOCATION_PREFIX -- Location node ID prefix
         ITEM_PREFIX -- Item node ID prefix
         PRJ_NOTE_PREFIX -- project note node ID prefix
-        PJ_ROOT -- Project part
         NV_ROOT -- Root of the Book subtree
         RS_ROOT -- Root of the Research subtree
         PL_ROOT -- Root of the Research subtree
@@ -73,7 +72,6 @@ class TreeViewer(ttk.Frame):
     LOCATION_PREFIX = 'lc'
     ITEM_PREFIX = 'it'
     PRJ_NOTE_PREFIX = 'pn'
-    PJ_ROOT = 'pj'
     NV_ROOT = 'nv'
     RS_ROOT = 'rs'
     PL_ROOT = 'pl'
@@ -646,7 +644,6 @@ class TreeViewer(ttk.Frame):
         self.reset_tree()
 
         #--- Build the toplevel  structure.
-        self.tree.insert('', 'end', self.PJ_ROOT, text=_('Project'), tags='root', open=True)
         self.tree.insert('', 'end', self.NV_ROOT, text=_('Book'), tags='root', open=True)
         self.tree.insert('', 'end', self.CR_ROOT, text=_('Characters'), tags='root', open=False)
         self.tree.insert('', 'end', self.LC_ROOT, text=_('Locations'), tags='root', open=False)
@@ -737,7 +734,7 @@ class TreeViewer(ttk.Frame):
             title, columns, nodeTags = self._set_prjNote_display(pnId)
             self.tree.insert(self.PN_ROOT, 'end', f'{self.PRJ_NOTE_PREFIX}{pnId}', text=title, values=columns, tags=nodeTags)
 
-        self.tree.selection_set(self.PJ_ROOT)
+        self.tree.selection_set(self.NV_ROOT)
 
     def close_children(self, parent):
         """Recursively close children nodes.

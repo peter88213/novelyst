@@ -705,7 +705,7 @@ class NovelystTk(MainTk):
                 self.view_chapter(nodeId[2:])
             elif nodeId.startswith(self.tv.PART_PREFIX):
                 self.view_chapter(nodeId[2:])
-            elif nodeId.startswith(self.tv.PJ_ROOT):
+            elif nodeId.startswith(self.tv.NV_ROOT):
                 self.view_narrative()
             elif nodeId.startswith(self.tv.CHARACTER_PREFIX):
                 self.view_character(nodeId[2:])
