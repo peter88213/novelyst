@@ -88,12 +88,6 @@ When exporting to ODT format, *novelyst* replaces these formattings as follows:
 
 ---
 
-## Arcs
-
-With *arcs*, you can link your plot to the narrative. See the [Arcs help page](arcs)
-
----
-
 ## About document language handling
 
 ODF documents are generally assigned a language that determines spell checking and country-specific character substitutions. In addition, Office Writer lets you assign text passages to languages other than the document language to mark foreign language usage or to suspend spell checking. 

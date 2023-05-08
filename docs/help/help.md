@@ -27,14 +27,15 @@ Select item and hit the **Del** key.
 - Within chapters, scenes of the same type and with the same viewpoint can be joined.
 - "Notes" and "To do" type chapters can be exported to a separate ODT document. 
 
-## [Basic concepts](https://peter88213.github.io/novelyst/help/basic_concepts)
+## [Basic concepts](basic_concepts)
 
 - Part/chapter/scene types
 - Scene completion status
 - Mode of discourse
 - Formatting text
-- [Arcs](arcs)
 - About document language handling
+
+## [Arcs](arcs)
 
 ## Command reference
 

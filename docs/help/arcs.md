@@ -6,7 +6,7 @@
 
 ## What are arcs?
 
-*novelyst* provides *arcs* as a powerful and flexible concept for plotting.
+With *arcs*, you can link your plot to the narrative.
 
 ![Arcs](../Screenshots/arcs01.png)
 
