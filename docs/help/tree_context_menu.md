@@ -68,19 +68,19 @@ Deletes the selected tree element and its children.
 
 ### Set Type
 
-Sets the [type](basic_concepts#partchapterscene-types) of the selected scene. This can be *Normal*, *Notes*, *Todo*, or *Unused*.
+Sets the [type](basic_concepts) of the selected scene. This can be *Normal*, *Notes*, *Todo*, or *Unused*.
 
 - Select a parent node to set the type for multiple scenes.
 
 ### Set Status
 
-Sets the [completion status](basic_concepts#scene-completion-status) of the selected scene.
+Sets the [completion status](basic_concepts) of the selected scene.
 
 - Select a parent node to set the status for multiple scenes.
 
 ### Set Mode
 
-Sets the [mode of discourse](basic_concepts#mode-of-discourse) of the selected scene. This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+Sets the [mode of discourse](basic_concepts) of the selected scene. This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 
 - Select a parent node to set the mode for multiple scenes.
 
@@ -98,8 +98,8 @@ Joins two scenes, if within the same chapter, of the same type, and with the sam
 - Character lists are merged.
 - Location lists are merged.
 - Item lists are merged.
-- [Arc assignments](arcs#how-to-assign-scenes-to-arcs) are merged.
-- [Arc point associations](arcs#how-to-associate-points-with-scenes) are moved to the joined scene, if any.
+- [Arc](arcs) assignments are merged.
+- [Arc](arcs) point associations] are moved to the joined scene, if any.
 - Scene durations are added.
 
 ### Chapter level

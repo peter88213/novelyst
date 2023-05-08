@@ -29,11 +29,11 @@ Select item and hit the **Del** key.
 
 ## [Basic concepts](basic_concepts)
 
-- [Part/chapter/scene types](basic_concepts#partchapterscene-types)
-- [Scene completion status](basic_concepts#scene-completion-status)
-- [Mode of discourse](basic_concepts#mode-of-discourse)
-- [Formatting text](basic_concepts#formatting-text)
-- [About document language handling](basic_concepts#about-document-language-handling)
+- Part/chapter/scene types
+- Scene completion status
+- Mode of discourse
+- Formatting text
+- About document language handling
 
 ## [Arcs](arcs)
 

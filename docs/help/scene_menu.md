@@ -30,7 +30,7 @@ You can add a scene to the tree with **Scene > Add**.
 
 ## Set Type
 
-**Set the [type](basic_concepts#partchapterscene-types) of the selected scene**
+**Set the [type](basic_concepts) of the selected scene**
 
 This can be *Normal*, *Notes*, *Todo*, or *Unused*.
 
@@ -43,7 +43,7 @@ This can be *Normal*, *Notes*, *Todo*, or *Unused*.
 
 ## Set Status
 
-**Set the [scene completion status](basic_concepts#scene-completion-status)**
+**Set the [scene completion status](basic_concepts)**
 
 This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 
@@ -56,7 +56,7 @@ This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 
 ## Set Mode
 
-**Set the scene's [mode of discourse](basic_concepts#mode-of-discourse)**
+**Set the scene's [mode of discourse](basic_concepts)**
 
 This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
 
