@@ -37,6 +37,8 @@ Select item and hit the **Del** key.
 
 ## [Arcs](arcs)
 
+With *arcs*, you can link your plot to the narrative.
+
 ## Command reference
 
 - [File menu](file_menu)
