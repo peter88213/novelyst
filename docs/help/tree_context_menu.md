@@ -8,6 +8,8 @@ When right-clicking on a tree element in the left pane, a context menu opens.
 
 Greyed-out entries are not available, e.g. due to "project lock".
 
+---
+
 ## Narrative/Research/Planning context menu entries
 
 ### Add Scene
@@ -119,6 +121,8 @@ Shows the whole tree.
 ### Collapse all
 
 Hides all tree elements except the main categories.
+
+---
 
 ## Characters/Locations/Items context menu entries
 
