@@ -41,16 +41,16 @@ With *arcs*, you can link your plot to the narrative.
 
 ## Command reference
 
-- [File menu](file_menu)
-- [View menu](view_menu)
-- [Part menu](part_menu)
-- [Chapter menu](chapter_menu)
-- [Scene menu](scene_menu)
-- [Characters menu](characters_menu)
-- [Locations menu](locations_menu)
-- [Items menu](items_menu)
-- [Project notes menu](project_notes_menu)
-- [Export menu](export_menu)
-- [Tools menu](tools_menu)
+- **[File menu](file_menu)**
+- **[View menu](view_menu)**
+- **[Part menu](part_menu)**
+- **[Chapter menu](chapter_menu)**
+- **[Scene menu](scene_menu)**
+- **[Characters menu](characters_menu)**
+- **[Locations menu](locations_menu)**
+- **[Items menu](items_menu)**
+- **[Project notes menu](project_notes_menu)**
+- **[Export menu](export_menu)**
+- **[Tools menu](tools_menu)**
 
 ---
