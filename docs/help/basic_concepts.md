@@ -58,6 +58,20 @@ You can assign a status to each "Normal" type scene via context menu or Scene me
 - Newly created scenes are set to "Outline" by default.
 - Word counts by status appear in project properties.
 
+---
+
+## Mode of discourse
+
+A scene's mode can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+
+- **Staged** scenes are mainly made up of action and dialog.
+- **Explaining** scenes mainly convey background information.
+- **Descriptive** scenes describe characters, locations, etc in detail.
+- **Summarizing** scenes summarize actions in brief, for example, to make time tighter.
+- Newly created scenes are set to "staged" by default.
+
+---
+
 ## Formatting text
 
 It is assumed that very few types of text markup are needed for a novel text:
@@ -72,10 +86,13 @@ When exporting to ODT format, *novelyst* replaces these formattings as follows:
 - Text with `[b]Bold markup[/b]` is formatted as *Strongly emphasized*. 
 - Paragraphs starting with `> ` are formatted as *Quote*.
 
+---
+
 ## Arcs
 
 With *arcs*, you can link your plot to the narrative. See the [Arcs help page](arcs)
 
+---
 
 ## About document language handling
 
