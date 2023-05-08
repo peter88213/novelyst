@@ -83,4 +83,4 @@ Select the plugin, and click on the **Delete** button.
 
 ---
 
-[<< Previous](export_menu) -- [First >>](file_menu)
+[<< Previous](export_menu) -- [Next >>](tree_context_menu)

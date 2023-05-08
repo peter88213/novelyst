@@ -29,15 +29,15 @@ Select item and hit the **Del** key.
 
 ## [Basic concepts](basic_concepts)
 
-- Part/chapter/scene types
-- Scene completion status
-- Mode of discourse
-- Formatting text
-- About document language handling
+- [Part/chapter/scene types](basic_concepts#partchapterscene-types)
+- [Scene completion status](basic_concepts#scene-completion-status)
+- [Mode of discourse](basic_concepts#mode-of-discourse)
+- [Formatting text](basic_concepts#formatting-text)
+- [About document language handling](basic_concepts#about-document-language-handling)
 
 ## [Arcs](arcs)
 
-With *arcs*, you can link your plot to the narrative.
+With [arcs](arcs), you can link your plot to the narrative.
 
 ## Command reference
 
@@ -52,5 +52,6 @@ With *arcs*, you can link your plot to the narrative.
 - **[Project notes menu](project_notes_menu)**
 - **[Export menu](export_menu)**
 - **[Tools menu](tools_menu)**
+- **[Tree view context menu](tree_context_menu)**
 
 ---

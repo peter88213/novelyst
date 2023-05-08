@@ -123,4 +123,4 @@ yWriter creates its own lock file. If *novelyst* finds this, it will neither loa
 
 --- 
 
-[<< Last](tools_menu) -- [Next >>](view_menu)
+[<< Last](tree_context_menu) -- [Next >>](view_menu)

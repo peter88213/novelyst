@@ -1,0 +1,145 @@
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Tree view context menu
+
+--- 
+
+# Tree view context menu
+
+When right-clicking on a tree element in the left pane, a context menu opens. 
+
+Greyed-out entries are not available, e.g. due to "project lock".
+
+## Narrative/Research/Planning context menu entries
+
+### Add Scene
+
+Add a new scene.
+
+- The new scene is placed at the next free position after the selection.
+- The new scene has an auto-generated title. You can change it in the right pane.
+
+#### Properties of a new scene
+
+- *Normal* type
+- *Outline* completion status
+- *Staged* mode
+- No viewpoint character assigned
+- No arc or tag assigned
+- No date/time set
+
+### Add Chapter
+
+Add a new chapter.
+
+- The new chapter is placed at the next free position after the selection.
+- The new chapter has an auto-generated title. You can change it in the right pane.
+
+### Promote Chapter
+
+Converts the selected chapter into a part. 
+
+- Chapters that follow the selected one to the next part will be placed below the new part.
+
+### Add Part
+
+Add a new part.
+- The new part is placed at the next free position after the selection.
+- The new part has an auto-generated title. You can change it in the right pane.
+
+### Demote Part
+
+Converts the selected part into a chapter.
+
+- The chapters of the part together with the converted part are allocated to the preceding part, if there is one.
+
+### Cancel Part
+
+Removes the selected part but keep its chapters.
+
+- The chapters of the removed part are allocated to the preceding part, if there is one. 
+
+### Delete
+
+Deletes the selected tree element and its children. 
+
+- Parts and chapters are deleted.
+- Scenes are marked "unused" and moved to the "Trash" chapter. 
+
+### Set Type
+
+Sets the [type](basic_concepts#partchapterscene-types) of the selected scene. This can be *Normal*, *Notes*, *Todo*, or *Unused*.
+
+- Select a parent node to set the type for multiple scenes.
+
+### Set Status
+
+Sets the [completion status](basic_concepts#scene-completion-status) of the selected scene.
+
+- Select a parent node to set the status for multiple scenes.
+
+### Set Mode
+
+Sets the [mode of discourse](basic_concepts#mode-of-discourse) of the selected scene. This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+
+- Select a parent node to set the mode for multiple scenes.
+
+### Join with previous
+
+Joins two scenes, if within the same chapter, of the same type, and with the same viewpoint.
+
+- New title = title of the prevoius scene & title of the selected scene
+- The scene contents are concatenated, separated by a paragraph separator.
+- Descriptions are concatenated, separated by a paragraph separator.
+- Goals are concatenated, separated by a paragraph separator.
+- Conflicts are concatenated, separated by a paragraph separator.
+- Outcomes are concatenated, separated by a paragraph separator.
+- Notes are concatenated, separated by a paragraph separator.
+- Character lists are merged.
+- Location lists are merged.
+- Item lists are merged.
+- [Arc assignments](arcs#how-to-assign-scenes-to-arcs) are merged.
+- [Arc point associations](arcs#how-to-associate-points-with-scenes) are moved to the joined scene, if any.
+- Scene durations are added.
+
+### Chapter level
+
+Hides the scenes by collapsing the tree, so that only parts and chapters are visible.
+
+### Expand
+
+Shows a whole subtree by expanding the selected tree element.
+
+### Collapse
+
+Hides the child elements of the selected tree element.
+
+### Expand all
+
+Shows the whole tree.
+
+### Collapse all
+
+Hides all tree elements except the main categories.
+
+## Characters/Locations/Items context menu entries
+
+### Add
+
+Adds a new character/location/item.
+
+- The new element is placed after the selected one.
+- The new element has an auto-generated title. You can change it in the right pane.
+- The status of newly created characters is *minor*.
+
+### Delete
+
+Deletes the selected character/location/item.
+
+### Set Status
+
+Sets the selected character's status. This can be *major* or *minor*.
+
+- Select the *Characters* root node to set the status for all characters.
+
+---
+
+[<< Previous](tools_menu) -- [First >>](file_menu)
