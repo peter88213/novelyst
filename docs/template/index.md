@@ -85,6 +85,7 @@ As it is the case for *yWriter*, *novelyst* applies to an even greater extent th
 
 - Extract the "novelyst_v0.99.0" folder from the downloaded zipfile "novelyst_v0.99.0.zip".
 - Move into this new folder and open "README.md" for further instructions.
+- You may wish to install plugins; the [scene editor](https://peter88213.github.io/novelyst_editor/) is highly recommended.
 
 ---
 
