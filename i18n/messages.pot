@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.22.1\n"
-"POT-Creation-Date: 2023-05-08 18:15:44\n"
+"Project-Id-Version: 4.23.0\n"
+"POT-Creation-Date: 2023-05-16 21:20:57\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -677,6 +677,9 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+msgid "Summary"
+msgstr ""
+
 msgid "Tagged manuscript for proofing"
 msgstr ""
 
@@ -804,6 +807,9 @@ msgid "manuscript"
 msgstr ""
 
 msgid "novelyst API"
+msgstr ""
+
+msgid "scene title"
 msgstr ""
 
 msgid "staged"

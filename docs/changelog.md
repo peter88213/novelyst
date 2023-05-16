@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.23.0
+
+- Provide translations for scene related comments in the exported documents. 
+
+Based on PyWriter v12.7.0
+
 ### v4.22.1
 
 - Remove the "Project" node. 
