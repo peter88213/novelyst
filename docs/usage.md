@@ -65,6 +65,8 @@ You can either
 
 You can open the online help page with **Help > Online help**.
 
+[Introduction (German)](https://github.com/peter88213/novelyst/wiki/Deutsch)
+
 --- 
 
 # License
