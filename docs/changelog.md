@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.23.1
+
+- Initialize new project's metadata.
+
+Based on PyWriter v12.7.1
+
 ### v4.23.0
 
 - Provide translations for scene related comments in the exported documents. 

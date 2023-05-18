@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.23.0\n"
-"POT-Creation-Date: 2023-05-16 21:20:57\n"
-"PO-Revision-Date: 2023-05-16 21:20:57\n"
+"Project-Id-Version: 4.23.1\n"
+"POT-Creation-Date: 2023-05-18 10:32:58\n"
+"PO-Revision-Date: 2023-05-18 10:32:58\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -807,9 +807,6 @@ msgstr "Manuskript"
 
 msgid "novelyst API"
 msgstr "novelyst API"
-
-msgid "scene title"
-msgstr "Abschnittstitel"
 
 msgid "staged"
 msgstr "szenisch"

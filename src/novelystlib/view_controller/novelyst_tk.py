@@ -516,6 +516,10 @@ class NovelystTk(MainTk):
         if fileName:
             self.prjFile = WorkFile(fileName)
             self.novel = Novel()
+            self.novel.title = ''
+            self.novel.authorName = ''
+            self.novel.authorBio = ''
+            self.novel.desc = ''
             self.novel.wordCountStart = 0
             self.novel.wordTarget = 0
             self.prjFile.novel = self.novel
