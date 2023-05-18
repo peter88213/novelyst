@@ -85,9 +85,9 @@ This will write parts, chapters, and scenes into a new OpenDocument
 text document (odt) with chapter and scene markers. File name suffix is
 `_proof`.
 
+-   Only "normal" chapters and scenes are exported. Chapters and
+    scenes marked "unused", "todo" or "notes" are not exported.
 -   Scenes beginning with `<HTML>` or `<TEX>` are not exported.
--   All other chapters and scenes are exported, whether "used" or
-    "unused".
 -   Interspersed HTML, TEX, or RTF commands are taken over unchanged.
 -   The document contains chapter `[ChID:x]` and scene `[ScID:y]`
     markers (according to yWriter 5 standard). **Do not touch lines
@@ -100,7 +100,6 @@ text document (odt) with chapter and scene markers. File name suffix is
     -   `###` → Scene divider. Optionally, you can append the 
         scene title to the scene divider. You can also add a description, separated by `|`.
     -   **Note:** Export documents with split scenes from *Writer* to yw7 not more than once.      
--   Paragraphs starting with `> ` are formatted as quotations.
 -   Text markup: Bold and italics are supported. Other highlighting such
     as underline and strikethrough are lost.
 

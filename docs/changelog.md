@@ -8,6 +8,16 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.24.0
+
+Modify the "Proofing document" classes for ODT exchange document conversion:
+
+- Exclude "Unused", "Notes" and "Todo" scenes from the document export.
+- Apply direct formatting instead of the emphasizing character styles.
+- Do not apply the "Quotation" paragraph style.
+
+Based on PyWriter v12.8.1
+
 ### v4.23.1
 
 - Initialize new project's metadata.
