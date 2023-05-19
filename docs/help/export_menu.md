@@ -82,18 +82,17 @@ sections (to be seen in the Navigator). File name suffix is `_todo`.
 ## Manuscript with visible tags for proof reading
 
 This will write parts, chapters, and scenes into a new OpenDocument
-text document (odt) with chapter and scene markers. File name suffix is
+text document (odt) with visible scene markers. File name suffix is
 `_proof`.
 
 -   Only "normal" chapters and scenes are exported. Chapters and
     scenes marked "unused", "todo" or "notes" are not exported.
 -   Scenes beginning with `<HTML>` or `<TEX>` are not exported.
 -   Interspersed HTML, TEX, or RTF commands are taken over unchanged.
--   The document contains chapter `[ChID:x]` and scene `[ScID:y]`
-    markers (according to yWriter 5 standard). **Do not touch lines
-    containing the markers** if you want to be able to write the
-    document back into *novelyst*.
--   Chapters and scenes can neither be rearranged nor deleted. 
+-   The document contains scene `[ScID:x]` markers.
+    **Do not touch lines containing the markers** if you want to
+    be able to write the document back to *yw7* format.
+-   Chapters and scenes can neither be rearranged nor deleted.
 -   With *OpenOffice/LibreOffice Writer*, you can split scenes by inserting headings or a scene divider:
     -   *Heading 1* → New part title. Optionally, you can add a description, separated by `|`.
     -   *Heading 2* → New chapter title. Optionally, you can add a description, separated by `|`.

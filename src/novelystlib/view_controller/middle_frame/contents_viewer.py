@@ -133,7 +133,7 @@ class ContentsViewer(RichTextYw):
                 if scene.title:
                     heading = f'[{scene.title}]\n'
                 else:
-                    heading = f"[{_('Unnamed')}\n"
+                    heading = f"[{_('Unnamed')}]\n"
                 taggedText.append((heading, headingTag))
 
                 if scene.sceneContent:

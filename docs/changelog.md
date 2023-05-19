@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.24.1
+
+- Fix heading of unnamed scenes in the contents viewer.
+- Simplify the "proofread" document's structure.
+
+Based on PyWriter v12.8.2
+
 ### v4.24.0
 
 Modify the "Proofing document" classes for ODT exchange document conversion:
