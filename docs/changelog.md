@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.24.3
+
+- Exclude the scene marks in the "proofing" document from spell checking.
+
+Based on PyWriter v12.8.5
+
 ### v4.24.2
 
 - Fix a regression from v2.24.0 where the "proofing" document export may crash in case no language tags are found.
