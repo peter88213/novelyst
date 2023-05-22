@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.25.0
+
+- Import characters, locations, and items from XML data files.
+
+Based on PyWriter v12.11.0
+
 ### v4.24.3
 
 - Exclude the scene marks in the "proofing" document from spell checking.

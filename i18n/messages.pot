@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.24.3\n"
-"POT-Creation-Date: 2023-05-19 22:35:48\n"
+"Project-Id-Version: 4.25.0\n"
+"POT-Creation-Date: 2023-05-22 18:11:24\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -392,6 +392,12 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
+msgid "Import"
+msgstr ""
+
+msgid "Import selected elements"
+msgstr ""
+
 msgid "Input rejected"
 msgstr ""
 
@@ -503,7 +509,16 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+msgid "No character data found"
+msgstr ""
+
 msgid "No description"
+msgstr ""
+
+msgid "No item data found"
+msgstr ""
+
+msgid "No location data found"
 msgstr ""
 
 msgid "None"
@@ -788,6 +803,18 @@ msgstr ""
 msgid "Wrong name"
 msgstr ""
 
+msgid "XML character data file"
+msgstr ""
+
+msgid "XML data file"
+msgstr ""
+
+msgid "XML item data file"
+msgstr ""
+
+msgid "XML location data file"
+msgstr ""
+
 msgid "by"
 msgstr ""
 
@@ -795,6 +822,9 @@ msgid "deleted"
 msgstr ""
 
 msgid "descriptive"
+msgstr ""
+
+msgid "elements imported"
 msgstr ""
 
 msgid "explaining"

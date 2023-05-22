@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.24.3\n"
-"POT-Creation-Date: 2023-05-19 22:35:48\n"
-"PO-Revision-Date: 2023-05-19 22:35:49\n"
+"Project-Id-Version: 4.25.0\n"
+"POT-Creation-Date: 2023-05-22 18:11:24\n"
+"PO-Revision-Date: 2023-05-22 18:11:24\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -391,6 +391,12 @@ msgstr "Homepage"
 msgid "Hours"
 msgstr "Stunden"
 
+msgid "Import"
+msgstr "Importieren"
+
+msgid "Import selected elements"
+msgstr "Ausgewählte Elemente importieren"
+
 msgid "Input rejected"
 msgstr "Eingabe abgelehnt"
 
@@ -502,8 +508,17 @@ msgstr "Neuer als die Projektdatei"
 msgid "Next"
 msgstr "Vor"
 
+msgid "No character data found"
+msgstr "Keine Figurendaten gefunden"
+
 msgid "No description"
 msgstr "Keine Beschreibung"
+
+msgid "No item data found"
+msgstr "Keine Gegenstandsdaten gefunden"
+
+msgid "No location data found"
+msgstr "Keine Schauplatzdaten gefunden"
 
 msgid "None"
 msgstr "Keiner"
@@ -787,6 +802,18 @@ msgstr "Schreibfortschritt"
 msgid "Wrong name"
 msgstr "Falscher Name"
 
+msgid "XML character data file"
+msgstr "XML-Figurendatei"
+
+msgid "XML data file"
+msgstr "XML-Datendatei"
+
+msgid "XML item data file"
+msgstr "XML-Gegenstandsdatei"
+
+msgid "XML location data file"
+msgstr "XML-Schauplatzdatei"
+
 msgid "by"
 msgstr "von"
 
@@ -795,6 +822,9 @@ msgstr "gelöscht"
 
 msgid "descriptive"
 msgstr "beschreibend"
+
+msgid "elements imported"
+msgstr "Elemente importiert"
 
 msgid "explaining"
 msgstr "erklärend"

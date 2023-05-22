@@ -20,6 +20,19 @@ You can add an item to the tree with **Items > Add**.
 
 --- 
 
+## Import
+
+**Import items from another project**
+
+This will import a selection of items from another project.
+First you select an XML file containing the item data. 
+Then you select the items you want to add to the current project.
+
+To create an XML item data file for the current project,
+use **Export > Characters/locations/items data files**.
+
+---
+
 ## Export item descriptions for editing 
 
 **Export an ODT document**
