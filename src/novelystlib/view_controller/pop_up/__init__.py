@@ -1,6 +1,7 @@
 """Modules for novelyst pop-up view-controller classes.
 
 Modules:
+data_importer -- Provide a class for a data import pick list.
 plugin_manager -- Provide a class for a plugin manager.
 settings_window -- Provide a class for program settings.
 
