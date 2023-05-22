@@ -21,7 +21,9 @@ from novelystlib.data_reader.item_data_reader import ItemDataReader
 
 class DataPicker(tk.Toplevel):
 
-    def __init__(self, sourceElements, targetElements, targetSrtElements):
+    SIZE = '200x400'
+
+    def __init__(self, ui, sourceElements, targetElements, targetSrtElements):
         """Tree for data selection.
         
         Positional arguments:
@@ -31,23 +33,27 @@ class DataPicker(tk.Toplevel):
         
         """
         super().__init__()
+        self.geometry(self.SIZE)
+        self._ui = ui
         self._sourceElements = sourceElements
         self._targetElements = targetElements
         self._targetSrtElements = targetSrtElements
-        self.treeView = ttk.Treeview(self, selectmode='browse')
-        scrollY = ttk.Scrollbar(self.treeView, orient=tk.VERTICAL, command=self.treeView.yview)
-        self.treeView.configure(yscrollcommand=scrollY.set)
+        self._pickList = ttk.Treeview(self, selectmode='extended')
+        scrollY = ttk.Scrollbar(self._pickList, orient=tk.VERTICAL, command=self._pickList.yview)
+        self._pickList.configure(yscrollcommand=scrollY.set)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
-        self.treeView.pack(side=tk.LEFT)
+        self._pickList.pack(fill=tk.BOTH, expand=True)
         ttk.Button(self, text=_('Import selected'), command=self._import).pack()
+        for elemId in self._sourceElements:
+            self._pickList.insert('', 'end', elemId, text=self._sourceElements[elemId].title)
 
     def _import(self):
         """Import the selected elements into the project."""
-        for elemId in self._sourceElements:
+        for  elemId in self._pickList.selection():
             newId = create_id(self._targetElements)
             self._targetElements[newId] = self._sourceElements[elemId]
             self._targetSrtElements.append(newId)
-            print(self._targetElements[newId].title)
+            self._ui.isModified = True
         self.destroy()
 
 
@@ -65,6 +71,7 @@ class DevelApp(MainTk):
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
         self.itemMenu.add_command(label=_('Import'), command=self._import_items)
         self.fileMenu.add_command(label=_('Save'), command=self.save_project)
+        self.isModified = False
 
     def _import_characters(self):
         fileTypes = [(_('XML data file'), '.xml')]
@@ -77,7 +84,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                DataPicker(source.novel.characters, self.prjFile.novel.characters, self.prjFile.novel.srtCharacters)
+                DataPicker(self, source.novel.characters, self.prjFile.novel.characters, self.prjFile.novel.srtCharacters)
 
     def _import_locations(self):
         fileTypes = [(_('XML data file'), '.xml')]
@@ -90,7 +97,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                DataPicker(source.novel.locations, self.prjFile.novel.locations, self.prjFile.novel.srtLocations)
+                DataPicker(self, source.novel.locations, self.prjFile.novel.locations, self.prjFile.novel.srtLocations)
 
     def _import_items(self):
         fileTypes = [(_('XML data file'), '.xml')]
@@ -103,7 +110,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                DataPicker(source.novel.items, self.prjFile.novel.items, self.prjFile.novel.srtItems)
+                DataPicker(self, source.novel.items, self.prjFile.novel.items, self.prjFile.novel.srtItems)
 
     def save_project(self):
         self.prjFile.write()
