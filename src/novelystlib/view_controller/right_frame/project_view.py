@@ -4,6 +4,7 @@ Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
+import os
 import tkinter as tk
 from tkinter import ttk
 from pywriter.pywriter_globals import *
@@ -21,11 +22,12 @@ class ProjectView(BasicView):
     Public methods:
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
+        show() -- Display the cover.
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
     _NOTES = False
-    _BUTTONBAR = True
+    _BUTTONBAR = False
 
     def __init__(self, ui, parent):
         """Initialize the view once before element date is available.
@@ -205,6 +207,14 @@ class ProjectView(BasicView):
         self._phaseCombobox.pack(anchor=tk.W)
 
         ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+
+        #--- "Apply changes" button.
+        ttk.Button(self._elementInfoWindow, text=_('Apply changes'), command=self.apply_changes).pack(pady=5, padx=5, fill=tk.X, expand=True)
+
+        #--- Cover display
+        self._coverFile = None
+        self._cover = tk.Label(self._elementInfoWindow)
+        self._cover.pack()
 
     def apply_changes(self):
         """Apply changes.
@@ -431,6 +441,24 @@ class ProjectView(BasicView):
         except:
             workPhase = 0
         self._phase.set(value=phases[workPhase])
+
+    def show(self):
+        """Display the cover.
+        
+        Extends the superclass constructor.
+        """
+        try:
+            coverFile = f'{os.path.splitext(self._ui.prjFile.filePath)[0]}.png'
+            if self._coverFile != coverFile:
+                self._coverFile = coverFile
+                coverPic = tk.PhotoImage(file=coverFile)
+                self._cover.configure(image=coverPic)
+                self._cover.image = coverPic
+                # avoid garbage collection
+        except:
+            self._cover.configure(image=None)
+            self._cover.image = None
+        super().show()
 
     def _set_initial_wc(self):
         """Set actual wordcount as start.

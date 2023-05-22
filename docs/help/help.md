@@ -15,6 +15,8 @@ You can open it with **Help > Online help**.
 
 Drag and drop while pressing the **Alt** key. Be aware, there is no "Undo" feature. 
 
+---
+
 ### Delete parts, chapters, and scenes
 
 Select item and hit the **Del** key.
@@ -27,6 +29,8 @@ Select item and hit the **Del** key.
 - Within chapters, scenes of the same type and with the same viewpoint can be joined.
 - "Notes" and "To do" type chapters can be exported to a separate ODT document. 
 
+---
+
 ## [Basic concepts](basic_concepts)
 
 - Part/chapter/scene types
@@ -35,9 +39,13 @@ Select item and hit the **Del** key.
 - Formatting text
 - About document language handling
 
+---
+
 ## [Arcs](arcs)
 
 With [arcs](arcs), you can link your plot to the narrative.
+
+---
 
 ## Command reference
 
@@ -55,3 +63,9 @@ With [arcs](arcs), you can link your plot to the narrative.
 - **[Tree view context menu](tree_context_menu)**
 
 ---
+
+## Cover thumbnails
+
+A cover thumbnail is displayed with the project properties if you provide 
+a PNG image file with the project name along with the project file. 
+The recommended image width is 100 to 200 pixels.
