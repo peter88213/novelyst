@@ -196,9 +196,9 @@ It generates the same word count as you see displayed in *novelyst*.
 ## Characters/locations/items data files
 
 This will create a set of XML files containing the project's characters, 
-ocations, and items with all their properties. 
-These files can be used to import the characters, locations, 
-and items into another project (also with yWriter 7).
+locations, and items with all their properties. 
+These files can be used to export the characters, locations, 
+and items to another project (also with yWriter 7).
 
 To import XML data files from another project, use the **Import** command
 in the **Characters**, **Locations**, or **Items** menu. 
