@@ -30,6 +30,10 @@ from novelystlib.view_controller.pop_up.settings_window import SettingsWindow
 from novelystlib.view_controller.pop_up.plugin_manager import PluginManager
 from novelystlib.export.nv_exporter import NvExporter
 from novelystlib.export.nv_reporter import NvReporter
+from novelystlib.data_reader.character_data_reader import CharacterDataReader
+from novelystlib.data_reader.location_data_reader import LocationDataReader
+from novelystlib.data_reader.item_data_reader import ItemDataReader
+from novelystlib.view_controller.pop_up.data_importer import DataImporter
 
 PLUGIN_PATH = f'{sys.path[0]}/plugin'
 
@@ -262,6 +266,8 @@ class NovelystTk(MainTk):
         self.characterMenu.add_separator()
         self.characterMenu.add_cascade(label=_('Set Status'), menu=self.tv.crStatusMenu)
         self.characterMenu.add_separator()
+        self.characterMenu.add_command(label=_('Import'), command=self._import_characters)
+        self.characterMenu.add_separator()
         self.characterMenu.add_command(label=_('Export character descriptions for editing'), command=lambda: self._export_document('_characters'))
         self.characterMenu.add_command(label=_('Export character list (spreadsheet)'), command=lambda: self._export_document('_charlist'))
         self.characterMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_character_report'))
@@ -271,6 +277,8 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Locations'), menu=self.locationMenu)
         self.locationMenu.add_command(label=_('Add'), command=self.tv.add_location)
         self.locationMenu.add_separator()
+        self.locationMenu.add_command(label=_('Import'), command=self._import_locations)
+        self.locationMenu.add_separator()
         self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self._export_document('_locations'))
         self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self._export_document('_loclist'))
         self.locationMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_location_report'))
@@ -279,6 +287,8 @@ class NovelystTk(MainTk):
         self.itemMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
         self.itemMenu.add_command(label=_('Add'), command=self.tv.add_item)
+        self.itemMenu.add_separator()
+        self.itemMenu.add_command(label=_('Import'), command=self._import_items)
         self.itemMenu.add_separator()
         self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self._export_document('_items'))
         self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self._export_document('_itemlist'))
@@ -918,6 +928,69 @@ class NovelystTk(MainTk):
         self.restore_status()
         self._elementView.apply_changes()
         self._exporter.run(self.prjFile, suffix, **kwargs)
+
+    def _import_characters(self):
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = CharacterDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self,
+                             windowGeometry,
+                             source.novel.characters,
+                             self.prjFile.novel.characters,
+                             self.prjFile.novel.srtCharacters)
+
+    def _import_locations(self):
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = LocationDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self,
+                             windowGeometry,
+                             source.novel.locations,
+                             self.prjFile.novel.locations,
+                             self.prjFile.novel.srtLocations)
+
+    def _import_items(self):
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = ItemDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self,
+                             windowGeometry,
+                             source.novel.items,
+                             self.prjFile.novel.items,
+                             self.prjFile.novel.srtItems)
 
     def _initialize_properties_frame(self, parent):
         """Initialize element properties views."""
