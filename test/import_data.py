@@ -21,15 +21,34 @@ from novelystlib.data_reader.item_data_reader import ItemDataReader
 
 class DataPicker(tk.Toplevel):
 
-    def select(self, source):
-        #--- Tree for selection.
+    def __init__(self, sourceElements, targetElements, targetSrtElements):
+        """Tree for data selection.
+        
+        Positional arguments:
+            sourceElements: dict -- characters, locations, or items of the data file.
+            targetElements: dict -- characters, locations, or items of the project file.
+            targetSrtElements: list -- Sorted charcter/location/item IDs of the project file.
+        
+        """
+        super().__init__()
+        self._sourceElements = sourceElements
+        self._targetElements = targetElements
+        self._targetSrtElements = targetSrtElements
         self.treeView = ttk.Treeview(self, selectmode='browse')
         scrollY = ttk.Scrollbar(self.treeView, orient=tk.VERTICAL, command=self.treeView.yview)
         self.treeView.configure(yscrollcommand=scrollY.set)
         scrollY.pack(side=tk.RIGHT, fill=tk.Y)
         self.treeView.pack(side=tk.LEFT)
-        for elemId in source:
-            yield(elemId)
+        ttk.Button(self, text=_('Import selected'), command=self._import).pack()
+
+    def _import(self):
+        """Import the selected elements into the project."""
+        for elemId in self._sourceElements:
+            newId = create_id(self._targetElements)
+            self._targetElements[newId] = self._sourceElements[elemId]
+            self._targetSrtElements.append(newId)
+            print(self._targetElements[newId].title)
+        self.destroy()
 
 
 class DevelApp(MainTk):
@@ -58,13 +77,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                dataPicker = DataPicker()
-                newCharacters = dataPicker.select(source.novel.characters)
-                for crId in newCharacters:
-                    newId = create_id(self.prjFile.novel.characters)
-                    self.prjFile.novel.characters[newId] = source.novel.characters[crId]
-                    self.prjFile.novel.srtCharacters.append(newId)
-                    print(self.prjFile.novel.characters[newId].title)
+                DataPicker(source.novel.characters, self.prjFile.novel.characters, self.prjFile.novel.srtCharacters)
 
     def _import_locations(self):
         fileTypes = [(_('XML data file'), '.xml')]
@@ -77,13 +90,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                dataPicker = DataPicker()
-                newLocations = dataPicker.select(source.novel.locations)
-                for lcId in newLocations:
-                    newId = create_id(self.prjFile.novel.locations)
-                    self.prjFile.novel.locations[newId] = source.novel.locations[lcId]
-                    self.prjFile.novel.srtLocations.append(newId)
-                    print(self.prjFile.novel.locations[newId].title)
+                DataPicker(source.novel.locations, self.prjFile.novel.locations, self.prjFile.novel.srtLocations)
 
     def _import_items(self):
         fileTypes = [(_('XML data file'), '.xml')]
@@ -96,13 +103,7 @@ class DevelApp(MainTk):
             except TypeError:
                 pass
             else:
-                dataPicker = DataPicker()
-                newItems = dataPicker.select(source.novel.items)
-                for itId in newItems:
-                    newId = create_id(self.prjFile.novel.items)
-                    self.prjFile.novel.items[newId] = source.novel.items[itId]
-                    self.prjFile.novel.srtItems.append(newId)
-                    print(self.prjFile.novel.items[newId].title)
+                DataPicker(source.novel.items, self.prjFile.novel.items, self.prjFile.novel.srtItems)
 
     def save_project(self):
         self.prjFile.write()
