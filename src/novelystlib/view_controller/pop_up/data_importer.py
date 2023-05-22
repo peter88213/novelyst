@@ -40,10 +40,11 @@ class DataImporter(tk.Toplevel):
     def _import(self):
         """Import the selected elements into the project."""
         i = 0
-        for  i, elemId in enumerate(self._pickList.selection(), 1):
+        for  elemId in self._pickList.selection():
             newId = create_id(self._targetElements)
             self._targetElements[newId] = self._sourceElements[elemId]
             self._targetSrtElements.append(newId)
+            i += 1
         if i > 0:
             self._ui.set_info_how(f'{i} {_("elements imported")}')
             self._ui.isModified = True
