@@ -13,7 +13,7 @@ from pywriter.model.id_generator import create_id
 
 class DataImporter(tk.Toplevel):
 
-    def __init__(self, ui, size, sourceElements, targetElements, targetSrtElements):
+    def __init__(self, ui, windowGeometry, sourceElements, targetElements, targetSrtElements):
         """Data import pick list.
         
         Positional arguments:
@@ -23,8 +23,8 @@ class DataImporter(tk.Toplevel):
         
         """
         super().__init__()
-        self.geometry(size)
         self._ui = ui
+        self.geometry(windowGeometry)
         self._sourceElements = sourceElements
         self._targetElements = targetElements
         self._targetSrtElements = targetSrtElements
@@ -47,6 +47,6 @@ class DataImporter(tk.Toplevel):
             i += 1
         if i > 0:
             self._ui.set_info_how(f'{i} {_("elements imported")}')
-            self._ui.isModified = True
+            self.isModified = True
         self.destroy()
 

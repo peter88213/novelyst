@@ -33,7 +33,7 @@ class DevelApp(MainTk):
         self.fileMenu.add_command(label=_('Save'), command=self.save_project)
         self.isModified = False
 
-        self.kwargs = {'import_win_geometry':'200x400'}
+        self.kwargs = {'data_imp_geometry':'200x400+260+260'}
 
         self.characterMenu.add_command(label=_('Import'), command=self._import_characters)
         self.itemMenu.add_command(label=_('Import'), command=self._import_items)
@@ -51,8 +51,11 @@ class DevelApp(MainTk):
             except:
                 self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
             else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
                 DataImporter(self,
-                             self.kwargs['import_win_geometry'],
+                             windowGeometry,
                              source.novel.characters,
                              self.prjFile.novel.characters,
                              self.prjFile.novel.srtCharacters)
@@ -69,8 +72,11 @@ class DevelApp(MainTk):
             except:
                 self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
             else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
                 DataImporter(self,
-                             self.kwargs['import_win_geometry'],
+                             windowGeometry,
                              source.novel.locations,
                              self.prjFile.novel.locations,
                              self.prjFile.novel.srtLocations)
@@ -87,8 +93,11 @@ class DevelApp(MainTk):
             except:
                 self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
             else:
+                offset = 50
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
                 DataImporter(self,
-                             self.kwargs['import_win_geometry'],
+                             windowGeometry,
                              source.novel.items,
                              self.prjFile.novel.items,
                              self.prjFile.novel.srtItems)
