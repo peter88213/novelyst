@@ -22,23 +22,25 @@ from novelystlib.view_controller.pop_up.data_importer import DataImporter
 
 class DevelApp(MainTk):
 
-    PickListSize = '200x400'
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.characterMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Characters'), menu=self.characterMenu)
-        self.characterMenu.add_command(label=_('Import'), command=self._import_characters)
         self.locationMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Locations'), menu=self.locationMenu)
-        self.locationMenu.add_command(label=_('Import'), command=self._import_locations)
         self.itemMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
-        self.itemMenu.add_command(label=_('Import'), command=self._import_items)
         self.fileMenu.add_command(label=_('Save'), command=self.save_project)
         self.isModified = False
 
+        self.kwargs = {'import_win_geometry':'200x400'}
+
+        self.characterMenu.add_command(label=_('Import'), command=self._import_characters)
+        self.itemMenu.add_command(label=_('Import'), command=self._import_items)
+        self.locationMenu.add_command(label=_('Import'), command=self._import_locations)
+
     def _import_characters(self):
+        self.restore_status()
         fileTypes = [(_('XML data file'), '.xml')]
         filePath = filedialog.askopenfilename(filetypes=fileTypes)
         if filePath:
@@ -46,12 +48,17 @@ class DevelApp(MainTk):
             source.novel = Novel()
             try:
                 source.read()
-            except TypeError:
-                pass
+            except:
+                self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
             else:
-                DataImporter(self, self.PickListSize, source.novel.characters, self.prjFile.novel.characters, self.prjFile.novel.srtCharacters)
+                DataImporter(self,
+                             self.kwargs['import_win_geometry'],
+                             source.novel.characters,
+                             self.prjFile.novel.characters,
+                             self.prjFile.novel.srtCharacters)
 
     def _import_locations(self):
+        self.restore_status()
         fileTypes = [(_('XML data file'), '.xml')]
         filePath = filedialog.askopenfilename(filetypes=fileTypes)
         if filePath:
@@ -59,12 +66,17 @@ class DevelApp(MainTk):
             source.novel = Novel()
             try:
                 source.read()
-            except TypeError:
-                pass
+            except:
+                self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
             else:
-                DataImporter(self, self.PickListSize, source.novel.locations, self.prjFile.novel.locations, self.prjFile.novel.srtLocations)
+                DataImporter(self,
+                             self.kwargs['import_win_geometry'],
+                             source.novel.locations,
+                             self.prjFile.novel.locations,
+                             self.prjFile.novel.srtLocations)
 
     def _import_items(self):
+        self.restore_status()
         fileTypes = [(_('XML data file'), '.xml')]
         filePath = filedialog.askopenfilename(filetypes=fileTypes)
         if filePath:
@@ -72,10 +84,14 @@ class DevelApp(MainTk):
             source.novel = Novel()
             try:
                 source.read()
-            except TypeError:
-                pass
+            except:
+                self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
             else:
-                DataImporter(self, self, PickListSize, source.novel.items, self.prjFile.novel.items, self.prjFile.novel.srtItems)
+                DataImporter(self,
+                             self.kwargs['import_win_geometry'],
+                             source.novel.items,
+                             self.prjFile.novel.items,
+                             self.prjFile.novel.srtItems)
 
     def save_project(self):
         self.prjFile.write()
