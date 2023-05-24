@@ -20,10 +20,6 @@ class ChapterView(BasicView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _NOTES = False
-    _BUTTONBAR = True
 
     def __init__(self, ui, parent):
         """Initialize the view once before element data is available.          
@@ -87,4 +83,10 @@ class ChapterView(BasicView):
                 self._noNumberButton.pack(anchor='w', pady=2)
         elif self._noNumberButton.winfo_manager():
             self._noNumberButton.pack_forget()
+
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_element_info_window()
+        self._create_button_bar()
 

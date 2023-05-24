@@ -25,11 +25,6 @@ class SceneView(BasicView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _NOTES = True
-    _BUTTONBAR = True
-
     _REL_Y = 2
     # height of the Relations text boxes
 
@@ -184,6 +179,13 @@ class SceneView(BasicView):
         # 'Items' window.
         self._itTitles = self._get_relation_title_string(element.items, self._ui.novel.items)
         self._itemWindow.set_text(self._itTitles)
+
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_element_info_window()
+        self._create_notes_window()
+        self._create_button_bar()
 
     def _get_relation_id_list(self, newTitleStr, oldTitleStr, elements):
         """Return a list of valid IDs from a string containing semicolon-separated titles."""

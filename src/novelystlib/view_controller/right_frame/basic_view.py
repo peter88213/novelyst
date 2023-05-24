@@ -4,13 +4,9 @@ Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
-import os
-from shutil import copyfile
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
 from pywriter.pywriter_globals import *
-from pywriter.file.doc_open import open_document
 from novelystlib.widgets.text_box import TextBox
 from novelystlib.widgets.index_card import IndexCard
 
@@ -24,11 +20,6 @@ class BasicView(ttk.Frame):
         set_data() -- Update the view with element's data.
         show() -- Make the ui text boxes and the view visible.
     """
-    _INDEXCARD = False
-    _ELEMENT_INFO = False
-    _IMAGE = False
-    _NOTES = False
-    _BUTTONBAR = False
 
     _LBL_X = 10
     # Width of left-placed labels.
@@ -54,16 +45,7 @@ class BasicView(ttk.Frame):
         self._propertiesFrame = ttk.Frame(self)
         self._propertiesFrame.pack(expand=True, fill=tk.BOTH)
 
-        if self._INDEXCARD:
-            self._create_index_card()
-        if self._ELEMENT_INFO:
-            self._create_element_info_window()
-        if self._IMAGE:
-            self._create_image_window()
-        if self._NOTES:
-            self._create_notes_window()
-        if self._BUTTONBAR:
-            self._create_button_bar()
+        self._create_frames()
 
     def apply_changes(self):
         """Apply changes of element title, description, and notes."""
@@ -121,26 +103,9 @@ class BasicView(ttk.Frame):
                 self._notesWindow.clear()
                 self._notesWindow.set_text(self._element.notes)
 
-            # Image buttonbar (if any)
-            if self._IMAGE:
-                if self._element.image:
-                    self._img_show_button.state(['!disabled'])
-                    self._img_clear_button.state(['!disabled'])
-                else:
-                    self._img_show_button.state(['disabled'])
-                    self._img_clear_button.state(['disabled'])
-
     def show(self):
         """Make the view visible."""
         self.pack(expand=True, fill=tk.BOTH)
-
-    def _clear_image(self):
-        """Set the element's image to None."""
-        if self._element.image is not None:
-            self._element.image = None
-            self._img_show_button.state(['disabled'])
-            self._img_clear_button.state(['disabled'])
-            self._ui.isModified = True
 
     def _create_button_bar(self):
         """Create a button bar at the bottom."""
@@ -156,27 +121,14 @@ class BasicView(ttk.Frame):
         # "Next" button.
         ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-    def _create_cover_window(self):
-        """Create a frame for cover display."""
-        self._coverWindow = tk.Frame(self._propertiesFrame)
-        self._coverWindow.pack()
-
     def _create_element_info_window(self):
         """Create a window for element specific information."""
         self._elementInfoWindow = ttk.Frame(self._propertiesFrame)
         self._elementInfoWindow.pack(fill=tk.X)
 
-    def _create_image_window(self):
-        """Create a window for element specific information."""
-        self._imageWindow = ttk.Frame(self._propertiesFrame)
-        self._imageWindow.pack(fill=tk.X)
-        ttk.Separator(self._imageWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
-        self._img_show_button = ttk.Button(self._imageWindow, text=_('Show image'), command=self._show_image)
-        self._img_show_button.pack(side=tk.LEFT)
-        self._img_select_button = ttk.Button(self._imageWindow, text=_('Select image'), command=self._select_image)
-        self._img_select_button.pack(side=tk.LEFT)
-        self._img_clear_button = ttk.Button(self._imageWindow, text=_('Clear image'), command=self._clear_image)
-        self._img_clear_button.pack(side=tk.LEFT)
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        pass
 
     def _create_index_card(self):
         """Create an "index card" for element title and description."""
@@ -221,39 +173,6 @@ class BasicView(ttk.Frame):
         if prevNode:
             self._ui.tv.tree.see(prevNode)
             self._ui.tv.tree.selection_set(prevNode)
-
-    def _select_image(self):
-        """Select the element's image."""
-        fileType = _('Image file')
-        fileTypes = [(fileType, '.jpg'),
-                     (fileType, '.jpeg'),
-                     (fileType, '.png'),
-                     (fileType, '.gif'),
-                     (_('All files'), '.*')]
-
-        selectedPath = filedialog.askopenfilename(filetypes=fileTypes)
-        if selectedPath:
-            __, imageFile = os.path.split(selectedPath)
-            projectDir, __ = os.path.split(self._ui.prjFile.filePath)
-            imagePath = f'{projectDir}/Images/{imageFile}'
-            if not selectedPath == imagePath:
-                os.makedirs(f'{projectDir}/Images', exist_ok=True)
-                copyfile(selectedPath, imagePath)
-            self._element.image = imageFile
-            self._img_show_button.state(['!disabled'])
-            self._img_clear_button.state(['!disabled'])
-            self._ui.isModified = True
-
-    def _show_image(self):
-        """Open the element#s image with the system image viewer."""
-        if self._element.image:
-            projectDir, __ = os.path.split(self._ui.prjFile.filePath)
-            imagePath = f'{projectDir}/Images/{self._element.image}'
-            if os.path.isfile(imagePath):
-                open_document(imagePath)
-            else:
-                self._ui.show_error(_('Image not found'))
-                self._clear_image()
 
     def _update_field_bool(self, tkValue, fieldname):
         """Update a custom field and return True if changed.

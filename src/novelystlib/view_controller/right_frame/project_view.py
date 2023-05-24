@@ -24,10 +24,6 @@ class ProjectView(BasicView):
         set_data() -- Update the view with element's data.
         show() -- Display the cover.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _NOTES = False
-    _BUTTONBAR = False
 
     def __init__(self, ui, parent):
         """Initialize the view once before element date is available.
@@ -466,6 +462,12 @@ class ProjectView(BasicView):
         Callback procedure for the related button.
         """
         self._wordCountStart.set(self._ui.wordCount)
+
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_element_info_window()
+        self._create_button_bar()
 
     def _toggle_languageFrame(self, event=None):
         """Hide/show the "Document language" frame.

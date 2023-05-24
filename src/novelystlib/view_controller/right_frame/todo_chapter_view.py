@@ -27,10 +27,6 @@ class TodoChapterView(BasicView):
     - The number of normal scenes assigned to this arc.
     - A button to remove all scene assigments to this arc.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _NOTES = False
-    _BUTTONBAR = True
 
     def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
@@ -127,6 +123,12 @@ class TodoChapterView(BasicView):
         else:
             if self._arcFrame.winfo_manager():
                 self._arcFrame.pack_forget()
+
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_element_info_window()
+        self._create_button_bar()
 
     def _removeArcRef(self):
         """Remove arc reference from all scenes.

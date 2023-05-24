@@ -4,9 +4,13 @@ Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
-import tkinter as tk
+import os
 from tkinter import ttk
+from shutil import copyfile
+import tkinter as tk
+from tkinter import filedialog
 from pywriter.pywriter_globals import *
+from pywriter.file.doc_open import open_document
 from novelystlib.widgets.label_entry import LabelEntry
 from novelystlib.view_controller.right_frame.basic_view import BasicView
 from novelystlib.widgets.my_string_var import MyStringVar
@@ -23,11 +27,6 @@ class WorldElementView(BasicView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _IMAGE = True
-    _NOTES = False
-    _BUTTONBAR = True
 
     def __init__(self, ui, parent):
         """Initialize the view once before element data is available.
@@ -91,4 +90,72 @@ class WorldElementView(BasicView):
         else:
             self._tagsStr = ''
         self._tags.set(self._tagsStr)
+
+        # Image buttonbar.
+        if self._element.image:
+            self._img_show_button.state(['!disabled'])
+            self._img_clear_button.state(['!disabled'])
+        else:
+            self._img_show_button.state(['disabled'])
+            self._img_clear_button.state(['disabled'])
+
+    def _create_image_window(self):
+        """Create a window for element specific information."""
+        self._imageWindow = ttk.Frame(self._propertiesFrame)
+        self._imageWindow.pack(fill=tk.X)
+        ttk.Separator(self._imageWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        self._img_show_button = ttk.Button(self._imageWindow, text=_('Show image'), command=self._show_image)
+        self._img_show_button.pack(side=tk.LEFT)
+        self._img_select_button = ttk.Button(self._imageWindow, text=_('Select image'), command=self._select_image)
+        self._img_select_button.pack(side=tk.LEFT)
+        self._img_clear_button = ttk.Button(self._imageWindow, text=_('Clear image'), command=self._clear_image)
+        self._img_clear_button.pack(side=tk.LEFT)
+
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_element_info_window()
+        self._create_image_window()
+        self._create_button_bar()
+
+    def _clear_image(self):
+        """Set the element's image to None."""
+        if self._element.image is not None:
+            self._element.image = None
+            self._img_show_button.state(['disabled'])
+            self._img_clear_button.state(['disabled'])
+            self._ui.isModified = True
+
+    def _select_image(self):
+        """Select the element's image."""
+        fileType = _('Image file')
+        fileTypes = [(fileType, '.jpg'),
+                     (fileType, '.jpeg'),
+                     (fileType, '.png'),
+                     (fileType, '.gif'),
+                     (_('All files'), '.*')]
+
+        selectedPath = filedialog.askopenfilename(filetypes=fileTypes)
+        if selectedPath:
+            __, imageFile = os.path.split(selectedPath)
+            projectDir, __ = os.path.split(self._ui.prjFile.filePath)
+            imagePath = f'{projectDir}/Images/{imageFile}'
+            if not selectedPath == imagePath:
+                os.makedirs(f'{projectDir}/Images', exist_ok=True)
+                copyfile(selectedPath, imagePath)
+            self._element.image = imageFile
+            self._img_show_button.state(['!disabled'])
+            self._img_clear_button.state(['!disabled'])
+            self._ui.isModified = True
+
+    def _show_image(self):
+        """Open the element#s image with the system image viewer."""
+        if self._element.image:
+            projectDir, __ = os.path.split(self._ui.prjFile.filePath)
+            imagePath = f'{projectDir}/Images/{self._element.image}'
+            if os.path.isfile(imagePath):
+                open_document(imagePath)
+            else:
+                self._ui.show_error(_('Image not found'))
+                self._clear_image()
 

@@ -11,6 +11,8 @@ class ProjectnoteView(BasicView):
     """Class for viewing and editing project notes.
        
     """
-    _INDEXCARD = True
-    _BUTTONBAR = True
 
+    def _create_frames(self):
+        """Template method for creating the frames in the right pane."""
+        self._create_index_card()
+        self._create_button_bar()
