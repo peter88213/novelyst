@@ -28,6 +28,7 @@ class CharacterView(WorldElementView):
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
+    _IMAGE = True
     _NOTES = True
     _BUTTONBAR = True
 

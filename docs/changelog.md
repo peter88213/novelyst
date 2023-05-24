@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.27.1
+
+- Add character/location/item image support.
+- Change WorkFile description.
+
+Based on PyWriter v12.11.0
+
 ### v4.26.0
 
 - Display a cover thumbnail image with the project properties.

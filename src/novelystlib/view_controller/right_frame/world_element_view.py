@@ -25,6 +25,7 @@ class WorldElementView(BasicView):
     """
     _INDEXCARD = True
     _ELEMENT_INFO = True
+    _IMAGE = True
     _NOTES = False
     _BUTTONBAR = True
 

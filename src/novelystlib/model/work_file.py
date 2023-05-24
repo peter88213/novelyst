@@ -49,6 +49,7 @@ class WorkFile(Yw7File):
 
     Extends the superclass.
     """
+    DESCRIPTION = _('novelyst project')
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
 
