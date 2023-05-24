@@ -134,15 +134,19 @@ class WorldElementView(BasicView):
                      (fileType, '.png'),
                      (fileType, '.gif'),
                      (_('All files'), '.*')]
-
         selectedPath = filedialog.askopenfilename(filetypes=fileTypes)
         if selectedPath:
             __, imageFile = os.path.split(selectedPath)
             projectDir, __ = os.path.split(self._ui.prjFile.filePath)
             imagePath = f'{projectDir}/Images/{imageFile}'
             if not selectedPath == imagePath:
-                os.makedirs(f'{projectDir}/Images', exist_ok=True)
-                copyfile(selectedPath, imagePath)
+                try:
+                    os.makedirs(f'{projectDir}/Images', exist_ok=True)
+                    copyfile(selectedPath, imagePath)
+                    self._ui.show_info(f"{_('Image for')} {self._element.title}: {norm_path(imagePath)}", title=_('Image copied'))
+                except Exception as ex:
+                    self._ui.show_error(str(ex), title=_('Cannot copy image'))
+                    return
             self._element.image = imageFile
             self._img_show_button.state(['!disabled'])
             self._img_clear_button.state(['!disabled'])
@@ -156,6 +160,6 @@ class WorldElementView(BasicView):
             if os.path.isfile(imagePath):
                 open_document(imagePath)
             else:
-                self._ui.show_error(_('Image not found'))
+                self._ui.show_error(f"{_('File not found')}: {norm_path(imagePath)}", title=_('Cannot show image'))
                 self._clear_image()
 

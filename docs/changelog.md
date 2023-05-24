@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.27.2
+
+- Improve ui messaging.
+- Refactor the right frame viewer classes.
+
+Based on PyWriter v12.11.0
+
 ### v4.27.1
 
 - Add character/location/item image support.

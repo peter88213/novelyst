@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.27.1\n"
-"POT-Creation-Date: 2023-05-24 13:15:29\n"
+"Project-Id-Version: 4.27.2\n"
+"POT-Creation-Date: 2023-05-24 21:32:26\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -119,6 +119,9 @@ msgstr ""
 msgid "Cancel Part"
 msgstr ""
 
+msgid "Cannot copy image"
+msgstr ""
+
 msgid "Cannot create directory"
 msgstr ""
 
@@ -135,6 +138,9 @@ msgid "Cannot overwrite file"
 msgstr ""
 
 msgid "Cannot save: The project is locked"
+msgstr ""
+
+msgid "Cannot show image"
 msgstr ""
 
 msgid "Cannot write file"
@@ -374,6 +380,9 @@ msgstr ""
 msgid "File is write protected"
 msgstr ""
 
+msgid "File not found"
+msgstr ""
+
 msgid "File written"
 msgstr ""
 
@@ -398,10 +407,13 @@ msgstr ""
 msgid "Hours"
 msgstr ""
 
+msgid "Image copied"
+msgstr ""
+
 msgid "Image file"
 msgstr ""
 
-msgid "Image not found"
+msgid "Image for"
 msgstr ""
 
 msgid "Import"
@@ -677,7 +689,16 @@ msgstr ""
 msgid "Scene list"
 msgstr ""
 
+msgid "Select characters"
+msgstr ""
+
 msgid "Select image"
+msgstr ""
+
+msgid "Select items"
+msgstr ""
+
+msgid "Select locations"
 msgstr ""
 
 msgid "Set Mode"
@@ -825,6 +846,9 @@ msgid "XML character data file"
 msgstr ""
 
 msgid "XML data file"
+msgstr ""
+
+msgid "XML data import"
 msgstr ""
 
 msgid "XML item data file"

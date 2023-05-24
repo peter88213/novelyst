@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.27.1\n"
-"POT-Creation-Date: 2023-05-24 13:15:29\n"
-"PO-Revision-Date: 2023-05-24 13:15:30\n"
+"Project-Id-Version: 4.27.2\n"
+"POT-Creation-Date: 2023-05-24 21:32:26\n"
+"PO-Revision-Date: 2023-05-24 21:32:26\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -118,6 +118,9 @@ msgstr "Abbruch"
 msgid "Cancel Part"
 msgstr "Teilung aufheben"
 
+msgid "Cannot copy image"
+msgstr "Kann Bild nicht kopieren"
+
 msgid "Cannot create directory"
 msgstr "Kann Verzeichnis nicht erzeugen"
 
@@ -135,6 +138,9 @@ msgstr "Kann Datei nicht überschreiben"
 
 msgid "Cannot save: The project is locked"
 msgstr "Speichern nicht möglich: Das Projekt ist gesperrt"
+
+msgid "Cannot show image"
+msgstr "Kann Bild nicht anzeigen"
 
 msgid "Cannot write file"
 msgstr "Kann Datei nicht schreiben"
@@ -373,6 +379,9 @@ msgstr "Die Datei wurde auf der Festplatte geändert. Trotzdem speichern?"
 msgid "File is write protected"
 msgstr "Datei ist schreibgeschützt"
 
+msgid "File not found"
+msgstr "Datei nicht gefunden"
+
 msgid "File written"
 msgstr "Datei gespeichert"
 
@@ -397,11 +406,14 @@ msgstr "Homepage"
 msgid "Hours"
 msgstr "Stunden"
 
+msgid "Image copied"
+msgstr "Bild kopiert"
+
 msgid "Image file"
 msgstr "Bilddatei"
 
-msgid "Image not found"
-msgstr "Bild nicht gefunden"
+msgid "Image for"
+msgstr "Bild für"
 
 msgid "Import"
 msgstr "Importieren"
@@ -676,8 +688,17 @@ msgstr "Abschnittsbeschreibungen"
 msgid "Scene list"
 msgstr "Abschnittsliste"
 
+msgid "Select characters"
+msgstr "Figuren auswählen"
+
 msgid "Select image"
 msgstr "Bild auswählen"
+
+msgid "Select items"
+msgstr "Gegenstände auswählen"
+
+msgid "Select locations"
+msgstr "Schauplätze auswählen"
 
 msgid "Set Mode"
 msgstr "Modus bestimmen"
@@ -825,6 +846,9 @@ msgstr "XML-Figurendatei"
 
 msgid "XML data file"
 msgstr "XML-Datendatei"
+
+msgid "XML data import"
+msgstr "XML-Datenimport"
 
 msgid "XML item data file"
 msgstr "XML-Gegenstandsdatei"

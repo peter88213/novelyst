@@ -942,9 +942,10 @@ class NovelystTk(MainTk):
                 self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
             else:
                 offset = 50
+                size = '300x400'
                 __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self,
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select characters'),
                              windowGeometry,
                              source.novel.characters,
                              self.prjFile.novel.characters,
@@ -963,9 +964,10 @@ class NovelystTk(MainTk):
                 self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
             else:
                 offset = 50
+                size = '300x400'
                 __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self,
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select locations'),
                              windowGeometry,
                              source.novel.locations,
                              self.prjFile.novel.locations,
@@ -984,9 +986,10 @@ class NovelystTk(MainTk):
                 self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
             else:
                 offset = 50
+                size = '300x400'
                 __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'200x400+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self,
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select items'),
                              windowGeometry,
                              source.novel.items,
                              self.prjFile.novel.items,

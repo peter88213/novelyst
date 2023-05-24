@@ -13,10 +13,13 @@ from pywriter.model.id_generator import create_id
 
 class DataImporter(tk.Toplevel):
 
-    def __init__(self, ui, size, sourceElements, targetElements, targetSrtElements):
+    def __init__(self, ui, title, geometry, sourceElements, targetElements, targetSrtElements):
         """Data import pick list.
         
         Positional arguments:
+            ui -- the caller.
+            title: str -- Window title.
+            geometry: str -- Window geometry.
             sourceElements: dict -- characters, locations, or items of the data file.
             targetElements: dict -- characters, locations, or items of the project file.
             targetSrtElements: list -- Sorted charcter/location/item IDs of the project file.
@@ -24,7 +27,8 @@ class DataImporter(tk.Toplevel):
         """
         super().__init__()
         self._ui = ui
-        self.geometry(size)
+        self.title(title)
+        self.geometry(geometry)
         self.grab_set()
         self.focus()
         self._sourceElements = sourceElements
@@ -52,6 +56,6 @@ class DataImporter(tk.Toplevel):
             self._ui.tv.refresh_tree()
             # this seems to be necessary;
             # otherwise the sorted elements list gets cleared
-            self._ui.show_info(f'{i} {_("elements imported")}')
+            self._ui.show_info(f'{i} {_("elements imported")}', title=_('XML data import'))
         self.destroy()
 
