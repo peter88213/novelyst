@@ -111,17 +111,23 @@ class WorkFile(Yw7File):
     def adjust_scene_types(self):
         """Make sure that nodes with non-"Normal" parents inherit the type.
         
+        Return True if a type has been changed. Otherwise return False.
         Overrides the superclass method.
         """
+        isModified = False
         partType = 0
         for chId in self.novel.srtChapters:
             if self.novel.chapters[chId].chLevel == 1:
                 partType = self.novel.chapters[chId].chType
             elif partType != 0 and not self.novel.chapters[chId].isTrash:
                 self.novel.chapters[chId].chType = partType
+                isModified = True
             if self.novel.chapters[chId].chType != 0:
                 for scId in self.novel.chapters[chId].srtScenes:
-                    self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
+                    if self.novel.scenes[scId].scType != self.novel.chapters[chId].chType:
+                        self.novel.scenes[scId].scType = self.novel.chapters[chId].chType
+                        isModified = True
+        return isModified
 
     def check_arcs(self, addChapters=False):
         """Check and update all relationships relevant for arcs and arc points.

@@ -991,29 +991,14 @@ class TreeViewer(ttk.Frame):
 
     def refresh_tree(self):
         """Display the tree nodes regarding the way they are read from the file."""
-        modifiedNodes = []
-        isModified = self._ui.isModified
+        isModified = False
         if self._ui.prjFile.renumber_chapters():
             isModified = True
-
-        # Make sure that nodes with non-"Normal" parents inherit the type.
-        partType = 0
-        for chId in self._ui.novel.srtChapters:
-            if self._ui.novel.chapters[chId].chLevel == 1:
-                partType = self._ui.novel.chapters[chId].chType
-            elif partType != 0 and not self._ui.novel.chapters[chId].isTrash:
-                if self._ui.novel.chapters[chId].chType != partType:
-                    self._ui.novel.chapters[chId].chType = partType
-                    isModified = True
-            if self._ui.novel.chapters[chId].chType != 0:
-                for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType != self._ui.novel.chapters[chId].chType:
-                        self._ui.novel.scenes[scId].scType = self._ui.novel.chapters[chId].chType
-                        modifiedNodes.append(f'{self.SCENE_PREFIX}{scId}')
+        if self._ui.prjFile.adjust_scene_types():
+            isModified = True
         self.build_tree()
-        self._ui.isModified = isModified
-        for node in modifiedNodes:
-            self.tree.see(node)
+        if isModified:
+            self._ui.isModified = True
 
     def reset_tree(self):
         """Clear the displayed tree."""
