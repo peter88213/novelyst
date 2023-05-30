@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.27.3
+
+- Lock the trashbin's position when automatically moving parts to the Book branch.
+
+Based on PyWriter v12.11.0
+
 ### v4.27.2
 
 - Improve ui messaging.

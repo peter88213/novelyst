@@ -1082,7 +1082,10 @@ class TreeViewer(ttk.Frame):
         serialize_tree(self.PN_ROOT, '')
 
         # Make sure that scenes inherit the parent's type, if not normal.
-        self._ui.prjFile.adjust_scene_types()
+        if self._ui.prjFile.adjust_scene_types():
+            if self.tree.next(self._trashNode) != '':
+                self.tree.move(self._trashNode, self.NV_ROOT, 'end')
+                # adjust the trashbin's position, if a part has changed to normal
 
         # Check the arc related associations.
         self._ui.prjFile.check_arcs()
@@ -1258,7 +1261,6 @@ class TreeViewer(ttk.Frame):
             return
 
         targetNode = self.tree.identify_row(event.y)
-        # self.tree.item(targetNode, open=True)
         if node[:2] == targetNode[:2]:
             self.tree.move(node, self.tree.parent(targetNode), self.tree.index(targetNode))
         elif node.startswith(self.SCENE_PREFIX) and targetNode.startswith(self.CHAPTER_PREFIX) and not self.tree.get_children(targetNode):
