@@ -68,8 +68,8 @@ The **Content viewer** in the middle pane shows the part/chapter/scene contents 
 ---
 
 ## Properties
+The **Properties** in the right pane show properties/metadata of the element selected in the project tree. 
 
-- The **Properties** in the right pane show properties/metadata of the element selected in the project tree. 
 - You can open or close the element properties window with **View > Toggle Properties** or **Ctrl-Alt-T**.
 - On opening, the windows shows the editable properties of the selected element.
 - You can detach or dock the element properties window with **View > Detach/Dock Properties** or **Ctrl-Alt-D**.
