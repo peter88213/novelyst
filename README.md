@@ -17,7 +17,7 @@ A "message catalog" is a dictionary for novelyst's messages and menu entries.
 For creating a message catalog, you download a template with all English messages from [here](https://github.com/peter88213/novelyst/blob/main/i18n/messages.pot). 
 
 
-Rename *messages.pot* to *<your language code>.po*, then give some specific information in the header data by modifying the following lines:
+Rename `messages.pot` to `<your language code>.po`, then give some specific information in the header data by modifying the following lines:
 
 ```
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -27,7 +27,7 @@ Rename *messages.pot* to *<your language code>.po*, then give some specific info
 
 **NOTE:** Be sure to use a text editor that writes utf-8 encoded text. Otherwise, it may not work with non-ASCII characters used in your language.
 
-The *<language code>.po* dictionary is organized as a set of *message ID (msgid)* - *message string (msgstr)* pairs, where *msgid* means the English term, and *msgstr* means the translated term. This is an example for such a pair where the message string is still missing:
+The  `<your language code>.po` dictionary is organized as a set of *message ID (msgid)* - *message string (msgstr)* pairs, where *msgid* means the English term, and *msgstr* means the translated term. This is an example for such a pair where the message string is still missing:
 
 ```
 msgid "Cannot overwrite file"
@@ -73,7 +73,7 @@ Then start *novelyst* and see whether your translation works.
 
 If *novelyst* works fine with your translations, you can consider contributing it. 
 
-An easy way may be to put a posting in the [novelyst forum](https://github.com/peter88213/novelyst/discussions), appending your *<language code>.po* file. 
+An easy way may be to put a posting in the [novelyst forum](https://github.com/peter88213/novelyst/discussions), appending your  `<your language code>.po` file. 
 
 
 ## Development
