@@ -11,8 +11,9 @@ You can open it with **Help > Online help**.
 
 ## [Desktop overview](desktop)
 
-- The three panes explained
-- Project tree operation
+- Project tree - structure/operation
+- Content viewer
+- Properties
 
 ---
 
