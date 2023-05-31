@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.27.4
+
+- Fix a regression from v4.27.3 where problems may occur if no trashbin chapter exists.
+
+Based on PyWriter v12.11.0
+
 ### v4.27.3
 
 - Lock the trashbin's position when automatically moving parts to the Book branch.

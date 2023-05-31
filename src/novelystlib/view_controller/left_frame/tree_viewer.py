@@ -1083,9 +1083,12 @@ class TreeViewer(ttk.Frame):
 
         # Make sure that scenes inherit the parent's type, if not normal.
         if self._ui.prjFile.adjust_scene_types():
-            if self.tree.next(self._trashNode) != '':
-                self.tree.move(self._trashNode, self.NV_ROOT, 'end')
-                # adjust the trashbin's position, if a part has changed to normal
+            try:
+                if self.tree.next(self._trashNode) != '':
+                    self.tree.move(self._trashNode, self.NV_ROOT, 'end')
+                    # adjust the trashbin's position, if a part has changed to normal
+            except:
+                pass
 
         # Check the arc related associations.
         self._ui.prjFile.check_arcs()
