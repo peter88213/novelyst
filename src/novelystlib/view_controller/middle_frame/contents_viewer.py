@@ -153,5 +153,5 @@ class ContentsViewer(RichTextYw):
                 # entry is a mark to insert.
                 index = f"{self.count('1.0', tk.END, 'lines')[0]}.0"
                 self._textMarks[entry] = index
-        self.state = 'disabled'
+        self.config(state=tk.DISABLED)
 

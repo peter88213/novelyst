@@ -8,6 +8,14 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.28.0
+
+- When exporting an ODT document that is not meant for re-import,
+convert yWriter comments into footnotes or endnotes.
+- Bugfix: Make the contents viewer read-only.
+
+Based on PyWriter v12.13.0
+
 ### v4.27.4
 
 - Fix a regression from v4.27.3 where problems may occur if no trashbin chapter exists.
