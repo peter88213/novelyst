@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.28.1
+
+- Fix a regression from v4.28.0 where the contents viewer is not updated when changing the project.
+
+Based on PyWriter v12.13.1
+
 ### v4.28.0
 
 - When exporting an ODT document that is not meant for re-import,

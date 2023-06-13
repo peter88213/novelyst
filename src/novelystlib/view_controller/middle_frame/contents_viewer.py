@@ -48,9 +48,9 @@ class ContentsViewer(RichTextYw):
 
     def reset_view(self):
         """Clear the text box."""
-        self.state = 'normal'
+        self.config(state=tk.NORMAL)
         self.delete('1.0', tk.END)
-        self.state = 'disabled'
+        self.config(state=tk.DISABLED)
 
     def see(self, idStr):
         """Scroll the text to the position of the idStr node.
@@ -142,7 +142,7 @@ class ContentsViewer(RichTextYw):
         if not taggedText:
             taggedText.append(('(No text available)', RichTextYw.ITALIC_TAG))
         self._textMarks = {}
-        self.state = 'normal'
+        self.config(state=tk.NORMAL)
         self.delete('1.0', tk.END)
         for entry in taggedText:
             if len(entry) == 2:
