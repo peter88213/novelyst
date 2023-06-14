@@ -6,7 +6,7 @@
 
 *novelyst* is written in Python and should run on several operating systems.
 
-With the [oo2yw7 extension for OpenOffice](https://peter88213.github.io/oo2yw7) and the [lo2yw7 extension for LibreOffice](https://peter88213.github.io/lo2yw7), you can write your edited Office documents back to the project.
+With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the project.
 
 - [Introduction (English)](https://github.com/peter88213/novelyst/wiki/English)
 - [Introduction (German)](https://github.com/peter88213/novelyst/wiki/Deutsch)
@@ -60,8 +60,8 @@ There are some more examples in the release's *add-on* folder, such as a yWriter
      - For current Windows versions, use version 3.9.10 or above.
      - For Vista and Windows 7, use version 3.7.2.
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
-- Either [LibreOffice](https://www.libreoffice.org/) with the [lo2yw7](https://peter88213.github.io/lo2yw7) or [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
-- or [OpenOffice](https://www.openoffice.org) with the [oo2yw7](https://peter88213.github.io/oo2yw7) or [pywoo](https://peter88213.github.io/pywoo) extension.
+- Either [LibreOffice](https://www.libreoffice.org/) with the [yw-cnv](https://peter88213.github.io/yw-cnv) extension, 
+- or [OpenOffice](https://www.openoffice.org) with the [pywoo](https://peter88213.github.io/pywoo) extension.
 
 ### Note for Windows users
 
