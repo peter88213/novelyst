@@ -42,6 +42,7 @@ Please note that *novelyst* is not intended to compete with or replace *yWriter*
 
 *novelyst's* functionality can be extended by plugins. Here are some examples:
 
+- [A button bar](https://peter88213.github.io/novelyst_buttons/)
 - [A simple "markup" scene editor](https://peter88213.github.io/novelyst_editor/)
 - [A daily progress log viewer](https://peter88213.github.io/novelyst_progress/)
 - [A book/series collection manager](https://peter88213.github.io/novelyst_collection/)
