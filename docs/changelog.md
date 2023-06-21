@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.29.0
+
+- Extend the API for the [buttonbar plugin](https://peter88213.github.io/novelyst_buttons).
+
+Based on PyWriter v12.13.2
+
 ### v4.28.1
 
 - Fix a regression from v4.28.0 where the contents viewer is not updated when changing the project.

@@ -19,6 +19,8 @@ BUILD = '../test/'
 SOURCE_FILE = f'{SRC}novelyst_.py'
 TARGET_FILE = f'{BUILD}novelyst.py'
 
+os.makedirs(BUILD, exist_ok=True)
+
 
 def main():
     inliner.run(SOURCE_FILE, TARGET_FILE, 'novelystlib', '../src/')

@@ -47,6 +47,7 @@ class NovelystTk(MainTk):
         disable_menu() -- Disable menu entries when no project is open.
         edit_settings() -- Open a toplevel window to edit the program settings.
         enable_menu() -- Enable menu entries when a project is open.
+        export_manuscript() -- Export manuscript for editing.
         lock() -- Lock the project.
         manage_plugins() -- Open a toplevel window to manage the plugins.
         new_project() -- Create a novelyst project instance.
@@ -60,7 +61,9 @@ class NovelystTk(MainTk):
         show_chapter_level() -- Open all Book/Part nodes and close all chapter nodes in the tree viewer.
         show_properties() -- Show the properties of the selected element.
         show_status(message=None) -- Display project statistics at the status bar.
+        toggle_lock() -- Toggle the 'locked' status.
         toggle_viewer() -- Show/hide the contents viewer text box.
+        toggle_properties -- Show/hide the element properties frame.
         unlock() -- Unlock the project.
         view_chapter(chId) -- Event handler for chapter selection.
         view_character(crId) -- Event handler for character selection.
@@ -304,7 +307,7 @@ class NovelystTk(MainTk):
         # Export
         self.exportMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Export'), menu=self.exportMenu)
-        self.exportMenu.add_command(label=_('Manuscript for editing'), command=lambda: self._export_document('_manuscript'))
+        self.exportMenu.add_command(label=_('Manuscript for editing'), command=self.export_manuscript)
         self.exportMenu.add_command(label=_('Notes chapters for editing'), command=lambda: self._export_document('_notes'))
         self.exportMenu.add_command(label=_('Todo chapters for editing'), command=lambda: self._export_document('_todo'))
         self.exportMenu.add_separator()
@@ -498,6 +501,10 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Save as...'), state='normal')
 
         self.plugins.enable_menu()
+
+    def export_manuscript(self):
+        """Export manuscript for editing."""
+        self._export_document('_manuscript')
 
     def lock(self, event=None):
         """Lock the project."""
@@ -744,6 +751,13 @@ class NovelystTk(MainTk):
             message = _('{0} parts, {1} chapters, {2} scenes, {3} words').format(partCount, chapterCount, sceneCount, wordCount)
             self.wordCount = wordCount
         super().show_status(message)
+
+    def toggle_lock(self):
+        """Toggle the 'locked' status."""
+        if self.isLocked:
+            self.unlock()
+        else:
+            self.lock()
 
     def toggle_viewer(self, event=None):
         """Show/hide the contents viewer text box."""
