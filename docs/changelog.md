@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.29.1
+
+- Restore status by clicking on the status bar.
+
+Based on PyWriter v12.13.3
+
 ### v4.29.0
 
 - Extend the API for the [buttonbar plugin](https://peter88213.github.io/novelyst_buttons).
