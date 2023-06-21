@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.29.2
+
+- Do not create a button bar at the bottom of the project properties window.
+
+Based on PyWriter v12.13.3
+
 ### v4.29.1
 
 - Restore status by clicking on the status bar.

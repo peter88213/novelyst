@@ -467,7 +467,6 @@ class ProjectView(BasicView):
         """Template method for creating the frames in the right pane."""
         self._create_index_card()
         self._create_element_info_window()
-        self._create_button_bar()
 
     def _toggle_languageFrame(self, event=None):
         """Hide/show the "Document language" frame.
