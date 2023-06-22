@@ -2193,9 +2193,9 @@ associating them to their use cases.</val>
 <ref refid="b0d8dfa3-2cf5-11ed-94b3-600292569ae4"/>
 <ref refid="b6398de8-2cf5-11ed-a9f6-600292569ae4"/>
 <ref refid="b8eb403c-2cf5-11ed-8f76-600292569ae4"/>
-<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
 <ref refid="66402f92-2c41-11ed-a883-600292569ae4"/>
 <ref refid="6d2de392-2c41-11ed-8651-600292569ae4"/>
+<ref refid="db49fbc8-71b6-11ec-a409-f47b099bf663"/>
 </reflist>
 </ownedAttribute>
 <package>
@@ -7394,6 +7394,9 @@ Controls user intaraction except tree navigation and modification.</val>
 </type>
 </Property>
 <Class id="87cac95e-1139-11ee-a836-600292569ae4">
+<isAbstract>
+<val>1</val>
+</isAbstract>
 <name>
 <val>NvExporter</val>
 </name>
