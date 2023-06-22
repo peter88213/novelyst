@@ -8,6 +8,7 @@
 		<project>novelyst_collection</project>
 		<project>novelyst_editor</project>
 		<project>novelyst_matrix</project>
+		<project>novelyst_plugin</project>
 		<project>novelyst_progress</project>
 		<project>novelyst_retablex</project>
 		<project>novelyst_templates</project>
