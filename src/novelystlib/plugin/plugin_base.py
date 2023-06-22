@@ -30,15 +30,15 @@ class PluginBase(ABC):
     
     """
     # Class constants to be overridden by subclasses.
-    VERSION = '0.0'
-    NOVELYST_API = '4.31'
+    VERSION = ''
+    NOVELYST_API = ''
     DESCRIPTION = ''
     URL = ''
 
     def __init__(self):
         self.filePath = None
-        self.isActive = None
-        self.isRejected = None
+        self.isActive = True
+        self.isRejected = False
 
     @abstractmethod
     def install(self, ui):
