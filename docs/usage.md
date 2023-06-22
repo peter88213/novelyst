@@ -63,6 +63,11 @@ You can either
 
 # [Online help](https://peter88213.github.io/novelyst/help/help)
 
+- Basic concepts
+- Arcs
+- Command reference
+- Cover thumbnails
+
 You can open the online help page with **Help > Online help**.
 
 - [Introduction (English)](https://github.com/peter88213/novelyst/wiki/English)

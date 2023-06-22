@@ -44,11 +44,15 @@ class NovelystTk(MainTk):
     Public methods:
         check_lock() -- Show a message and return True, if the project is locked.
         close_project() -- Close the current project.
+        detach_properties_frame() -- View the properties in its own window.
+        dock_properties_frame() -- Dock the properties window at the right pane, if detached.
         disable_menu() -- Disable menu entries when no project is open.
         edit_settings() -- Open a toplevel window to edit the program settings.
         enable_menu() -- Enable menu entries when a project is open.
-        export_manuscript() -- Export manuscript for editing.
-        lock() -- Lock the project.
+        export_document(suffix) -- Export a document.
+        import_characters() -- Import characters from an XML data file.
+        import_locations() -- Import locations from an XML data file.
+        import_items() -- Import items from an XML data file.        lock() -- Lock the project.
         manage_plugins() -- Open a toplevel window to manage the plugins.
         new_project() -- Create a novelyst project instance.
         on_quit() -- Save keyword arguments before exiting the program.
@@ -63,7 +67,8 @@ class NovelystTk(MainTk):
         show_status(message=None) -- Display project statistics at the status bar.
         toggle_lock() -- Toggle the 'locked' status.
         toggle_viewer() -- Show/hide the contents viewer text box.
-        toggle_properties -- Show/hide the element properties frame.
+        toggle_properties() -- Show/hide the element properties frame.
+        toggle_properties_window() -- Detach/dock the element properties frame.
         unlock() -- Unlock the project.
         view_chapter(chId) -- Event handler for chapter selection.
         view_character(crId) -- Event handler for character selection.
@@ -87,9 +92,8 @@ class NovelystTk(MainTk):
         cleanUpYw: bool -- If True, delete yWriter-only data on saving the project.
         appWindow: ttk.frame -- Application window with three frames.
         leftFrame: ttk.frame -- Frame for the project tree.
-        middleFrame: ttk.frame -- Frame for the contents viewer.
-        rightFrame: ttk.frame -- Frame for the metadata views.
         tv: TreeViewer -- Project tree view instance.
+        middleFrame: ttk.frame -- Frame for the contents viewer.
         contentsViewer: ContentsViewer -- Text box for the novel contents.
         fileMenu: tk.Menu -- "File" menu.
         viewMenu: tk.Menu -- "View" menu.
@@ -103,6 +107,7 @@ class NovelystTk(MainTk):
         exportMenu: tk.Menu -- "Export" menu.
         toolsMenu: tk.Menu -- "Tools" menu.
         helpMenu: tk.Menu -- "Help" menu.   
+        rightFrame: ttk.frame -- Frame for the metadata views.
         
     Public properties:
         isModified: Boolean -- True if there are unsaved changes.
@@ -233,21 +238,21 @@ class NovelystTk(MainTk):
         self.viewMenu.add_separator()
         self.viewMenu.add_command(label=_('Toggle Text viewer'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
         self.viewMenu.add_command(label=_('Toggle Properties'), accelerator=self._KEY_TOGGLE_PROPERTIES[1], command=self.toggle_properties)
-        self.viewMenu.add_command(label=_('Detach/Dock Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self._detach_properties_frame)
+        self.viewMenu.add_command(label=_('Detach/Dock Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self.toggle_properties_window)
 
         # Part
         self.partMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Part'), menu=self.partMenu)
         self.partMenu.add_command(label=_('Add'), command=self.tv.add_part)
         self.partMenu.add_separator()
-        self.partMenu.add_command(label=_('Export part descriptions for editing'), command=lambda: self._export_document('_parts'))
+        self.partMenu.add_command(label=_('Export part descriptions for editing'), command=lambda: self.export_document('_parts'))
 
         # Chapter
         self.chapterMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Chapter'), menu=self.chapterMenu)
         self.chapterMenu.add_command(label=_('Add'), command=self.tv.add_chapter)
         self.chapterMenu.add_separator()
-        self.chapterMenu.add_command(label=_('Export chapter descriptions for editing'), command=lambda: self._export_document('_chapters'))
+        self.chapterMenu.add_command(label=_('Export chapter descriptions for editing'), command=lambda: self.export_document('_chapters'))
 
         # Scene
         self.sceneMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -259,8 +264,8 @@ class NovelystTk(MainTk):
         self.sceneMenu.add_separator()
         self.sceneMenu.add_cascade(label=_('Set Mode'), menu=self.tv.scStyleMenu)
         self.sceneMenu.add_separator()
-        self.sceneMenu.add_command(label=_('Export scene descriptions for editing'), command=lambda: self._export_document('_scenes'))
-        self.sceneMenu.add_command(label=_('Export scene list (spreadsheet)'), command=lambda: self._export_document('_scenelist'))
+        self.sceneMenu.add_command(label=_('Export scene descriptions for editing'), command=lambda: self.export_document('_scenes'))
+        self.sceneMenu.add_command(label=_('Export scene list (spreadsheet)'), command=lambda: self.export_document('_scenelist'))
 
         # Character
         self.characterMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -269,10 +274,10 @@ class NovelystTk(MainTk):
         self.characterMenu.add_separator()
         self.characterMenu.add_cascade(label=_('Set Status'), menu=self.tv.crStatusMenu)
         self.characterMenu.add_separator()
-        self.characterMenu.add_command(label=_('Import'), command=self._import_characters)
+        self.characterMenu.add_command(label=_('Import'), command=self.import_characters)
         self.characterMenu.add_separator()
-        self.characterMenu.add_command(label=_('Export character descriptions for editing'), command=lambda: self._export_document('_characters'))
-        self.characterMenu.add_command(label=_('Export character list (spreadsheet)'), command=lambda: self._export_document('_charlist'))
+        self.characterMenu.add_command(label=_('Export character descriptions for editing'), command=lambda: self.export_document('_characters'))
+        self.characterMenu.add_command(label=_('Export character list (spreadsheet)'), command=lambda: self.export_document('_charlist'))
         self.characterMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_character_report'))
 
         # Location
@@ -280,10 +285,10 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Locations'), menu=self.locationMenu)
         self.locationMenu.add_command(label=_('Add'), command=self.tv.add_location)
         self.locationMenu.add_separator()
-        self.locationMenu.add_command(label=_('Import'), command=self._import_locations)
+        self.locationMenu.add_command(label=_('Import'), command=self.import_locations)
         self.locationMenu.add_separator()
-        self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self._export_document('_locations'))
-        self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self._export_document('_loclist'))
+        self.locationMenu.add_command(label=_('Export location descriptions for editing'), command=lambda: self.export_document('_locations'))
+        self.locationMenu.add_command(label=_('Export location list (spreadsheet)'), command=lambda: self.export_document('_loclist'))
         self.locationMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_location_report'))
 
         # Item
@@ -291,10 +296,10 @@ class NovelystTk(MainTk):
         self.mainMenu.add_cascade(label=_('Items'), menu=self.itemMenu)
         self.itemMenu.add_command(label=_('Add'), command=self.tv.add_item)
         self.itemMenu.add_separator()
-        self.itemMenu.add_command(label=_('Import'), command=self._import_items)
+        self.itemMenu.add_command(label=_('Import'), command=self.import_items)
         self.itemMenu.add_separator()
-        self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self._export_document('_items'))
-        self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self._export_document('_itemlist'))
+        self.itemMenu.add_command(label=_('Export item descriptions for editing'), command=lambda: self.export_document('_items'))
+        self.itemMenu.add_command(label=_('Export item list (spreadsheet)'), command=lambda: self.export_document('_itemlist'))
         self.itemMenu.add_command(label=_('Show list'), command=lambda: self._show_report('_item_report'))
 
         # Project notes
@@ -307,19 +312,19 @@ class NovelystTk(MainTk):
         # Export
         self.exportMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Export'), menu=self.exportMenu)
-        self.exportMenu.add_command(label=_('Manuscript for editing'), command=self.export_manuscript)
-        self.exportMenu.add_command(label=_('Notes chapters for editing'), command=lambda: self._export_document('_notes'))
-        self.exportMenu.add_command(label=_('Todo chapters for editing'), command=lambda: self._export_document('_todo'))
+        self.exportMenu.add_command(label=_('Manuscript for editing'), command=lambda:self.export_document('_manuscript'))
+        self.exportMenu.add_command(label=_('Notes chapters for editing'), command=lambda: self.export_document('_notes'))
+        self.exportMenu.add_command(label=_('Todo chapters for editing'), command=lambda: self.export_document('_todo'))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Manuscript with visible structure tags for proof reading'), command=lambda: self._export_document('_proof'))
+        self.exportMenu.add_command(label=_('Manuscript with visible structure tags for proof reading'), command=lambda: self.export_document('_proof'))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Manuscript without tags (export only)'), command=lambda: self._export_document('', lock=False))
-        self.exportMenu.add_command(label=_('Brief synopsis (export only)'), command=lambda: self._export_document('_brf_synopsis', lock=False))
-        self.exportMenu.add_command(label=_('Arcs (export only)'), command=lambda: self._export_document('_arcs', lock=False))
-        self.exportMenu.add_command(label=_('Cross references (export only)'), command=lambda: self._export_document('_xref', lock=False))
+        self.exportMenu.add_command(label=_('Manuscript without tags (export only)'), command=lambda: self.export_document('', lock=False))
+        self.exportMenu.add_command(label=_('Brief synopsis (export only)'), command=lambda: self.export_document('_brf_synopsis', lock=False))
+        self.exportMenu.add_command(label=_('Arcs (export only)'), command=lambda: self.export_document('_arcs', lock=False))
+        self.exportMenu.add_command(label=_('Cross references (export only)'), command=lambda: self.export_document('_xref', lock=False))
         self.exportMenu.add_separator()
-        self.exportMenu.add_command(label=_('Obfuscated text for word count'), command=lambda: self._export_document('_wrimo', lock=False, show=False))
-        self.exportMenu.add_command(label=_('Characters/locations/items data files'), command=lambda: self._export_document('_data', lock=False, show=False))
+        self.exportMenu.add_command(label=_('Obfuscated text for word count'), command=lambda: self.export_document('_wrimo', lock=False, show=False))
+        self.exportMenu.add_command(label=_('Characters/locations/items data files'), command=lambda: self.export_document('_data', lock=False, show=False))
 
         # Tools
         self.toolsMenu = tk.Menu(self.mainMenu, tearoff=0)
@@ -345,7 +350,7 @@ class NovelystTk(MainTk):
         self._initialize_properties_frame(self.rightFrame)
         self._propWinDetached = False
         if self.kwargs['detach_prop_win']:
-            self._detach_properties_frame()
+            self.detach_properties_frame()
 
         #--- Event bindings.
         self.root.bind(self._KEY_NEW_PROJECT[0], self.new_project)
@@ -359,7 +364,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_CHAPTER_LEVEL[0], self.show_chapter_level)
         self.root.bind(self._KEY_TOGGLE_VIEWER[0], self.toggle_viewer)
         self.root.bind(self._KEY_TOGGLE_PROPERTIES[0], self.toggle_properties)
-        self.root.bind(self._KEY_DETACH_PROPERTIES[0], self._detach_properties_frame)
+        self.root.bind(self._KEY_DETACH_PROPERTIES[0], self.toggle_properties_window)
 
     @property
     def isModified(self):
@@ -444,6 +449,43 @@ class NovelystTk(MainTk):
         self.novel = None
         super().close_project()
 
+    def detach_properties_frame(self, event=None):
+        """View the properties in its own window."""
+        self._elementView.apply_changes()
+        if self._propWinDetached:
+            return
+
+        if self.rightFrame.winfo_manager():
+            self.rightFrame.pack_forget()
+        self._propertiesWindow = tk.Toplevel()
+        self._propertiesWindow.geometry(self.kwargs['prop_win_geometry'])
+        set_icon(self._propertiesWindow, icon='pLogo32', default=False)
+        self._elementView.pack_forget()
+        self._initialize_properties_frame(self._propertiesWindow)
+        self._elementView.pack()
+        self.show_properties()
+        self._propertiesWindow.protocol("WM_DELETE_WINDOW", self.dock_properties_frame)
+        self.kwargs['detach_prop_win'] = True
+        self._propWinDetached = True
+
+    def dock_properties_frame(self, event=None):
+        """Dock the properties window at the right pane, if detached."""
+        self._elementView.apply_changes()
+        if not self._propWinDetached:
+            return
+
+        self._initialize_properties_frame(self.rightFrame)
+        if not self.rightFrame.winfo_manager():
+            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+        self._elementView.pack()
+        self.show_properties()
+        self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
+        self._propertiesWindow.destroy()
+        self.kwargs['show_properties'] = True
+        self.kwargs['detach_prop_win'] = False
+        self._propWinDetached = False
+        self.root.lift()
+
     def disable_menu(self):
         """Disable menu entries when no project is open.
         
@@ -502,9 +544,84 @@ class NovelystTk(MainTk):
 
         self.plugins.enable_menu()
 
-    def export_manuscript(self):
-        """Export manuscript for editing."""
-        self._export_document('_manuscript')
+    def export_document(self, suffix, **kwargs):
+        """Export a document.
+        
+        Required arguments:
+            suffix -- str: Document type suffix (https://peter88213.github.io/novelyst/help/export_menu).
+        """
+        self.restore_status()
+        self._elementView.apply_changes()
+        self._exporter.run(self.prjFile, suffix, **kwargs)
+
+    def import_characters(self):
+        """Import characters from an XML data file."""
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = CharacterDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                size = '300x400'
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select characters'),
+                             windowGeometry,
+                             source.novel.characters,
+                             self.prjFile.novel.characters,
+                             self.prjFile.novel.srtCharacters)
+
+    def import_locations(self):
+        """Import locations from an XML data file."""
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = LocationDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                size = '300x400'
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select locations'),
+                             windowGeometry,
+                             source.novel.locations,
+                             self.prjFile.novel.locations,
+                             self.prjFile.novel.srtLocations)
+
+    def import_items(self):
+        """Import items from an XML data file."""
+        self.restore_status()
+        fileTypes = [(_('XML data file'), '.xml')]
+        filePath = filedialog.askopenfilename(filetypes=fileTypes)
+        if filePath:
+            source = ItemDataReader(filePath)
+            source.novel = Novel()
+            try:
+                source.read()
+            except:
+                self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
+            else:
+                offset = 50
+                size = '300x400'
+                __, x, y = self.root.geometry().split('+')
+                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
+                DataImporter(self, _('Select items'),
+                             windowGeometry,
+                             source.novel.items,
+                             self.prjFile.novel.items,
+                             self.prjFile.novel.srtItems)
 
     def lock(self, event=None):
         """Lock the project."""
@@ -778,6 +895,13 @@ class NovelystTk(MainTk):
             self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
             self.kwargs['show_properties'] = True
 
+    def toggle_properties_window(self, event=None):
+        """Detach/dock the element properties frame."""
+        if self._propWinDetached:
+            self.dock_properties_frame()
+        else:
+            self.detach_properties_frame()
+
     def unlock(self, event=None):
         """Unlock the project."""
         self.isLocked = False
@@ -905,110 +1029,6 @@ class NovelystTk(MainTk):
         """Unused; overrides the superclass template method."""
         pass
 
-    def _detach_properties_frame(self, event=None):
-        if self._propWinDetached:
-            self._dock_properties_frame()
-            return
-
-        self._elementView.apply_changes()
-        if self.rightFrame.winfo_manager():
-            self.rightFrame.pack_forget()
-        self._propertiesWindow = tk.Toplevel()
-        self._propertiesWindow.geometry(self.kwargs['prop_win_geometry'])
-        set_icon(self._propertiesWindow, icon='pLogo32', default=False)
-        self._elementView.pack_forget()
-        self._initialize_properties_frame(self._propertiesWindow)
-        self._elementView.pack()
-        self.show_properties()
-        self._propertiesWindow.protocol("WM_DELETE_WINDOW", self._dock_properties_frame)
-        self.kwargs['detach_prop_win'] = True
-        self._propWinDetached = True
-
-    def _dock_properties_frame(self, event=None):
-        self._elementView.apply_changes()
-        self._initialize_properties_frame(self.rightFrame)
-        if not self.rightFrame.winfo_manager():
-            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
-        self._elementView.pack()
-        self.show_properties()
-        self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
-        self._propertiesWindow.destroy()
-        self.kwargs['show_properties'] = True
-        self.kwargs['detach_prop_win'] = False
-        self._propWinDetached = False
-        self.root.lift()
-
-    def _export_document(self, suffix, **kwargs):
-        self.restore_status()
-        self._elementView.apply_changes()
-        self._exporter.run(self.prjFile, suffix, **kwargs)
-
-    def _import_characters(self):
-        self.restore_status()
-        fileTypes = [(_('XML data file'), '.xml')]
-        filePath = filedialog.askopenfilename(filetypes=fileTypes)
-        if filePath:
-            source = CharacterDataReader(filePath)
-            source.novel = Novel()
-            try:
-                source.read()
-            except:
-                self.set_info_how(f"!{_('No character data found')}: {norm_path(filePath)}")
-            else:
-                offset = 50
-                size = '300x400'
-                __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self, _('Select characters'),
-                             windowGeometry,
-                             source.novel.characters,
-                             self.prjFile.novel.characters,
-                             self.prjFile.novel.srtCharacters)
-
-    def _import_locations(self):
-        self.restore_status()
-        fileTypes = [(_('XML data file'), '.xml')]
-        filePath = filedialog.askopenfilename(filetypes=fileTypes)
-        if filePath:
-            source = LocationDataReader(filePath)
-            source.novel = Novel()
-            try:
-                source.read()
-            except:
-                self.set_info_how(f"!{_('No location data found')}: {norm_path(filePath)}")
-            else:
-                offset = 50
-                size = '300x400'
-                __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self, _('Select locations'),
-                             windowGeometry,
-                             source.novel.locations,
-                             self.prjFile.novel.locations,
-                             self.prjFile.novel.srtLocations)
-
-    def _import_items(self):
-        self.restore_status()
-        fileTypes = [(_('XML data file'), '.xml')]
-        filePath = filedialog.askopenfilename(filetypes=fileTypes)
-        if filePath:
-            source = ItemDataReader(filePath)
-            source.novel = Novel()
-            try:
-                source.read()
-            except:
-                self.set_info_how(f"!{_('No item data found')}: {norm_path(filePath)}")
-            else:
-                offset = 50
-                size = '300x400'
-                __, x, y = self.root.geometry().split('+')
-                windowGeometry = f'{size}+{int(x)+offset}+{int(y)+offset}'
-                DataImporter(self, _('Select items'),
-                             windowGeometry,
-                             source.novel.items,
-                             self.prjFile.novel.items,
-                             self.prjFile.novel.srtItems)
-
     def _initialize_properties_frame(self, parent):
         """Initialize element properties views."""
         self._basicView = BasicView(self, parent)
@@ -1026,6 +1046,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(None)
 
     def _show_report(self, suffix):
+        """Create an HTML report for the web browser."""
         self.restore_status()
         self._elementView.apply_changes()
         self._reporter.run(self.prjFile, suffix)

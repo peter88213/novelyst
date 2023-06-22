@@ -8,6 +8,16 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.30.0
+
+- Extend the API by making more NovelystTk methods "public".
+- Remove the experimental  NovelystTk.export_manuscript() method. 
+
+**Note:** This requires updating the [novelyst_button plugin](https://peter88213.github.io/novelyst_buttons) 
+to v1.0+.
+
+Based on PyWriter v12.13.3
+
 ### v4.29.2
 
 - Do not create a button bar at the bottom of the project properties window.
