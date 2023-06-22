@@ -13,7 +13,7 @@ from pywriter.model.novel import Novel
 from pywriter.ui.main_tk import MainTk
 from pywriter.ui.set_icon_tk import *
 from novelystlib.model.work_file import WorkFile
-from novelystlib.view_controller.plugin_collection import PluginCollection
+from novelystlib.plugin.plugin_collection import PluginCollection
 from novelystlib.view_controller.left_frame.tree_viewer import TreeViewer
 from novelystlib.view_controller.middle_frame.contents_viewer import ContentsViewer
 from novelystlib.view_controller.right_frame.basic_view import BasicView
@@ -28,7 +28,7 @@ from novelystlib.view_controller.right_frame.character_view import CharacterView
 from novelystlib.view_controller.right_frame.projectnote_view import ProjectnoteView
 from novelystlib.view_controller.pop_up.settings_window import SettingsWindow
 from novelystlib.view_controller.pop_up.plugin_manager import PluginManager
-from novelystlib.export.nv_exporter import NvExporter
+from novelystlib.export.nv_doc_exporter import NvDocExporter
 from novelystlib.export.nv_reporter import NvReporter
 from novelystlib.data_reader.character_data_reader import CharacterDataReader
 from novelystlib.data_reader.location_data_reader import LocationDataReader
@@ -83,8 +83,10 @@ class NovelystTk(MainTk):
         guiStyle -- ttk.Style object.
         plugins: PluginCollection -- Dict-like Container for registered plugin objects.
         tempDir: str -- Directory path for temporary files to be deleted on exit.
-        kwargs - dict: keyword arguments, used as global configuration data.
-        wordCount - int: Total words of "normal" type scenes.
+        kwargs: dict -- keyword arguments, used as global configuration data.
+        exporter: NvExporter -- Converter strategy for document export. 
+        reporter: NvExporter -- Converter strategy for report generation. 
+        wordCount: int -- Total words of "normal" type scenes.
         reloading: bool -- If True, suppress popup message when reopening a project that has changed on disk.
         prjFile: WorkFile
         novel: Novel
@@ -165,8 +167,8 @@ class NovelystTk(MainTk):
         self.kwargs = kwargs
         self._internalModificationFlag = False
         self._internalLockFlag = False
-        self._exporter = NvExporter(self)
-        self._reporter = NvReporter(self)
+        self.exporter = NvDocExporter(self)
+        self.reporter = NvReporter(self)
         self.wordCount = 0
         self.reloading = False
         self.prjFile = None
@@ -552,7 +554,7 @@ class NovelystTk(MainTk):
         """
         self.restore_status()
         self._elementView.apply_changes()
-        self._exporter.run(self.prjFile, suffix, **kwargs)
+        self.exporter.run(self.prjFile, suffix, **kwargs)
 
     def import_characters(self):
         """Import characters from an XML data file."""
@@ -1030,7 +1032,10 @@ class NovelystTk(MainTk):
         pass
 
     def _initialize_properties_frame(self, parent):
-        """Initialize element properties views."""
+        """Initialize element properties views.
+        
+        This method is called e.g. when detaching or docking the properties.
+        """
         self._basicView = BasicView(self, parent)
         self._projectView = ProjectView(self, parent)
         self._chapterView = ChapterView(self, parent)
@@ -1046,8 +1051,8 @@ class NovelystTk(MainTk):
         self._elementView.set_data(None)
 
     def _show_report(self, suffix):
-        """Create an HTML report for the web browser."""
+        """Create HTML report for the web browser."""
         self.restore_status()
         self._elementView.apply_changes()
-        self._reporter.run(self.prjFile, suffix)
+        self.reporter.run(self.prjFile, suffix)
 

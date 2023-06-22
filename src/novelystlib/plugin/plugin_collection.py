@@ -9,19 +9,19 @@ import sys
 import glob
 import importlib
 from pywriter.pywriter_globals import *
-from novelystlib.view_controller.rejected_plugin import RejectedPlugin
+from novelystlib.plugin.rejected_plugin import RejectedPlugin
 
 
 class PluginCollection(dict):
     """A plugin registry class.
     
     Represents a dictionary with 
-        key -- str: The module name.
-        value -- object: The module's Plugin() instance.
+        key: str -- The module name.
+        value: object -- The module's Plugin() instance.
     
     Public instance variables:
-        majorVersion -- int: The application's major version number.
-        minorVersion -- int: The application's minor version number.    
+        majorVersion: int -- The application's major version number.
+        minorVersion: int -- The application's minor version number.    
     
     Public methods:
         delete_file(moduleName) -- Remove a module from the file system.
@@ -58,7 +58,7 @@ class PluginCollection(dict):
         except ValueError:
             # Set defaults for testing.
             self.majorVersion = 4
-            self.minorVersion = 30
+            self.minorVersion = 31
 
     def delete_file(self, moduleName):
         """Remove a module from the file system.
@@ -112,7 +112,7 @@ class PluginCollection(dict):
                 # Install the plugin by calling its constructor substitute.
                 pluginObject.install(self._ui)
 
-            # Monkey-patch flags to indicate the installation.
+            # Change flags to indicate the installation.
             pluginObject.isActive = isCompatible
             pluginObject.isRejected = False
 

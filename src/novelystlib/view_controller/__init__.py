@@ -2,8 +2,6 @@
 
 Modules:
 novelyst_tk -- Provide a tkinter GUI framework for novelyst.
-plugin_collection -- Provide a plugin registry class.
-rejected_plugin -- Provide a substitute for the Plugin class of a rejected module.
 
 Packages:
 left_frame -- Modules for novelyst left frame view-controller classes.

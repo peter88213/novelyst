@@ -1,4 +1,4 @@
-"""Provide a converter class for novelyst reports.
+"""Provide a converter class for report generation.
 
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
@@ -8,14 +8,15 @@ import os
 from pywriter.pywriter_globals import *
 from pywriter.file.doc_open import open_document
 from pywriter.converter.export_target_factory import ExportTargetFactory
+from novelystlib.export.nv_exporter import NvExporter
 from novelystlib.export.html_project_notes import HtmlProjectNotes
 from novelystlib.export.html_characters import HtmlCharacters
 from novelystlib.export.html_locations import HtmlLocations
 from novelystlib.export.html_items import HtmlItems
 
 
-class NvReporter:
-    """Converter class for novelyst HTML reports.
+class NvReporter(NvExporter):
+    """Converter class for report generation.
     
     Public methods:
         run(source, suffix) -- Create a target object and run conversion.
