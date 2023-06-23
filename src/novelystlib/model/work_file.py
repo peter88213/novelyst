@@ -120,8 +120,9 @@ class WorkFile(Yw7File):
             if self.novel.chapters[chId].chLevel == 1:
                 partType = self.novel.chapters[chId].chType
             elif partType != 0 and not self.novel.chapters[chId].isTrash:
-                self.novel.chapters[chId].chType = partType
-                isModified = True
+                if self.novel.chapters[chId].chType != partType:
+                    self.novel.chapters[chId].chType = partType
+                    isModified = True
             if self.novel.chapters[chId].chType != 0:
                 for scId in self.novel.chapters[chId].srtScenes:
                     if self.novel.scenes[scId].scType != self.novel.chapters[chId].chType:

@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.30.2
+
+- Fix a bug where refreshing the tree could incorrectly indicate a change.
+
+Based on PyWriter v12.13.4
+
 ### v4.30.1
 
 - Refactor the code for better maintainability.
