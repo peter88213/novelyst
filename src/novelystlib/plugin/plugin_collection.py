@@ -10,7 +10,6 @@ import glob
 import importlib
 from pywriter.pywriter_globals import *
 from novelystlib.plugin.rejected_plugin import RejectedPlugin
-from novelystlib.plugin.plugin_base import PluginBase
 
 
 class PluginCollection(dict):
@@ -102,23 +101,19 @@ class PluginCollection(dict):
             majorStr, minorStr = apiVerStr.split('.')
             apiMajorVersion = int(majorStr)
             apiMinorVersion = int(minorStr)
-
             isCompatible = True
-
             if apiMajorVersion != self.majorVersion:
                 isCompatible = False
             if apiMinorVersion > self.minorVersion:
                 isCompatible = False
-
             if isCompatible:
-                if not isinstance(pluginObject, PluginBase):
-                    raise TypeError(f'{moduleName}.Plugin is not a PluginBase subclass.')
-
                 # Install the plugin by calling its constructor substitute.
                 pluginObject.install(self._ui)
 
-            # Indicate the installation.
+            # Change flags to indicate the installation.
+            # Plugin classes that don't inherit from PluginBase may be monkey-patched.
             pluginObject.isActive = isCompatible
+            pluginObject.isRejected = False
 
             # Register the module.
             self[moduleName] = pluginObject
@@ -158,29 +153,44 @@ class PluginCollection(dict):
         """Disable menu entries when no project is open."""
         for moduleName in self:
             if self[moduleName].isActive:
-                self[moduleName].disable_menu()
+                try:
+                    self[moduleName].disable_menu()
+                except:
+                    pass
 
     def enable_menu(self):
         """Enable menu entries when a project is open."""
         for moduleName in self:
             if self[moduleName].isActive:
-                self[moduleName].enable_menu()
+                try:
+                    self[moduleName].enable_menu()
+                except:
+                    pass
 
     def on_quit(self):
         """Perform actions before the application is closed."""
         for moduleName in self:
             if self[moduleName].isActive:
-                self[moduleName].on_quit()
+                try:
+                    self[moduleName].on_quit()
+                except:
+                    pass
 
     def on_close(self):
         """Perform actions before a project is closed."""
         for moduleName in self:
             if self[moduleName].isActive:
-                self[moduleName].on_close()
+                try:
+                    self[moduleName].on_close()
+                except:
+                    pass
 
     def open_node(self, event=None):
         """Actions on double-clicking on a node or pressing the Return key."""
         for moduleName in self:
             if self[moduleName].isActive:
-                self[moduleName].open_node()
+                try:
+                    self[moduleName].open_node()
+                except:
+                    pass
 
