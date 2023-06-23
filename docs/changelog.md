@@ -10,7 +10,7 @@ See the [GitHub "Features" project](https://github.com/users/peter88213/projects
 
 ### v4.30.2
 
-- Fix a bug where refreshing the tree could incorrectly indicate a change.
+- Fix a regression from v4.27.3 where refreshing the tree could incorrectly indicate a change.
 
 Based on PyWriter v12.13.4
 
