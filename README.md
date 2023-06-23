@@ -4,6 +4,8 @@
 
 For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
 
+# Contributing
+
 ## How to provide translations
 
 First, you need to know your language code according to ISO 639-1.
@@ -115,6 +117,11 @@ See https://github.com/peter88213/PyWriter/blob/main/docs/conventions.md
 
 - [Gaphor](https://gaphor.org/) for creating UML diagrams
 
+## Plugin development
+
+If you want to develop a novelyst plugin, you may want to start with a repository on GitHub using [novelyst_plugin](https://github.com/peter88213/novelyst_plugin) as a template repository. After setting up your new repository 
+named e.g. *novelyst_yourPluginName*, just do a global search, and replace 
+*novelyst_plugin* with *novelyst_yourPluginName*. 
 
 
 ## Credits
