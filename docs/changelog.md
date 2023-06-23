@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.30.1
+
+- Refactor the code for better maintainability.
+- Provide a PluginBase class for new plugins to inherit.
+
+Based on PyWriter v12.13.4
+
 ### v4.30.0
 
 - Extend the API by making more NovelystTk methods "public".
