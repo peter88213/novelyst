@@ -88,6 +88,24 @@ When exporting to ODT format, *novelyst* replaces these formattings as follows:
 
 ---
 
+## Comments, footnotes, endnotes
+
+In general, the following applies when exporting to ODT format:
+
+-   Comments in the text bracketed with slashes and asterisks (like
+    `/* this is a comment */`) are converted to author's comments.
+-   ODT author's comments are kept when re-converting to yw7 format. 
+
+When exporting to the manuscript without tags also applies:
+
+-   yw7 comments with special marks (like `/* @en this is an endnote. */`) 
+    are converted into footnotes or endnotes. Markup:
+    - `@fn*` -- simple footnote, marked with an astersik
+    - `@fn` -- numbered footnote
+    - `@en` -- numbered endnote   
+
+---
+
 ## About document language handling
 
 ODF documents are generally assigned a language that determines spell checking and country-specific character substitutions. In addition, Office Writer lets you assign text passages to languages other than the document language to mark foreign language usage or to suspend spell checking. 
