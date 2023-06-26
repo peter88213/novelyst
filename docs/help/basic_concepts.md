@@ -98,7 +98,7 @@ In general, the following applies when exporting to ODT format:
 
 When exporting to the manuscript without tags also applies:
 
--   yw7 comments with special marks (like `/* @en this is an endnote. */`) 
+-   yw7 comments with special marks (like `/*@en this is an endnote. */`) 
     are converted into footnotes or endnotes. Markup:
     - `@fn*` -- simple footnote, marked with an astersik
     - `@fn` -- numbered footnote

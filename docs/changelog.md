@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.30.3
+
+- Ignore leading blanks when parsing footnote/endnote markup.
+
+Based on PyWriter v12.13.5
+
 ### v4.30.2
 
 - Fix a regression from v4.27.3 where refreshing the tree could incorrectly indicate a change.
