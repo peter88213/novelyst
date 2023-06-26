@@ -104,6 +104,18 @@ When exporting to the manuscript without tags also applies:
     - `@fn` -- numbered footnote
     - `@en` -- numbered endnote   
 
+This is how a simple footnote substitute looks when inserted as a marked comment with LibreOffice in the working document:
+
+![Screenshot](../Screenshots/footnote01.png)
+
+This is how it looks in the contents viewer, or in the *novelyst_editor* scene editor:
+
+![Screenshot](../Screenshots/footnote03.png)
+
+This is the real footnote in the final manuscript without tags:
+
+![Screenshot](../Screenshots/footnote02.png)
+
 ---
 
 ## About document language handling
