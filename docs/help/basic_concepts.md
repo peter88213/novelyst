@@ -108,7 +108,7 @@ This is how a simple footnote substitute looks when inserted as a marked comment
 
 ![Screenshot](../Screenshots/footnote01.png)
 
-This is how it looks in the contents viewer, or in the *novelyst_editor* scene editor:
+This is how it looks in the *novelyst* contents viewer, or in the *novelyst_editor* scene editor:
 
 ![Screenshot](../Screenshots/footnote03.png)
 

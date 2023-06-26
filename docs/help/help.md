@@ -23,6 +23,7 @@ You can open it with **Help > Online help**.
 - Scene completion status
 - Mode of discourse
 - Formatting text
+- Comments, footnotes, endnotes
 - About document language handling
 
 ---
