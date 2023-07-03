@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.31.0
+
+- Add "Discard manuscript" command.
+
+Based on PyWriter v12.13.5
+
 ### v4.30.3
 
 - Ignore leading blanks when parsing footnote/endnote markup.

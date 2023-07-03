@@ -45,6 +45,7 @@ class NovelystTk(MainTk):
         check_lock() -- Show a message and return True, if the project is locked.
         close_project() -- Close the current project.
         detach_properties_frame() -- View the properties in its own window.
+        discard_manuscript() -- Rename the current editable manuscript. 
         dock_properties_frame() -- Dock the properties window at the right pane, if detached.
         disable_menu() -- Disable menu entries when no project is open.
         edit_settings() -- Open a toplevel window to edit the program settings.
@@ -223,6 +224,7 @@ class NovelystTk(MainTk):
         self.fileMenu.add_command(label=_('Lock'), accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
         self.fileMenu.add_command(label=_('Unlock'), accelerator=self._KEY_UNLOCK_PROJECT[1], command=self.unlock)
         self.fileMenu.add_command(label=_('Open Project folder'), accelerator=self._KEY_FOLDER[1], command=self.open_projectFolder)
+        self.fileMenu.add_command(label=_('Discard manuscript'), command=self.discard_manuscript)
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label=_('Save'), accelerator=self._KEY_SAVE_PROJECT[1], command=self.save_project)
         self.fileMenu.add_command(label=_('Save as...'), accelerator=self._KEY_SAVE_AS[1], command=self.save_as)
@@ -513,6 +515,21 @@ class NovelystTk(MainTk):
         self.fileMenu.entryconfig(_('Save as...'), state='disabled')
 
         self.plugins.disable_menu()
+
+    def discard_manuscript(self):
+        """Rename the current editable manuscript. 
+        
+        This might be useful to avoid confusion in certain cases.
+        """
+        fileName, __ = os.path.splitext(self.prjFile.filePath)
+        manuscriptPath = f'{fileName}_manuscript.odt'
+        if os.path.isfile(manuscriptPath):
+            prjPath, manuscriptName = os.path.split(manuscriptPath)
+            if os.path.isfile(f'{prjPath}/.~lock.{manuscriptName}#'):
+                self.set_info_how(f"!{_('Please close the manuscript first')}.")
+            elif self.ask_yes_no(f"{_('Discard manuscript')}?", self.novel.title):
+                os.replace(manuscriptPath, f'{fileName}_manuscript.odt.bak')
+                self.set_info_how(f"{_('Manuscript discarded')}.")
 
     def edit_settings(self, event=None):
         """Open a toplevel window to edit the program settings."""

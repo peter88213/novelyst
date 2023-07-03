@@ -79,7 +79,20 @@ yWriter creates its own lock file. If *novelyst* finds this, it will neither loa
 
 **Launch the file manager**
 
-- You can launch the file manager with the current project folder with **File > Open Project folder** or **Ctrl-P**. This might be helpful, if you wish to delete export files, open your project with another application, and so on. In case you edit the project "outsides", consider locking it before.
+- You can launch the file manager with the current project folder with **File > Open Project folder** or **Ctrl-P**. 
+This might be helpful, if you wish to delete export files, open your project with another application, and so on. 
+In case you edit the project "outsides", consider locking it before.
+
+---
+
+## Discard manuscript
+
+**Discard the current manuscript by renaming it**
+
+- You can add the *.bak* extension to the current manuscript with **File > Discard manuscript**. 
+This may help to avoid confusion about changes made with *novelyst* and OpenOffice/LibreOffice. 
+It is recommended in any case if new scenes or chapters were created by splitting during the 
+last export from OpenOffice/LibreOffice. 
 
 --- 
 

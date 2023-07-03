@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.30.3\n"
-"POT-Creation-Date: 2023-06-26 19:28:57\n"
+"Project-Id-Version: 4.31.0\n"
+"POT-Creation-Date: 2023-07-04 00:04:33\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -293,6 +293,9 @@ msgstr ""
 msgid "Discard changes and reload the project?"
 msgstr ""
 
+msgid "Discard manuscript"
+msgstr ""
+
 msgid "Do not auto-number this chapter"
 msgstr ""
 
@@ -470,6 +473,9 @@ msgstr ""
 msgid "Manuscript"
 msgstr ""
 
+msgid "Manuscript discarded"
+msgstr ""
+
 msgid "Manuscript for editing"
 msgstr ""
 
@@ -609,6 +615,9 @@ msgid "Part number suffix"
 msgstr ""
 
 msgid "Planning"
+msgstr ""
+
+msgid "Please close the manuscript first"
 msgstr ""
 
 msgid "Plot"
