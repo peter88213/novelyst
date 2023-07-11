@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.31.1
+
+- Refactor the code for performance improvement.
+
+Based on PyWriter v12.13.6
+
 ### v4.31.0
 
 - Add "Discard manuscript" command.
