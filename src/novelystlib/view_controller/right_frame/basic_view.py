@@ -43,7 +43,7 @@ class BasicView(ttk.Frame):
 
         # Frame for element specific informations.
         self._propertiesFrame = ttk.Frame(self)
-        self._propertiesFrame.pack(expand=True, fill=tk.BOTH)
+        self._propertiesFrame.pack(expand=True, fill='both')
 
         self._create_frames()
 
@@ -105,26 +105,26 @@ class BasicView(ttk.Frame):
 
     def show(self):
         """Make the view visible."""
-        self.pack(expand=True, fill=tk.BOTH)
+        self.pack(expand=True, fill='both')
 
     def _create_button_bar(self):
         """Create a button bar at the bottom."""
         self._buttonBar = ttk.Frame(self)
-        self._buttonBar.pack(fill=tk.X)
+        self._buttonBar.pack(fill='x')
 
         # "Previous" button.
-        ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        ttk.Button(self._buttonBar, text=_('Previous'), command=self._load_prev).pack(side='left', fill='x', expand=True)
 
         # "Apply changes" button.
-        ttk.Button(self._buttonBar, text=_('Apply changes'), command=self.apply_changes).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        ttk.Button(self._buttonBar, text=_('Apply changes'), command=self.apply_changes).pack(side='left', fill='x', expand=True)
 
         # "Next" button.
-        ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side=tk.LEFT, fill=tk.X, expand=True)
+        ttk.Button(self._buttonBar, text=_('Next'), command=self._load_next).pack(side='left', fill='x', expand=True)
 
     def _create_element_info_window(self):
         """Create a window for element specific information."""
         self._elementInfoWindow = ttk.Frame(self._propertiesFrame)
-        self._elementInfoWindow.pack(fill=tk.X)
+        self._elementInfoWindow.pack(fill='x')
 
     def _create_frames(self):
         """Template method for creating the frames in the right pane."""
@@ -136,10 +136,10 @@ class BasicView(ttk.Frame):
                                     bd=2,
                                     fg=self._ui.kwargs['color_text_fg'],
                                     bg=self._ui.kwargs['color_text_bg'],
-                                    relief=tk.RIDGE
+                                    relief='ridge'
                                     )
         self._indexCard.bodyBox['height'] = self._ui.kwargs['index_card_height']
-        self._indexCard.pack(expand=False, fill=tk.BOTH)
+        self._indexCard.pack(expand=False, fill='both')
 
     def _create_notes_window(self):
         """Create a text box for element notes."""
@@ -156,7 +156,7 @@ class BasicView(ttk.Frame):
                 fg=self._ui.kwargs['color_notes_fg'],
                 insertbackground=self._ui.kwargs['color_notes_fg'],
                 )
-        self._notesWindow.pack(expand=True, fill=tk.BOTH)
+        self._notesWindow.pack(expand=True, fill='both')
 
     def _load_next(self):
         """Load the next tree element of the same type."""

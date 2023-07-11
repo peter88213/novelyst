@@ -190,15 +190,15 @@ class NovelystTk(MainTk):
 
         # Create an application window with three frames.
         self.appWindow = ttk.Frame(self.mainWindow)
-        self.appWindow.pack(expand=True, fill=tk.BOTH)
+        self.appWindow.pack(expand=True, fill='both')
 
         #--- left frame (intended for the tree).
         self.leftFrame = ttk.Frame(self.appWindow)
-        self.leftFrame.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+        self.leftFrame.pack(side='left', expand=True, fill='both')
 
         # Create a novel tree window.
         self.tv = TreeViewer(self.leftFrame, self, self.kwargs)
-        self.tv.pack(expand=True, fill=tk.BOTH)
+        self.tv.pack(expand=True, fill='both')
 
         #--- Middle frame (intended for the content viewer).
         self.middleFrame = ttk.Frame(self.appWindow, width=self.kwargs['middle_frame_width'])
@@ -206,9 +206,9 @@ class NovelystTk(MainTk):
 
         # Create a text viewer in the middle frame.
         self.contentsViewer = ContentsViewer(self, self.middleFrame, **self.kwargs)
-        self.contentsViewer.pack(expand=True, fill=tk.BOTH)
+        self.contentsViewer.pack(expand=True, fill='both')
         if self.kwargs['show_contents']:
-            self.middleFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.middleFrame.pack(side='left', expand=False, fill='both')
 
         #--- Build the main menu
         # Requires windows and frames initialized
@@ -350,7 +350,7 @@ class NovelystTk(MainTk):
         self.rightFrame = ttk.Frame(self.appWindow, width=self.kwargs['right_frame_width'])
         self.rightFrame.pack_propagate(0)
         if self.kwargs['show_properties']:
-            self.rightFrame.pack(expand=True, fill=tk.BOTH)
+            self.rightFrame.pack(expand=True, fill='both')
         self._initialize_properties_frame(self.rightFrame)
         self._propWinDetached = False
         if self.kwargs['detach_prop_win']:
@@ -480,7 +480,7 @@ class NovelystTk(MainTk):
 
         self._initialize_properties_frame(self.rightFrame)
         if not self.rightFrame.winfo_manager():
-            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.rightFrame.pack(side='left', expand=False, fill='both')
         self._elementView.pack()
         self.show_properties()
         self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
@@ -901,7 +901,7 @@ class NovelystTk(MainTk):
             self.middleFrame.pack_forget()
             self.kwargs['show_contents'] = False
         else:
-            self.middleFrame.pack(after=self.leftFrame, side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.middleFrame.pack(after=self.leftFrame, side='left', expand=False, fill='both')
             self.kwargs['show_contents'] = True
 
     def toggle_properties(self, event=None):
@@ -911,7 +911,7 @@ class NovelystTk(MainTk):
             self.rightFrame.pack_forget()
             self.kwargs['show_properties'] = False
         elif not self._propWinDetached:
-            self.rightFrame.pack(side=tk.LEFT, expand=False, fill=tk.BOTH)
+            self.rightFrame.pack(side='left', expand=False, fill='both')
             self.kwargs['show_properties'] = True
 
     def toggle_properties_window(self, event=None):

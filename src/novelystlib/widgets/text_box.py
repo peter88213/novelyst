@@ -30,11 +30,11 @@ class TextBox(tk.Text):
             # Add a scrollbar:
             self.frame = ttk.Frame(master)
             self.vbar = ttk.Scrollbar(self.frame)
-            self.vbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.vbar.pack(side='right', fill='y')
 
             kw.update({'yscrollcommand': self.vbar.set})
             tk.Text.__init__(self, self.frame, **kw)
-            self.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+            self.pack(side='left', fill='both', expand=True)
             self.vbar['command'] = self.yview
 
             # Copy geometry methods of self.frame without overriding Text
@@ -55,18 +55,18 @@ class TextBox(tk.Text):
 
     def clear(self):
         """Clear the box and reset the change flag."""
-        self.delete('1.0', tk.END)
+        self.delete('1.0', 'end')
         self.hasChanged = False
 
     def get_text(self):
         """Return the whole text."""
-        return self.get('1.0', tk.END).strip(' \n')
+        return self.get('1.0', 'end').strip(' \n')
 
     def set_text(self, text):
         """Clear the box, reset the change flag, and load text."""
         self.clear()
         if text:
-            self.insert(tk.END, text)
+            self.insert('end', text)
             self.edit_reset()
             # this is to prevent the user from clearing the box with Ctrl-Z
 

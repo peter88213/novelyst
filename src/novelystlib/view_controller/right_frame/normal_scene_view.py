@@ -46,28 +46,28 @@ class NormalSceneView(NotesSceneView):
         #--- 'Viewpoint' combobox.
         self._viewpoint = MyStringVar()
         self._characterCombobox = LabelCombo(self._sceneExtraFrame, text=_('Viewpoint'), textvariable=self._viewpoint, values=[])
-        self._characterCombobox.pack(anchor=tk.W, pady=2)
+        self._characterCombobox.pack(anchor='w', pady=2)
 
         #--- 'Append to previous scene' checkbox.
         self._appendToPrev = tk.BooleanVar()
         self._appendToPrevCheckbox = ttk.Checkbutton(self._sceneExtraFrame, text=_('Append to previous scene'),
                                          variable=self._appendToPrev, onvalue=True, offvalue=False)
-        self._appendToPrevCheckbox.pack(anchor=tk.W, pady=2)
+        self._appendToPrevCheckbox.pack(anchor='w', pady=2)
 
-        ttk.Separator(self._sceneExtraFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._sceneExtraFrame, orient='horizontal').pack(fill='x')
 
         #--- Frame for arcs and plot.
         self._arcFrame = FoldingFrame(self._sceneExtraFrame, _('Plot'), self._toggle_arcFrame)
 
         # 'Arcs' entry (if any).
         self._arcs = MyStringVar()
-        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor=tk.W)
+        LabelEntry(self._arcFrame, text=_('Arcs'), textvariable=self._arcs).pack(anchor='w')
 
         #--- 'Arc points' label.
-        self._arcPointsDisplay = tk.Label(self._arcFrame, anchor=tk.W, bg='white')
-        self._arcPointsDisplay.pack(anchor=tk.W, fill=tk.X)
+        self._arcPointsDisplay = tk.Label(self._arcFrame, anchor='w', bg='white')
+        self._arcPointsDisplay.pack(anchor='w', fill='x')
 
-        ttk.Separator(self._sceneExtraFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._sceneExtraFrame, orient='horizontal').pack(fill='x')
 
         #--- Frame for 'Action'/'Reaction'/'Custom'.
         self._pacingFrame = FoldingFrame(self._sceneExtraFrame, _('Action/Reaction'), self._toggle_pacingFrame)
@@ -79,16 +79,16 @@ class NormalSceneView(NotesSceneView):
         self._customOutcome = ''
         self._scenePacingType = tk.IntVar()
         ttk.Radiobutton(selectionFrame, text=_('Action'),
-                                         variable=self._scenePacingType, value=0, command=self._set_action_scene).pack(side=tk.LEFT, anchor=tk.W)
+                                         variable=self._scenePacingType, value=0, command=self._set_action_scene).pack(side='left', anchor='w')
         ttk.Radiobutton(selectionFrame, text=_('Reaction'),
-                                         variable=self._scenePacingType, value=1, command=self._set_reaction_scene).pack(side=tk.LEFT, anchor=tk.W)
+                                         variable=self._scenePacingType, value=1, command=self._set_reaction_scene).pack(side='left', anchor='w')
         ttk.Radiobutton(selectionFrame, text=_('Custom'),
-                                         variable=self._scenePacingType, value=2, command=self._set_custom_ar_scene).pack(anchor=tk.W)
-        selectionFrame.pack(fill=tk.X)
+                                         variable=self._scenePacingType, value=2, command=self._set_custom_ar_scene).pack(anchor='w')
+        selectionFrame.pack(fill='x')
 
         # 'Goal/Reaction' window. The labels are configured dynamically.
         self._goalLabel = ttk.Label(self._pacingFrame)
-        self._goalLabel.pack(anchor=tk.W)
+        self._goalLabel.pack(anchor='w')
         self._goalWindow = TextBox(self._pacingFrame,
                 wrap='word',
                 undo=True,
@@ -101,11 +101,11 @@ class NormalSceneView(NotesSceneView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._goalWindow.pack(fill=tk.X)
+        self._goalWindow.pack(fill='x')
 
         # 'Conflict/Dilemma' window. The labels are configured dynamically.
         self._conflictLabel = ttk.Label(self._pacingFrame)
-        self._conflictLabel.pack(anchor=tk.W)
+        self._conflictLabel.pack(anchor='w')
         self._conflictWindow = TextBox(self._pacingFrame,
                 wrap='word',
                 undo=True,
@@ -118,11 +118,11 @@ class NormalSceneView(NotesSceneView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._conflictWindow.pack(fill=tk.X)
+        self._conflictWindow.pack(fill='x')
 
         # 'Outcome/Choice' window. The labels are configured dynamically.
         self._outcomeLabel = ttk.Label(self._pacingFrame)
-        self._outcomeLabel.pack(anchor=tk.W)
+        self._outcomeLabel.pack(anchor='w')
         self._outcomeWindow = TextBox(self._pacingFrame,
                 wrap='word',
                 undo=True,
@@ -135,7 +135,7 @@ class NormalSceneView(NotesSceneView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._outcomeWindow.pack(fill=tk.X)
+        self._outcomeWindow.pack(fill='x')
 
     def apply_changes(self):
         """Apply changes.

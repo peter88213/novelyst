@@ -10,7 +10,7 @@ class DragDropListbox(tk.Listbox):
     """ A Tkinter listbox with drag'n'drop reordering of entries."""
 
     def __init__(self, master, **kw):
-        kw['selectmode'] = tk.SINGLE
+        kw['selectmode'] = 'single'
         tk.Listbox.__init__(self, master, kw)
         self.bind('<Button-1>', self._set_current)
         self.bind('<B1-Motion>', self._shift_selection)

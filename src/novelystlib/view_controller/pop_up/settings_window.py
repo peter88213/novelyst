@@ -21,39 +21,39 @@ class SettingsWindow(tk.Toplevel):
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)
-        window.pack(fill=tk.BOTH,
+        window.pack(fill='both',
                     padx=5,
                     pady=5
                     )
         frame1 = ttk.Frame(window)
-        frame1.pack(fill=tk.BOTH, side=tk.LEFT)
-        ttk.Separator(window, orient=tk.VERTICAL).pack(fill=tk.Y, padx=10, side=tk.LEFT)
+        frame1.pack(fill='both', side='left')
+        ttk.Separator(window, orient='vertical').pack(fill='y', padx=10, side='left')
         frame2 = ttk.Frame(window)
-        frame2.pack(fill=tk.BOTH, side=tk.LEFT)
+        frame2.pack(fill='both', side='left')
 
         # Combobox for coloring mode setting.
         self._coloringModeStr = tk.StringVar(value=self._ui.COLORING_MODES[self._ui.coloringMode])
         self._coloringModeStr.trace('w', self._change_colors)
         ttk.Label(frame1,
                   text=_('Coloring mode')
-                  ).pack(padx=5, pady=5, anchor=tk.W)
+                  ).pack(padx=5, pady=5, anchor='w')
         ttk.Combobox(frame1,
                    textvariable=self._coloringModeStr,
                    values=self._ui.COLORING_MODES,
                    width=20
-                   ).pack(padx=5, pady=5, anchor=tk.W)
+                   ).pack(padx=5, pady=5, anchor='w')
 
-        ttk.Separator(frame1, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=10)
+        ttk.Separator(frame1, orient='horizontal').pack(fill='x', pady=10)
 
         # Checkbox for deleting yWriter-only data on save.
         self._cleanUpYw = tk.BooleanVar(frame1, value=self._ui.cleanUpYw)
-        ttk.Checkbutton(frame1, text=_('Delete yWriter-only data on save'), variable=self._cleanUpYw).pack(anchor=tk.W)
+        ttk.Checkbutton(frame1, text=_('Delete yWriter-only data on save'), variable=self._cleanUpYw).pack(anchor='w')
         self._cleanUpYw.trace('w', self._update_cleanup)
 
         # Listbox for column reordering.
         ttk.Label(frame2,
                   text=_('Columns')
-                  ).pack(padx=5, pady=5, anchor=tk.W)
+                  ).pack(padx=5, pady=5, anchor='w')
         self._coIdsByTitle = {}
         for coId, title, __ in self._tv.columns:
             self._coIdsByTitle[title] = coId
@@ -61,19 +61,19 @@ class SettingsWindow(tk.Toplevel):
         DragDropListbox(frame2,
                         listvariable=self._colEntries,
                         width=20
-                        ).pack(padx=5, pady=5, anchor=tk.W)
+                        ).pack(padx=5, pady=5, anchor='w')
         ttk.Button(frame2,
                    text=_('Apply'),
                    command=self._change_column_order
-                   ).pack(padx=5, pady=5, anchor=tk.W)
+                   ).pack(padx=5, pady=5, anchor='w')
 
-        ttk.Separator(self, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self, orient='horizontal').pack(fill='x')
 
         # "Exit" button.
         ttk.Button(self,
                    text=_('Exit'),
                    command=self.destroy
-                   ).pack(padx=5, pady=5, anchor=tk.E)
+                   ).pack(padx=5, pady=5, anchor='e')
 
     def _change_colors(self, *args, **kwargs):
         cmStr = self._coloringModeStr.get()

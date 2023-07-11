@@ -24,17 +24,17 @@ class IndexCard(tk.Frame):
                               bg=bg,
                               bd=0,
                               textvariable=self.title,
-                              relief=tk.FLAT,
+                              relief='flat',
                               font=font,
                               )
         titleEntry.config({'background': bg,
                            'foreground': fg,
                            'insertbackground': fg,
                            })
-        titleEntry.pack(fill=tk.X, ipady=6)
+        titleEntry.pack(fill='x', ipady=6)
 
-        tk.Frame(self, bg='red', height=1, bd=0).pack(fill=tk.X)
-        tk.Frame(self, bg=bg, height=1, bd=0).pack(fill=tk.X)
+        tk.Frame(self, bg='red', height=1, bd=0).pack(fill='x')
+        tk.Frame(self, bg=bg, height=1, bd=0).pack(fill='x')
 
         # Description window.
         self.bodyBox = TextBox(self,
@@ -50,5 +50,5 @@ class IndexCard(tk.Frame):
                 insertbackground=fg,
                 font=font,
                 )
-        self.bodyBox.pack(fill=tk.BOTH, expand=True)
+        self.bodyBox.pack(fill='both', expand=True)
 

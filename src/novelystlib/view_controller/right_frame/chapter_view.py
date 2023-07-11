@@ -71,7 +71,7 @@ class ChapterView(BasicView):
             return
 
         if not self._elementInfoWindow.winfo_manager():
-            self._elementInfoWindow.pack(fill=tk.X)
+            self._elementInfoWindow.pack(fill='x')
 
         if self._element.chType == 0:
             if self._element.chLevel == 1:

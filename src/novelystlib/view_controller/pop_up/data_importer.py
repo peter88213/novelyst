@@ -35,10 +35,10 @@ class DataImporter(tk.Toplevel):
         self._targetElements = targetElements
         self._targetSrtElements = targetSrtElements
         self._pickList = ttk.Treeview(self, selectmode='extended')
-        scrollY = ttk.Scrollbar(self._pickList, orient=tk.VERTICAL, command=self._pickList.yview)
+        scrollY = ttk.Scrollbar(self._pickList, orient='vertical', command=self._pickList.yview)
         self._pickList.configure(yscrollcommand=scrollY.set)
-        scrollY.pack(side=tk.RIGHT, fill=tk.Y)
-        self._pickList.pack(fill=tk.BOTH, expand=True)
+        scrollY.pack(side='right', fill='y')
+        self._pickList.pack(fill='both', expand=True)
         ttk.Button(self, text=_('Import selected elements'), command=self._import).pack()
         for elemId in self._sourceElements:
             self._pickList.insert('', 'end', elemId, text=self._sourceElements[elemId].title)

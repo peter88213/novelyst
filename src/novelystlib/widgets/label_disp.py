@@ -13,11 +13,11 @@ class LabelDisp(ttk.Frame):
 
     def __init__(self, parent, text, textvariable, lblWidth=10):
         super().__init__(parent)
-        self.pack(fill=tk.X)
-        self._leftLabel = ttk.Label(self, text=text, anchor=tk.W, width=lblWidth)
-        self._leftLabel.pack(side=tk.LEFT)
-        self._rightLabel = ttk.Label(self, textvariable=textvariable, anchor=tk.W)
-        self._rightLabel.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.pack(fill='x')
+        self._leftLabel = ttk.Label(self, text=text, anchor='w', width=lblWidth)
+        self._leftLabel.pack(side='left')
+        self._rightLabel = ttk.Label(self, textvariable=textvariable, anchor='w')
+        self._rightLabel.pack(side='left', fill='x', expand=True)
 
     def configure(self, text=None):
         """Configure internal widget."""

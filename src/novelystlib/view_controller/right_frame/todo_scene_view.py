@@ -42,7 +42,7 @@ class TodoSceneView(SceneView):
         self._treeSelectBinding = None
         self._uiEscBinding = None
 
-        ttk.Separator(self._sceneExtraFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._sceneExtraFrame, orient='horizontal').pack(fill='x')
 
         #--- Frame for arc specific widgets.
         self._arcFrame = FoldingFrame(self._sceneExtraFrame, _('Arc'), self._toggle_arcFrame)
@@ -50,15 +50,15 @@ class TodoSceneView(SceneView):
 
         # Arc display.
         self._arc = ttk.Label(self._arcInnerFrame)
-        self._arc.pack(anchor=tk.W)
+        self._arc.pack(anchor='w')
 
         # Associated scene title display.
         self._sceneFrame = ttk.Frame(self._arcInnerFrame)
-        self._sceneFrame.pack(anchor=tk.W, fill=tk.X)
-        self._associatedSceneTitle = tk.Label(self._sceneFrame, anchor=tk.W, bg='white')
-        self._associatedSceneTitle.pack(anchor=tk.W, pady=2, fill=tk.X)
-        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side=tk.LEFT, padx=1, pady=2)
-        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side=tk.LEFT, padx=1, pady=2)
+        self._sceneFrame.pack(anchor='w', fill='x')
+        self._associatedSceneTitle = tk.Label(self._sceneFrame, anchor='w', bg='white')
+        self._associatedSceneTitle.pack(anchor='w', pady=2, fill='x')
+        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side='left', padx=1, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side='left', padx=1, pady=2)
 
     def apply_changes(self):
         """Apply changes.
@@ -99,7 +99,7 @@ class TodoSceneView(SceneView):
             self._associatedSceneTitle['text'] = sceneTitle
 
             if not self._arcInnerFrame.winfo_manager():
-                self._arcInnerFrame.pack(pady=2, fill=tk.X)
+                self._arcInnerFrame.pack(pady=2, fill='x')
         else:
             if self._arcInnerFrame.winfo_manager():
                 self._arcInnerFrame.pack_forget()

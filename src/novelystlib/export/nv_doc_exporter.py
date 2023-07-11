@@ -130,11 +130,11 @@ class NvDocExporter(NvExporter):
         self._popup.grab_set()
         tk.Label(self._popup, text=message, bg='white').pack(ipadx=10, ipady=30)
         cancelButton = ttk.Button(self._popup, text=_('Cancel'), command=self._cancel)
-        cancelButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        cancelButton.pack(side='right', padx=5, pady=10)
         openButton = ttk.Button(self._popup, text=_('Open existing'), command=self._open_existing)
-        openButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        openButton.pack(side='right', padx=5, pady=10)
         overwriteButton = ttk.Button(self._popup, text=_('Overwrite'), command=self._export)
-        overwriteButton.pack(side=tk.RIGHT, padx=5, pady=10)
+        overwriteButton.pack(side='right', padx=5, pady=10)
         overwriteButton.focus_set()
 
     def _cancel(self):

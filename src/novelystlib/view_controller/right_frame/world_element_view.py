@@ -43,15 +43,15 @@ class WorldElementView(BasicView):
         super(). __init__(ui, parent)
 
         self._fullNameFrame = ttk.Frame(self._elementInfoWindow)
-        self._fullNameFrame.pack(anchor=tk.W, fill=tk.X)
+        self._fullNameFrame.pack(anchor='w', fill='x')
 
         # 'AKA' entry.
         self._aka = MyStringVar()
-        self._akaEntry = LabelEntry(self._elementInfoWindow, text=_('AKA'), textvariable=self._aka, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        self._akaEntry = LabelEntry(self._elementInfoWindow, text=_('AKA'), textvariable=self._aka, lblWidth=self._LBL_X).pack(anchor='w', pady=2)
 
         # 'Tags' entry.
         self._tags = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor='w', pady=2)
 
     def apply_changes(self):
         """Apply changes of element title, description and notes."""
@@ -102,14 +102,14 @@ class WorldElementView(BasicView):
     def _create_image_window(self):
         """Create a window for element specific information."""
         self._imageWindow = ttk.Frame(self._propertiesFrame)
-        self._imageWindow.pack(fill=tk.X)
-        ttk.Separator(self._imageWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        self._imageWindow.pack(fill='x')
+        ttk.Separator(self._imageWindow, orient='horizontal').pack(fill='x')
         self._img_show_button = ttk.Button(self._imageWindow, text=_('Show image'), command=self._show_image)
-        self._img_show_button.pack(side=tk.LEFT)
+        self._img_show_button.pack(side='left')
         self._img_select_button = ttk.Button(self._imageWindow, text=_('Select image'), command=self._select_image)
-        self._img_select_button.pack(side=tk.LEFT)
+        self._img_select_button.pack(side='left')
         self._img_clear_button = ttk.Button(self._imageWindow, text=_('Clear image'), command=self._clear_image)
-        self._img_clear_button.pack(side=tk.LEFT)
+        self._img_clear_button.pack(side='left')
 
     def _create_frames(self):
         """Template method for creating the frames in the right pane."""

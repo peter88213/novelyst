@@ -29,9 +29,9 @@ class NodeList(ttk.frame):
         self._ui = ui
         super().__init__(master, **kw)
         self.listbox = tk.Listbox(self)
-        self.listbox.pack(anchor=tk.W, fill=tk.X)
-        ttk.Button(self, text=pickBtnTxt, command=self._pick_node).pack(side=tk.LEFT, padx=1, pady=2)
-        ttk.Button(self, text=clearBtnTxt, command=self._clear_assignment).pack(side=tk.LEFT, padx=1, pady=2)
+        self.listbox.pack(anchor='w', fill='x')
+        ttk.Button(self, text=pickBtnTxt, command=self._pick_node).pack(side='left', padx=1, pady=2)
+        ttk.Button(self, text=clearBtnTxt, command=self._clear_assignment).pack(side='left', padx=1, pady=2)
 
     def _pick_node(self, command, subtree):
         """Enter the "pick node" selection mode.

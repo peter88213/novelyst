@@ -20,11 +20,11 @@ class PluginManager(tk.Toplevel):
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)
-        window.pack(fill=tk.BOTH, expand=True)
+        window.pack(fill='both', expand=True)
 
         columns = 'Module', 'Version', 'novelyst API', 'Description'
         self._moduleCollection = ttk.Treeview(window, columns=columns, show='headings', selectmode='browse')
-        self._moduleCollection.pack(fill=tk.BOTH, expand=True)
+        self._moduleCollection.pack(fill='both', expand=True)
         self._moduleCollection.bind('<<TreeviewSelect>>', self._on_select_module)
         self._moduleCollection.tag_configure('rejected', foreground='red')
         self._moduleCollection.tag_configure('inactive', foreground='gray')
@@ -62,21 +62,21 @@ class PluginManager(tk.Toplevel):
             self._moduleCollection.insert('', 'end', moduleName, values=columns, tags=tuple(nodeTags))
 
         # "Home page" button.
-        self._homeButton = ttk.Button(window, text=_('Home page'), command=self._open_home_page, state=tk.DISABLED)
-        self._homeButton.pack(padx=5, pady=5, side=tk.LEFT)
+        self._homeButton = ttk.Button(window, text=_('Home page'), command=self._open_home_page, state='disabled')
+        self._homeButton.pack(padx=5, pady=5, side='left')
 
         # "Delete" button.
-        self._deleteButton = ttk.Button(window, text=_('Delete'), command=self._delete_module, state=tk.DISABLED)
-        self._deleteButton.pack(padx=5, pady=5, side=tk.LEFT)
+        self._deleteButton = ttk.Button(window, text=_('Delete'), command=self._delete_module, state='disabled')
+        self._deleteButton.pack(padx=5, pady=5, side='left')
 
         # "Exit" button.
-        ttk.Button(window, text=_('Exit'), command=self.destroy).pack(padx=5, pady=5, side=tk.LEFT)
+        ttk.Button(window, text=_('Exit'), command=self.destroy).pack(padx=5, pady=5, side='left')
 
     def _delete_module(self, event=None):
         moduleName = self._moduleCollection.selection()[0]
         if moduleName:
             if self._ui.plugins.delete_file(moduleName):
-                self._deleteButton.configure(state=tk.DISABLED)
+                self._deleteButton.configure(state='disabled')
                 if self._ui.plugins[moduleName].isActive:
                     self._ui.show_info(_('The plugin remains active until next start.'), title=f'{moduleName} {_("deleted")}')
                 else:
@@ -84,17 +84,17 @@ class PluginManager(tk.Toplevel):
 
     def _on_select_module(self, event):
         moduleName = self._moduleCollection.selection()[0]
-        homeButtonState = tk.DISABLED
-        deleteButtonState = tk.DISABLED
+        homeButtonState = 'disabled'
+        deleteButtonState = 'disabled'
         if moduleName:
             try:
                 if self._ui.plugins[moduleName].URL:
-                    homeButtonState = tk.NORMAL
+                    homeButtonState = 'normal'
             except:
                 pass
             try:
                 if self._ui.plugins[moduleName].filePath:
-                    deleteButtonState = tk.NORMAL
+                    deleteButtonState = 'normal'
             except:
                 pass
         self._homeButton.configure(state=homeButtonState)

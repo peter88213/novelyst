@@ -142,13 +142,13 @@ class TreeViewer(ttk.Frame):
 
         # Create a novel tree.
         self.tree = ttk.Treeview(self, selectmode='extended')
-        scrollX = ttk.Scrollbar(self, orient=tk.HORIZONTAL, command=self.tree.xview)
-        scrollY = ttk.Scrollbar(self.tree, orient=tk.VERTICAL, command=self.tree.yview)
+        scrollX = ttk.Scrollbar(self, orient='horizontal', command=self.tree.xview)
+        scrollY = ttk.Scrollbar(self.tree, orient='vertical', command=self.tree.yview)
         self.tree.configure(xscrollcommand=scrollX.set)
         self.tree.configure(yscrollcommand=scrollY.set)
-        scrollX.pack(side=tk.BOTTOM, fill=tk.X)
-        scrollY.pack(side=tk.RIGHT, fill=tk.Y)
-        self.tree.pack(fill=tk.BOTH, expand=True)
+        scrollX.pack(side='bottom', fill='x')
+        scrollY.pack(side='right', fill='y')
+        self.tree.pack(fill='both', expand=True)
 
         #--- Add columns to the tree.
         self.configure_columns()

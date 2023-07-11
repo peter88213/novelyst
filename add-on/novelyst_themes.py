@@ -70,11 +70,11 @@ class LabelCombo(ttk.Frame):
 
     def __init__(self, parent, text, textvariable, values, lblWidth=10):
         super().__init__(parent)
-        self.pack(fill=tk.X)
+        self.pack(fill='x')
         self._label = ttk.Label(self, text=text, anchor=tk.W, width=lblWidth)
         self._label.pack(side=tk.LEFT)
         self._combo = ttk.Combobox(self, textvariable=textvariable, values=values)
-        self._combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self._combo.pack(side=tk.LEFT, fill='x', expand=True)
 
     def current(self):
         """Return the combobox selection."""
@@ -98,7 +98,7 @@ class SettingsWindow(tk.Toplevel):
         self.grab_set()
         self.focus()
         window = ttk.Frame(self)
-        window.pack(fill=tk.BOTH)
+        window.pack(fill='both')
 
         # Combobox for theme setting.
         theme = self._ui.guiStyle.theme_use()

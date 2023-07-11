@@ -44,13 +44,13 @@ class SceneView(BasicView):
 
         #--- 'Tags' entry.
         self._tags = MyStringVar()
-        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._elementInfoWindow, text=_('Tags'), textvariable=self._tags, lblWidth=self._LBL_X).pack(anchor='w', pady=2)
 
         #--- Frame for scene specific properties.
         self._sceneExtraFrame = ttk.Frame(self._elementInfoWindow)
-        self._sceneExtraFrame.pack(anchor=tk.W, fill=tk.X)
+        self._sceneExtraFrame.pack(anchor='w', fill='x')
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- Frame for 'Relationships'.
         self._relationFrame = FoldingFrame(self._elementInfoWindow, _('Relationships'), self._toggle_relationFrame)
@@ -58,7 +58,7 @@ class SceneView(BasicView):
         # 'Characters' window.
         self._crTitles = ''
         self._characterLabel = ttk.Label(self._relationFrame, text=_('Characters'))
-        self._characterLabel.pack(anchor=tk.W)
+        self._characterLabel.pack(anchor='w')
         self._characterWindow = TextBox(self._relationFrame,
                 wrap='word',
                 undo=True,
@@ -71,12 +71,12 @@ class SceneView(BasicView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._characterWindow.pack(fill=tk.X)
+        self._characterWindow.pack(fill='x')
 
         # 'Locations' window.
         self._lcTitles = ''
         self._locationLabel = ttk.Label(self._relationFrame, text=_('Locations'))
-        self._locationLabel.pack(anchor=tk.W)
+        self._locationLabel.pack(anchor='w')
         self._locationWindow = TextBox(self._relationFrame,
                 wrap='word',
                 undo=True,
@@ -89,12 +89,12 @@ class SceneView(BasicView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._locationWindow.pack(fill=tk.X)
+        self._locationWindow.pack(fill='x')
 
         # 'Items' window.
         self._itTitles = ''
         self._itemLabel = ttk.Label(self._relationFrame, text=_('Items'))
-        self._itemLabel.pack(anchor=tk.W)
+        self._itemLabel.pack(anchor='w')
         self._itemWindow = TextBox(self._relationFrame,
                 wrap='word',
                 undo=True,
@@ -107,7 +107,7 @@ class SceneView(BasicView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._itemWindow.pack(fill=tk.X)
+        self._itemWindow.pack(fill='x')
 
     def apply_changes(self):
         """Apply changes.

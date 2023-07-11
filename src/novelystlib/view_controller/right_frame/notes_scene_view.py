@@ -44,76 +44,76 @@ class NotesSceneView(SceneView):
         """
         super(). __init__(ui, parent)
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- Frame for date/time/duration.
         self._dateTimeFrame = FoldingFrame(self._elementInfoWindow, _('Date/Time'), self._toggle_dateTimeFrame)
         sceneStartFrame = ttk.Frame(self._dateTimeFrame)
-        sceneStartFrame.pack(fill=tk.X)
-        ttk.Label(sceneStartFrame, text=_('Start')).pack(anchor=tk.W)
+        sceneStartFrame.pack(fill='x')
+        ttk.Label(sceneStartFrame, text=_('Start')).pack(anchor='w')
 
         # 'Start date' entry.
         self._startDate = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Date'),
                    textvariable=self._startDate,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Start time' entry.
         self._startTime = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Time'),
                    textvariable=self._startTime,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Start day' entry.
         self._startDay = MyStringVar()
         LabelEntry(sceneStartFrame,
                    text=_('Day'),
                    textvariable=self._startDay,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Clear date/time' button.
         ttk.Button(sceneStartFrame,
                    text=_('Clear date/time'),
-                   command=self._clear_start).pack(side=tk.LEFT, padx=1)
+                   command=self._clear_start).pack(side='left', padx=1)
 
         # 'Generate' button.
         ttk.Button(sceneStartFrame,
                    text=_('Generate'),
-                   command=self._auto_set).pack(side=tk.LEFT, padx=1, pady=2)
+                   command=self._auto_set).pack(side='left', padx=1, pady=2)
 
-        ttk.Separator(self._dateTimeFrame, orient=tk.HORIZONTAL).pack(fill=tk.X, pady=2)
+        ttk.Separator(self._dateTimeFrame, orient='horizontal').pack(fill='x', pady=2)
 
         sceneDurationFrame = ttk.Frame(self._dateTimeFrame)
-        sceneDurationFrame.pack(fill=tk.X)
-        ttk.Label(sceneDurationFrame, text=_('Duration')).pack(anchor=tk.W)
+        sceneDurationFrame.pack(fill='x')
+        ttk.Label(sceneDurationFrame, text=_('Duration')).pack(anchor='w')
 
         # 'Duration days' entry.
         self._lastsDays = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Days'),
                    textvariable=self._lastsDays,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Duration hours' entry.
         self._lastsHours = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Hours'),
                    textvariable=self._lastsHours,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Duration minutes' entry.
         self._lastsMinutes = MyStringVar()
         LabelEntry(sceneDurationFrame,
                    text=_('Minutes'),
                    textvariable=self._lastsMinutes,
-                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor=tk.W)
+                   lblWidth=self._DATE_TIME_LBL_X).pack(anchor='w')
 
         # 'Clear duration' button.
         ttk.Button(sceneDurationFrame,
                    text=_('Clear duration'),
-                   command=self._clear_duration).pack(side=tk.LEFT, padx=1, pady=2)
+                   command=self._clear_duration).pack(side='left', padx=1, pady=2)
 
     def apply_changes(self):
         """Apply changes.

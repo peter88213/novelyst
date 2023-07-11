@@ -17,11 +17,11 @@ class LabelCombo(ttk.Frame):
 
     def __init__(self, parent, text, textvariable, values, lblWidth=10):
         super().__init__(parent)
-        self.pack(fill=tk.X)
-        self._label = ttk.Label(self, text=text, anchor=tk.W, width=lblWidth)
-        self._label.pack(side=tk.LEFT)
+        self.pack(fill='x')
+        self._label = ttk.Label(self, text=text, anchor='w', width=lblWidth)
+        self._label.pack(side='left')
         self._combo = ttk.Combobox(self, textvariable=textvariable, values=values)
-        self._combo.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self._combo.pack(side='left', fill='x', expand=True)
 
     def current(self):
         """Return the combobox selection."""

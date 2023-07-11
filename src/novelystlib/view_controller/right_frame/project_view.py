@@ -43,12 +43,12 @@ class ProjectView(BasicView):
         self._authorName = MyStringVar()
         LabelEntry(self._elementInfoWindow, text=_('Author'), textvariable=self._authorName, lblWidth=20).pack(anchor='w')
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- "Language settings" frame.
         self._languageFrame = FoldingFrame(self._elementInfoWindow, _('Document language'), self._toggle_languageFrame)
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         # Language and country code.
         self._languageCode = MyStringVar()
@@ -61,7 +61,7 @@ class ProjectView(BasicView):
         #--- "Auto numbering" frame.
         self._numberingFrame = FoldingFrame(self._elementInfoWindow, _('Auto numbering'), self._toggle_numberingFrame)
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         # 'Auto number chapters...' checkbox.
         self._renChapters = tk.BooleanVar(value=False)
@@ -110,7 +110,7 @@ class ProjectView(BasicView):
         #--- "Renamings" frame.
         self._renamingsFrame = FoldingFrame(self._elementInfoWindow, _('Renamings'), self._toggle_renamingsFrame)
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         # 'Custom Goal' checkbox.
         self._customGoal = MyStringVar()
@@ -127,7 +127,7 @@ class ProjectView(BasicView):
         LabelEntry(self._renamingsFrame, text=_('Custom Outcome'),
                    textvariable=self._customOutcome, lblWidth=20).pack(anchor='w')
 
-        ttk.Separator(self._renamingsFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._renamingsFrame, orient='horizontal').pack(fill='x')
 
         # 'Custom Bio' entry.
         self._customChrBio = MyStringVar()
@@ -147,7 +147,7 @@ class ProjectView(BasicView):
         ttk.Checkbutton(self._progressFrame, text=_('Log writing progress'),
                         variable=self._saveWordCount, onvalue=True, offvalue=False).pack(anchor='w')
 
-        ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._progressFrame, orient='horizontal').pack(fill='x')
 
         # 'Words to write' entry.
         self._wordTarget = tk.IntVar()
@@ -170,7 +170,7 @@ class ProjectView(BasicView):
         LabelDisp(self._progressFrame, text=_('Words written'),
                   textvariable=self._wordsWritten, lblWidth=20).pack(anchor='w')
 
-        ttk.Separator(self._progressFrame, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._progressFrame, orient='horizontal').pack(fill='x')
 
         self._totalUsed = MyStringVar()
         LabelDisp(self._progressFrame, text=_('Used'),
@@ -200,12 +200,12 @@ class ProjectView(BasicView):
         #--- 'phase' combobox.
         self._phase = MyStringVar()
         self._phaseCombobox = LabelCombo(self._progressFrame, lblWidth=20, text=_('Work phase'), textvariable=self._phase, values=[])
-        self._phaseCombobox.pack(anchor=tk.W)
+        self._phaseCombobox.pack(anchor='w')
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- "Apply changes" button.
-        ttk.Button(self._elementInfoWindow, text=_('Apply changes'), command=self.apply_changes).pack(pady=5, padx=5, fill=tk.X, expand=True)
+        ttk.Button(self._elementInfoWindow, text=_('Apply changes'), command=self.apply_changes).pack(pady=5, padx=5, fill='x', expand=True)
 
         #--- Cover display
         self._coverFile = None

@@ -41,16 +41,16 @@ class ContentsViewer(RichTextYw):
 
         super().__init__(parent, **kwargs)
         self.showMarkup = tk.BooleanVar(parent, value=kwargs['show_markup'])
-        ttk.Checkbutton(parent, text=_('Show markup'), variable=self.showMarkup).pack(anchor=tk.W)
+        ttk.Checkbutton(parent, text=_('Show markup'), variable=self.showMarkup).pack(anchor='w')
         self.showMarkup.trace('w', self.update)
         self._textMarks = {}
         self._index = '1.0'
 
     def reset_view(self):
         """Clear the text box."""
-        self.config(state=tk.NORMAL)
-        self.delete('1.0', tk.END)
-        self.config(state=tk.DISABLED)
+        self.config(state='normal')
+        self.delete('1.0', 'end')
+        self.config(state='disabled')
 
     def see(self, idStr):
         """Scroll the text to the position of the idStr node.
@@ -142,16 +142,16 @@ class ContentsViewer(RichTextYw):
         if not taggedText:
             taggedText.append(('(No text available)', RichTextYw.ITALIC_TAG))
         self._textMarks = {}
-        self.config(state=tk.NORMAL)
-        self.delete('1.0', tk.END)
+        self.config(state='normal')
+        self.delete('1.0', 'end')
         for entry in taggedText:
             if len(entry) == 2:
                 # entry is a regular (text, tag) tuple.
                 text, tag = entry
-                self.insert(tk.END, text, tag)
+                self.insert('end', text, tag)
             else:
                 # entry is a mark to insert.
-                index = f"{self.count('1.0', tk.END, 'lines')[0]}.0"
+                index = f"{self.count('1.0', 'end', 'lines')[0]}.0"
                 self._textMarks[entry] = index
-        self.config(state=tk.DISABLED)
+        self.config(state='disabled')
 

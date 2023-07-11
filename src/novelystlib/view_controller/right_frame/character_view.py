@@ -45,9 +45,9 @@ class CharacterView(WorldElementView):
 
         #--- 'Full name' entry.
         self._fullName = MyStringVar()
-        LabelEntry(self._fullNameFrame, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor=tk.W, pady=2)
+        LabelEntry(self._fullNameFrame, text=_('Full name'), textvariable=self._fullName, lblWidth=self._LBL_X).pack(anchor='w', pady=2)
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- 'Bio' entry
         self._bioFrame = FoldingFrame(self._elementInfoWindow, '', self._toggle_bioWindow)
@@ -64,9 +64,9 @@ class CharacterView(WorldElementView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._bioEntry.pack(fill=tk.X)
+        self._bioEntry.pack(fill='x')
 
-        ttk.Separator(self._elementInfoWindow, orient=tk.HORIZONTAL).pack(fill=tk.X)
+        ttk.Separator(self._elementInfoWindow, orient='horizontal').pack(fill='x')
 
         #--- 'Goals' entry.
         self._goalsFrame = FoldingFrame(self._elementInfoWindow, '', self._toggle_goalsWindow)
@@ -83,7 +83,7 @@ class CharacterView(WorldElementView):
                 fg=ui.kwargs['color_text_fg'],
                 insertbackground=ui.kwargs['color_text_fg'],
                 )
-        self._goalsEntry.pack(fill=tk.X)
+        self._goalsEntry.pack(fill='x')
 
     def apply_changes(self):
         """Apply changes.
