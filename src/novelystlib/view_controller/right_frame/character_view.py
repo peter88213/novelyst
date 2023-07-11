@@ -26,12 +26,6 @@ class CharacterView(WorldElementView):
         apply_changes() -- Apply changes.   
         set_data() -- Update the view with element's data.
     """
-    _INDEXCARD = True
-    _ELEMENT_INFO = True
-    _IMAGE = True
-    _NOTES = True
-    _BUTTONBAR = True
-
     _LBL_X = 15
     # Width of left-placed labels.
 
