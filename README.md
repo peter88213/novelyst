@@ -4,6 +4,10 @@
 
 For more information, see the [project homepage](https://peter88213.github.io/novelyst) with description and download instructions.
 
+## Feedback? Ideas? Feature requests?
+
+You can go to the ["discussions" forum](https://github.com/peter88213/novelyst/discussions) and start a thread.
+
 # Contributing
 
 ## How to provide translations
