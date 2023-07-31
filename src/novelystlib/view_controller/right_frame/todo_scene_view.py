@@ -57,8 +57,9 @@ class TodoSceneView(SceneView):
         self._sceneFrame.pack(anchor='w', fill='x')
         self._associatedSceneTitle = tk.Label(self._sceneFrame, anchor='w', bg='white')
         self._associatedSceneTitle.pack(anchor='w', pady=2, fill='x')
-        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side='left', padx=1, pady=2)
-        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side='left', padx=1, pady=2)
+        ttk.Button(self._sceneFrame, text=_('Assign scene'), command=self._pick_scene).pack(side='left', fill='x', expand=True)
+        ttk.Button(self._sceneFrame, text=_('Clear assignment'), command=self._clear_assignment).pack(side='left', fill='x', expand=True)
+        ttk.Button(self._sceneFrame, text=_('Go to scene'), command=self._select_assigned_scene).pack(side='left', fill='x', expand=True)
 
     def apply_changes(self):
         """Apply changes.
@@ -136,15 +137,20 @@ class TodoSceneView(SceneView):
         self._ui.tv.tree.selection_set(self._lastSelected)
 
     def _clear_assignment(self):
-        """Unassign a scene from the Arc point
-        
-        Get the ID of a "normal" scene selected by the user. 
-        """
-        self._associatedScene = None
-        self.apply_changes()
-        self.set_data(self._element)
-        self._ui.tv.tree.see(self._lastSelected)
-        self._ui.tv.tree.selection_set(self._lastSelected)
+        """Unassign a scene from the Arc point."""
+        if self._associatedScene is not None:
+            self._associatedScene = None
+            self.apply_changes()
+            self.set_data(self._element)
+            self._ui.tv.tree.see(self._lastSelected)
+            self._ui.tv.tree.selection_set(self._lastSelected)
+
+    def _select_assigned_scene(self):
+        """Select the scene assigned to the arc point."""
+        if self._associatedScene is not None:
+            targetNode = f'{self._ui.tv.SCENE_PREFIX}{self._associatedScene}'
+            self._ui.tv.tree.see(targetNode)
+            self._ui.tv.tree.selection_set(targetNode)
 
     def _pick_scene(self):
         """Enter the "associate scene" selection mode.

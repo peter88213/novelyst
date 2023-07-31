@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.32.0
+
+- Add a "Go to associated scene" to the "Arc point" properties.
+- Clear associated scene only if not None.
+
+Based on PyWriter v12.13.6
+
 ### v4.31.1
 
 - Refactor the code for performance improvement.
