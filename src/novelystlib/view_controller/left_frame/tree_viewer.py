@@ -14,6 +14,7 @@ from pywriter.model.character import Character
 from pywriter.model.world_element import WorldElement
 from pywriter.model.basic_element import BasicElement
 from pywriter.model.id_generator import create_id
+from novelystlib.view_controller.left_frame.history_list import HistoryList
 
 
 class TreeViewer(ttk.Frame):
@@ -242,8 +243,11 @@ class TreeViewer(ttk.Frame):
         self.tree.tag_configure('Behind_schedule', foreground=kwargs['color_behind_schedule'])
         self.tree.tag_configure('Before_schedule', foreground=kwargs['color_before_schedule'])
 
+        #--- Browsing history.
+        self._history = HistoryList()
+
         #--- Event bindings.
-        self.tree.bind('<<TreeviewSelect>>', self._ui.show_properties)
+        self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self.tree.bind('<Alt-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
         self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
@@ -1253,6 +1257,12 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.chapters[elemId].chLevel = 0
             self.update_prj_structure()
             self.refresh_tree()
+
+    def _on_select_node(self, event=None):
+        self._ui.show_properties(event)
+        nodeId = self.tree.selection()[0]
+        self._history.append_node(nodeId)
+        print(self._history.get_node())
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""
