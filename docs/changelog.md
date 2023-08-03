@@ -8,7 +8,7 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
-### v4.33.0
+### v4.33.1
 
 - Tree browsing history implemented.
 
