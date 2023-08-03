@@ -50,6 +50,7 @@ class TreeViewer(ttk.Frame):
         configure_columns() -- Determine the order of the columnns
         go_back() -- Select a node back in the tree browsing history.
         go_forward() --  Select a node forward in the tree browsing history.
+        go_to_node(node) -- Select and view a node.
         join_scenes() -- Join the selected scene with the previous one.
         next_node(thisNode, root) -- Return the next node ID of the same element type as thisNode.
         on_quit() -- Write column width to the applicaton's keyword arguments.
@@ -318,8 +319,7 @@ class TreeViewer(ttk.Frame):
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
         self.refresh_tree()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return chId
 
     def add_character(self, **kwargs):
@@ -365,8 +365,7 @@ class TreeViewer(ttk.Frame):
         title, columns, nodeTags = self._set_character_display(crId)
         self.tree.insert(self.CR_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return crId
 
     def add_item(self, **kwargs):
@@ -409,8 +408,7 @@ class TreeViewer(ttk.Frame):
         title, columns, nodeTags = self._set_item_display(itId)
         self.tree.insert(self.IT_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return itId
 
     def add_location(self, **kwargs):
@@ -453,8 +451,7 @@ class TreeViewer(ttk.Frame):
         title, columns, nodeTags = self._set_location_display(lcId)
         self.tree.insert(self.LC_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return lcId
 
     def add_other_element(self):
@@ -540,8 +537,7 @@ class TreeViewer(ttk.Frame):
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
         self.refresh_tree()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return chId
 
     def add_project_note(self, **kwargs):
@@ -581,8 +577,7 @@ class TreeViewer(ttk.Frame):
         title, columns, nodeTags = self._set_prjNote_display(pnId)
         self.tree.insert(self.PN_ROOT, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return pnId
 
     def add_scene(self, **kwargs):
@@ -641,8 +636,7 @@ class TreeViewer(ttk.Frame):
         title, columns, nodeTags = self._set_scene_display(scId)
         self.tree.insert(parent, index, newNode, text=title, values=columns, tags=nodeTags)
         self.update_prj_structure()
-        self.tree.selection_set(newNode)
-        self.tree.see(newNode)
+        self.go_to_node(newNode)
         return scId
 
     def build_tree(self):
@@ -740,7 +734,7 @@ class TreeViewer(ttk.Frame):
             title, columns, nodeTags = self._set_prjNote_display(pnId)
             self.tree.insert(self.PN_ROOT, 'end', f'{self.PRJ_NOTE_PREFIX}{pnId}', text=title, values=columns, tags=nodeTags)
 
-        self.tree.selection_set(self.NV_ROOT)
+        self.go_to_node(self.NV_ROOT)
 
     def close_children(self, parent):
         """Recursively close children nodes.
@@ -795,8 +789,7 @@ class TreeViewer(ttk.Frame):
             if self.tree.selection()[0] != newNode:
                 # print(f'Back to: {newNode}')
                 self._history.lock()
-                self.tree.selection_set(newNode)
-                self.tree.see(newNode)
+                self.go_to_node(newNode)
         else:
             self._history.reset()
             self._history.append_node(self.tree.selection()[0])
@@ -808,11 +801,17 @@ class TreeViewer(ttk.Frame):
             if self.tree.selection()[0] != newNode:
                 # print(f'Forward to: {newNode}')
                 self._history.lock()
-                self.tree.selection_set(newNode)
-                self.tree.see(newNode)
+                self.go_to_node(newNode)
         else:
             self._history.reset()
             self._history.append_node(self.tree.selection()[0])
+
+    def go_to_node(self, node):
+        """Select and view a node."""
+        self.tree.focus_set()
+        self.tree.selection_set(node)
+        self.tree.focus(node)
+        self.tree.see(node)
 
     def join_scenes(self):
         """Join the selected scene with the previous one."""
@@ -949,7 +948,7 @@ class TreeViewer(ttk.Frame):
         # Delete selected scene instance.
         del(self._ui.novel.scenes[thisScId])
         self.update_prj_structure()
-        self.tree.selection_set(prevNode)
+        self.go_to_node(prevNode)
 
     def next_node(self, thisNode, root):
         """Return the next node ID  of the same element type as thisNode.
@@ -1140,9 +1139,9 @@ class TreeViewer(ttk.Frame):
         elemId = selection[2:]
         if self._ui.ask_yes_no(_('Remove part "{}" and keep the chapters?').format(self._ui.novel.chapters[elemId].title)):
             if self.tree.prev(selection):
-                self.tree.selection_set(self.tree.prev(selection))
+                self.go_to_node(self.tree.prev(selection))
             else:
-                self.tree.selection_set(self.tree.parent(selection))
+                self.go_to_node(self.tree.parent(selection))
             self._ui.novel.chapters[elemId].chLevel = 0
             self.update_prj_structure()
             self.refresh_tree()
@@ -1201,9 +1200,9 @@ class TreeViewer(ttk.Frame):
                 return
 
             if self.tree.prev(selection):
-                self.tree.selection_set(self.tree.prev(selection))
+                self.tree.go_to_node(self.tree.prev(selection))
             else:
-                self.tree.selection_set(self.tree.parent(selection))
+                self.tree.go_to_node(self.tree.parent(selection))
             if selection == self._trashNode:
                 # Remove the "trash bin".
                 self.tree.delete(selection)
@@ -1315,8 +1314,7 @@ class TreeViewer(ttk.Frame):
     def _open_context_menu(self, event):
         row = self.tree.identify_row(event.y)
         if row:
-            self.tree.focus_set()
-            self.tree.selection_set(row)
+            self.go_to_node(row)
             prefix = row[:2]
             if prefix in (self.NV_ROOT, self.RS_ROOT, self.PL_ROOT, self.PART_PREFIX, self.CHAPTER_PREFIX, self.SCENE_PREFIX):
                 # Context is within the "Book" or the "Research" subtree.

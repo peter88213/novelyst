@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.34.0
+
+- Make going back/forward compatible with arrow key browsing.
+- Extend API: TreeViewer.go_to_node()
+
+Based on PyWriter v12.13.6
+
 ### v4.33.3
 
 - Do not select the same node repeatedly when going through the history.
