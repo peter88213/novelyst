@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import sys
+import platform
 import webbrowser
 from tkinter import ttk
 from tkinter import filedialog
@@ -133,6 +134,8 @@ class NovelystTk(MainTk):
     _KEY_TOGGLE_VIEWER = ('<Control-t>', 'Ctrl-T')
     _KEY_TOGGLE_PROPERTIES = ('<Control-Alt-t>', 'Ctrl-Alt-T')
     _KEY_DETACH_PROPERTIES = ('<Control-Alt-d>', 'Ctrl-Alt-D')
+    _KEY_GO_BACK = ('<F11>', 'F11')
+    _KEY_GO_FORWARD = ('<F12>', 'F12')
 
     _YW_CLASS = WorkFile
 
@@ -369,6 +372,11 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_TOGGLE_VIEWER[0], self.toggle_viewer)
         self.root.bind(self._KEY_TOGGLE_PROPERTIES[0], self.toggle_properties)
         self.root.bind(self._KEY_DETACH_PROPERTIES[0], self.toggle_properties_window)
+        self.root.bind(self._KEY_GO_BACK[0], self.tv.go_back)
+        self.root.bind(self._KEY_GO_FORWARD[0], self.tv.go_forward)
+        if platform.system() == 'Windows':
+            self.root.bind('<4>', self.tv.go_back)
+            self.root.bind('<5>', self.tv.go_forward)
 
     @property
     def isModified(self):

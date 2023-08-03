@@ -48,6 +48,8 @@ class TreeViewer(ttk.Frame):
         build_tree() -- Create and display the tree.
         close_children(parent) -- Recursively close children nodes.
         configure_columns() -- Determine the order of the columnns
+        go_back() -- Select a node back in the tree browsing history.
+        go_forward() --  Select a node forward in the tree browsing history.
         join_scenes() -- Join the selected scene with the previous one.
         next_node(thisNode, root) -- Return the next node ID of the same element type as thisNode.
         on_quit() -- Write column width to the applicaton's keyword arguments.
@@ -786,6 +788,28 @@ class TreeViewer(ttk.Frame):
             self.tree.column(column[1], width=int(self._ui.kwargs[column[2]]), minwidth=3, stretch=False)
         self.tree.column('#0', width=int(self._ui.kwargs['title_width']), stretch=False)
 
+    def go_back(self, event=None):
+        """Select a node back in the tree browsing history."""
+        newNode = self._history.go_back()
+        if self.tree.exists(newNode):
+            # print(f'Back to: {newNode}')
+            self._history.lock()
+            self.tree.selection_set(newNode)
+            self.tree.see(newNode)
+        else:
+            self._history.remove_node(newNode)
+
+    def go_forward(self, event=None):
+        """Select a node forward in the tree browsing history."""
+        newNode = self._history.go_forward()
+        if self.tree.exists(newNode):
+            # print(f'Forward to: {newNode}')
+            self._history.lock()
+            self.tree.selection_set(newNode)
+            self.tree.see(newNode)
+        else:
+            self._history.remove_node(newNode)
+
     def join_scenes(self):
         """Join the selected scene with the previous one."""
 
@@ -1008,6 +1032,7 @@ class TreeViewer(ttk.Frame):
         """Clear the displayed tree."""
         for child in self.tree.get_children(''):
             self.tree.delete(child)
+        self._history.reset()
 
     def show_chapters(self, parent):
         """Open Book/Part nodes and close chapter nodes.
@@ -1262,7 +1287,6 @@ class TreeViewer(ttk.Frame):
         self._ui.show_properties(event)
         nodeId = self.tree.selection()[0]
         self._history.append_node(nodeId)
-        print(self._history.get_node())
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""

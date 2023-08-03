@@ -32,6 +32,15 @@ The project tree in the left pane shows the organization of the project.
 
 ---
 
+#### Browse the tree
+
+- **F11** selects a node back in the tree browsing history.
+- **F12** selects a node forward in the tree browsing history.
+
+On Windows, the "Forward" and "Back" mouse buttons (if any) may also work.
+
+---
+
 #### Move parts, chapters, and scenes
 
 Drag and drop while pressing the **Alt** key. Be aware, there is no "Undo" feature. 
