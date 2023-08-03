@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.33.2
+
+- Reset the history when trying to go to a deleted node.
+
+Based on PyWriter v12.13.6
+
 ### v4.33.1
 
 - Tree browsing history implemented.

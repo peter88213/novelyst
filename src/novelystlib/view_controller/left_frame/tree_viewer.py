@@ -797,7 +797,8 @@ class TreeViewer(ttk.Frame):
             self.tree.selection_set(newNode)
             self.tree.see(newNode)
         else:
-            self._history.remove_node(newNode)
+            self._history.reset()
+            self._history.append_node(self.tree.selection()[0])
 
     def go_forward(self, event=None):
         """Select a node forward in the tree browsing history."""
@@ -808,7 +809,8 @@ class TreeViewer(ttk.Frame):
             self.tree.selection_set(newNode)
             self.tree.see(newNode)
         else:
-            self._history.remove_node(newNode)
+            self._history.reset()
+            self._history.append_node(self.tree.selection()[0])
 
     def join_scenes(self):
         """Join the selected scene with the previous one."""

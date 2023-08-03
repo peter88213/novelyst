@@ -14,7 +14,6 @@ class HistoryList:
         go_back() -- Return a node back in the tree browsing history.
         go_forward() --  Return a node forward in the tree browsing history.
         lock() -- Prevent the history list from being extended.
-        remove_node(node) -- Remove all elements pointing to the node in the list.
         reset() -- Clear the browsing history.
     """
 
@@ -57,16 +56,6 @@ class HistoryList:
         This may be necessary when going back or forward.
         """
         self._lock = True
-
-    def remove_node(self, node):
-        """Remove all elements pointing to the node in the list.
-        
-        Set the browsing pointer to the end of the modified list. 
-        """
-        if node in self._historyList:
-            self._historyList = [x for x in self._historyList if x != node]
-            self._pointer = len(self._historyList) - 1
-        # print(self._historyList[self._pointer])
 
     def reset(self):
         """Clear the browsing history."""
