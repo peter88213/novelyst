@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.34.1
+
+- Fix a regression from v4.34.0 where nodes cannot be deleted.
+
+Based on PyWriter v12.13.6
+
 ### v4.34.0
 
 - Make going back/forward compatible with arrow key browsing.

@@ -1200,9 +1200,9 @@ class TreeViewer(ttk.Frame):
                 return
 
             if self.tree.prev(selection):
-                self.tree.go_to_node(self.tree.prev(selection))
+                self.go_to_node(self.tree.prev(selection))
             else:
-                self.tree.go_to_node(self.tree.parent(selection))
+                self.go_to_node(self.tree.parent(selection))
             if selection == self._trashNode:
                 # Remove the "trash bin".
                 self.tree.delete(selection)
