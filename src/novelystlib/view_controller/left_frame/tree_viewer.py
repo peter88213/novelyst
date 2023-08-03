@@ -792,10 +792,11 @@ class TreeViewer(ttk.Frame):
         """Select a node back in the tree browsing history."""
         newNode = self._history.go_back()
         if self.tree.exists(newNode):
-            # print(f'Back to: {newNode}')
-            self._history.lock()
-            self.tree.selection_set(newNode)
-            self.tree.see(newNode)
+            if self.tree.selection()[0] != newNode:
+                # print(f'Back to: {newNode}')
+                self._history.lock()
+                self.tree.selection_set(newNode)
+                self.tree.see(newNode)
         else:
             self._history.reset()
             self._history.append_node(self.tree.selection()[0])
@@ -804,10 +805,11 @@ class TreeViewer(ttk.Frame):
         """Select a node forward in the tree browsing history."""
         newNode = self._history.go_forward()
         if self.tree.exists(newNode):
-            # print(f'Forward to: {newNode}')
-            self._history.lock()
-            self.tree.selection_set(newNode)
-            self.tree.see(newNode)
+            if self.tree.selection()[0] != newNode:
+                # print(f'Forward to: {newNode}')
+                self._history.lock()
+                self.tree.selection_set(newNode)
+                self.tree.see(newNode)
         else:
             self._history.reset()
             self._history.append_node(self.tree.selection()[0])
