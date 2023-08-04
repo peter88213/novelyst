@@ -48,6 +48,54 @@
 
 --- 
 
+## View Book
+
+**Go to the "Book" branch and expand it**
+
+- You can select and open the "Book" branch with **View > View Book** or **Home**. 
+
+--- 
+
+## View Characters
+
+**Go to the "Characters" branch and expand it**
+
+- You can select and open the "Characters" branch with **View > View Characters** or **F6**. 
+
+--- 
+
+## View Locations
+
+**Go to the "Locations" branch and expand it**
+
+- You can select and open the "Locations" branch with **View > View Locations** or **F7*. 
+
+--- 
+
+## View Items
+
+**Go to the "Items" branch and expand it**
+
+- You can select and open the "Items" branch with **View > View Items** or **F8**. 
+
+--- 
+
+## View Research
+
+**Go to the "Research" branch and expand it**
+
+- You can select and open the "Research" branch with **View > View Research** or **F9**. 
+
+--- 
+
+## View Planning
+
+**Go to the "Planning" branch and expand it**
+
+- You can select and open the "Planning" branch with **View > View Planning** or **F10**. 
+
+--- 
+
 ## Toggle Text viewer
 
 **Show/hide the whole novel**

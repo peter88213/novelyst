@@ -58,6 +58,7 @@ class TreeViewer(ttk.Frame):
         prev_node(thisNode, root) -- Return the previous node ID of the same element type as thisNode.
         refresh_tree() -- Display the tree nodes regarding the way they are read from the file.
         reset_tree() -- Clear the displayed tree.
+        show_branch(node) -- Go to node and open children.
         show_chapters(parent) -- Open Narrative/Part nodes and close chapter nodes.
         update_prj_structure() -- Iterate the tree and rebuild the sorted lists.
                 
@@ -808,10 +809,10 @@ class TreeViewer(ttk.Frame):
 
     def go_to_node(self, node):
         """Select and view a node."""
-        self.tree.focus_set()
-        self.tree.selection_set(node)
-        self.tree.focus(node)
         self.tree.see(node)
+        self.tree.selection_set(node)
+        self.tree.focus_set()
+        self.tree.focus(node)
 
     def join_scenes(self):
         """Join the selected scene with the previous one."""
@@ -1036,6 +1037,11 @@ class TreeViewer(ttk.Frame):
         for child in self.tree.get_children(''):
             self.tree.delete(child)
         self._history.reset()
+
+    def show_branch(self, node):
+        """Go to node and open children."""
+        self.go_to_node(node)
+        self.open_children(node)
 
     def show_chapters(self, parent):
         """Open Book/Part nodes and close chapter nodes.

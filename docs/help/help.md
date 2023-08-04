@@ -5,7 +5,7 @@
 # Online help
 
 This page refers to the latest *novelyst* release.
-You can open it with **Help > Online help**.
+You can open it with **Help > Online help** or **F1**.
 
 --- 
 

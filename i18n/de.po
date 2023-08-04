@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.34.1\n"
-"POT-Creation-Date: 2023-08-03 22:32:30\n"
-"PO-Revision-Date: 2023-08-03 22:32:30\n"
+"Project-Id-Version: 4.35.0\n"
+"POT-Creation-Date: 2023-08-04 10:43:25\n"
+"PO-Revision-Date: 2023-08-04 10:43:25\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -319,6 +319,9 @@ msgstr "Dauer"
 msgid "Editable manuscript"
 msgstr "Manuskript zum Bearbeiten"
 
+msgid "End"
+msgstr "Ende"
+
 msgid "Exit"
 msgstr "Beenden"
 
@@ -405,6 +408,9 @@ msgstr "Ziele"
 
 msgid "Help"
 msgstr "Hilfe"
+
+msgid "Home"
+msgstr "Pos1"
 
 msgid "Home page"
 msgstr "Homepage"
@@ -723,6 +729,27 @@ msgstr "Typ wählen"
 
 msgid "Set actual wordcount as start"
 msgstr "Aktuelle Wortzahl als Anfangswert setzen"
+
+msgid "Show Book"
+msgstr "Buch anzeigen"
+
+msgid "Show Characters"
+msgstr "Figuren anzeigen"
+
+msgid "Show Items"
+msgstr "Gegenstände anzeigen"
+
+msgid "Show Locations"
+msgstr "Schauplätze anzeigen"
+
+msgid "Show Planning"
+msgstr "Planung anzeigen"
+
+msgid "Show Project notes"
+msgstr "Projektnotizen anzeigen"
+
+msgid "Show Research"
+msgstr "Recherche anzeigen"
 
 msgid "Show image"
 msgstr "Bild anzeigen"

@@ -135,6 +135,14 @@ class NovelystTk(MainTk):
     _KEY_DETACH_PROPERTIES = ('<Control-Alt-d>', 'Ctrl-Alt-D')
     _KEY_GO_BACK = ('<F11>', 'F11')
     _KEY_GO_FORWARD = ('<F12>', 'F12')
+    _KEY_SHOW_BOOK = (f'<Home>', f'{_("Home")}')
+    _KEY_SHOW_CHARACTERS = ('<F6>', 'F6')
+    _KEY_SHOW_LOCATIONS = ('<F7>', 'F7')
+    _KEY_SHOW_ITEMS = ('<F8>', 'F8')
+    _KEY_SHOW_RESEARCH = ('<F9>', 'F9')
+    _KEY_SHOW_PLANNING = ('<F10>', 'F10')
+    _KEY_SHOW_PROJECTNOTES = (f'<End>', f'{_("End")}')
+    _KEY_SHOW_HELP = ('<F1>', 'F1')
 
     _YW_CLASS = WorkFile
 
@@ -242,6 +250,14 @@ class NovelystTk(MainTk):
         self.viewMenu.add_command(label=_('Expand all'), command=lambda: self.tv.open_children(''))
         self.viewMenu.add_command(label=_('Collapse all'), command=lambda: self.tv.close_children(''))
         self.viewMenu.add_separator()
+        self.viewMenu.add_command(label=_('Show Book'), accelerator=self._KEY_SHOW_BOOK[1], command=lambda: self.tv.show_branch(self.tv.NV_ROOT))
+        self.viewMenu.add_command(label=_('Show Characters'), accelerator=self._KEY_SHOW_CHARACTERS[1], command=lambda: self.tv.show_branch(self.tv.CR_ROOT))
+        self.viewMenu.add_command(label=_('Show Locations'), accelerator=self._KEY_SHOW_LOCATIONS[1], command=lambda: self.tv.show_branch(self.tv.LC_ROOT))
+        self.viewMenu.add_command(label=_('Show Items'), accelerator=self._KEY_SHOW_ITEMS[1], command=lambda: self.tv.show_branch(self.tv.IT_ROOT))
+        self.viewMenu.add_command(label=_('Show Research'), accelerator=self._KEY_SHOW_RESEARCH[1], command=lambda: self.tv.show_branch(self.tv.RS_ROOT))
+        self.viewMenu.add_command(label=_('Show Planning'), accelerator=self._KEY_SHOW_PLANNING[1], command=lambda: self.tv.show_branch(self.tv.PL_ROOT))
+        self.viewMenu.add_command(label=_('Show Project notes'), accelerator=self._KEY_SHOW_PROJECTNOTES[1], command=lambda: self.tv.show_branch(self.tv.PN_ROOT))
+        self.viewMenu.add_separator()
         self.viewMenu.add_command(label=_('Toggle Text viewer'), accelerator=self._KEY_TOGGLE_VIEWER[1], command=self.toggle_viewer)
         self.viewMenu.add_command(label=_('Toggle Properties'), accelerator=self._KEY_TOGGLE_PROPERTIES[1], command=self.toggle_properties)
         self.viewMenu.add_command(label=_('Detach/Dock Properties'), accelerator=self._KEY_DETACH_PROPERTIES[1], command=self.toggle_properties_window)
@@ -343,7 +359,7 @@ class NovelystTk(MainTk):
         # Help
         self.helpMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('Help'), menu=self.helpMenu)
-        self.helpMenu.add_command(label=_('Online help'), command=lambda: webbrowser.open(self._HELP_URL))
+        self.helpMenu.add_command(label=_('Online help'), accelerator=self._KEY_SHOW_HELP[1], command=lambda: webbrowser.open(self._HELP_URL))
 
         self.plugins.load_plugins(PLUGIN_PATH)
         self.disable_menu()
@@ -376,6 +392,14 @@ class NovelystTk(MainTk):
         if sys.platform == 'win32':
             self.root.bind('<4>', self.tv.go_back)
             self.root.bind('<5>', self.tv.go_forward)
+        self.root.bind(self._KEY_SHOW_BOOK[0], lambda event: self.tv.show_branch(self.tv.NV_ROOT))
+        self.root.bind(self._KEY_SHOW_CHARACTERS[0], lambda event: self.tv.show_branch(self.tv.CR_ROOT))
+        self.root.bind(self._KEY_SHOW_LOCATIONS[0], lambda event: self.tv.show_branch(self.tv.LC_ROOT))
+        self.root.bind(self._KEY_SHOW_ITEMS[0], lambda event: self.tv.show_branch(self.tv.IT_ROOT))
+        self.root.bind(self._KEY_SHOW_RESEARCH[0], lambda event: self.tv.show_branch(self.tv.RS_ROOT))
+        self.root.bind(self._KEY_SHOW_PLANNING[0], lambda event: self.tv.show_branch(self.tv.PL_ROOT))
+        self.root.bind(self._KEY_SHOW_PROJECTNOTES[0], lambda event: self.tv.show_branch(self.tv.PN_ROOT))
+        self.root.bind(self._KEY_SHOW_HELP[0], lambda event: webbrowser.open(self._HELP_URL))
 
     @property
     def isModified(self):

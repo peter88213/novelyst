@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.34.1\n"
-"POT-Creation-Date: 2023-08-03 22:32:30\n"
+"Project-Id-Version: 4.35.0\n"
+"POT-Creation-Date: 2023-08-04 10:43:25\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -320,6 +320,9 @@ msgstr ""
 msgid "Editable manuscript"
 msgstr ""
 
+msgid "End"
+msgstr ""
+
 msgid "Exit"
 msgstr ""
 
@@ -405,6 +408,9 @@ msgid "Goals"
 msgstr ""
 
 msgid "Help"
+msgstr ""
+
+msgid "Home"
 msgstr ""
 
 msgid "Home page"
@@ -723,6 +729,27 @@ msgid "Set Type"
 msgstr ""
 
 msgid "Set actual wordcount as start"
+msgstr ""
+
+msgid "Show Book"
+msgstr ""
+
+msgid "Show Characters"
+msgstr ""
+
+msgid "Show Items"
+msgstr ""
+
+msgid "Show Locations"
+msgstr ""
+
+msgid "Show Planning"
+msgstr ""
+
+msgid "Show Project notes"
+msgstr ""
+
+msgid "Show Research"
 msgstr ""
 
 msgid "Show image"
