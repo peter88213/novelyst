@@ -1294,8 +1294,12 @@ class TreeViewer(ttk.Frame):
 
     def _on_select_node(self, event=None):
         self._ui.show_properties(event)
-        nodeId = self.tree.selection()[0]
-        self._history.append_node(nodeId)
+        try:
+            nodeId = self.tree.selection()[0]
+        except IndexError:
+            pass
+        else:
+            self._history.append_node(nodeId)
 
     def _move_node(self, event):
         """Move a selected node in the novel tree."""

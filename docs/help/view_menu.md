@@ -96,6 +96,14 @@
 
 --- 
 
+## View Project notes
+
+**Go to the "Project notes" branch and expand it**
+
+- You can select and open the "Project notes" branch with **View > View Project notes** or **End**. 
+
+--- 
+
 ## Toggle Text viewer
 
 **Show/hide the whole novel**
