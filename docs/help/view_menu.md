@@ -68,7 +68,7 @@
 
 **Go to the "Locations" branch and expand it**
 
-- You can select and open the "Locations" branch with **View > View Locations** or **F7*. 
+- You can select and open the "Locations" branch with **View > View Locations** or **F7**. 
 
 --- 
 
