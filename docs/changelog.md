@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.35.2
+
+- Remove non-icon files in the icon directory on setup.
+- Add missing "P" icon for the detached "Properties" window.
+
+Based on PyWriter v12.13.6
+
 ### v4.35.1
 
 - Bugfix: Catch an exception that is raised when closing the project.

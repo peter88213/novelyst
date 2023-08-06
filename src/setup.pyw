@@ -174,8 +174,8 @@ def install(pywriterPath):
     try:
         oldInst = os.getenv('APPDATA').replace('\\', '/')
         oldInstDir = f'{oldInst}/pyWriter/{APPNAME}'
+        output(f'Moving "{oldInstDir}" to "{installDir}" ...')
         os.replace(oldInstDir, installDir)
-        output(f'Moving "{oldInstDir}" to "{installDir}"')
     except:
         pass
     os.makedirs(cnfDir, exist_ok=True)
@@ -187,27 +187,31 @@ def install(pywriterPath):
         for file in files:
             if not 'config' in file.name:
                 try:
+                    output(f'Removing "{file.name}" ...')
                     os.remove(file)
-                    output(f'Removing "{file.name}"')
                 except:
                     pass
 
     #--- Install the new version.
+    output(f'Copying "{APP}" ...')
     copyfile(APP, f'{installDir}/{APP}')
-    output(f'Copying "{APP}"')
 
     # Create a starter script.
+    output(f'Creating starter script ...')
     with open(f'{installDir}/{START_UP_SCRIPT}', 'w', encoding='utf-8') as f:
         f.write(f'import {APPNAME}\n{APPNAME}.main()')
-    output(f'Creating starter script')
 
-    #--- Install the localization files.
+    # Install the localization files.
+    output(f'Copying locale ...')
     copytree('locale', f'{installDir}/locale', dirs_exist_ok=True)
-    output(f'Copying "locale"')
 
-    #--- Install the icon files.
+    # Install the icon files.
+    output(f'Copying icons ...')
     copytree('icons', f'{installDir}/icons', dirs_exist_ok=True)
-    output(f'Copying "icons"')
+    for f in os.listdir(f'{installDir}/icons'):
+        if not f.endswith('.png') and not f.endswith('.ico'):
+            output(f'Deleting {installDir}/icons/{f} ...')
+            os.remove(f'{installDir}/icons/{f}')
 
     #--- Make the scripts executable under Linux.
     st = os.stat(f'{installDir}/{APP}')
@@ -220,17 +224,17 @@ def install(pywriterPath):
         with os.scandir(SAMPLE_PATH) as files:
             for file in files:
                 if not os.path.isfile(f'{cnfDir}{file.name}'):
+                    output(f'Copying "{file.name}" ...')
                     copyfile(f'{SAMPLE_PATH}{file.name}', f'{cnfDir}{file.name}')
-                    output(f'Copying "{file.name}"')
                 else:
-                    output(f'Keeping "{file.name}"')
+                    output(f'Keeping "{file.name}".')
     except:
         pass
 
     #--- Create a plugin directory.
 
     pluginDir = f'{installDir}/plugin'
-    output(f'Creating "{os.path.normpath(pluginDir)}"')
+    output(f'Creating "{os.path.normpath(pluginDir)}" ...')
     os.makedirs(pluginDir, exist_ok=True)
 
     #--- Check plugins.
