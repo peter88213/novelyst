@@ -58,6 +58,9 @@
 		
 		<copy file="${docs-path}/template/index.md" overwrite="True" todir="${docs-path}" />
 		<replace encoding="utf-8" file="${docs-path}/index.md" token="0.99.0" value="${version}" />
+		
+		<copy file="${docs-path}/template/VERSION" overwrite="True" todir=".." />
+		<replace encoding="utf-8" file="../VERSION" token="0.99.0" value="${version}" />
 	</target>
 
 	<target name="clean" description="clean up">		
