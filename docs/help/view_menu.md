@@ -48,7 +48,7 @@
 
 --- 
 
-## View Book
+## Show Book
 
 **Go to the "Book" branch and expand it**
 
@@ -56,7 +56,7 @@
 
 --- 
 
-## View Characters
+## Show Characters
 
 **Go to the "Characters" branch and expand it**
 
@@ -64,7 +64,7 @@
 
 --- 
 
-## View Locations
+## Show Locations
 
 **Go to the "Locations" branch and expand it**
 
@@ -72,7 +72,7 @@
 
 --- 
 
-## View Items
+## Show Items
 
 **Go to the "Items" branch and expand it**
 
@@ -80,7 +80,7 @@
 
 --- 
 
-## View Research
+## Show Research
 
 **Go to the "Research" branch and expand it**
 
@@ -88,7 +88,7 @@
 
 --- 
 
-## View Planning
+## Show Planning
 
 **Go to the "Planning" branch and expand it**
 
@@ -96,7 +96,7 @@
 
 --- 
 
-## View Project notes
+## Show Project notes
 
 **Go to the "Project notes" branch and expand it**
 

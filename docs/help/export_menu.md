@@ -79,7 +79,7 @@ sections (to be seen in the Navigator). File name suffix is `_todo`.
 
 ---
 
-## Manuscript with visible tags for proof reading
+## Manuscript with visible structure tags for proof reading
 
 This will write parts, chapters, and scenes into a new OpenDocument
 text document (odt) with visible scene markers. File name suffix is
