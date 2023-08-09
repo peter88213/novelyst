@@ -89,12 +89,12 @@ Sets the [mode of discourse](basic_concepts) of the selected scene. This can be 
 Joins two scenes, if within the same chapter, of the same type, and with the same viewpoint.
 
 - Neu title = title of the prevoius scene & title of the selected scene
-- The scene contents are concatenated, separated von a paragraph separator.
-- Beschreibungs are concatenated, separated von a paragraph separator.
-- Ziele are concatenated, separated von a paragraph separator.
-- Konflikts are concatenated, separated von a paragraph separator.
-- Ausgangs are concatenated, separated von a paragraph separator.
-- Notizen are concatenated, separated von a paragraph separator.
+- The scene contents are concatenated, separated by a paragraph separator.
+- Beschreibungs are concatenated, separated by a paragraph separator.
+- Ziele are concatenated, separated by a paragraph separator.
+- Konflikts are concatenated, separated by a paragraph separator.
+- Ausgangs are concatenated, separated by a paragraph separator.
+- Notizen are concatenated, separated by a paragraph separator.
 - Figurenlistes are merged.
 - Schauplatzlistes are merged.
 - Gegenstandslistes are merged.
@@ -104,11 +104,11 @@ Joins two scenes, if within the same chapter, of the same type, and with the sam
 
 ### Kapitelebene anzeigen
 
-Hides the scenes von collapsing the tree, so that only parts and chapters are visible.
+Hides the scenes by collapsing the tree, so that only parts and chapters are visible.
 
 ### Aufklappen
 
-Shows a whole branch von expanding the selected tree element.
+Shows a whole branch by expanding the selected tree element.
 
 ### Einklappen
 

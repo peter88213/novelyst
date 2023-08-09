@@ -55,8 +55,8 @@ Such elements may carry information about plot or story structure.
 
 You can assign a status to each "Normal" type scene via Kontextmenü or Abschnitt-Menü.
 
-- Neuly created scenes are set to "Gliederung" von default.
-- Word counts von status appear in the "Buch" properties.
+- Neuly created scenes are set to "Gliederung" by default.
+- Word counts by status appear in the "Buch" properties.
 
 ---
 
@@ -68,7 +68,7 @@ A scene's mode can be *szenisch*, *erklärend*, *beschreibend*, or *zusammenfass
 - **Explaining** scenes mainly convey background information.
 - **Descriptive** scenes describe characters, locations, etc in detail.
 - **Summarizing** scenes summarize actions in brief, for example, to make time tighter.
-- Neuly created scenes are set to "szenisch" von default.
+- Neuly created scenes are set to "szenisch" by default.
 
 ---
 
@@ -130,7 +130,7 @@ The project language (Sprachencode acc. to ISO 639-1 and country code acc. to IS
 
 ### Text passages in scenes
 
-Text markup for other languages is imported from ODT documents. It is represented von *yWriter* project variables. Thus it's fully compatible with *yWriter*, which interprets them as HTML instructions during document export.
+Text markup for other languages is imported from ODT documents. It is represented by *yWriter* project variables. Thus it's fully compatible with *yWriter*, which interprets them as HTML instructions during document export.
 
 This then looks like this, for example:
 

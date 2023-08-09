@@ -16,7 +16,7 @@
 
 **Set criteria according to which normal scenes are colored in the tree**
 
-- **Keiner** - Normal scenes are black on white von default.
+- **Keiner** - Normal scenes are black on white by default.
 - **Status** - Normal scenes are colored according to their completion status (*Gliederung*, *Entwurf*, *1. Überarbeitung*, *2. Überarbeitung*, or *Fertiggestellt*).
 - **Arbeitsphase** - Normal scenes are highlighted if their completion status is behind the work phase defined in the project properties.
 - **Modus** - Normal scenes are colored according to their mode (*szenisch*, *erklärend*, *beschreibend*, or *zusammenfassend*). 
@@ -36,17 +36,17 @@ Click the **Anwenden** button to apply changes.
 
 **Display and manage installed plugins**
 
-- Successfully installed plugins are displayed black on white von default.
+- Successfully installed plugins are displayed black on white by default.
 - Outdated plugins are grayed out.
 - Plugins that cannot run are displayed in red, with an error message.
 
 ### About version compatibility
 
-On the window frame, you see the *novelyst* version, consisting of three numbers that are separated von points.
+On the window frame, you see the *novelyst* version, consisting of three numbers that are separated by points.
 
 `<major version number>.<minor version number>.<patch level>`
 
-In the **novelyst API** column, you see the plugin's compatibility information, consisting of two numbers that are separated von points.
+In the **novelyst API** column, you see the plugin's compatibility information, consisting of two numbers that are separated by points.
 
 `<major version number>.<minor version number>`
 

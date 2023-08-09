@@ -28,15 +28,21 @@ def process_file(sourcePath, targetPath):
         f.write(page)
 
 
-with open('../i18n/de.po', 'r', encoding='utf-8') as f:
-    lines = f.readlines()
+def read_translations(filePath):
+    with open(filePath, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    msgid = ''
+    for line in lines:
+        if line.startswith('msgid'):
+            msgid = line[7:].rstrip('"\n')
+        elif len(msgid) > 2 and line.startswith('msgstr'):
+            if not msgid in translations:
+                translations[msgid] = line[8:].rstrip('"\n')
+
+
 translations = {}
-msgid = ''
-for line in lines:
-    if line.startswith('msgid'):
-        msgid = line[7:].rstrip('"\n')
-    elif len(msgid) > 1 and line.startswith('msgstr'):
-        translations[msgid] = line[8:].rstrip('"\n')
+read_translations('../i18n/de.po')
+read_translations('../../novelyst/i18n/de.po')
 
 # Sort the terms by length to minimize errors.
 sortedTranslations = sorted(translations, key=len, reverse=True)

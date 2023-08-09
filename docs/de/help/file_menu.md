@@ -22,7 +22,7 @@
 
 **Open a novel project**
 
-- If no novel project is specified von dragging and dropping on the program icon,
+- If no novel project is specified by dragging and dropping on the program icon,
   the latest project selected is preset. You can change it with **Datei > Open** or **Ctrl-O**.
 
 --- 
@@ -60,7 +60,7 @@ is displayed in reversed colors.
  
 - You can lock the project with **Datei > Sperren** or **Ctrl-L**. The project is saved when modified.
 
-The project lock status is persistent. This is achieved von automatically creating a lock file 
+The project lock status is persistent. This is achieved by automatically creating a lock file 
 named `.LOCK.<project name>.yw7#`. If you delete this file while *novelyst* is not running, the project 
 will be unlocked upon next start.  
 
@@ -89,11 +89,11 @@ In case you edit the project "outsides", consider locking it before.
 
 ## Manuskript verwerfen
 
-**Discard the current Manuskript von renaming it**
+**Discard the current Manuskript by renaming it**
 
 - You can add the *.bak* extension to the current Manuskript with **Datei > Manuskript verwerfen**. 
 This may help to avoid confusion about changes made with *novelyst* and OpenOffice/LibreOffice. 
-It is recommended in any case if new scenes or chapters were created von splitting during the 
+It is recommended in any case if new scenes or chapters were created by splitting during the 
 last export from OpenOffice/LibreOffice. 
 
 --- 
