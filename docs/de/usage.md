@@ -1,10 +1,10 @@
-[Project homepage](https://peter88213.github.io/novelyst) > Instructions for use
+[Projekt-Homepage](https://peter88213.github.io/novelyst) > Gebrauchsanleitung
 
 --- 
 
-The *novelyst* Python program provides a Baumansicht for *.yw7* novel projects.
+Das Python-Programm *novelyst* bietet eine Baumansicht für *.yw7* Romanprojekte.
 
-# Instructions for use
+# Gebrauchslanleitung
 
 
 ## Installation
@@ -75,9 +75,7 @@ You can open the online help page with **Hilfe > Online-Hilfe**.
 
 --- 
 
-# License
+# Lizenz
 
-This is Open Source software, and *novelyst* is licensed under GPLv3. See the
-[GNU General Public License website](https://www.gnu.org/licenses/gpl-3.0.en.html) for more
-details, or consult the [LICENSE](https://github.com/peter88213/novelyst/blob/main/LICENSE) file.
+This is Open Source software, and *novelyst* is licensed under GPLv3. Für mehr Details besuchen Sie die[Website der GNU General Public License](https://www.gnu.org/licenses/gpl-3.0.de.html), oder schauen Sie sich die [LICENSE](https://github.com/peter88213/novelyst/blob/main/LICENSE)-Datei an.
 
