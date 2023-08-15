@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.35.3
+
+- Fix a bug where no input is possible after file selection on startup.
+
+Based on PyWriter v12.13.6
+
 ### v4.35.2
 
 - Remove non-icon files in the icon directory on setup.

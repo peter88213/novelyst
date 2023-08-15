@@ -119,17 +119,22 @@ def main():
     kwargs.update(configuration.settings)
     kwargs.update(configuration.options)
 
-    #--- Get initial project path.
+    #--- Instantiate the app object.
+    app = NovelystTk('novelyst @release', tempDir, **kwargs)
+
+    #--- Load a project, if specified.
     try:
         sourcePath = sys.argv[1]
     except:
         sourcePath = ''
     if not sourcePath or not os.path.isfile(sourcePath):
         sourcePath = kwargs['yw_last_open']
+    if sourcePath and os.path.isfile(sourcePath):
+        app.root.after_idle(lambda:app.open_project(sourcePath))
+        # this allows for opening a file picker before the main loop starts;
+        # see: https://stackoverflow.com/questions/36238110/python-tkinter-entry-widget-won%C2%B4t-accept-input
 
-    #--- Instantiate the app object.
-    app = NovelystTk('novelyst @release', tempDir, **kwargs)
-    app.open_project(sourcePath)
+    #--- Run the GUI application.
     app.start()
 
     #--- Save project specific configuration
