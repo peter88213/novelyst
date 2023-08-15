@@ -28,13 +28,13 @@ class TreeViewer(ttk.Frame):
         LOCATION_PREFIX -- Location node ID prefix
         ITEM_PREFIX -- Item node ID prefix
         PRJ_NOTE_PREFIX -- project note node ID prefix
-        NV_ROOT -- Root of the Book subtree
-        RS_ROOT -- Root of the Research subtree
-        PL_ROOT -- Root of the Research subtree
-        CR_ROOT -- Root of the Characters subtree
-        LC_ROOT -- Root of the Locations subtree
-        IT_ROOT -- Root of the Items subtree
-        PN_ROOT -- Root of the Items subtree
+        NV_ROOT -- Root of the Book branch
+        RS_ROOT -- Root of the Research branch
+        PL_ROOT -- Root of the Research branch
+        CR_ROOT -- Root of the Characters branch
+        LC_ROOT -- Root of the Locations branch
+        IT_ROOT -- Root of the Items branch
+        PN_ROOT -- Root of the Items branch
     
     Public methods:
         add_chapter(**kwargs) -- Add a Chapter node to the tree and create an instance.
@@ -741,7 +741,7 @@ class TreeViewer(ttk.Frame):
         """Recursively close children nodes.
         
         Positional arguments:
-            parent: str -- Root node of the subtree to close.
+            parent: str -- Root node of the branch to close.
         """
         self.tree.item(parent, open=False)
         for child in self.tree.get_children(parent):
@@ -785,30 +785,18 @@ class TreeViewer(ttk.Frame):
 
     def go_back(self, event=None):
         """Select a node back in the tree browsing history."""
-        newNode = self._history.go_back()
-        if self.tree.exists(newNode):
-            if self.tree.selection()[0] != newNode:
-                # print(f'Back to: {newNode}')
-                self._history.lock()
-                self.go_to_node(newNode)
-        else:
-            self._history.reset()
-            self._history.append_node(self.tree.selection()[0])
+        self._browse_tree(self._history.go_back())
 
     def go_forward(self, event=None):
         """Select a node forward in the tree browsing history."""
-        newNode = self._history.go_forward()
-        if self.tree.exists(newNode):
-            if self.tree.selection()[0] != newNode:
-                # print(f'Forward to: {newNode}')
-                self._history.lock()
-                self.go_to_node(newNode)
-        else:
-            self._history.reset()
-            self._history.append_node(self.tree.selection()[0])
+        self._browse_tree(self._history.go_forward())
 
     def go_to_node(self, node):
-        """Select and view a node."""
+        """Select and view a node.
+        
+        Positional arguments:
+            node: str -- Tree element to select and show.
+        """
         self.tree.see(node)
         self.tree.selection_set(node)
         self.tree.focus_set()
@@ -956,7 +944,7 @@ class TreeViewer(ttk.Frame):
         
         Positional arguments: 
             thisNode: str -- node ID
-            root: str -- root ID of the subtree to search 
+            root: str -- root ID of the branch to search 
         """
 
         def search_tree(parent, result, flag):
@@ -988,7 +976,7 @@ class TreeViewer(ttk.Frame):
         """Recursively show children nodes.
         
         Positional arguments:
-            parent: str -- Root node of the subtree to open.
+            parent: str -- Root node of the branch to open.
         """
         self.tree.item(parent, open=True)
         for child in self.tree.get_children(parent):
@@ -999,7 +987,7 @@ class TreeViewer(ttk.Frame):
 
         Positional arguments: 
             thisNode: str -- node ID
-            root: str -- root ID of the subtree to search 
+            root: str -- root ID of the branch to search 
         """
 
         def search_tree(parent, result, prevNode):
@@ -1039,7 +1027,11 @@ class TreeViewer(ttk.Frame):
         self._history.reset()
 
     def show_branch(self, node):
-        """Go to node and open children."""
+        """Go to node and open children.
+        
+        Positional arguments:
+            node: str -- Root element of the branch to open.
+        """
         self.go_to_node(node)
         self.open_children(node)
 
@@ -1047,7 +1039,7 @@ class TreeViewer(ttk.Frame):
         """Open Book/Part nodes and close chapter nodes.
         
         Positional arguments:
-            parent: str -- Root node of the subtree to process.
+            parent: str -- Root node of the branch to process.
         """
         if parent.startswith(self.CHAPTER_PREFIX):
             self.tree.item(parent, open=False)
@@ -1133,6 +1125,24 @@ class TreeViewer(ttk.Frame):
 
         self._ui.isModified = True
         self._ui.show_status()
+
+    def _browse_tree(self, node):
+        """Select and show node. 
+        
+        Positional arguments:
+            node: str -- History list element pointed to.
+        
+        - Do not add the move to the history list.
+        - If node doesn't exist, reset the history.
+        """
+        if self.tree.exists(node):
+            if self.tree.selection()[0] != node:
+                self._history.lock()
+                # make sure not to extend the history list
+                self.go_to_node(node)
+        else:
+            self._history.reset()
+            self._history.append_node(self.tree.selection()[0])
 
     def _cancel_part(self, event):
         """Remove a part but keep its chapters."""
@@ -1327,7 +1337,7 @@ class TreeViewer(ttk.Frame):
             self.go_to_node(row)
             prefix = row[:2]
             if prefix in (self.NV_ROOT, self.RS_ROOT, self.PL_ROOT, self.PART_PREFIX, self.CHAPTER_PREFIX, self.SCENE_PREFIX):
-                # Context is within the "Book" or the "Research" subtree.
+                # Context is within the "Book" or the "Research" branch.
                 if self._ui.isLocked:
                     # No changes allowed.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
@@ -1342,7 +1352,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.NV_ROOT):
-                    # Context is the "Book" subtree.
+                    # Context is the "Book" branch.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='normal')
@@ -1355,7 +1365,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.RS_ROOT):
-                    # Context is the "Research" subtree.
+                    # Context is the "Research" branch.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
@@ -1368,7 +1378,7 @@ class TreeViewer(ttk.Frame):
                     self._nvCtxtMenu.entryconfig(_('Promote Chapter'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Join with previous'), state='disabled')
                 elif prefix.startswith(self.PL_ROOT):
-                    # Context is the "Planning" subtree.
+                    # Context is the "Planning" branch.
                     self._nvCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Type'), state='disabled')
                     self._nvCtxtMenu.entryconfig(_('Set Status'), state='disabled')
@@ -1431,7 +1441,7 @@ class TreeViewer(ttk.Frame):
                 else:
                     self._wrCtxtMenu.entryconfig(_('Add'), state='normal')
                     if prefix.startswith('wr'):
-                        # Context is the root of a world element type subtree.
+                        # Context is the root of a world element type branch.
                         self._wrCtxtMenu.entryconfig(_('Delete'), state='disabled')
                     else:
                         # Context is a world element.
