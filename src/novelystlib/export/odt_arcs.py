@@ -122,6 +122,7 @@ $SceneAssoc
                 Scene=_('Scene'),
                 Description=_('Description'),
                 Manuscript=_('Manuscript'),
+                ID=sceneAssocId,
                 )
             template = Template(self._sceneLinkTemplate)
             sceneMapping['SceneAssoc'] = template.safe_substitute(sceneAssocMapping)
