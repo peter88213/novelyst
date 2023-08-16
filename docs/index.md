@@ -44,6 +44,7 @@ Please note that *novelyst* is not intended to compete with or replace *yWriter*
 
 - [A button bar](https://peter88213.github.io/novelyst_buttons/)
 - [A simple "markup" scene editor](https://peter88213.github.io/novelyst_editor/)
+- [An on-demand update checker](https://peter88213.github.io/novelyst_updater/)
 - [A daily progress log viewer](https://peter88213.github.io/novelyst_progress/)
 - [A book/series collection manager](https://peter88213.github.io/novelyst_collection/)
 - [A relationship matrix](https://peter88213.github.io/novelyst_matrix/)
