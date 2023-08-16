@@ -14,6 +14,7 @@
 		<project>novelyst_templates</project>
 		<project>novelyst_themes</project>
 		<project>novelyst_timeline</project>
+		<project>novelyst_updater</project>
 		<project>PyWriter</project>
 	</projects>
 	<buildSpec>

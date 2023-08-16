@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.36.0
+
+- Extend API for update checking.
+
+Based on PyWriter v12.13.6
+
 ### v4.35.4
 
 - Fix a bug in the "Arcs" export where the scene links are broken.

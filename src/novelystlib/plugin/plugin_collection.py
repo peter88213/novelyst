@@ -52,13 +52,15 @@ class PluginCollection(dict):
         # This is a placehoder for the build script.
 
         try:
-            majorStr, minorStr, __ = versionStr.split('.')
+            majorStr, minorStr, patchStr = versionStr.split('.')
             self.majorVersion = int(majorStr)
             self.minorVersion = int(minorStr)
+            self.patchlevel = int(patchStr)
         except ValueError:
             # Set defaults for testing.
             self.majorVersion = 4
-            self.minorVersion = 35
+            self.minorVersion = 36
+            self.patchlevel = 0
 
     def delete_file(self, moduleName):
         """Remove a module from the file system.
