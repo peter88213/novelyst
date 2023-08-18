@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.37.0
+
+- Add scene headings to the "proofing" document.
+
+Based on PyWriter v12.14.0
+
 ### v4.36.0
 
 - Extend API for update checking.
