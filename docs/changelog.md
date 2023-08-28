@@ -8,6 +8,14 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.38.0
+
+Improve the tree view's chapter display:
+- In expanded chapter branches, hide data collected from scenes.
+- Add arc information.
+
+Based on PyWriter v12.14.0
+
 ### v4.37.0
 
 - Add scene headings to the "proofing" document.

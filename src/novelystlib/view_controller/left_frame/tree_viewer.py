@@ -94,7 +94,7 @@ class TreeViewer(ttk.Frame):
         dt=(_('Date'), 'date_width'),
         tm=(_('Time'), 'time_width'),
         dr=(_('Duration'), 'duration_width'),
-        tg=(_('Tags'), 'tags_width',),
+        tg=(_('Tags'), 'tags_width'),
         po=(_('Position'), 'ps_width'),
         ac=(_('Arcs'), 'arcs_width'),
         ar=(_('A/R'), 'pacing_width'),
@@ -252,6 +252,8 @@ class TreeViewer(ttk.Frame):
 
         #--- Event bindings.
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
+        self.tree.bind('<<TreeviewOpen>>', self._on_open_branch)
+        self.tree.bind('<<TreeviewClose>>', self._on_close_branch)
         self.tree.bind('<Alt-B1-Motion>', self._move_node)
         self.tree.bind('<Delete>', self._delete_node)
         self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
@@ -682,7 +684,7 @@ class TreeViewer(ttk.Frame):
                     inNotesPart = False
                     inTodoPart = False
                     parent = self.NV_ROOT
-                title, columns, nodeTags = self._set_chapter_display(chId, wordCount)
+                title, columns, nodeTags = self._set_chapter_display(chId, position=wordCount)
                 partNode = self.tree.insert(parent, 'end', f'{self.PART_PREFIX}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             else:
                 # Chapter begins.
@@ -701,10 +703,10 @@ class TreeViewer(ttk.Frame):
                     parentNode = partNode
                 else:
                     parentNode = self.NV_ROOT
-                title, columns, nodeTags = self._set_chapter_display(chId, wordCount)
+                title, columns, nodeTags = self._set_chapter_display(chId, position=wordCount)
                 chapterNode = self.tree.insert(parentNode, 'end', f'{self.CHAPTER_PREFIX}{chId}', text=title, values=columns, tags=nodeTags, open=True)
             for scId in self._ui.novel.chapters[chId].srtScenes:
-                title, columns, nodeTags = self._set_scene_display(scId, wordCount)
+                title, columns, nodeTags = self._set_scene_display(scId, position=wordCount)
                 if inChapter:
                     parentNode = chapterNode
                 else:
@@ -744,6 +746,8 @@ class TreeViewer(ttk.Frame):
             parent: str -- Root node of the branch to close.
         """
         self.tree.item(parent, open=False)
+        if parent.startswith(self.CHAPTER_PREFIX):
+            self._configure_chapter_columns(parent, collect=True)
         for child in self.tree.get_children(parent):
             self.close_children(child)
 
@@ -979,6 +983,8 @@ class TreeViewer(ttk.Frame):
             parent: str -- Root node of the branch to open.
         """
         self.tree.item(parent, open=True)
+        if parent.startswith(self.CHAPTER_PREFIX):
+            self._configure_chapter_columns(parent, collect=False)
         for child in self.tree.get_children(parent):
             self.open_children(child)
 
@@ -1043,6 +1049,7 @@ class TreeViewer(ttk.Frame):
         """
         if parent.startswith(self.CHAPTER_PREFIX):
             self.tree.item(parent, open=False)
+            self._configure_chapter_columns(parent, collect=True)
         else:
             self.tree.item(parent, open=True)
             for child in self.tree.get_children(parent):
@@ -1066,7 +1073,7 @@ class TreeViewer(ttk.Frame):
                 if childNode.startswith(self.SCENE_PREFIX):
                     scId = childNode[2:]
                     self._ui.novel.chapters[chId].srtScenes.append(scId)
-                    title, columns, nodeTags = self._set_scene_display(scId, scnPos)
+                    title, columns, nodeTags = self._set_scene_display(scId, position=scnPos)
                     if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                         scnPos += self._ui.novel.scenes[scId].wordCount
                 elif childNode.startswith(self.CHARACTER_PREFIX):
@@ -1093,7 +1100,8 @@ class TreeViewer(ttk.Frame):
                     # save chapter start position, because the positions of the
                     # chapters scenes will now be added to scnPos.
                     scnPos = serialize_tree(childNode, chId, scnPos)
-                    title, columns, nodeTags = self._set_chapter_display(chId, chpPos)
+                    doCollect = not self.tree.item(childNode, 'open')
+                    title, columns, nodeTags = self._set_chapter_display(chId, position=chpPos, collect=doCollect)
                 self.tree.item(childNode, text=title, values=columns, tags=nodeTags)
             return scnPos
 
@@ -1165,6 +1173,15 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.srtChapters.remove(elemId)
             self.tree.delete(f'{self.CHAPTER_PREFIX}{elemId}')
             self.update_prj_structure()
+
+    def _configure_chapter_columns(self, nodeId, collect=False):
+        """Add/remove column items collected from the chapter's scenes."""
+        if nodeId.startswith(self.CHAPTER_PREFIX):
+            chId = nodeId[2:]
+            positionStr = self.tree.item(nodeId)['values'][self._colPos['po']]
+            __, columns, __ = self._set_chapter_display(chId, position=None, collect=collect)
+            columns[self._colPos['po']] = positionStr
+            self.tree.item(nodeId, values=columns)
 
     def _delete_node(self, event):
         """Delete a node and its children.
@@ -1301,6 +1318,24 @@ class TreeViewer(ttk.Frame):
             self._ui.novel.chapters[elemId].chLevel = 0
             self.update_prj_structure()
             self.refresh_tree()
+
+    def _on_close_branch(self, event=None):
+        """Event handler for manually collapsing a branch."""
+        try:
+            nodeId = self.tree.selection()[0]
+        except IndexError:
+            pass
+        else:
+            self._configure_chapter_columns(nodeId, collect=True)
+
+    def _on_open_branch(self, event=None):
+        """Event handler for manually expanding a branch."""
+        try:
+            nodeId = self.tree.selection()[0]
+        except IndexError:
+            pass
+        else:
+            self._configure_chapter_columns(nodeId, collect=False)
 
     def _on_select_node(self, event=None):
         self._ui.show_properties(event)
@@ -1474,44 +1509,69 @@ class TreeViewer(ttk.Frame):
             self.update_prj_structure()
             self.refresh_tree()
 
-    def _set_chapter_display(self, chId, position=None):
+    def _set_chapter_display(self, chId, position=None, collect=False):
         """Configure chapter formatting and columns."""
 
         def count_words(chId):
             """Accumulate word counts of all normal scenes in a chapter."""
-            wordCount = 0
+            chapterWordCount = 0
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
                     if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
-                        wordCount += self._ui.novel.scenes[scId].wordCount
-            return wordCount
+                        chapterWordCount += self._ui.novel.scenes[scId].wordCount
+            return chapterWordCount
 
         def collect_viewpoints(chId):
             """Return a string with semicolon-separated viewpoint character names."""
-            vpNames = []
+            chapterViewpoints = []
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
                     if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
                         try:
                             crId = self._ui.novel.scenes[scId].characters[0]
                             viewpoint = self._ui.novel.characters[crId].title
-                            if not viewpoint in vpNames:
-                                vpNames.append(viewpoint)
+                            if not viewpoint in chapterViewpoints:
+                                chapterViewpoints.append(viewpoint)
                         except:
                             pass
-            return list_to_string(vpNames)
+            return list_to_string(chapterViewpoints)
 
         def collect_tags(chId):
             """Return a string with semicolon-separated scene tags."""
-            tags = []
+            chapterTags = []
             if self._ui.novel.chapters[chId].chType != 3:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
                     if self._ui.novel.scenes[scId].scType != 3 and not self._ui.novel.scenes[scId].doNotExport:
                         if self._ui.novel.scenes[scId].tags:
                             for tag in self._ui.novel.scenes[scId].tags:
-                                if not tag in tags:
-                                    tags.append(tag)
-            return list_to_string(tags)
+                                if not tag in chapterTags:
+                                    chapterTags.append(tag)
+            return list_to_string(chapterTags)
+
+        def collect_arcpoints(chId):
+            """Return a string with semicolon-separated arc points."""
+            chapterPoints = []
+            if self._ui.novel.chapters[chId].chType == 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
+                        scenePtIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
+                        for ptId in scenePtIds:
+                            arcPoint = self._ui.novel.scenes[ptId].title
+                            if not arcPoint in chapterPoints:
+                                chapterPoints.append(arcPoint)
+            return list_to_string(chapterPoints)
+
+        def collect_arcs(chId):
+            """Return a string with semicolon-separated arcs."""
+            chapterArcs = []
+            if self._ui.novel.chapters[chId].chType == 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
+                        sceneArcs = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneArcs', None))
+                        for arc in sceneArcs:
+                            if not arc in chapterArcs:
+                                chapterArcs.append(arc)
+            return list_to_string(chapterArcs)
 
         def collect_note_indicators(chId):
             """Return a string that indicates scene notes within the chapter."""
@@ -1576,9 +1636,13 @@ class TreeViewer(ttk.Frame):
                     wordCount += count_words(c)
             columns[self._colPos['wc']] = wordCount
             columns[self._colPos['po']] = positionStr
-            columns[self._colPos['vp']] = collect_viewpoints(chId)
-        columns[self._colPos['tg']] = collect_tags(chId)
-        columns[self._colPos['nt']] = collect_note_indicators(chId)
+            if collect:
+                columns[self._colPos['vp']] = collect_viewpoints(chId)
+        if collect:
+            columns[self._colPos['tg']] = collect_tags(chId)
+            columns[self._colPos['ac']] = collect_arcs(chId)
+            columns[self._colPos['pt']] = collect_arcpoints(chId)
+            columns[self._colPos['nt']] = collect_note_indicators(chId)
         return title, columns, tuple(nodeTags)
 
     def _set_character_display(self, crId):
