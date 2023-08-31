@@ -48,7 +48,7 @@ Before you distribute your translations, you can convert and install the message
 
 ### Convert the message catalog to binary format
 
-The application needs the message catalog in binary format. This is easily achieved using the **msgfmd.py** converter script. 
+The application needs the message catalog in binary format. This is easily achieved using the **msgfmt.py** converter script. 
 You find it in your Python installation, in the **Tools/i18n** subdirectory. If not, you can download the code from [here](https://github.com/python/cpython/blob/main/Tools/i18n/msgfmt.py)
 
 Name the binary file **pywriter.mo**. 
