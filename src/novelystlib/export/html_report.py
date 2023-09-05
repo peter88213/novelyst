@@ -21,9 +21,9 @@ class HtmlReport(FileExport):
 body {font-family: sans-serif}
 p.title {font-size: larger; font-weight: bold}
 td {padding: 10}
-tr.heading {font-size:smaller; font-weight: bold; background-color:lightgray}
+tr.heading {font-size:smaller; font-weight: bold; background-color:rgb(240,240,240)}
 table {border-spacing: 0}
-table, td {border: lightgrey solid 1px; vertical-align: top}
+table, td {border: rgb(240,240,240) solid 1px; vertical-align: top}
 td.chtitle {font-weight: bold}
 </style>
 

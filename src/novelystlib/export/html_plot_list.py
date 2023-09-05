@@ -31,6 +31,7 @@ class HtmlPlotList(HtmlReport):
         def to_html(cell):
             return f'<td>{cell}</td>'
 
+        STYLE_CH_TITLE = 'font-weight: bold; color: red'
         HTML_TRUE = '●'
         HTML_FALSE = ''
         htmlText = [self._fileHeader]
@@ -63,7 +64,7 @@ class HtmlPlotList(HtmlReport):
                     break
 
                 htmlText.append(f'<tr>')
-                htmlText.append(f'<td class="chtitle">{self.novel.chapters[chId].title}</td>')
+                htmlText.append(f'<td style="{STYLE_CH_TITLE}">{self.novel.chapters[chId].title}</td>')
                 for arc in arcs:
                     htmlText.append(to_html(''))
                 htmlText.append(f'</tr>')
@@ -72,7 +73,7 @@ class HtmlPlotList(HtmlReport):
                 if self.novel.scenes[scId].scType == 0:
                     scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
                     htmlText.append(to_html(self.novel.scenes[scId].title))
-                    for arc in arcs:
+                    for i, arc in enumerate(arcs):
                         if arc in scnArcs[scId]:
                             entry = HTML_TRUE
                             # Use arc point titles instead of binary marker.
