@@ -40,7 +40,7 @@ class CsvPlotList:
         # Path to the file. The setter only accepts files of a supported type as specified by EXTENSION.
 
         self.filePath = filePath
-        self._csvArcTrue = '▇'
+        self._csvArcTrue = '●'
         self._csvArcFalse = ''
 
     @property
@@ -72,21 +72,21 @@ class CsvPlotList:
                 writer = csv.writer(f, dialect='excel')
 
                 # Get arcs.
-                arcs = []
+                arcs = {}
                 scnArcs = {}
                 for chId in self.novel.srtChapters:
+                    arcDefinition = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
+                    if arcDefinition is not None:
+                        arcs[arcDefinition] = self.novel.chapters[chId].title
                     for scId in self.novel.chapters[chId].srtScenes:
                         if self.novel.scenes[scId].scType == 0:
                             scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
-                            for arc in scnArcs[scId]:
-                                if not arc in arcs:
-                                    arcs.append(arc)
 
                 # Title row.
                 row = []
                 row.append('')
                 for arc in arcs:
-                    row.append(arc)
+                    row.append(arcs[arc])
                 writer.writerow(row)
 
                 # Scene rows.
