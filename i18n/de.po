@@ -745,6 +745,9 @@ msgstr "Schauplätze anzeigen"
 msgid "Show Planning"
 msgstr "Planung anzeigen"
 
+msgid "Show Plot list"
+msgstr "Plot-Liste anzeigen"
+
 msgid "Show Project notes"
 msgstr "Projektnotizen anzeigen"
 

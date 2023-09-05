@@ -1,4 +1,4 @@
-"""Provide a class for csv relationship table representation.
+"""Provide a class for csv plot list representation.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-table
@@ -9,7 +9,7 @@ from pywriter.pywriter_globals import *
 
 
 class CsvPlotList:
-    """csv relationship table representation.
+    """csv plot list representation.
 
     Public methods:
         write() -- Write instance variables to the file.
@@ -90,7 +90,7 @@ class CsvPlotList:
                 writer.writerow(row)
 
                 # Scene rows.
-                for i, scId in enumerate(scnArcs):
+                for scId in scnArcs:
                     row = []
                     row.append(self.novel.scenes[scId].title)
                     for arc in arcs:
@@ -108,7 +108,7 @@ class CsvPlotList:
                         else:
                             row.append(self._csvArcFalse)
                     writer.writerow(row)
-        except Error:
+        except:
             raise Error(f'{_("Cannot write File")}: "{norm_path(self.filePath)}".')
 
         return (f'{_("File written")}: "{norm_path(self.filePath)}".')

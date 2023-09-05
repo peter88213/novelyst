@@ -13,6 +13,7 @@ from novelystlib.export.html_project_notes import HtmlProjectNotes
 from novelystlib.export.html_characters import HtmlCharacters
 from novelystlib.export.html_locations import HtmlLocations
 from novelystlib.export.html_items import HtmlItems
+from novelystlib.export.html_plot_list import HtmlPlotList
 
 
 class NvReporter(NvExporter):
@@ -29,6 +30,7 @@ class NvReporter(NvExporter):
                              HtmlCharacters,
                              HtmlLocations,
                              HtmlItems,
+                             HtmlPlotList,
                              ]
 
     def __init__(self, ui):
