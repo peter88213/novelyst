@@ -32,6 +32,7 @@ from novelystlib.export.nv_exporter import NvExporter
 from novelystlib.export.odt_characters_nv import OdtCharactersNv
 from novelystlib.export.wrimo_file import WrimoFile
 from novelystlib.export.odt_arcs import OdtArcs
+from novelystlib.export.csv_plot_list import CsvPlotList
 
 
 class NvDocExporter(NvExporter):
@@ -60,6 +61,7 @@ class NvDocExporter(NvExporter):
                              OdsWSceneList,
                              DataFiles,
                              WrimoFile,
+                             CsvPlotList,
                              ]
 
     def __init__(self, ui):
