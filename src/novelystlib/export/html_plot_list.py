@@ -32,14 +32,20 @@ class HtmlPlotList(HtmlReport):
             return f'<td>{cell}</td>'
 
         STYLE_CH_TITLE = 'font-weight: bold; color: red'
-        HTML_TRUE = '●'
-        HTML_FALSE = ''
         htmlText = [self._fileHeader]
         htmlText.append(f'''<title>{self.novel.title}</title>
 </head>
 <body>
 <p class=title>{self.novel.title} - {_("Plot")}</p>
 <table>''')
+        arcColors = (
+            'LightSteelBlue',
+            'Gold',
+            'Coral',
+            'YellowGreen',
+            'MediumTurquoise',
+            'Plum',
+            )
 
         # Get arcs.
         arcs = {}
@@ -52,8 +58,9 @@ class HtmlPlotList(HtmlReport):
         # Title row.
         htmlText.append('<tr class="heading">')
         htmlText.append(to_html(''))
-        for arc in arcs:
-            htmlText.append(to_html(arcs[arc]))
+        for i, arc in enumerate(arcs):
+            j = i % len(arcColors)
+            htmlText.append(f'<td style="background: {arcColors[j]}">{arcs[arc]}</td>')
         htmlText.append('</tr>')
 
         # Chapter/scene rows.
@@ -74,8 +81,9 @@ class HtmlPlotList(HtmlReport):
                     scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
                     htmlText.append(to_html(self.novel.scenes[scId].title))
                     for i, arc in enumerate(arcs):
+                        j = i % len(arcColors)
                         if arc in scnArcs[scId]:
-                            entry = HTML_TRUE
+                            entry = ''
                             # Use arc point titles instead of binary marker.
                             pointIds = string_to_list(self.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
                             points = []
@@ -84,11 +92,11 @@ class HtmlPlotList(HtmlReport):
                                     points.append(self.novel.scenes[ptId].title)
                             if points:
                                 entry = list_to_string(points)
+                            htmlText.append(f'<td style="background: {arcColors[j]}">{entry}</td>')
                         else:
-                            entry = HTML_FALSE
-                        htmlText.append(to_html(entry))
+                            htmlText.append(to_html(''))
                 htmlText.append(f'</tr>')
 
         htmlText.append(self._fileFooter)
         with open(self.filePath, 'w', encoding='utf-8') as f:
-            f.writelines(htmlText)
+            f.write('\n'.join(htmlText))

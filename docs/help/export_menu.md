@@ -209,6 +209,15 @@ and items to another project (also with yWriter 7).
 To import XML data files from another project, use the **Import** command
 in the **Characters**, **Locations**, or **Items** menu. 
 
+---
+
+## Show Plot list
+
+Show scenes, arcs, plot structure, and plot points.
+This will generate a list-formatted HTML file, and launch your system's web browser for displaying it. 
+
+- The Report is a temporary file, auto-deleted on program exit.
+- If needed, you can have your web browser save or print it.
 
 ---
 

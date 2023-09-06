@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.38.0\n"
-"POT-Creation-Date: 2023-08-28 20:25:23\n"
+"Project-Id-Version: 4.39.0\n"
+"POT-Creation-Date: 2023-09-06 09:43:09\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -407,6 +407,9 @@ msgstr ""
 msgid "Goals"
 msgstr ""
 
+msgid "HTML Plot list"
+msgstr ""
+
 msgid "Help"
 msgstr ""
 
@@ -744,6 +747,9 @@ msgid "Show Locations"
 msgstr ""
 
 msgid "Show Planning"
+msgstr ""
+
+msgid "Show Plot list"
 msgstr ""
 
 msgid "Show Project notes"
