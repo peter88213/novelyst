@@ -22,7 +22,34 @@ class OdsPlotList(OdsWriter):
     DESCRIPTION = _('ODS Plot list')
     SUFFIX = '_plotlist'
 
+    _ADDITIONAL_STYLES = '''
+  <style:style style:name="ce0" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties style:text-align-source="value-type" style:repeat-content="false"/>
+   <style:paragraph-properties fo:margin-left="0cm"/>
+   <style:text-properties fo:color="#ff0000" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#b0c4de"/>
+  </style:style>
+  <style:style style:name="ce2" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#ffd700"/>
+  </style:style>
+  <style:style style:name="ce3" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#ff7f50"/>
+  </style:style>
+  <style:style style:name="ce4" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#9acd32"/>
+  </style:style>
+  <style:style style:name="ce5" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#48d1cc"/>
+  </style:style>
+  <style:style style:name="ce6" style:family="table-cell" style:parent-style-name="Default">
+   <style:table-cell-properties fo:background-color="#dda0dd"/>
+  </style:style>
+ </office:automatic-styles>'''
+
     _fileHeader = f'{OdsWriter._CONTENT_XML_HEADER}{DESCRIPTION}" table:style-name="ta1" table:print="false">'
+    _fileHeader = _fileHeader.replace(' </office:automatic-styles>', _ADDITIONAL_STYLES)
 
     def write_content_xml(self):
         """Create the ODS table.
@@ -31,9 +58,9 @@ class OdsPlotList(OdsWriter):
         Extends the superclass method.
         """
 
-        def to_ods(cell, style=''):
-            return f'''     <table:table-cell {style} office:value-type="string">
-      <text:p>{cell}</text:p>
+        def create_cell(cell, attr=''):
+            return f'''     <table:table-cell {attr} office:value-type="string">
+      <text:p>{self._convert_from_yw(cell)}</text:p>
      </table:table-cell>'''
 
         odsText = [
@@ -41,14 +68,8 @@ class OdsPlotList(OdsWriter):
             '<table:table-column table:style-name="co4" table:default-cell-style-name="Default"/>',
             ]
 
-        arcColors = (
-            'LightSteelBlue',
-            'Gold',
-            'Coral',
-            'YellowGreen',
-            'MediumTurquoise',
-            'Plum',
-            )
+        arcColorsTotal = 6
+        # total number of the background colors used in the "ce" table cell styles
 
         # Get arcs.
         arcs = {}
@@ -61,10 +82,10 @@ class OdsPlotList(OdsWriter):
 
         # Title row.
         odsText.append('   <table:table-row table:style-name="ro2">')
-        odsText.append(to_ods(''))
+        odsText.append(create_cell(''))
         for i, arc in enumerate(arcs):
-            j = i % len(arcColors)
-            odsText.append(to_ods(arcs[arc], style=' table:style-name="Heading" '))
+            j = (i % arcColorsTotal) + 1
+            odsText.append(create_cell(arcs[arc], attr=f' table:style-name="ce{j}" '))
         odsText.append('    </table:table-row>')
 
         # Chapter/scene rows.
@@ -75,17 +96,17 @@ class OdsPlotList(OdsWriter):
                     break
 
                 odsText.append('   <table:table-row table:style-name="ro2">')
-                odsText.append(to_ods(self.novel.chapters[chId].title))
+                odsText.append(create_cell(self.novel.chapters[chId].title, attr=' table:style-name="ce0"'))
                 for arc in arcs:
-                    odsText.append(to_ods(''))
+                    odsText.append(create_cell(''))
                 odsText.append(f'    </table:table-row>')
             for scId in self.novel.chapters[chId].srtScenes:
-                odsText.append('   <table:table-row table:style-name="ro2">')
                 if self.novel.scenes[scId].scType == 0:
+                    odsText.append('   <table:table-row table:style-name="ro2">')
                     scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
-                    odsText.append(to_ods(self.novel.scenes[scId].title))
+                    odsText.append(create_cell(self.novel.scenes[scId].title))
                     for i, arc in enumerate(arcs):
-                        j = i % len(arcColors)
+                        j = (i % arcColorsTotal) + 1
                         if arc in scnArcs[scId]:
                             entry = ''
                             # Use arc point titles instead of binary marker.
@@ -96,10 +117,10 @@ class OdsPlotList(OdsWriter):
                                     points.append(self.novel.scenes[ptId].title)
                             if points:
                                 entry = list_to_string(points)
-                            odsText.append(to_ods(entry))
+                            odsText.append(create_cell(entry, attr=f' table:style-name="ce{j}" '))
                         else:
-                            odsText.append(to_ods(''))
-                odsText.append(f'    </table:table-row>')
+                            odsText.append(create_cell(''))
+                    odsText.append(f'    </table:table-row>')
 
         odsText.append(self._CONTENT_XML_FOOTER)
         with open(self.filePath, 'w', encoding='utf-8') as f:

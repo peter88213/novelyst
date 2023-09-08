@@ -28,8 +28,8 @@ class HtmlPlotList(HtmlReport):
         Extends the superclass method.
         """
 
-        def to_html(cell):
-            return f'<td>{cell}</td>'
+        def create_cell(cell, attr=''):
+            return f'<td{attr}>{cell}</td>'
 
         STYLE_CH_TITLE = 'font-weight: bold; color: red'
         htmlText = [self._fileHeader]
@@ -57,10 +57,10 @@ class HtmlPlotList(HtmlReport):
 
         # Title row.
         htmlText.append('<tr class="heading">')
-        htmlText.append(to_html(''))
+        htmlText.append(create_cell(''))
         for i, arc in enumerate(arcs):
             j = i % len(arcColors)
-            htmlText.append(f'<td style="background: {arcColors[j]}">{arcs[arc]}</td>')
+            htmlText.append(create_cell(arcs[arc], attr=f' style="background: {arcColors[j]}"'))
         htmlText.append('</tr>')
 
         # Chapter/scene rows.
@@ -71,15 +71,15 @@ class HtmlPlotList(HtmlReport):
                     break
 
                 htmlText.append(f'<tr>')
-                htmlText.append(f'<td style="{STYLE_CH_TITLE}">{self.novel.chapters[chId].title}</td>')
+                htmlText.append(create_cell(self.novel.chapters[chId].title, attr=f' style="{STYLE_CH_TITLE}"'))
                 for arc in arcs:
-                    htmlText.append(to_html(''))
+                    htmlText.append(create_cell(''))
                 htmlText.append(f'</tr>')
             for scId in self.novel.chapters[chId].srtScenes:
-                htmlText.append(f'<tr>')
                 if self.novel.scenes[scId].scType == 0:
+                    htmlText.append(f'<tr>')
                     scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
-                    htmlText.append(to_html(self.novel.scenes[scId].title))
+                    htmlText.append(create_cell(self.novel.scenes[scId].title))
                     for i, arc in enumerate(arcs):
                         j = i % len(arcColors)
                         if arc in scnArcs[scId]:
@@ -92,10 +92,10 @@ class HtmlPlotList(HtmlReport):
                                     points.append(self.novel.scenes[ptId].title)
                             if points:
                                 entry = list_to_string(points)
-                            htmlText.append(f'<td style="background: {arcColors[j]}">{entry}</td>')
+                            htmlText.append(create_cell(entry, attr=f' style="background: {arcColors[j]}"'))
                         else:
-                            htmlText.append(to_html(''))
-                htmlText.append(f'</tr>')
+                            htmlText.append(create_cell(''))
+                    htmlText.append(f'</tr>')
 
         htmlText.append(self._fileFooter)
         with open(self.filePath, 'w', encoding='utf-8') as f:
