@@ -32,6 +32,7 @@ from novelystlib.export.nv_exporter import NvExporter
 from novelystlib.export.odt_characters_nv import OdtCharactersNv
 from novelystlib.export.wrimo_file import WrimoFile
 from novelystlib.export.odt_arcs import OdtArcs
+from novelystlib.export.ods_plot_list import OdsPlotList
 
 
 class NvDocExporter(NvExporter):
@@ -58,6 +59,7 @@ class NvDocExporter(NvExporter):
                              OdsWLocList,
                              OdsWItemList,
                              OdsWSceneList,
+                             OdsPlotList,
                              DataFiles,
                              WrimoFile,
                              ]

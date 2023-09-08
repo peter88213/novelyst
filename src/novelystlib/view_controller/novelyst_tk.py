@@ -348,6 +348,7 @@ class NovelystTk(MainTk):
         self.exportMenu.add_command(label=_('Obfuscated text for word count'), command=lambda: self.export_document('_wrimo', lock=False, show=False))
         self.exportMenu.add_command(label=_('Characters/locations/items data files'), command=lambda: self.export_document('_data', lock=False, show=False))
         self.exportMenu.add_separator()
+        self.exportMenu.add_command(label=_('Plot spreadsheet (export only)'), command=lambda: self.export_document('_plotlist', lock=False))
         self.exportMenu.add_command(label=_('Show Plot list'), command=lambda: self._show_report('_plotlist'))
 
         # Tools
