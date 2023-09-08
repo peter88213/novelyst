@@ -28,8 +28,9 @@ class HtmlPlotList(HtmlReport):
         Extends the superclass method.
         """
 
-        def create_cell(cell, attr=''):
-            return f'<td{attr}>{cell}</td>'
+        def create_cell(text, attr=''):
+            """Return the markup for a table cell with text and attributes."""
+            return f'<td {attr}>{self._convert_from_yw(text)}</td>'
 
         STYLE_CH_TITLE = 'font-weight: bold; color: red'
         htmlText = [self._fileHeader]
@@ -60,7 +61,7 @@ class HtmlPlotList(HtmlReport):
         htmlText.append(create_cell(''))
         for i, arc in enumerate(arcs):
             j = i % len(arcColors)
-            htmlText.append(create_cell(arcs[arc], attr=f' style="background: {arcColors[j]}"'))
+            htmlText.append(create_cell(arcs[arc], attr=f'style="background: {arcColors[j]}"'))
         htmlText.append('</tr>')
 
         # Chapter/scene rows.
@@ -71,7 +72,7 @@ class HtmlPlotList(HtmlReport):
                     break
 
                 htmlText.append(f'<tr>')
-                htmlText.append(create_cell(self.novel.chapters[chId].title, attr=f' style="{STYLE_CH_TITLE}"'))
+                htmlText.append(create_cell(self.novel.chapters[chId].title, attr=f'style="{STYLE_CH_TITLE}"'))
                 for arc in arcs:
                     htmlText.append(create_cell(''))
                 htmlText.append(f'</tr>')
@@ -92,7 +93,7 @@ class HtmlPlotList(HtmlReport):
                                     points.append(self.novel.scenes[ptId].title)
                             if points:
                                 entry = list_to_string(points)
-                            htmlText.append(create_cell(entry, attr=f' style="background: {arcColors[j]}"'))
+                            htmlText.append(create_cell(entry, attr=f'style="background: {arcColors[j]}"'))
                         else:
                             htmlText.append(create_cell(''))
                     htmlText.append(f'</tr>')

@@ -48,8 +48,8 @@ class OdsPlotList(OdsWriter):
   </style:style>
  </office:automatic-styles>'''
 
-    _fileHeader = f'{OdsWriter._CONTENT_XML_HEADER}{DESCRIPTION}" table:style-name="ta1" table:print="false">'
-    _fileHeader = _fileHeader.replace(' </office:automatic-styles>', _ADDITIONAL_STYLES)
+    _fileHeader = OdsWriter._CONTENT_XML_HEADER.replace(' </office:automatic-styles>', _ADDITIONAL_STYLES)
+    _fileHeader = f'{_fileHeader}{DESCRIPTION}" table:style-name="ta1" table:print="false">'
 
     def write_content_xml(self):
         """Create the ODS table.
@@ -58,9 +58,10 @@ class OdsPlotList(OdsWriter):
         Extends the superclass method.
         """
 
-        def create_cell(cell, attr=''):
+        def create_cell(text, attr=''):
+            """Return the markup for a table cell with text and attributes."""
             return f'''     <table:table-cell {attr} office:value-type="string">
-      <text:p>{self._convert_from_yw(cell)}</text:p>
+      <text:p>{self._convert_from_yw(text)}</text:p>
      </table:table-cell>'''
 
         odsText = [
@@ -85,7 +86,7 @@ class OdsPlotList(OdsWriter):
         odsText.append(create_cell(''))
         for i, arc in enumerate(arcs):
             j = (i % arcColorsTotal) + 1
-            odsText.append(create_cell(arcs[arc], attr=f' table:style-name="ce{j}" '))
+            odsText.append(create_cell(arcs[arc], attr=f'table:style-name="ce{j}" '))
         odsText.append('    </table:table-row>')
 
         # Chapter/scene rows.
@@ -96,7 +97,7 @@ class OdsPlotList(OdsWriter):
                     break
 
                 odsText.append('   <table:table-row table:style-name="ro2">')
-                odsText.append(create_cell(self.novel.chapters[chId].title, attr=' table:style-name="ce0"'))
+                odsText.append(create_cell(self.novel.chapters[chId].title, attr='table:style-name="ce0"'))
                 for arc in arcs:
                     odsText.append(create_cell(''))
                 odsText.append(f'    </table:table-row>')
@@ -117,7 +118,7 @@ class OdsPlotList(OdsWriter):
                                     points.append(self.novel.scenes[ptId].title)
                             if points:
                                 entry = list_to_string(points)
-                            odsText.append(create_cell(entry, attr=f' table:style-name="ce{j}" '))
+                            odsText.append(create_cell(entry, attr=f'table:style-name="ce{j}" '))
                         else:
                             odsText.append(create_cell(''))
                     odsText.append(f'    </table:table-row>')

@@ -34,3 +34,29 @@ td.chtitle {font-weight: bold}
 </html>
 '''
 
+    def _convert_from_yw(self, text, quick=False):
+        """Return text, converted from yw7 markup to target format.
+        
+        Positional arguments:
+            text -- string to convert.
+        
+        Optional arguments:
+            quick: bool -- if True, apply a conversion mode for one-liners without formatting.
+        
+        Overrides the superclass method.
+        """
+        HTML_REPLACEMENTS = [
+            ('&', '&amp;'),  # must be first!
+            ('"', '&quot;'),
+            ("'", '&apos;'),
+            ('>', '&gt;'),
+            ('<', '&lt;'),
+            ('\n', '<p />'),
+        ]
+        try:
+            text = text.rstrip()
+            for yw, htm in HTML_REPLACEMENTS:
+                text = text.replace(yw, htm)
+        except AttributeError:
+            text = ''
+        return text
