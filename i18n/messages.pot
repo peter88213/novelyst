@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.39.0\n"
-"POT-Creation-Date: 2023-09-06 09:43:09\n"
+"Project-Id-Version: 4.40.0\n"
+"POT-Creation-Date: 2023-09-08 18:00:13\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -581,6 +581,9 @@ msgstr ""
 msgid "Number of scenes"
 msgstr ""
 
+msgid "ODS Plot list"
+msgstr ""
+
 msgid "Obfuscated text for word count"
 msgstr ""
 
@@ -633,6 +636,9 @@ msgid "Please close the manuscript first"
 msgstr ""
 
 msgid "Plot"
+msgstr ""
+
+msgid "Plot spreadsheet (export only)"
 msgstr ""
 
 msgid "Plugin Manager"

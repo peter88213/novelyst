@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.40.0
+
+- Add "Plot spreadsheet" export.
+- Escape HTML report text.
+
+Based on PyWriter v12.15.0
+
 ### v4.39.0
 
 - Add "Plot list" report.

@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.38.0\n"
-"POT-Creation-Date: 2023-09-05 07:55:02\n"
-"PO-Revision-Date: 2023-09-05 07:55:02\n"
+"Project-Id-Version: 4.40.0\n"
+"POT-Creation-Date: 2023-09-08 18:00:13\n"
+"PO-Revision-Date: 2023-09-08 18:00:13\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -406,6 +406,9 @@ msgstr "Ziel"
 msgid "Goals"
 msgstr "Ziele"
 
+msgid "HTML Plot list"
+msgstr "HTML-Plotliste"
+
 msgid "Help"
 msgstr "Hilfe"
 
@@ -577,6 +580,9 @@ msgstr "Notizen-Kapitel zum Bearbeiten"
 msgid "Number of scenes"
 msgstr "Anzahl Abschnitte"
 
+msgid "ODS Plot list"
+msgstr "ODS-Plotliste"
+
 msgid "Obfuscated text for word count"
 msgstr "Verschleierter Text zur Wortzählung"
 
@@ -630,6 +636,9 @@ msgstr "Bitte zuerst das Manuskript schließen"
 
 msgid "Plot"
 msgstr "Plot"
+
+msgid "Plot spreadsheet (export only)"
+msgstr "Plot-Tabelle (nur Export)"
 
 msgid "Plugin Manager"
 msgstr "Plugin-Manager"

@@ -211,6 +211,16 @@ in the **Characters**, **Locations**, or **Items** menu.
 
 ---
 
+## Plot spreadsheet (export only)
+
+**Export an ODS document**
+
+This will generate a new OpenDocument spreadsheet (ods) containing scenes, 
+arcs, plot structure, and plot points. File name suffix is `_plotlist`.
+The spreadsheet is not meant to be written back to yw7.
+
+---
+
 ## Show Plot list
 
 Show scenes, arcs, plot structure, and plot points.
