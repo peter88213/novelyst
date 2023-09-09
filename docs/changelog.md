@@ -11,6 +11,7 @@ See the [GitHub "Features" project](https://github.com/users/peter88213/projects
 ### v4.40.0
 
 - Add "Plot spreadsheet" export.
+- Replace "Arcs" document by "Plot" document.
 - Escape HTML report text.
 
 Based on PyWriter v12.15.0

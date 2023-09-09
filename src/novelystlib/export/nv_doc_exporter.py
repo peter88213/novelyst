@@ -31,7 +31,7 @@ from pywriter.yw.data_files import DataFiles
 from novelystlib.export.nv_exporter import NvExporter
 from novelystlib.export.odt_characters_nv import OdtCharactersNv
 from novelystlib.export.wrimo_file import WrimoFile
-from novelystlib.export.odt_arcs import OdtArcs
+from novelystlib.export.odt_plot import OdtPlot
 from novelystlib.export.ods_plot_list import OdsPlotList
 
 
@@ -48,7 +48,7 @@ class NvDocExporter(NvExporter):
                              OdtWChapterDesc,
                              OdtWPartDesc,
                              OdtWExport,
-                             OdtArcs,
+                             OdtPlot,
                              OdtCharactersNv,
                              OdtWItems,
                              OdtWLocations,

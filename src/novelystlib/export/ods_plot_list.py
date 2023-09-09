@@ -91,7 +91,7 @@ class OdsPlotList(OdsWriter):
         odsText.append(create_cell(''))
         for i, arc in enumerate(arcs):
             j = (i % arcColorsTotal) + 1
-            odsText.append(create_cell(arcs[arc], attr=f'table:style-name="ce{j}"', link=f'_arcs.odt#ChID{arcIds[arc]}'))
+            odsText.append(create_cell(arcs[arc], attr=f'table:style-name="ce{j}"', link=f'_plot.odt#ChID{arcIds[arc]}'))
         odsText.append('    </table:table-row>')
 
         # Chapter/scene rows.
@@ -102,7 +102,7 @@ class OdsPlotList(OdsWriter):
                     break
 
                 odsText.append('   <table:table-row table:style-name="ro2">')
-                odsText.append(create_cell(self.novel.chapters[chId].title, attr='table:style-name="ce0"'))
+                odsText.append(create_cell(self.novel.chapters[chId].title, attr='table:style-name="ce0"', link=f'_plot.odt#ChID{chId}'))
                 for arc in arcs:
                     odsText.append(create_cell(''))
                 odsText.append(f'    </table:table-row>')

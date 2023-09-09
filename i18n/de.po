@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 4.40.0\n"
-"POT-Creation-Date: 2023-09-08 18:00:13\n"
-"PO-Revision-Date: 2023-09-08 18:00:13\n"
+"POT-Creation-Date: 2023-09-09 14:48:27\n"
+"PO-Revision-Date: 2023-09-09 14:48:27\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,6 @@ msgstr "Bogen-Name"
 
 msgid "Arcs"
 msgstr "Bögen"
-
-msgid "Arcs (export only)"
-msgstr "Bögen (nur Export)"
 
 msgid "Assign scene"
 msgstr "Abschnitt zuordnen"
@@ -637,6 +634,12 @@ msgstr "Bitte zuerst das Manuskript schließen"
 msgid "Plot"
 msgstr "Plot"
 
+msgid "Plot description"
+msgstr "Plotbeschreibung"
+
+msgid "Plot description (export only)"
+msgstr "Plotbeschreibung (nur Export)"
+
 msgid "Plot spreadsheet (export only)"
 msgstr "Plot-Tabelle (nur Export)"
 
@@ -780,6 +783,9 @@ msgstr "Anfangswert"
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Story structure"
+msgstr "Erzählstruktur"
 
 msgid "Summary"
 msgstr "Zusammenfassung"

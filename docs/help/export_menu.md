@@ -158,23 +158,6 @@ OpenDocument text document.  File name suffix is `_brf_synopsis`.
 
 ---
 
-## Arcs (export only)
-
-This will write arc-defining "Todo" parts and chapters with child scenes into a new 
-OpenDocument text document (odt). File name suffix is `_arcs`.
-
-The document contains:
-- Part titles (first level heading, only if the part's first chapter defines an arc)
-- Arc titles (second level heading)
-- Arc descriptions
-- Point titles (third level heading)
-- Links to the associated scene, if any
-- Point descrptions.
-- Point contents.
-
-
----
-
 ## Cross references (export only)
 
 This will generate a new OpenDocument text document (odt) containing
@@ -211,6 +194,25 @@ in the **Characters**, **Locations**, or **Items** menu.
 
 ---
 
+## Plot description (export only)
+
+This will write plot-defining "Todo" parts and chapters into a new 
+OpenDocument text document (odt). File name suffix is `_plot`.
+
+The document contains:
+
+- "Todo" chapters within the narrative part (titles and descriptions).
+- Part titles (first level heading, only if the part's first chapter defines an arc)
+- Arc titles (second level heading)
+- Arc descriptions
+- Point titles (third level heading)
+- Links to the associated scene, if any
+- Point descrptions.
+- Point contents.
+
+
+---
+
 ## Plot spreadsheet (export only)
 
 **Export an ODS document**
@@ -218,6 +220,8 @@ in the **Characters**, **Locations**, or **Items** menu.
 This will generate a new OpenDocument spreadsheet (ods) containing scenes, 
 arcs, plot structure, and plot points. File name suffix is `_plotlist`.
 The spreadsheet is not meant to be written back to yw7.
+
+- There are hyperlinks to the scenes in the manuscript, and to the chapters in the plot description.
 
 ---
 

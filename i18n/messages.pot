@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 4.40.0\n"
-"POT-Creation-Date: 2023-09-08 18:00:13\n"
+"POT-Creation-Date: 2023-09-09 14:48:27\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -72,9 +72,6 @@ msgid "Arc name"
 msgstr ""
 
 msgid "Arcs"
-msgstr ""
-
-msgid "Arcs (export only)"
 msgstr ""
 
 msgid "Assign scene"
@@ -638,6 +635,12 @@ msgstr ""
 msgid "Plot"
 msgstr ""
 
+msgid "Plot description"
+msgstr ""
+
+msgid "Plot description (export only)"
+msgstr ""
+
 msgid "Plot spreadsheet (export only)"
 msgstr ""
 
@@ -780,6 +783,9 @@ msgid "Starting count"
 msgstr ""
 
 msgid "Status"
+msgstr ""
+
+msgid "Story structure"
 msgstr ""
 
 msgid "Summary"
