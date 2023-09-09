@@ -58,11 +58,14 @@ class OdsPlotList(OdsWriter):
         Extends the superclass method.
         """
 
-        def create_cell(text, attr=''):
+        def create_cell(text, attr='', link=''):
             """Return the markup for a table cell with text and attributes."""
-            return f'''     <table:table-cell {attr} office:value-type="string">
-      <text:p>{self._convert_from_yw(text)}</text:p>
-     </table:table-cell>'''
+            if link:
+                attr = f'{attr} table:formula="of:=HYPERLINK(&quot;file:///{self.projectPath}/{self._convert_from_yw(self.projectName)}{link}&quot;;&quot;{self._convert_from_yw(text)}&quot;)"'
+                text = ''
+            else:
+                text = f'\n      <text:p>{self._convert_from_yw(text)}</text:p>'
+            return f'     <table:table-cell {attr} office:value-type="string">{text}\n     </table:table-cell>'
 
         odsText = [
             self._fileHeader,
@@ -105,7 +108,7 @@ class OdsPlotList(OdsWriter):
                 if self.novel.scenes[scId].scType == 0:
                     odsText.append('   <table:table-row table:style-name="ro2">')
                     scnArcs[scId] = string_to_list(self.novel.scenes[scId].scnArcs)
-                    odsText.append(create_cell(self.novel.scenes[scId].title))
+                    odsText.append(create_cell(self.novel.scenes[scId].title, link=f'_manuscript.odt#ScID:{scId}%7Cregion'))
                     for i, arc in enumerate(arcs):
                         j = (i % arcColorsTotal) + 1
                         if arc in scnArcs[scId]:
