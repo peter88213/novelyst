@@ -77,19 +77,21 @@ class OdsPlotList(OdsWriter):
 
         # Get arcs.
         arcs = {}
+        arcIds = {}
         scnArcs = {}
         for chId in self.novel.srtChapters:
             arcDefinition = self.novel.chapters[chId].kwVar.get('Field_ArcDefinition', None)
             if arcDefinition is not None:
                 arcs[arcDefinition] = self.novel.chapters[chId].title
                 odsText.append('<table:table-column table:style-name="co3" table:default-cell-style-name="Default"/>')
+                arcIds[arcDefinition] = chId
 
         # Title row.
         odsText.append('   <table:table-row table:style-name="ro2">')
         odsText.append(create_cell(''))
         for i, arc in enumerate(arcs):
             j = (i % arcColorsTotal) + 1
-            odsText.append(create_cell(arcs[arc], attr=f'table:style-name="ce{j}" '))
+            odsText.append(create_cell(arcs[arc], attr=f'table:style-name="ce{j}"', link=f'_arcs.odt#ChID{arcIds[arc]}'))
         odsText.append('    </table:table-row>')
 
         # Chapter/scene rows.

@@ -17,13 +17,13 @@ class OdtArcs(OdtWTodo):
     DESCRIPTION = _('Arcs')
     SUFFIX = '_arcs'
 
-    _todoPartTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1">$Title</text:h>
+    _todoPartTemplate = '''<text:h text:style-name="Heading_20_1" text:outline-level="1"><text:bookmark text:name="ChID$ID"/>$Title</text:h>
 '''
 
-    _todoChapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2">$Title</text:h>
+    _todoChapterTemplate = '''<text:h text:style-name="Heading_20_2" text:outline-level="2"><text:bookmark text:name="ChID$ID"/>$Title</text:h>
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 '''
-    _todoSceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3">$Title</text:h>
+    _todoSceneTemplate = '''<text:h text:style-name="Heading_20_3" text:outline-level="3"><text:bookmark text:name="ScID$ID"/>$Title</text:h>
 <text:p text:style-name="Text_20_body">$Desc</text:p>
 $SceneAssoc
 <text:p text:style-name="Heading_20_4">―――</text:p>\n
