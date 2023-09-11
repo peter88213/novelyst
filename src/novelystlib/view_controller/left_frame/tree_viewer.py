@@ -1773,10 +1773,11 @@ class TreeViewer(ttk.Frame):
             dispTime = ''
 
         # Create arc point titles.
-        points = []
+        points = {}
+        # key: arc point title, value: arc the scene point belongs to
         pointIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
         for ptId in pointIds:
-            points.append(self._ui.novel.scenes[ptId].title)
+            points[self._ui.novel.scenes[ptId].title] = self._ui.novel.scenes[ptId].scnArcs
 
         # Create a combined duration information.
         if self._ui.novel.scenes[scId].lastsDays and self._ui.novel.scenes[scId].lastsDays != '0':
@@ -1810,6 +1811,7 @@ class TreeViewer(ttk.Frame):
 
             # Display associated scene(s), if any.
             columns[self._colPos['pt']] = list_to_string(points)
+            # this works for the dictionary keys; values are discarded
 
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
@@ -1874,11 +1876,24 @@ class TreeViewer(ttk.Frame):
 
             # Display arcs the scene belongs to.
             arcs = self._ui.novel.scenes[scId].scnArcs
+            singleArc = False
             if arcs is not None:
                 columns[self._colPos['ac']] = arcs
+                if not ';' in arcs:
+                    singleArc = True
+                    # the scene is associated with one single arc
 
             # Display arc points, if any.
-            columns[self._colPos['pt']] = list_to_string(points)
+            arcPoints = []
+            for pointTitle in points:
+                if singleArc:
+                    arcRef = ''
+                    # no arc reference is needed
+                else:
+                    arcRef = f'{points[pointTitle]}: '
+                    # indicate the arc the point belongs to
+                arcPoints.append(f'{arcRef}{pointTitle}')
+            columns[self._colPos['pt']] = list_to_string(arcPoints)
 
         # "Scene has notes" indicator.
         if self._ui.novel.scenes[scId].notes:

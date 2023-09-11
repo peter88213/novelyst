@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.40.1
+
+- If not unique, indicate the arc in the "Plot" column.
+
+Based on PyWriter v12.15.0
+
 ### v4.40.0
 
 - Add "Plot spreadsheet" export.
