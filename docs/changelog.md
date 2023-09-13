@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.41.1
+
+- Fix a bug where shortcuts do not work correctly after pressing **F10**.
+
+Based on PyWriter v12.15.0
+
 ### v4.41.0
 
 - Change the shortcuts for browsing the tree (see [help](help/view_menu)).

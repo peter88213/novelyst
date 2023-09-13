@@ -1040,6 +1040,9 @@ class TreeViewer(ttk.Frame):
         """
         self.go_to_node(node)
         self.open_children(node)
+        return 'break'
+        # this stops event propagation and allows for re-mapping e.g. the F10 key
+        # (see: https://stackoverflow.com/questions/22907200/remap-default-keybinding-in-tkinter)
 
     def show_chapters(self, parent):
         """Open Book/Part nodes and close chapter nodes.
