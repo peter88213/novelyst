@@ -52,7 +52,7 @@
 
 **Go to the "Book" branch and expand it**
 
-- You can select and open the "Book" branch with **View > View Book** or **Home**. 
+- You can select and open the "Book" branch with **View > View Book** or **F6**. 
 
 --- 
 
@@ -60,7 +60,7 @@
 
 **Go to the "Characters" branch and expand it**
 
-- You can select and open the "Characters" branch with **View > View Characters** or **F6**. 
+- You can select and open the "Characters" branch with **View > View Characters** or **F7**. 
 
 --- 
 
@@ -68,7 +68,7 @@
 
 **Go to the "Locations" branch and expand it**
 
-- You can select and open the "Locations" branch with **View > View Locations** or **F7**. 
+- You can select and open the "Locations" branch with **View > View Locations** or **F8**. 
 
 --- 
 
@@ -76,7 +76,7 @@
 
 **Go to the "Items" branch and expand it**
 
-- You can select and open the "Items" branch with **View > View Items** or **F8**. 
+- You can select and open the "Items" branch with **View > View Items** or **F9**. 
 
 --- 
 
@@ -84,7 +84,7 @@
 
 **Go to the "Research" branch and expand it**
 
-- You can select and open the "Research" branch with **View > View Research** or **F9**. 
+- You can select and open the "Research" branch with **View > View Research** or **F10**. 
 
 --- 
 
@@ -92,7 +92,7 @@
 
 **Go to the "Planning" branch and expand it**
 
-- You can select and open the "Planning" branch with **View > View Planning** or **F10**. 
+- You can select and open the "Planning" branch with **View > View Planning** or **F11**. 
 
 --- 
 
@@ -100,7 +100,7 @@
 
 **Go to the "Project notes" branch and expand it**
 
-- You can select and open the "Project notes" branch with **View > View Project notes** or **End**. 
+- You can select and open the "Project notes" branch with **View > View Project notes** or **F12**. 
 
 --- 
 

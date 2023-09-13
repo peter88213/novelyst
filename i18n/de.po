@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.40.2\n"
-"POT-Creation-Date: 2023-09-13 11:54:04\n"
-"PO-Revision-Date: 2023-09-13 11:54:05\n"
+"Project-Id-Version: 4.41.0\n"
+"POT-Creation-Date: 2023-09-13 19:39:09\n"
+"PO-Revision-Date: 2023-09-13 19:39:10\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -316,9 +316,6 @@ msgstr "Dauer"
 msgid "Editable manuscript"
 msgstr "Manuskript zum Bearbeiten"
 
-msgid "End"
-msgstr "Ende"
-
 msgid "Exit"
 msgstr "Beenden"
 
@@ -408,9 +405,6 @@ msgstr "HTML-Plotliste"
 
 msgid "Help"
 msgstr "Hilfe"
-
-msgid "Home"
-msgstr "Pos1"
 
 msgid "Home page"
 msgstr "Homepage"

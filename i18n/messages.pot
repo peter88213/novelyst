@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.40.2\n"
-"POT-Creation-Date: 2023-09-13 11:54:04\n"
+"Project-Id-Version: 4.41.0\n"
+"POT-Creation-Date: 2023-09-13 19:39:09\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -317,9 +317,6 @@ msgstr ""
 msgid "Editable manuscript"
 msgstr ""
 
-msgid "End"
-msgstr ""
-
 msgid "Exit"
 msgstr ""
 
@@ -408,9 +405,6 @@ msgid "HTML Plot list"
 msgstr ""
 
 msgid "Help"
-msgstr ""
-
-msgid "Home"
 msgstr ""
 
 msgid "Home page"

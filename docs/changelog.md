@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.41.0
+
+- Change the shortcuts for browsing the tree (see [help](help/view_menu)).
+
+Based on PyWriter v12.15.0
+
 ### v4.40.2
 
 - If not unique, indicate the arc in the "Plot" column for chapter summaries as well.

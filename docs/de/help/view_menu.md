@@ -52,7 +52,7 @@
 
 **Go to the "Buch" branch and expand it**
 
-- You can select and open the "Buch" branch with **Ansicht > Ansicht Buch** or **Pos1**. 
+- You can select and open the "Buch" branch with **Ansicht > Ansicht Buch** or **F6**. 
 
 --- 
 
@@ -60,7 +60,7 @@
 
 **Go to the "Figuren" branch and expand it**
 
-- You can select and open the "Figuren" branch with **Ansicht > Ansicht Figuren** or **F6**. 
+- You can select and open the "Figuren" branch with **Ansicht > Ansicht Figuren** or **F7**. 
 
 --- 
 
@@ -68,7 +68,7 @@
 
 **Go to the "Schauplätze" branch and expand it**
 
-- You can select and open the "Schauplätze" branch with **Ansicht > Ansicht Schauplätze** or **F7**. 
+- You can select and open the "Schauplätze" branch with **Ansicht > Ansicht Schauplätze** or **F8**. 
 
 --- 
 
@@ -76,7 +76,7 @@
 
 **Go to the "Gegenstände" branch and expand it**
 
-- You can select and open the "Gegenstände" branch with **Ansicht > Ansicht Gegenstände** or **F8**. 
+- You can select and open the "Gegenstände" branch with **Ansicht > Ansicht Gegenstände** or **F9**. 
 
 --- 
 
@@ -84,7 +84,7 @@
 
 **Go to the "Recherche" branch and expand it**
 
-- You can select and open the "Recherche" branch with **Ansicht > Ansicht Recherche** or **F9**. 
+- You can select and open the "Recherche" branch with **Ansicht > Ansicht Recherche** or **F10**. 
 
 --- 
 
@@ -92,7 +92,7 @@
 
 **Go to the "Planung" branch and expand it**
 
-- You can select and open the "Planung" branch with **Ansicht > Ansicht Planung** or **F10**. 
+- You can select and open the "Planung" branch with **Ansicht > Ansicht Planung** or **F11**. 
 
 --- 
 
@@ -100,7 +100,7 @@
 
 **Go to the "Projektnotizen" branch and expand it**
 
-- You can select and open the "Projektnotizen" branch with **Ansicht > Ansicht Projektnotizen** or **Ende**. 
+- You can select and open the "Projektnotizen" branch with **Ansicht > Ansicht Projektnotizen** or **F12e**. 
 
 --- 
 
