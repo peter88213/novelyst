@@ -1548,21 +1548,8 @@ class TreeViewer(ttk.Frame):
                                     chapterTags.append(tag)
             return list_to_string(chapterTags)
 
-        def collect_arcpoints(chId):
-            """Return a string with semicolon-separated arc points."""
-            chapterPoints = []
-            if self._ui.novel.chapters[chId].chType == 0:
-                for scId in self._ui.novel.chapters[chId].srtScenes:
-                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
-                        scenePtIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
-                        for ptId in scenePtIds:
-                            arcPoint = self._ui.novel.scenes[ptId].title
-                            if not arcPoint in chapterPoints:
-                                chapterPoints.append(arcPoint)
-            return list_to_string(chapterPoints)
-
         def collect_arcs(chId):
-            """Return a string with semicolon-separated arcs."""
+            """Return a string with semicolon-separated arcs, and a string with semicolon-separated arc points."""
             chapterArcs = []
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
@@ -1571,7 +1558,19 @@ class TreeViewer(ttk.Frame):
                         for arc in sceneArcs:
                             if not arc in chapterArcs:
                                 chapterArcs.append(arc)
-            return list_to_string(chapterArcs)
+            chapterPoints = []
+            if self._ui.novel.chapters[chId].chType == 0:
+                for scId in self._ui.novel.chapters[chId].srtScenes:
+                    if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
+                        scenePtIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
+                        for ptId in scenePtIds:
+                            if len(chapterArcs) > 1:
+                                arcPoint = f'{self._ui.novel.scenes[ptId].scnArcs}: {self._ui.novel.scenes[ptId].title}'
+                            else:
+                                arcPoint = self._ui.novel.scenes[ptId].title
+                            if not arcPoint in chapterPoints:
+                                chapterPoints.append(arcPoint)
+            return list_to_string(chapterArcs), list_to_string(chapterPoints)
 
         def collect_note_indicators(chId):
             """Return a string that indicates scene notes within the chapter."""
@@ -1640,8 +1639,7 @@ class TreeViewer(ttk.Frame):
                 columns[self._colPos['vp']] = collect_viewpoints(chId)
         if collect:
             columns[self._colPos['tg']] = collect_tags(chId)
-            columns[self._colPos['ac']] = collect_arcs(chId)
-            columns[self._colPos['pt']] = collect_arcpoints(chId)
+            columns[self._colPos['ac']], columns[self._colPos['pt']] = collect_arcs(chId)
             columns[self._colPos['nt']] = collect_note_indicators(chId)
         return title, columns, tuple(nodeTags)
 
@@ -1772,13 +1770,6 @@ class TreeViewer(ttk.Frame):
         else:
             dispTime = ''
 
-        # Create arc point titles.
-        points = {}
-        # key: arc point title, value: arc the scene point belongs to
-        pointIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
-        for ptId in pointIds:
-            points[self._ui.novel.scenes[ptId].title] = self._ui.novel.scenes[ptId].scnArcs
-
         # Create a combined duration information.
         if self._ui.novel.scenes[scId].lastsDays and self._ui.novel.scenes[scId].lastsDays != '0':
             days = f'{self._ui.novel.scenes[scId].lastsDays}d '
@@ -1810,8 +1801,10 @@ class TreeViewer(ttk.Frame):
                 columns[self._colPos['ac']] = arcs
 
             # Display associated scene(s), if any.
-            columns[self._colPos['pt']] = list_to_string(points)
-            # this works for the dictionary keys; values are discarded
+            pointTitles = []
+            for ptId in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None)):
+                pointTitles.append(self._ui.novel.scenes[ptId].title)
+            columns[self._colPos['pt']] = list_to_string(pointTitles)
 
         elif self._ui.novel.scenes[scId].scType == 1:
             # Scene is Notes type.
@@ -1875,25 +1868,18 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['dr']] = f'{days}{hours}{minutes}'
 
             # Display arcs the scene belongs to.
-            arcs = self._ui.novel.scenes[scId].scnArcs
-            singleArc = False
-            if arcs is not None:
-                columns[self._colPos['ac']] = arcs
-                if not ';' in arcs:
-                    singleArc = True
-                    # the scene is associated with one single arc
+            if self._ui.novel.scenes[scId].scnArcs:
+                columns[self._colPos['ac']] = self._ui.novel.scenes[scId].scnArcs
 
-            # Display arc points, if any.
-            arcPoints = []
-            for pointTitle in points:
-                if singleArc:
-                    arcRef = ''
-                    # no arc reference is needed
+                # Display arc points, if any.
+                arcPoints = []
+                if ';' in self._ui.novel.scenes[scId].scnArcs:
+                    for ptId in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None)):
+                        arcPoints.append(f'{self._ui.novel.scenes[ptId].scnArcs}: {self._ui.novel.scenes[ptId].title}')
                 else:
-                    arcRef = f'{points[pointTitle]}: '
-                    # indicate the arc the point belongs to
-                arcPoints.append(f'{arcRef}{pointTitle}')
-            columns[self._colPos['pt']] = list_to_string(arcPoints)
+                    for ptId in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None)):
+                        arcPoints.append(self._ui.novel.scenes[ptId].title)
+                columns[self._colPos['pt']] = list_to_string(arcPoints)
 
         # "Scene has notes" indicator.
         if self._ui.novel.scenes[scId].notes:
