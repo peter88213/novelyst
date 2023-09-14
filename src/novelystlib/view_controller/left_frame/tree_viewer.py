@@ -1027,7 +1027,7 @@ class TreeViewer(ttk.Frame):
             self._ui.isModified = True
 
     def reset_tree(self):
-        """Clear the displayed tree."""
+        """Clear the displayed tree, and reset the browsing history."""
         for child in self.tree.get_children(''):
             self.tree.delete(child)
         self._history.reset()
@@ -1155,7 +1155,7 @@ class TreeViewer(ttk.Frame):
             self._history.reset()
             self._history.append_node(self.tree.selection()[0])
 
-    def _cancel_part(self, event):
+    def _cancel_part(self, event=None):
         """Remove a part but keep its chapters."""
         if self._ui.check_lock():
             return
@@ -1186,7 +1186,7 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['po']] = positionStr
             self.tree.item(nodeId, values=columns)
 
-    def _delete_node(self, event):
+    def _delete_node(self, event=None):
         """Delete a node and its children.
         
         Move scenes to the "Trash" chapter.
@@ -1308,7 +1308,7 @@ class TreeViewer(ttk.Frame):
                 self._set_type([self._trashNode], 3)
             self.update_prj_structure()
 
-    def _demote_part(self, event):
+    def _demote_part(self, event=None):
         """Make a part a chapter."""
         if self._ui.check_lock():
             return
@@ -1340,7 +1340,12 @@ class TreeViewer(ttk.Frame):
         else:
             self._configure_chapter_columns(nodeId, collect=False)
 
-    def _on_select_node(self, event=None):
+    def _on_select_node(self, event):
+        """Event handler for node selection.
+        
+        - Show the node's properties.
+        - Add the node ID to the browsing history.
+        """
         self._ui.show_properties(event)
         try:
             nodeId = self.tree.selection()[0]
@@ -1350,7 +1355,10 @@ class TreeViewer(ttk.Frame):
             self._history.append_node(nodeId)
 
     def _move_node(self, event):
-        """Move a selected node in the novel tree."""
+        """Event handler for drag/drop operation.
+        
+        - Move a selected node in the novel tree.
+        """
         if self._ui.isLocked:
             return
 
@@ -1370,6 +1378,7 @@ class TreeViewer(ttk.Frame):
         self.update_prj_structure()
 
     def _open_context_menu(self, event):
+        """Configure the tree's context menu depending on the selected branch and the program state, and open it."""
         row = self.tree.identify_row(event.y)
         if row:
             self.go_to_node(row)
@@ -1495,7 +1504,7 @@ class TreeViewer(ttk.Frame):
                 finally:
                     self._wrCtxtMenu.grab_release()
 
-    def _promote_chapter(self, event):
+    def _promote_chapter(self, event=None):
         """Make a chapter a part."""
         if self._ui.check_lock():
             return
@@ -1513,7 +1522,15 @@ class TreeViewer(ttk.Frame):
             self.refresh_tree()
 
     def _set_chapter_display(self, chId, position=None, collect=False):
-        """Configure chapter formatting and columns."""
+        """Configure chapter formatting and columns.
+        
+        Positional arguments:
+            chId: str -- Chapter ID
+            
+        Optional arguments:
+            position: integer -- Word count at the beginning of the chapter.
+            collect: bool -- If True, summarize scene metadata.
+        """
 
         def count_words(chId):
             """Accumulate word counts of all normal scenes in a chapter."""
@@ -1552,7 +1569,7 @@ class TreeViewer(ttk.Frame):
             return list_to_string(chapterTags)
 
         def collect_arcs(chId):
-            """Return a string with semicolon-separated arcs, and a string with semicolon-separated arc points."""
+            """Return a tuple of two strings: semicolon-separated arcs, semicolon-separated arc points."""
             chapterArcs = []
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
@@ -1565,8 +1582,7 @@ class TreeViewer(ttk.Frame):
             if self._ui.novel.chapters[chId].chType == 0:
                 for scId in self._ui.novel.chapters[chId].srtScenes:
                     if self._ui.novel.scenes[scId].scType == 0 and not self._ui.novel.scenes[scId].doNotExport:
-                        scenePtIds = string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None))
-                        for ptId in scenePtIds:
+                        for ptId in string_to_list(self._ui.novel.scenes[scId].kwVar.get('Field_SceneAssoc', None)):
                             if len(chapterArcs) > 1:
                                 arcPoint = f'{self._ui.novel.scenes[ptId].scnArcs}: {self._ui.novel.scenes[ptId].title}'
                             else:
