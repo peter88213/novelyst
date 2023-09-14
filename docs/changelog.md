@@ -8,6 +8,14 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.41.2
+
+- Place the *show_markup* checkbox at the bottom of the contents viewer window.
+- Refactorthe code.
+- Update docstrings
+
+Based on PyWriter v12.15.0
+
 ### v4.41.1
 
 - Fix a bug where shortcuts do not work correctly after pressing **F10**.

@@ -40,6 +40,7 @@ class ContentsViewer(RichTextYw):
         # ui cannot be replaced by e.g. ui.novel which is None at initialization time
 
         super().__init__(parent, **kwargs)
+        self.pack(expand=True, fill='both')
         self.showMarkup = tk.BooleanVar(parent, value=kwargs['show_markup'])
         ttk.Checkbutton(parent, text=_('Show markup'), variable=self.showMarkup).pack(anchor='w')
         self.showMarkup.trace('w', self.update)

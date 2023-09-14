@@ -218,7 +218,6 @@ class NovelystTk(MainTk):
 
         # Create a text viewer in the middle frame.
         self.contentsViewer = ContentsViewer(self, self.middleFrame, **self.kwargs)
-        self.contentsViewer.pack(expand=True, fill='both')
         if self.kwargs['show_contents']:
             self.middleFrame.pack(side='left', expand=False, fill='both')
 
