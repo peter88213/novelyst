@@ -43,42 +43,44 @@ class NovelystTk(MainTk):
     
     Public methods:
         check_lock() -- Show a message and return True, if the project is locked.
-        close_project() -- Close the current project.
-        detach_properties_frame() -- View the properties in its own window.
-        discard_manuscript() -- Rename the current editable manuscript. 
-        dock_properties_frame() -- Dock the properties window at the right pane, if detached.
+        close_project(event) -- Close the current project.
+        detach_properties_frame(event) -- View the properties in its own window.
         disable_menu() -- Disable menu entries when no project is open.
-        edit_settings() -- Open a toplevel window to edit the program settings.
+        discard_manuscript() -- Rename the current editable manuscript. 
+        dock_properties_frame(event) -- Dock the properties window at the right pane, if detached.
+        edit_settings(event) -- Open a toplevel window to edit the program settings.
         enable_menu() -- Enable menu entries when a project is open.
         export_document(suffix) -- Export a document.
         import_characters() -- Import characters from an XML data file.
         import_locations() -- Import locations from an XML data file.
-        import_items() -- Import items from an XML data file.        lock() -- Lock the project.
-        manage_plugins() -- Open a toplevel window to manage the plugins.
-        new_project() -- Create a novelyst project instance.
-        on_quit() -- Save keyword arguments before exiting the program.
+        import_items() -- Import items from an XML data file.
+        lock(event) -- Lock the project.
+        manage_plugins(event) -- Open a toplevel window to manage the plugins.
+        new_project(event) -- Create a novelyst project instance.
+        on_quit(event) -- Save keyword arguments before exiting the program.
+        open_installation_folder(event) -- Open the installation folder with the OS file manager.
         open_project(fileName='') -- Create a novelyst project instance and read the file.
-        open_project_folder() -- Open the project folder with the OS file manager.
-        refresh_tree() -- Apply changes and refresh the tree.
-        reload_project() -- Discard changes and reload the project.
-        save_as() -- Rename the project file and save it to disk.
-        save_project() -- Save the novelyst project to disk and set "unchanged" status.
-        show_chapter_level() -- Open all Book/Part nodes and close all chapter nodes in the tree viewer.
+        open_project_folder(event) -- Open the project folder with the OS file manager.
+        refresh_tree(event) -- Apply changes and refresh the tree.
+        reload_project(event) -- Discard changes and reload the project.
+        save_as(event) -- Rename the project file and save it to disk.
+        save_project(event) -- Save the novelyst project to disk and set "unchanged" status.
+        show_chapter_level(event) -- Open all Book/Part nodes and close all chapter nodes in the tree viewer.
         show_properties() -- Show the properties of the selected element.
         show_status(message=None) -- Display project statistics at the status bar.
-        toggle_lock() -- Toggle the 'locked' status.
-        toggle_viewer() -- Show/hide the contents viewer text box.
-        toggle_properties() -- Show/hide the element properties frame.
-        toggle_properties_window() -- Detach/dock the element properties frame.
-        unlock() -- Unlock the project.
-        view_chapter(chId) -- Event handler for chapter selection.
-        view_character(crId) -- Event handler for character selection.
-        view_item(itId) -- Event handler for item selection.
-        view_location(lcId) -- Event handler for location selection.
-        view_narrative() -- Event handler for narrative tree root selection.
-        view_nothing() -- Event handler for invalid tree selection.
-        view_projectNote(pnId) -- Event handler for project note selection.
-        view_scene(scId) -- Event handler for scene selection.
+        toggle_lock(event) -- Toggle the 'locked' status.
+        toggle_viewer(event) -- Show/hide the contents viewer text box.
+        toggle_properties(event) -- Show/hide the element properties frame.
+        toggle_properties_window(event) -- Detach/dock the element properties frame.
+        unlock(event) -- Unlock the project.
+        view_chapter(chId) -- Show the selected chapter's properties; move to it in the content viewer.
+        view_character(crId) -- Show the selected character's properties.
+        view_item(itId) -- Show the selected item's properties.
+        view_location(lcId) -- Show the selected location's properties.
+        view_narrative() -- Show the project's properties.
+        view_nothing() -- Reset properties if nothing valid is selected.
+        view_projectNote(pnId) -- Show the selected project note.
+        view_scene(scId) -- Show the selected scene's properties; move to it in the content viewer.
         
     Public instance variables:
         guiStyle -- ttk.Style object.
@@ -448,7 +450,7 @@ class NovelystTk(MainTk):
             self.fileMenu.entryconfig(_('Lock'), state='normal')
             self.fileMenu.entryconfig(_('Unlock'), state='disabled')
 
-    def check_lock(self, event=None):
+    def check_lock(self):
         """Show a message and return True, if the project is locked."""
         if self.isLocked:
             if self.ask_yes_no(_('The project is locked.\nUnlock?'), title=_('Can not do')):
@@ -506,24 +508,6 @@ class NovelystTk(MainTk):
         self.kwargs['detach_prop_win'] = True
         self._propWinDetached = True
 
-    def dock_properties_frame(self, event=None):
-        """Dock the properties window at the right pane, if detached."""
-        self._elementView.apply_changes()
-        if not self._propWinDetached:
-            return
-
-        self._initialize_properties_frame(self.rightFrame)
-        if not self.rightFrame.winfo_manager():
-            self.rightFrame.pack(side='left', expand=False, fill='both')
-        self._elementView.pack()
-        self.show_properties()
-        self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
-        self._propertiesWindow.destroy()
-        self.kwargs['show_properties'] = True
-        self.kwargs['detach_prop_win'] = False
-        self._propWinDetached = False
-        self.root.lift()
-
     def disable_menu(self):
         """Disable menu entries when no project is open.
         
@@ -564,6 +548,24 @@ class NovelystTk(MainTk):
             elif self.ask_yes_no(f"{_('Discard manuscript')}?", self.novel.title):
                 os.replace(manuscriptPath, f'{fileName}_manuscript.odt.bak')
                 self.set_info_how(f"{_('Manuscript discarded')}.")
+
+    def dock_properties_frame(self, event=None):
+        """Dock the properties window at the right pane, if detached."""
+        self._elementView.apply_changes()
+        if not self._propWinDetached:
+            return
+
+        self._initialize_properties_frame(self.rightFrame)
+        if not self.rightFrame.winfo_manager():
+            self.rightFrame.pack(side='left', expand=False, fill='both')
+        self._elementView.pack()
+        self.show_properties()
+        self.kwargs['prop_win_geometry'] = self._propertiesWindow.winfo_geometry()
+        self._propertiesWindow.destroy()
+        self.kwargs['show_properties'] = True
+        self.kwargs['detach_prop_win'] = False
+        self._propWinDetached = False
+        self.root.lift()
 
     def edit_settings(self, event=None):
         """Open a toplevel window to edit the program settings."""
@@ -750,6 +752,23 @@ class NovelystTk(MainTk):
             self.show_error(str(ex), title='ERROR: Unhandled exception on exit')
             self.root.quit()
 
+    def open_installationFolder(self, event=None):
+        """Open the installation folder with the OS file manager."""
+        installDir = os.path.dirname(sys.argv[0])
+        try:
+            os.startfile(norm_path(installDir))
+            # Windows
+        except:
+            try:
+                os.system('xdg-open "%s"' % norm_path(installDir))
+                # Linux
+            except:
+                try:
+                    os.system('open "%s"' % norm_path(installDir))
+                    # Mac
+                except:
+                    pass
+
     def open_project(self, fileName=''):
         """Create a novelyst project instance and read the file.
         
@@ -771,23 +790,6 @@ class NovelystTk(MainTk):
         if self.prjFile.has_lockfile():
             self.isLocked = True
         return True
-
-    def open_installationFolder(self, event=None):
-        """Open the installation folder with the OS file manager."""
-        installDir = os.path.dirname(sys.argv[0])
-        try:
-            os.startfile(norm_path(installDir))
-            # Windows
-        except:
-            try:
-                os.system('xdg-open "%s"' % norm_path(installDir))
-                # Linux
-            except:
-                try:
-                    os.system('open "%s"' % norm_path(installDir))
-                    # Mac
-                except:
-                    pass
 
     def open_projectFolder(self, event=None):
         """Open the project folder with the OS file manager."""
@@ -845,7 +847,7 @@ class NovelystTk(MainTk):
                     self.unlock()
                     self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
                     self.isModified = False
-                    self.restore_status(event)
+                    self.restore_status()
                     self.kwargs['yw_last_open'] = self.prjFile.filePath
                     return True
 
@@ -878,7 +880,7 @@ class NovelystTk(MainTk):
 
         self.show_path(f'{norm_path(self.prjFile.filePath)} ({_("last saved on")} {self.prjFile.fileDate})')
         self.isModified = False
-        self.restore_status(event)
+        self.restore_status()
         self.kwargs['yw_last_open'] = self.prjFile.filePath
         return True
 
@@ -886,7 +888,7 @@ class NovelystTk(MainTk):
         """Open all Book/part nodes and close all chapter nodes in the tree viewer."""
         self.tv.show_chapters(self.tv.NV_ROOT)
 
-    def show_properties(self, event=None):
+    def show_properties(self):
         """Show the properties of the selected element."""
         try:
             nodeId = self.tv.tree.selection()[0]
@@ -922,7 +924,7 @@ class NovelystTk(MainTk):
             self.wordCount = wordCount
         super().show_status(message)
 
-    def toggle_lock(self):
+    def toggle_lock(self, event=None):
         """Toggle the 'locked' status."""
         if self.isLocked:
             self.unlock()
@@ -965,7 +967,7 @@ class NovelystTk(MainTk):
                 self.open_project(self.prjFile.filePath)
 
     def view_chapter(self, chId):
-        """Event handler for chapter selection.
+        """Show the selected chapter's properties; move to it in the content viewer.
                 
         Positional arguments:
             chId: str -- chapter ID
@@ -985,7 +987,7 @@ class NovelystTk(MainTk):
         self.contentsViewer.see(f'ch{chId}')
 
     def view_character(self, crId):
-        """Event handler for character selection.
+        """Show the selected character's properties.
                 
         Positional arguments:
             crId: str -- character ID
@@ -998,7 +1000,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.characters[crId])
 
     def view_item(self, itId):
-        """Event handler for item selection.
+        """Show the selected item's properties.
                 
         Positional arguments:
             itId: str -- item ID
@@ -1011,7 +1013,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.items[itId])
 
     def view_location(self, lcId):
-        """Event handler for location selection.
+        """Show the selected location's properties.
                 
         Positional arguments:
             lcId: str -- location ID
@@ -1024,7 +1026,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.locations[lcId])
 
     def view_narrative(self):
-        """Event handler for narrative tree root selection."""
+        """Show the project's properties."""
         self._elementView.apply_changes()
         if not self._elementView is self._projectView:
             self._elementView.hide()
@@ -1033,7 +1035,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel)
 
     def view_nothing(self):
-        """Event handler for invalid tree selection."""
+        """Reset properties if nothing valid is selected."""
         if not self._elementView is self._basicView:
             self._elementView.apply_changes()
             self._elementView.hide()
@@ -1041,7 +1043,7 @@ class NovelystTk(MainTk):
             self._elementView.show()
 
     def view_projectNote(self, pnId):
-        """Event handler for project note selection.
+        """Show the selected project note.
         
         Positional arguments:
             pnId: str -- Project note ID
@@ -1054,7 +1056,7 @@ class NovelystTk(MainTk):
         self._elementView.set_data(self.novel.projectNotes[pnId])
 
     def view_scene(self, scId):
-        """Event handler for scene selection.
+        """Show the selected scene's properties; move to it in the content viewer.
                 
         Positional arguments:
             scId: str -- scene ID
@@ -1079,7 +1081,7 @@ class NovelystTk(MainTk):
         self.contentsViewer.see(f'sc{scId}')
 
     def _build_main_menu(self):
-        """Unused; overrides the superclass template method."""
+        """Overrides the superclass template method."""
         pass
 
     def _initialize_properties_frame(self, parent):

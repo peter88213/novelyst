@@ -48,8 +48,8 @@ class TreeViewer(ttk.Frame):
         build_tree() -- Create and display the tree.
         close_children(parent) -- Recursively close children nodes.
         configure_columns() -- Determine the order of the columnns
-        go_back() -- Select a node back in the tree browsing history.
-        go_forward() --  Select a node forward in the tree browsing history.
+        go_back(event) -- Select a node back in the tree browsing history.
+        go_forward(event) --  Select a node forward in the tree browsing history.
         go_to_node(node) -- Select and view a node.
         join_scenes() -- Join the selected scene with the previous one.
         next_node(thisNode, root) -- Return the next node ID of the same element type as thisNode.
@@ -254,12 +254,12 @@ class TreeViewer(ttk.Frame):
         self.tree.bind('<<TreeviewSelect>>', self._on_select_node)
         self.tree.bind('<<TreeviewOpen>>', self._on_open_branch)
         self.tree.bind('<<TreeviewClose>>', self._on_close_branch)
-        self.tree.bind('<Alt-B1-Motion>', self._move_node)
+        self.tree.bind('<Alt-B1-Motion>', self._on_move_node)
         self.tree.bind('<Delete>', self._delete_node)
         self.tree.bind(self._KEY_CANCEL_PART, self._cancel_part)
         self.tree.bind(self._KEY_DEMOTE_PART, self._demote_part)
         self.tree.bind(self._KEY_PROMOTE_CHAPTER, self._promote_chapter)
-        self.tree.bind(kwargs['button_context_menu'], self._open_context_menu)
+        self.tree.bind(kwargs['button_context_menu'], self._on_open_context_menu)
 
     def add_chapter(self, **kwargs):
         """Add a Chapter node to the tree and create an instance.
@@ -1156,7 +1156,7 @@ class TreeViewer(ttk.Frame):
             self._history.append_node(self.tree.selection()[0])
 
     def _cancel_part(self, event=None):
-        """Remove a part but keep its chapters."""
+        """Remove a part but keeping its chapters."""
         if self._ui.check_lock():
             return
 
@@ -1178,7 +1178,14 @@ class TreeViewer(ttk.Frame):
             self.update_prj_structure()
 
     def _configure_chapter_columns(self, nodeId, collect=False):
-        """Add/remove column items collected from the chapter's scenes."""
+        """Add/remove column items collected from the chapter's scenes.
+        
+        Positional arguments:
+        nodeId: str -- Chapter ID.
+        
+        Optional arguments:
+        collect: bool -- If True, add the collected metadata; if False, remove it.
+        """
         if nodeId.startswith(self.CHAPTER_PREFIX):
             chId = nodeId[2:]
             positionStr = self.tree.item(nodeId)['values'][self._colPos['po']]
@@ -1189,9 +1196,9 @@ class TreeViewer(ttk.Frame):
     def _delete_node(self, event=None):
         """Delete a node and its children.
         
-        Move scenes to the "Trash" chapter.
-        Delete parts/chapters and move their children scenes to the "Trash" chapter.
-        Delete characters/locations/items and remove their scene references.
+        - Move scenes to the "Trash" chapter.
+        - Delete parts/chapters and move their children scenes to the "Trash" chapter.
+        - Delete characters/locations/items and remove their scene references.
         """
 
         def waste_scenes(node):
@@ -1340,13 +1347,13 @@ class TreeViewer(ttk.Frame):
         else:
             self._configure_chapter_columns(nodeId, collect=False)
 
-    def _on_select_node(self, event):
+    def _on_select_node(self, event=None):
         """Event handler for node selection.
         
         - Show the node's properties.
         - Add the node ID to the browsing history.
         """
-        self._ui.show_properties(event)
+        self._ui.show_properties()
         try:
             nodeId = self.tree.selection()[0]
         except IndexError:
@@ -1354,7 +1361,7 @@ class TreeViewer(ttk.Frame):
         else:
             self._history.append_node(nodeId)
 
-    def _move_node(self, event):
+    def _on_move_node(self, event):
         """Event handler for drag/drop operation.
         
         - Move a selected node in the novel tree.
@@ -1377,8 +1384,12 @@ class TreeViewer(ttk.Frame):
             self.tree.move(node, targetNode, self.tree.index(targetNode))
         self.update_prj_structure()
 
-    def _open_context_menu(self, event):
-        """Configure the tree's context menu depending on the selected branch and the program state, and open it."""
+    def _on_open_context_menu(self, event):
+        """Event handler for the tree's context menu.
+        
+        - Configure the context menu depending on the selected branch and the program state.
+        - Open it.
+        """
         row = self.tree.identify_row(event.y)
         if row:
             self.go_to_node(row)
