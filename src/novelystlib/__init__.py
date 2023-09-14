@@ -1,12 +1,10 @@
 """Package for novelyst tree view.
 
-Modules:
-novelyst_tk -- Provide a tkinter GUI framework for novelyst.
-plugin_collection -- Provide a plugin registry class and a substitute for The Plugin class of a rejected module.
-
 Packages:
+data_reader -- Modules for novelyst file import.
 export -- Modules for novelyst file export.
 model -- Modules for the novelyst model.
+plugin -- Modules for novelyst plugin management.
 view_controller -- Modules for novelyst view-controller classes.
 widgets -- Widgets for general use.
 
