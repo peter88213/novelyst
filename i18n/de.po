@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.41.2\n"
-"POT-Creation-Date: 2023-09-14 14:52:15\n"
-"PO-Revision-Date: 2023-09-14 14:52:16\n"
+"Project-Id-Version: 4.41.3\n"
+"POT-Creation-Date: 2023-09-20 22:01:00\n"
+"PO-Revision-Date: 2023-09-20 22:01:00\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -510,6 +510,9 @@ msgstr "Name"
 
 msgid "Narrative arc"
 msgstr "Handlungsbogen"
+
+msgid "Never"
+msgstr "Niemals"
 
 msgid "New"
 msgstr "Neu"

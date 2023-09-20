@@ -228,7 +228,7 @@ class NovelystTk(MainTk):
         self.fileMenu = tk.Menu(self.mainMenu, tearoff=0)
         self.mainMenu.add_cascade(label=_('File'), menu=self.fileMenu)
         self.fileMenu.add_command(label=_('New'), accelerator=self._KEY_NEW_PROJECT[1], command=self.new_project)
-        self.fileMenu.add_command(label=_('Open...'), accelerator=self._KEY_OPEN_PROJECT[1], command=lambda: self.open_project(''))
+        self.fileMenu.add_command(label=_('Open...'), accelerator=self._KEY_OPEN_PROJECT[1], command=self.open_project)
         self.fileMenu.add_command(label=_('Reload'), accelerator=self._KEY_RELOAD_PROJECT[1], command=self.reload_project)
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label=_('Refresh Tree'), accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)

@@ -106,7 +106,7 @@ class WorkFile(Yw7File):
         if self.timestamp is not None:
             return datetime.fromtimestamp(self.timestamp).replace(microsecond=0).isoformat(sep=' ')
         else:
-            return 'Never'
+            return _('Never')
 
     def adjust_scene_types(self):
         """Make sure that nodes with non-"Normal" parents inherit the type.
