@@ -53,6 +53,41 @@ class WorkFile(Yw7File):
     _LOCKFILE_PREFIX = '.LOCK.'
     _LOCKFILE_SUFFIX = '#'
 
+    _CDATA_TAGS = [
+        'Title',
+        'AuthorName',
+        'Bio',
+        'Desc',
+        'FieldTitle1',
+        'FieldTitle2',
+        'FieldTitle3',
+        'FieldTitle4',
+        'LaTeXHeaderFile',
+        'Tags',
+        'AKA',
+        'ImageFile',
+        'FullName',
+        'Goals',
+        'Notes',
+        'RTFFile',
+        'SceneContent',
+        'Outcome',
+        'Goal',
+        'Conflict',
+        'Field_ChapterHeadingPrefix',
+        'Field_ChapterHeadingSuffix',
+        'Field_PartHeadingPrefix',
+        'Field_PartHeadingSuffix',
+        'Field_CustomGoal',
+        'Field_CustomConflict',
+        'Field_CustomOutcome',
+        'Field_CustomChrBio',
+        'Field_CustomChrGoals',
+        'Field_ArcDefinition',
+        'Field_SceneArcs',
+        'Field_CustomAR',
+        ]
+
     # Configure part/chapter numbering
     PRJ_KWVAR = [
         'Field_WorkPhase',

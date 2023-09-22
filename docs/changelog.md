@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.41.4
+
+- Write custom XML text fields as CDATA to .yw7
+
+Based on PyWriter v12.15.2
+
 ### v4.41.3
 
 - Refactor the code
