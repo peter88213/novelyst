@@ -36,6 +36,17 @@
 
 --- 
 
+## Restore backup
+
+**Restore the latest backup file**
+
+- You can restore the latest backup file with **File > Restore backup** or **Ctrl-B**.
+- You will get a warning.
+- After restoring the backup, the backup copy is no longer available.
+- You can create a backup copy by saving the project.
+
+--- 
+
 ## Refresh tree
 
 **Update the project structure after making changes**
