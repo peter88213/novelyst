@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.42.1
+
+- Disable new menu entries when closing the project.
+
+Based on PyWriter v12.15.2
+
 ### v4.42.0
 
 - Fix a bug where resetting the tree corrupts the "trash bin".

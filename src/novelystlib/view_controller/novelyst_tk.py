@@ -526,14 +526,15 @@ class NovelystTk(MainTk):
         self.mainMenu.entryconfig(_('Items'), state='disabled')
         self.mainMenu.entryconfig(_('Export'), state='disabled')
         self.mainMenu.entryconfig(_('Project notes'), state='disabled')
-
         self.fileMenu.entryconfig(_('Reload'), state='disabled')
+        self.fileMenu.entryconfig(_('Restore backup'), state='disabled')
         self.fileMenu.entryconfig(_('Refresh Tree'), state='disabled')
         self.fileMenu.entryconfig(_('Lock'), state='disabled')
         self.fileMenu.entryconfig(_('Unlock'), state='disabled')
         self.fileMenu.entryconfig(_('Open Project folder'), state='disabled')
         self.fileMenu.entryconfig(_('Save'), state='disabled')
         self.fileMenu.entryconfig(_('Save as...'), state='disabled')
+        self.fileMenu.entryconfig(_('Discard manuscript'), state='disabled')
 
         self.plugins.disable_menu()
 
@@ -592,13 +593,14 @@ class NovelystTk(MainTk):
         self.mainMenu.entryconfig(_('Items'), state='normal')
         self.mainMenu.entryconfig(_('Export'), state='normal')
         self.mainMenu.entryconfig(_('Project notes'), state='normal')
-
         self.fileMenu.entryconfig(_('Reload'), state='normal')
+        self.fileMenu.entryconfig(_('Restore backup'), state='normal')
         self.fileMenu.entryconfig(_('Refresh Tree'), state='normal')
         self.fileMenu.entryconfig(_('Lock'), state='normal')
         self.fileMenu.entryconfig(_('Open Project folder'), state='normal')
         self.fileMenu.entryconfig(_('Save'), state='normal')
         self.fileMenu.entryconfig(_('Save as...'), state='normal')
+        self.fileMenu.entryconfig(_('Discard manuscript'), state='normal')
 
         self.plugins.enable_menu()
 
