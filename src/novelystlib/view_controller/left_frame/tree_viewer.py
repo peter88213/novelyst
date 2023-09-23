@@ -1031,6 +1031,7 @@ class TreeViewer(ttk.Frame):
         for child in self.tree.get_children(''):
             self.tree.delete(child)
         self._history.reset()
+        self._trashNode = None
 
     def show_branch(self, node):
         """Go to node and open children.

@@ -63,6 +63,7 @@ class NovelystTk(MainTk):
         open_project_folder(event) -- Open the project folder with the OS file manager.
         refresh_tree(event) -- Apply changes and refresh the tree.
         reload_project(event) -- Discard changes and reload the project.
+        restore_backup(event) -- Discard changes and restore the latest backup file.
         save_as(event) -- Rename the project file and save it to disk.
         save_project(event) -- Save the novelyst project to disk and set "unchanged" status.
         show_chapter_level(event) -- Open all Book/Part nodes and close all chapter nodes in the tree viewer.
@@ -128,6 +129,7 @@ class NovelystTk(MainTk):
     _KEY_UNLOCK_PROJECT = ('<Control-u>', 'Ctrl-U')
     _KEY_FOLDER = ('<Control-p>', 'Ctrl-P')
     _KEY_RELOAD_PROJECT = ('<Control-r>', 'Ctrl-R')
+    _KEY_RESTORE_BACKUP = ('<Control-b>', 'Ctrl-B')
     _KEY_REFRESH_TREE = ('<F5>', 'F5')
     _KEY_SAVE_PROJECT = ('<Control-s>', 'Ctrl-S')
     _KEY_SAVE_AS = ('<Control-S>', 'Ctrl-Shift-S')
@@ -230,6 +232,7 @@ class NovelystTk(MainTk):
         self.fileMenu.add_command(label=_('New'), accelerator=self._KEY_NEW_PROJECT[1], command=self.new_project)
         self.fileMenu.add_command(label=_('Open...'), accelerator=self._KEY_OPEN_PROJECT[1], command=self.open_project)
         self.fileMenu.add_command(label=_('Reload'), accelerator=self._KEY_RELOAD_PROJECT[1], command=self.reload_project)
+        self.fileMenu.add_command(label=_('Restore backup'), accelerator=self._KEY_RESTORE_BACKUP[1], command=self.restore_backup)
         self.fileMenu.add_separator()
         self.fileMenu.add_command(label=_('Refresh Tree'), accelerator=self._KEY_REFRESH_TREE[1], command=self.refresh_tree)
         self.fileMenu.add_command(label=_('Lock'), accelerator=self._KEY_LOCK_PROJECT[1], command=self.lock)
@@ -383,6 +386,7 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_LOCK_PROJECT[0], self.lock)
         self.root.bind(self._KEY_UNLOCK_PROJECT[0], self.unlock)
         self.root.bind(self._KEY_RELOAD_PROJECT[0], self.reload_project)
+        self.root.bind(self._KEY_RESTORE_BACKUP[0], self.restore_backup)
         self.root.bind(self._KEY_FOLDER[0], self.open_projectFolder)
         self.root.bind(self._KEY_REFRESH_TREE[0], self.refresh_tree)
         self.root.bind(self._KEY_SAVE_PROJECT[0], self.save_project)
@@ -822,6 +826,31 @@ class NovelystTk(MainTk):
             return
 
         if self.prjFile.has_changed_on_disk() and not self.ask_yes_no(_('File has changed on disk. Reload anyway?')):
+            return
+
+        self.reloading = True
+        # This is to avoid another question when closing the project
+        self.open_project(self.prjFile.filePath)
+        # Includes closing
+
+    def restore_backup(self, event=None):
+        """Discard changes and restore the latest backup file."""
+        latestBackup = f'{self.prjFile.filePath}.bak'
+        if not os.path.isfile(latestBackup):
+            self.set_info_how(f'!{_("No backup available")}')
+            return
+
+        if self.isModified:
+            if not self.ask_yes_no(_('Discard changes and restore the latest backup?')):
+                return
+
+        elif not self.ask_yes_no(_('Restore the latest backup?')):
+            return
+
+        try:
+            os.replace(latestBackup, self.prjFile.filePath)
+        except Exception as ex:
+            self.set_info_how(str(ex))
             return
 
         self.reloading = True

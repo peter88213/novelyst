@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.41.4\n"
-"POT-Creation-Date: 2023-09-22 10:46:47\n"
-"PO-Revision-Date: 2023-09-22 10:46:47\n"
+"Project-Id-Version: 4.42.0\n"
+"POT-Creation-Date: 2023-09-23 13:34:21\n"
+"PO-Revision-Date: 2023-09-23 13:34:21\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -289,6 +289,9 @@ msgstr "Dilemma"
 msgid "Discard changes and reload the project?"
 msgstr "Änderungen verwerfen und das Projekt neu laden?"
 
+msgid "Discard changes and restore the latest backup?"
+msgstr "Änderungen verwerfen und die letzte Sicherungskopie wiederherstellen?"
+
 msgid "Discard manuscript"
 msgstr "Manuskript verwerfen"
 
@@ -544,6 +547,9 @@ msgstr "Neuer als die Projektdatei"
 msgid "Next"
 msgstr "Vor"
 
+msgid "No backup available"
+msgstr "Keine Sicherungskopie verfügbar"
+
 msgid "No character data found"
 msgstr "Keine Figurendaten gefunden"
 
@@ -693,6 +699,12 @@ msgstr "Recherche"
 
 msgid "Reset chapter number when starting a new part"
 msgstr "Kapitelnummerierung per Teil"
+
+msgid "Restore backup"
+msgstr "Sicherungskopie wiederherstellen"
+
+msgid "Restore the latest backup?"
+msgstr "Die letzte Sicherungskopie wiederherstellen?"
 
 msgid "Save"
 msgstr "Speichern"
