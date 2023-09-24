@@ -1857,8 +1857,7 @@ class TreeViewer(ttk.Frame):
                     try:
                         workPhase = int(self._ui.novel.kwVar['Field_WorkPhase'])
                     except:
-                        workPhase = 0
-                        nodeTags.append('On_schedule')
+                        pass
                     else:
                         if self._ui.novel.scenes[scId].status == workPhase:
                             nodeTags.append('On_schedule')
