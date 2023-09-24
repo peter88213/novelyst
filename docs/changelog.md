@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.42.2
+
+- Update Pywriter library.
+- Change .yw7 file icon.
+
+Based on PyWriter v12.15.3
+
 ### v4.42.1
 
 - Disable new menu entries when closing the project.

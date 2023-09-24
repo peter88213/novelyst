@@ -68,7 +68,7 @@ SET_OPEN_CMD = f'''Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\.yw7]
 @="yWriter7"
 [HKEY_CURRENT_USER\Software\Classes\yWriter7\DefaultIcon]
-@="$INSTALL\\\\icons\\\\nLogo64.ico"
+@="$INSTALL\\\\icons\\\\yLogo64.ico"
 [HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\open\command]
 @="\\"$PYTHON\\" \\"$SCRIPT\\" \\"%1\\""
 
