@@ -342,7 +342,7 @@ class ProjectView(BasicView):
         #--- Author entry.
         self._authorName.set(self._element.authorName)
 
-        #--- "Project settings" frame.
+        #--- "Language settings" frame.
         if self._ui.kwargs['show_language_settings']:
             self._languageFrame.show()
         else:
@@ -353,6 +353,12 @@ class ProjectView(BasicView):
 
         # 'Country code' entry.
         self._countryCode.set(self._element.countryCode)
+
+        #--- "Auto numbering" frame.
+        if self._ui.kwargs['show_auto_numbering']:
+            self._numberingFrame.show()
+        else:
+            self._numberingFrame.hide()
 
         # 'Auto number chapters' checkbox.
         renChapters = self._element.kwVar.get('Field_RenumberChapters', None) == '1'
@@ -389,6 +395,12 @@ class ProjectView(BasicView):
         # 'Use Roman part numbers' checkbox.
         self._customGoal.set(self._element.kwVar.get('Field_CustomGoal', _('Goal')))
 
+        #--- "Renamings" frame.
+        if self._ui.kwargs['show_renamings']:
+            self._renamingsFrame.show()
+        else:
+            self._renamingsFrame.hide()
+
         # 'Custom Conflict' entry.
         self._customConflict.set(self._element.kwVar.get('Field_CustomConflict', _('Conflict')))
 
@@ -401,15 +413,15 @@ class ProjectView(BasicView):
         # 'Custom chara Goals' entry.
         self._customChrGoals.set(self._element.kwVar.get('Field_CustomChrGoals', _('Goals')))
 
-        # 'Save word count' entry.
-        saveWordCount = self._element.kwVar.get('Field_SaveWordCount', None) == '1'
-        self._saveWordCount.set(saveWordCount)
-
         #--- "Writing progress" frame.
         if self._ui.kwargs['show_writing_progress']:
             self._progressFrame.show()
         else:
             self._progressFrame.hide()
+
+        # 'Save word count' entry.
+        saveWordCount = self._element.kwVar.get('Field_SaveWordCount', None) == '1'
+        self._saveWordCount.set(saveWordCount)
 
         # 'Words to write' entry.
         self._wordTarget.set(self._element.wordTarget)

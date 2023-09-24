@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.42.3
+
+- Fix the project view's folding frames initialization.
+
+Based on PyWriter v12.15.3
+
 ### v4.42.2
 
 - Update Pywriter library.
