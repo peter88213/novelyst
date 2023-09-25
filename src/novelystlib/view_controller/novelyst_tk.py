@@ -409,6 +409,17 @@ class NovelystTk(MainTk):
         self.root.bind(self._KEY_SHOW_PROJECTNOTES[0], lambda event: self.tv.show_branch(self.tv.PN_ROOT))
         self.root.bind(self._KEY_SHOW_HELP[0], lambda event: webbrowser.open(self._HELP_URL))
 
+        #--- Get applications for opening linked non-standard filetypes.
+        self.applications = {}
+        for k in kwargs:
+            if k.startswith('launch'):
+                try:
+                    __, ext = k.split('_')
+                except:
+                    pass
+                else:
+                    self.applications[f'.{ext}'] = kwargs[k]
+
     @property
     def isModified(self):
         return self._internalModificationFlag

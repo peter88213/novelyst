@@ -155,7 +155,7 @@ class CharacterView(WorldElementView):
         """Template method for creating the frames in the right pane."""
         self._create_index_card()
         self._create_element_info_window()
-        self._create_image_window()
+        self._create_links_window()
         self._create_notes_window()
         self._create_button_bar()
 

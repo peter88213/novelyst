@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.42.4\n"
-"POT-Creation-Date: 2023-09-24 20:54:46\n"
+"Project-Id-Version: 4.43.0\n"
+"POT-Creation-Date: 2023-09-25 16:57:44\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -131,6 +131,9 @@ msgstr ""
 msgid "Cannot join scenes"
 msgstr ""
 
+msgid "Cannot open link"
+msgstr ""
+
 msgid "Cannot overwrite file"
 msgstr ""
 
@@ -192,6 +195,9 @@ msgid "Clear duration from this scene?"
 msgstr ""
 
 msgid "Clear image"
+msgstr ""
+
+msgid "Clear link"
 msgstr ""
 
 msgid "Clear scene assignments"
@@ -455,6 +461,9 @@ msgstr ""
 msgid "Language code"
 msgstr ""
 
+msgid "Links"
+msgstr ""
+
 msgid "Location"
 msgstr ""
 
@@ -602,6 +611,9 @@ msgstr ""
 msgid "Open installation folder"
 msgstr ""
 
+msgid "Open link"
+msgstr ""
+
 msgid "Open..."
 msgstr ""
 
@@ -737,6 +749,9 @@ msgstr ""
 msgid "Select items"
 msgstr ""
 
+msgid "Select link"
+msgstr ""
+
 msgid "Select locations"
 msgstr ""
 
@@ -807,6 +822,9 @@ msgid "Tags"
 msgstr ""
 
 msgid "Text"
+msgstr ""
+
+msgid "Text file"
 msgstr ""
 
 msgid "The plugin remains active until next start."

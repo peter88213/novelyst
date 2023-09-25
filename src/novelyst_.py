@@ -21,7 +21,7 @@ import os
 import sys
 from pathlib import Path
 from pywriter.pywriter_globals import *
-from pywriter.config.configuration import Configuration
+from novelystlib.config.nv_configuration import NvConfiguration
 from novelystlib.view_controller.novelyst_tk import NovelystTk
 
 APPNAME = 'novelyst'
@@ -93,9 +93,13 @@ OPTIONS = dict(
     show_relationships=False,
     show_cr_bio=True,
     show_cr_goals=True,
+    show_links=True,
     detach_prop_win=False,
     clean_up_yw=False,
 )
+APPLICATIONS = {
+    'extension_txt': r'c:\Program Files (x86)\Zim Desktop Wiki\zim.exe',
+    }
 
 
 def main():
@@ -113,10 +117,11 @@ def main():
 
     #--- Load configuration.
     iniFile = f'{configDir}/{APPNAME}.ini'
-    configuration = Configuration(SETTINGS, OPTIONS)
+    configuration = NvConfiguration(SETTINGS, OPTIONS)
     configuration.read(iniFile)
     kwargs = {}
     kwargs.update(configuration.settings)
+    kwargs.update(configuration.applications)
     kwargs.update(configuration.options)
 
     #--- Instantiate the app object.
@@ -143,6 +148,8 @@ def main():
             configuration.options[keyword] = app.kwargs[keyword]
         elif keyword in configuration.settings:
             configuration.settings[keyword] = app.kwargs[keyword]
+        elif keyword in configuration.applications:
+            configuration.applications[keyword] = app.kwargs[keyword]
     configuration.write(iniFile)
 
     #--- Delete the temporary files.

@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
+import subprocess
 from tkinter import ttk
 from shutil import copyfile
 import tkinter as tk
@@ -14,6 +15,7 @@ from pywriter.file.doc_open import open_document
 from novelystlib.widgets.label_entry import LabelEntry
 from novelystlib.view_controller.right_frame.basic_view import BasicView
 from novelystlib.widgets.my_string_var import MyStringVar
+from novelystlib.widgets.folding_frame import FoldingFrame
 
 
 class WorldElementView(BasicView):
@@ -99,23 +101,46 @@ class WorldElementView(BasicView):
             self._img_show_button.state(['disabled'])
             self._img_clear_button.state(['disabled'])
 
-    def _create_image_window(self):
+        # Link buttonbar.
+        if self._element.kwVar['Field_Link']:
+            self._link_show_button.state(['!disabled'])
+            self._link_clear_button.state(['!disabled'])
+        else:
+            self._link_show_button.state(['disabled'])
+            self._link_clear_button.state(['disabled'])
+
+    def _create_links_window(self):
         """Create a window for element specific information."""
-        self._imageWindow = ttk.Frame(self._propertiesFrame)
-        self._imageWindow.pack(fill='x')
-        ttk.Separator(self._imageWindow, orient='horizontal').pack(fill='x')
-        self._img_show_button = ttk.Button(self._imageWindow, text=_('Show image'), command=self._show_image)
+        #--- "Links" frame.
+        ttk.Separator(self._propertiesFrame, orient='horizontal').pack(fill='x')
+        self._linksWindow = FoldingFrame(self._propertiesFrame, _('Links'), self._toggle_linksWindow)
+        self._linksWindow.pack(fill='x')
+
+        # Image buttons.
+        imgFrame = ttk.Frame(self._linksWindow)
+        imgFrame.pack(fill='x')
+        self._img_show_button = ttk.Button(imgFrame, text=_('Show image'), command=self._show_image)
         self._img_show_button.pack(side='left')
-        self._img_select_button = ttk.Button(self._imageWindow, text=_('Select image'), command=self._select_image)
+        self._img_select_button = ttk.Button(imgFrame, text=_('Select image'), command=self._select_image)
         self._img_select_button.pack(side='left')
-        self._img_clear_button = ttk.Button(self._imageWindow, text=_('Clear image'), command=self._clear_image)
+        self._img_clear_button = ttk.Button(imgFrame, text=_('Clear image'), command=self._clear_image)
         self._img_clear_button.pack(side='left')
+
+        # link buttons.
+        lnkFrame = ttk.Frame(self._linksWindow)
+        lnkFrame.pack(fill='x')
+        self._link_show_button = ttk.Button(lnkFrame, text=_('Open link'), command=self._open_link)
+        self._link_show_button.pack(side='left')
+        self._link_select_button = ttk.Button(lnkFrame, text=_('Select link'), command=self._select_link)
+        self._link_select_button.pack(side='left')
+        self._link_clear_button = ttk.Button(lnkFrame, text=_('Clear link'), command=self._clear_link)
+        self._link_clear_button.pack(side='left')
 
     def _create_frames(self):
         """Template method for creating the frames in the right pane."""
         self._create_index_card()
         self._create_element_info_window()
-        self._create_image_window()
+        self._create_links_window()
         self._create_button_bar()
 
     def _clear_image(self):
@@ -147,6 +172,7 @@ class WorldElementView(BasicView):
                 except Exception as ex:
                     self._ui.show_error(str(ex), title=_('Cannot copy image'))
                     return
+
             self._element.image = imageFile
             self._img_show_button.state(['!disabled'])
             self._img_clear_button.state(['!disabled'])
@@ -162,4 +188,48 @@ class WorldElementView(BasicView):
             else:
                 self._ui.show_error(f"{_('File not found')}: {norm_path(imagePath)}", title=_('Cannot show image'))
                 self._clear_image()
+
+    def _toggle_linksWindow(self, event=None):
+        """Hide/show the "links" window.
+        
+        Callback procedure for the FoldingFrame's button.
+        """
+        if self._ui.kwargs['show_links']:
+            self._linksWindow.hide()
+            self._ui.kwargs['show_links'] = False
+        else:
+            self._linksWindow.show()
+            self._ui.kwargs['show_links'] = True
+
+    def _clear_link(self):
+        """Set the element's link to None."""
+        if self._element.kwVar['Field_Link'] is not None:
+            self._element.kwVar['Field_Link'] = None
+            self._link_show_button.state(['disabled'])
+            self._link_clear_button.state(['disabled'])
+            self._ui.isModified = True
+
+    def _select_link(self):
+        """Select the element's link."""
+        fileTypes = [(_('Text file'), '.txt'),
+                     (_('All files'), '.*')]
+        selectedPath = filedialog.askopenfilename(filetypes=fileTypes)
+        if selectedPath:
+            self._element.kwVar['Field_Link'] = selectedPath
+            self._link_show_button.state(['!disabled'])
+            self._link_clear_button.state(['!disabled'])
+            self._ui.isModified = True
+
+    def _open_link(self):
+        """Open the link with the system application."""
+        if self._element.kwVar['Field_Link']:
+            __, extension = os.path.splitext(self._element.kwVar['Field_Link'])
+            if extension in self._ui.applications:
+                subprocess.Popen([self._ui.applications[extension], self._element.kwVar['Field_Link']])
+            elif os.path.isfile(self._element.kwVar['Field_Link']):
+                open_document(self._element.kwVar['Field_Link'])
+            else:
+                self._ui.show_error(f"{_('File not found')}: {norm_path(self._element.kwVar['Field_Link'])}",
+                                    title=_('Cannot open link'))
+                self._clear_link()
 

@@ -119,6 +119,15 @@ class WorkFile(Yw7File):
         'Field_CustomAR',
         'Field_SceneStyle',  # TODO: Change the wording and use "Mode" instead of "Style".
         ]
+    CRT_KWVAR = [
+        'Field_Link',
+        ]
+    LOC_KWVAR = [
+        'Field_Link',
+        ]
+    ITM_KWVAR = [
+        'Field_Link',
+        ]
 
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables.

@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.42.4\n"
-"POT-Creation-Date: 2023-09-24 20:54:46\n"
-"PO-Revision-Date: 2023-09-24 20:54:46\n"
+"Project-Id-Version: 4.43.0\n"
+"POT-Creation-Date: 2023-09-25 16:57:44\n"
+"PO-Revision-Date: 2023-09-25 16:57:44\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -130,6 +130,9 @@ msgstr "Kann Datum/Zeit nicht erzeugen"
 msgid "Cannot join scenes"
 msgstr "Kann Abschnitte nicht zusammenfassen"
 
+msgid "Cannot open link"
+msgstr "Kann Link nicht öffnen"
+
 msgid "Cannot overwrite file"
 msgstr "Kann Datei nicht überschreiben"
 
@@ -192,6 +195,9 @@ msgstr "Dauer dieses Abschnitts löschen?"
 
 msgid "Clear image"
 msgstr "Kein Bild"
+
+msgid "Clear link"
+msgstr "Link löschen"
 
 msgid "Clear scene assignments"
 msgstr "Abschnittszuordnungen löschen"
@@ -454,6 +460,9 @@ msgstr "Mit dem vorhergehenden zusammenfassen"
 msgid "Language code"
 msgstr "Sprachencode"
 
+msgid "Links"
+msgstr "Links"
+
 msgid "Location"
 msgstr "Schauplatz"
 
@@ -601,6 +610,9 @@ msgstr "Bestehendes öffnen"
 msgid "Open installation folder"
 msgstr "Installationsordner öffnen"
 
+msgid "Open link"
+msgstr "Link öffnen"
+
 msgid "Open..."
 msgstr "Öffnen..."
 
@@ -736,6 +748,9 @@ msgstr "Bild auswählen"
 msgid "Select items"
 msgstr "Gegenstände auswählen"
 
+msgid "Select link"
+msgstr "Link auswählen"
+
 msgid "Select locations"
 msgstr "Schauplätze auswählen"
 
@@ -807,6 +822,9 @@ msgstr "Tags"
 
 msgid "Text"
 msgstr "Text"
+
+msgid "Text file"
+msgstr "Textdatei"
 
 msgid "The plugin remains active until next start."
 msgstr "Das Plugin bleibt bis zum nächsten Start aktiv."
