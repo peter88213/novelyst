@@ -120,21 +120,21 @@ class WorldElementView(BasicView):
         imgFrame = ttk.Frame(self._linksWindow)
         imgFrame.pack(fill='x')
         self._img_show_button = ttk.Button(imgFrame, text=_('Show image'), command=self._show_image)
-        self._img_show_button.pack(side='left')
+        self._img_show_button.pack(side='left', fill='x', expand=True)
         self._img_select_button = ttk.Button(imgFrame, text=_('Select image'), command=self._select_image)
-        self._img_select_button.pack(side='left')
+        self._img_select_button.pack(side='left', fill='x', expand=True)
         self._img_clear_button = ttk.Button(imgFrame, text=_('Clear image'), command=self._clear_image)
-        self._img_clear_button.pack(side='left')
+        self._img_clear_button.pack(side='left', fill='x', expand=True)
 
         # link buttons.
         lnkFrame = ttk.Frame(self._linksWindow)
-        lnkFrame.pack(fill='x')
+        lnkFrame.pack(fill='x', pady=10)
         self._link_show_button = ttk.Button(lnkFrame, text=_('Open link'), command=self._open_link)
-        self._link_show_button.pack(side='left')
+        self._link_show_button.pack(side='left', fill='x', expand=True)
         self._link_select_button = ttk.Button(lnkFrame, text=_('Select link'), command=self._select_link)
-        self._link_select_button.pack(side='left')
+        self._link_select_button.pack(side='left', fill='x', expand=True)
         self._link_clear_button = ttk.Button(lnkFrame, text=_('Clear link'), command=self._clear_link)
-        self._link_clear_button.pack(side='left')
+        self._link_clear_button.pack(side='left', fill='x', expand=True)
 
     def _create_frames(self):
         """Template method for creating the frames in the right pane."""
@@ -224,8 +224,8 @@ class WorldElementView(BasicView):
         """Open the link with the system application."""
         if self._element.kwVar['Field_Link']:
             __, extension = os.path.splitext(self._element.kwVar['Field_Link'])
-            if extension in self._ui.applications:
-                subprocess.Popen([self._ui.applications[extension], self._element.kwVar['Field_Link']])
+            if extension in self._ui.launchers:
+                subprocess.Popen([self._ui.launchers[extension], self._element.kwVar['Field_Link']])
             elif os.path.isfile(self._element.kwVar['Field_Link']):
                 open_document(self._element.kwVar['Field_Link'])
             else:

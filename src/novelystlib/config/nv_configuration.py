@@ -1,94 +1,29 @@
-"""Provide a Configuration class for reading and writing INI files.
+"""Provide a customized Configuration class for reading and writing INI files.
 
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 from configparser import ConfigParser
+from pywriter.config.configuration import Configuration
 
 
-class NvConfiguration:
-    """Application configuration, representing an INI file.
+class NvConfiguration(Configuration):
+    """Application configuration, representing an INI file."""
 
-        INI file sections:
-        <self._sLabel> - Strings
-        <self._oLabel> - Boolean values
-    """
-
-    def __init__(self, settings={}, options={}):
-        """Initalize attribute variables.
-
-        Optional arguments:
-            settings -- default settings (dictionary of strings)
-            options -- default options (dictionary of boolean values)
-        """
-        self.settings: dict[str] = None
-        self.applications: dict[str] = None
-        self.options: dict[bool] = None
-        self._sLabel = 'SETTINGS'
-        self._oLabel = 'OPTIONS'
-        self._aLabel = 'APPLICATIONS'
-        self.set(settings, options)
-
-    def read(self, iniFile):
+    def read(self, iniFile:str):
         """Read a configuration file.
         
         Positional arguments:
-            iniFile: str -- path configuration file path.
+            iniFile -- path configuration file path.
             
-        Settings and options that can not be read in, remain unchanged.
+        Just read in settings that already exist in the file.
+        Overrides the superclass method. 
         """
         config = ConfigParser()
         config.read(iniFile, encoding='utf-8')
         if config.has_section(self._sLabel):
             section = config[self._sLabel]
-            for setting in self.settings:
-                fallback = self.settings[setting]
-                self.settings[setting] = section.get(setting, fallback)
-        if config.has_section(self._oLabel):
-            section = config[self._oLabel]
-            for option in self.options:
-                fallback = self.options[option]
-                self.options[option] = section.getboolean(option, fallback)
-        if config.has_section(self._aLabel):
-            section = config[self._aLabel]
             for app in section:
-                self.applications[app] = section[app]
+                self.settings[app] = section[app]
 
-    def set(self, settings=None, options=None):
-        """Set the entire configuration without writing the INI file.
-
-        Optional arguments:
-            settings -- new settings (dictionary of strings)
-            options -- new options (dictionary of boolean values)
-        """
-        if settings is not None:
-            self.settings = settings.copy()
-        if options is not None:
-            self.options = options.copy()
-        self.applications = {}
-
-    def write(self, iniFile):
-        """Save the configuration to iniFile.
-
-        Positional arguments:
-            iniFile: str -- path configuration file path.
-        """
-        config = ConfigParser()
-        if self.settings:
-            config.add_section(self._sLabel)
-            for settingId in self.settings:
-                config.set(self._sLabel, settingId, str(self.settings[settingId]))
-        if self.options:
-            config.add_section(self._oLabel)
-            for settingId in self.options:
-                if self.options[settingId]:
-                    config.set(self._oLabel, settingId, 'Yes')
-                else:
-                    config.set(self._oLabel, settingId, 'No')
-        if self.applications:
-            config.add_section(self._aLabel)
-            for appId in self.applications:
-                config.set(self._aLabel, appId, str(self.applications[appId]))
-        with open(iniFile, 'w', encoding='utf-8') as f:
-            config.write(f)
