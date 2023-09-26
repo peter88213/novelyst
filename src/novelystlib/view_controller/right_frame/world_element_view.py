@@ -235,7 +235,7 @@ class WorldElementView(BasicView):
             except:
                 linkPath = self._element.kwVar['Field_Link']
             __, extension = os.path.splitext(linkPath)
-            if extension in self._ui.launchers:
+            if os.path.isfile(self._ui.launchers.get(extension, '')):
                 subprocess.Popen([self._ui.launchers[extension], linkPath])
             elif os.path.isfile(linkPath):
                 open_document(linkPath)
