@@ -8,7 +8,7 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
-### v4.43.1
+### v4.43.2
 
 - A file can be linked to each character, location, and item.
 - The applications for opening linked non-standard filetypes can be specified in "launchers.ini". 

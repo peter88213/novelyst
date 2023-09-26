@@ -5,6 +5,7 @@ For further information see https://github.com/peter88213/novelyst
 License: GNU GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
 """
 import os
+from pathlib import Path
 import subprocess
 from tkinter import ttk
 from shutil import copyfile
@@ -215,7 +216,12 @@ class WorldElementView(BasicView):
                      (_('All files'), '.*')]
         selectedPath = filedialog.askopenfilename(filetypes=fileTypes)
         if selectedPath:
-            self._element.kwVar['Field_Link'] = selectedPath
+            try:
+                homeDir = str(Path.home()).replace('\\', '/')
+                shortPath = selectedPath.replace(homeDir, '~')
+            except:
+                shortPath = selectedPath
+            self._element.kwVar['Field_Link'] = shortPath
             self._link_show_button.state(['!disabled'])
             self._link_clear_button.state(['!disabled'])
             self._ui.isModified = True
@@ -223,13 +229,18 @@ class WorldElementView(BasicView):
     def _open_link(self):
         """Open the link with the system application."""
         if self._element.kwVar['Field_Link']:
-            __, extension = os.path.splitext(self._element.kwVar['Field_Link'])
+            try:
+                homeDir = str(Path.home()).replace('\\', '/')
+                linkPath = self._element.kwVar['Field_Link'].replace('~', homeDir)
+            except:
+                linkPath = self._element.kwVar['Field_Link']
+            __, extension = os.path.splitext(linkPath)
             if extension in self._ui.launchers:
-                subprocess.Popen([self._ui.launchers[extension], self._element.kwVar['Field_Link']])
-            elif os.path.isfile(self._element.kwVar['Field_Link']):
-                open_document(self._element.kwVar['Field_Link'])
+                subprocess.Popen([self._ui.launchers[extension], linkPath])
+            elif os.path.isfile(linkPath):
+                open_document(linkPath)
             else:
-                self._ui.show_error(f"{_('File not found')}: {norm_path(self._element.kwVar['Field_Link'])}",
+                self._ui.show_error(f"{_('File not found')}: {norm_path(linkPath)}",
                                     title=_('Cannot open link'))
                 self._clear_link()
 
