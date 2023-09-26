@@ -63,9 +63,9 @@ I use the program myself and fix errors immediately if I notice any. As far as I
 
 ## Download and install
 
-[Download the latest release (version 4.43.2)](https://github.com/peter88213/novelyst/raw/main/dist/novelyst_v4.43.2.zip)
+[Download the latest release (version 4.43.3)](https://github.com/peter88213/novelyst/raw/main/dist/novelyst_v4.43.3.zip)
 
-- Extract the "novelyst_v4.43.2" folder from the downloaded zipfile "novelyst_v4.43.2.zip".
+- Extract the "novelyst_v4.43.3" folder from the downloaded zipfile "novelyst_v4.43.3.zip".
 - Move into this new folder and open "README.md" for further instructions.
 - You may wish to install plugins; the [scene editor](https://peter88213.github.io/novelyst_editor/) is highly recommended.
 
