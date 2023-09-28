@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.1
+
+Fix a bug where the project lock is not persistent after exporting an editable document.
+
+Based on PyWriter v12.16.0
+
 ### v4.44.0
 
 Change the layout of exported documents:

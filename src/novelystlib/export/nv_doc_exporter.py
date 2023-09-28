@@ -157,7 +157,7 @@ class NvDocExporter(NvExporter):
         else:
             # Successfully created a new document.
             if self._lock and not self.ui.isLocked:
-                self.ui.isLocked = True
+                self.ui.lock()
             self._targetFileDate = datetime.now().replace(microsecond=0).isoformat(sep=' ')
             self.ui.set_info_how(_('Created {0} on {1}.').format(self._target.DESCRIPTION, self._targetFileDate))
             if self._show:
@@ -176,5 +176,5 @@ class NvDocExporter(NvExporter):
             # warn the user, if a document is open that might be outdated
         self.ui.set_info_how(f'{prefix}{_("Opened existing {0} (last saved on {1})").format(self._target.DESCRIPTION, self._targetFileDate)}.')
         if self._lock and not self.ui.isLocked:
-            self.ui.isLocked = True
+            self.ui.lock()
 
