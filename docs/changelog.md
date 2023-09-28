@@ -8,6 +8,15 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.0
+
+Change the layout of exported documents:
+- Replace the Manuscript's scene comments with invisible scene headings.
+- Remove the ODT export's scene comments.
+This is mainly used to speed up the opening of documents in OpenOffice.
+
+Based on PyWriter v12.16.0
+
 ### v4.43.3
 
 - A file can be linked to each character, location, and item.
