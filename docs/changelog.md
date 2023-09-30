@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.4
+
+- Escape characters in custom field variables when writing as PCDATA to .yw7.
+
+Based on PyWriter v12.16.2
+
 ### v4.44.3
 
 - No longer write custom XML text fields as CDATA to .yw7. This is because the CDATA information gets lost anyway when overwriting the .yw7 file with any other pyWriter-based converter.
