@@ -16,9 +16,9 @@ seen in the Navigator). File name suffix is `_manuscript`.
 
 -   Only "normal" chapters and scenes are exported. Chapters and
     scenes marked "unused", "todo" or "notes" are not exported.
--   Part titles appear as first level heading.
--   Chapter titles appear as second level heading.
--   Scene titles appear as third level heading in the outline view. The headings themselves are invisible.
+-   Part titles appear as first level headings.
+-   Chapter titles appear as second level headings.
+-   Scene titles appear as third level entries in the outline view. The headings themselves are invisible.
 -   Scenes beginning with `<HTML>` or `<TEX>` are not exported.
 -   Comments in the text bracketed with slashes and asterisks (like
     `/* this is a comment */`) are converted to author's comments.

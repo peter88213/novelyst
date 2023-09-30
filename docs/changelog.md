@@ -8,6 +8,15 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.2
+
+Change the layout of exported documents:
+- Replace the Scene description document's scene comments with invisible scene headings.
+- Remove several links from the exported document's headings.
+This is mainly to speed up the opening of documents in OpenOffice.
+
+Based on PyWriter v12.16.1
+
 ### v4.44.1
 
 Fix a bug where the project lock is not persistent after exporting an editable document.
@@ -19,7 +28,7 @@ Based on PyWriter v12.16.0
 Change the layout of exported documents:
 - Replace the Manuscript's scene comments with invisible scene headings.
 - Remove the ODT export's scene comments.
-This is mainly used to speed up the opening of documents in OpenOffice.
+This is mainly to speed up the opening of documents in OpenOffice.
 
 Based on PyWriter v12.16.0
 
