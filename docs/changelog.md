@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.3
+
+- No longer write custom XML text fields as CDATA to .yw7. This is because the CDATA information gets lost anyway when overwriting the .yw7 file with any other pyWriter-based converter.
+
+Based on PyWriter v12.16.1
+
 ### v4.44.2
 
 Change the layout of exported documents:
