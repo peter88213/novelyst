@@ -82,7 +82,8 @@ class WorkFile(Yw7File):
         'Field_SceneArcs',
         'Field_SceneAssoc',
         'Field_CustomAR',
-        'Field_SceneStyle',  # TODO: Change the wording and use "Mode" instead of "Style".
+        'Field_SceneStyle',  # This is for updating old projects.
+        'Field_SceneMode',
         ]
     CRT_KWVAR = [
         'Field_Link',

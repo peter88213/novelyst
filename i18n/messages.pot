@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.44.4\n"
-"POT-Creation-Date: 2023-09-30 20:08:54\n"
+"Project-Id-Version: 4.44.5\n"
+"POT-Creation-Date: 2023-10-01 19:58:20\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -290,6 +290,9 @@ msgstr ""
 msgid "Detach/Dock Properties"
 msgstr ""
 
+msgid "Dialogue"
+msgstr ""
+
 msgid "Dilemma"
 msgstr ""
 
@@ -318,6 +321,9 @@ msgid "Done"
 msgstr ""
 
 msgid "Draft"
+msgstr ""
+
+msgid "Dramatic action"
 msgstr ""
 
 msgid "Duration"
@@ -372,6 +378,9 @@ msgid "Export scene list (spreadsheet)"
 msgstr ""
 
 msgid "Export type is not supported"
+msgstr ""
+
+msgid "Exposition"
 msgstr ""
 
 msgid "File"
@@ -519,6 +528,9 @@ msgid "N/A"
 msgstr ""
 
 msgid "Name"
+msgstr ""
+
+msgid "Narration"
 msgstr ""
 
 msgid "Narrative arc"
@@ -947,13 +959,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-msgid "descriptive"
-msgstr ""
-
 msgid "elements imported"
-msgstr ""
-
-msgid "explaining"
 msgstr ""
 
 msgid "last saved on"
@@ -966,12 +972,6 @@ msgid "novelyst API"
 msgstr ""
 
 msgid "novelyst project"
-msgstr ""
-
-msgid "staged"
-msgstr ""
-
-msgid "summarizing"
 msgstr ""
 
 msgid "unknown"

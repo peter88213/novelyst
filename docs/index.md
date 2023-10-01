@@ -39,7 +39,7 @@ With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) an
 - [A theme changer](https://peter88213.github.io/novelyst_themes/)
 - [A Story Template management plugin](https://peter88213.github.io/novelyst_templates/)
 
-There are some more examples in the release's *add-on* folder, such as a yWriter launcher, a theme changer, or an experimental "dark theme" installer.
+There are some more examples in the release's *add-on* folder: a yWriter launcher and a simple theme changer.
 
 ## Requirements
 
@@ -63,9 +63,9 @@ I use the program myself and fix errors immediately if I notice any. As far as I
 
 ## Download and install
 
-[Download the latest release (version 4.44.4)](https://github.com/peter88213/novelyst/raw/main/dist/novelyst_v4.44.4.zip)
+[Download the latest release (version 4.44.5)](https://github.com/peter88213/novelyst/raw/main/dist/novelyst_v4.44.5.zip)
 
-- Extract the "novelyst_v4.44.4" folder from the downloaded zipfile "novelyst_v4.44.4.zip".
+- Extract the "novelyst_v4.44.5" folder from the downloaded zipfile "novelyst_v4.44.5.zip".
 - Move into this new folder and open "README.md" for further instructions.
 - You may wish to install plugins; the [scene editor](https://peter88213.github.io/novelyst_editor/) is highly recommended.
 

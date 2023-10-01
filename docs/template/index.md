@@ -39,7 +39,7 @@ With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) an
 - [A theme changer](https://peter88213.github.io/novelyst_themes/)
 - [A Story Template management plugin](https://peter88213.github.io/novelyst_templates/)
 
-There are some more examples in the release's *add-on* folder, such as a yWriter launcher, a theme changer, or an experimental "dark theme" installer.
+There are some more examples in the release's *add-on* folder: a yWriter launcher and a simple theme changer.
 
 ## Requirements
 

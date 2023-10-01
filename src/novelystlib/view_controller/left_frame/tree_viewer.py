@@ -88,7 +88,7 @@ class TreeViewer(ttk.Frame):
     _COLUMNS = dict(
         wc=(_('Words'), 'wc_width'),
         vp=(_('Viewpoint'), 'vp_width'),
-        sy=(_('Mode'), 'mode_width'),
+        md=(_('Mode'), 'mode_width'),
         st=(_('Status'), 'status_width'),
         nt=(_('N'), 'nt_width'),
         dt=(_('Date'), 'date_width'),
@@ -161,12 +161,13 @@ class TreeViewer(ttk.Frame):
         #--- Create public submenus.
 
         #--- Create a scene mode submenu.
-        # TODO: Change the wording and use "Mode" instead of "Style".
         self.scStyleMenu = tk.Menu(self.tree, tearoff=0)
-        self.scStyleMenu.add_command(label=_('staged'), command=lambda: self._set_scn_mode(self.tree.selection(), None))
-        self.scStyleMenu.add_command(label=_('explaining'), command=lambda: self._set_scn_mode(self.tree.selection(), 'explaining'))
-        self.scStyleMenu.add_command(label=_('descriptive'), command=lambda: self._set_scn_mode(self.tree.selection(), 'descriptive'))
-        self.scStyleMenu.add_command(label=_('summarizing'), command=lambda: self._set_scn_mode(self.tree.selection(), 'summarizing'))
+        self.scStyleMenu.add_command(label=_('None'), command=lambda: self._set_scn_mode(self.tree.selection(), 0))
+        self.scStyleMenu.add_command(label=_('Narration'), command=lambda: self._set_scn_mode(self.tree.selection(), 1))
+        self.scStyleMenu.add_command(label=_('Dramatic action'), command=lambda: self._set_scn_mode(self.tree.selection(), 2))
+        self.scStyleMenu.add_command(label=_('Dialogue'), command=lambda: self._set_scn_mode(self.tree.selection(), 3))
+        self.scStyleMenu.add_command(label=_('Description'), command=lambda: self._set_scn_mode(self.tree.selection(), 4))
+        self.scStyleMenu.add_command(label=_('Exposition'), command=lambda: self._set_scn_mode(self.tree.selection(), 5))
 
         #--- Create a scene type submenu.
         self.scTypeMenu = tk.Menu(self.tree, tearoff=0)
@@ -240,9 +241,11 @@ class TreeViewer(ttk.Frame):
         self.tree.tag_configure('1st Edit', foreground=kwargs['color_1st_edit'])
         self.tree.tag_configure('2nd Edit', foreground=kwargs['color_2nd_edit'])
         self.tree.tag_configure('Done', foreground=kwargs['color_done'])
-        self.tree.tag_configure('summarizing', foreground=kwargs['color_summarizing'])
-        self.tree.tag_configure('descriptive', foreground=kwargs['color_descriptive'])
-        self.tree.tag_configure('explaining', foreground=kwargs['color_explaining'])
+        self.tree.tag_configure('mod1', background=kwargs['color_mod1'])
+        self.tree.tag_configure('mod2', background=kwargs['color_mod2'])
+        self.tree.tag_configure('mod3', background=kwargs['color_mod3'])
+        self.tree.tag_configure('mod4', background=kwargs['color_mod4'])
+        self.tree.tag_configure('mod5', background=kwargs['color_mod5'])
         self.tree.tag_configure('On_schedule', foreground=kwargs['color_on_schedule'])
         self.tree.tag_configure('Behind_schedule', foreground=kwargs['color_behind_schedule'])
         self.tree.tag_configure('Before_schedule', foreground=kwargs['color_before_schedule'])
@@ -1866,9 +1869,9 @@ class TreeViewer(ttk.Frame):
                         else:
                             nodeTags.append('Before_schedule')
                 elif self._ui.coloringMode == 3:
-                    sceneMode = self._ui.novel.scenes[scId].scnStyle
-                    if sceneMode:
-                        nodeTags.append(sceneMode)
+                    sceneMode = self._ui.novel.scenes[scId].scnMode
+                    if sceneMode in (1, 2, 3, 4, 5):
+                        nodeTags.append(f'mod{sceneMode}')
                 try:
                     positionStr = f'{round(100 * position / self._wordsTotal, 1)}%'
                 except:
@@ -1876,12 +1879,11 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['po']] = positionStr
             columns[self._colPos['wc']] = self._ui.novel.scenes[scId].wordCount
             columns[self._colPos['st']] = self._SCN_STATUS[self._ui.novel.scenes[scId].status]
-            sceneMode = self._ui.novel.scenes[scId].scnStyle
-            if sceneMode:
-                sceneMode = _(sceneMode)
-            else:
-                sceneMode = _('staged')
-            columns[self._colPos['sy']] = sceneMode
+            sceneMode = self._ui.novel.scenes[scId].scnMode
+            try:
+                columns[self._colPos['md']] = Scene.MODES[int(sceneMode)]
+            except:
+                columns[self._colPos['md']] = _('N/A')
             try:
                 columns[self._colPos['vp']] = self._ui.novel.characters[self._ui.novel.scenes[scId].characters[0]].title
             except:
@@ -1943,15 +1945,15 @@ class TreeViewer(ttk.Frame):
             self.refresh_tree()
 
     def _set_scn_mode(self, nodes, scnMode):
-        """Set scene narrative mode (Scene/Description/summary)."""
+        """Set the scene's mode of discourse."""
         if self._ui.check_lock():
             return
 
         has_changed = False
         for node in nodes:
             if node.startswith(self.SCENE_PREFIX):
-                if  self._ui.novel.scenes[node[2:]].scnStyle != scnMode:
-                    self._ui.novel.scenes[node[2:]].scnStyle = scnMode
+                if  self._ui.novel.scenes[node[2:]].scnMode != scnMode:
+                    self._ui.novel.scenes[node[2:]].scnMode = scnMode
                     has_changed = True
             elif node.startswith(self.CHAPTER_PREFIX) or node.startswith(self.PART_PREFIX) or node.startswith(self.NV_ROOT):
                 self.tree.item(node, open=True)

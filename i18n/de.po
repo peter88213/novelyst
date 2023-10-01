@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.44.4\n"
-"POT-Creation-Date: 2023-09-30 20:08:54\n"
-"PO-Revision-Date: 2023-09-30 20:08:55\n"
+"Project-Id-Version: 4.44.5\n"
+"POT-Creation-Date: 2023-10-01 19:58:20\n"
+"PO-Revision-Date: 2023-10-01 19:58:20\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -289,6 +289,9 @@ msgstr "Beschreibung"
 msgid "Detach/Dock Properties"
 msgstr "Eigenschaften abtrennen/andocken"
 
+msgid "Dialogue"
+msgstr "Dialog"
+
 msgid "Dilemma"
 msgstr "Dilemma"
 
@@ -318,6 +321,9 @@ msgstr "Fertiggestellt"
 
 msgid "Draft"
 msgstr "Entwurf"
+
+msgid "Dramatic action"
+msgstr "Dramatische Handlung"
 
 msgid "Duration"
 msgstr "Dauer"
@@ -372,6 +378,9 @@ msgstr "Abschnittsliste exportieren (Tabelle)"
 
 msgid "Export type is not supported"
 msgstr "Exporttyp wird nicht unterstützt"
+
+msgid "Exposition"
+msgstr "Exposition"
 
 msgid "File"
 msgstr "Datei"
@@ -519,6 +528,9 @@ msgstr "N/A"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Narration"
+msgstr "Narrative Zusammenfassung"
 
 msgid "Narrative arc"
 msgstr "Handlungsbogen"
@@ -946,14 +958,8 @@ msgstr "von"
 msgid "deleted"
 msgstr "gelöscht"
 
-msgid "descriptive"
-msgstr "beschreibend"
-
 msgid "elements imported"
 msgstr "Elemente importiert"
-
-msgid "explaining"
-msgstr "erklärend"
 
 msgid "last saved on"
 msgstr "zuletzt gespeichert:"
@@ -966,12 +972,6 @@ msgstr "novelyst API"
 
 msgid "novelyst project"
 msgstr "novelyst-Projekt"
-
-msgid "staged"
-msgstr "szenisch"
-
-msgid "summarizing"
-msgstr "zusammenfassend"
 
 msgid "unknown"
 msgstr "unbekannt"
