@@ -65,7 +65,7 @@ class TreeViewer(ttk.Frame):
     Public instance variables:
         tree: ttk.Treeview -- The treeview widget to display.
         columns -- list of tuples (ID, title, width).
-        scStyleMenu: tk.Menu -- Scene "Mode" submenu.
+        scModeMenu: tk.Menu -- Scene "Mode" submenu.
         scTypeMenu: tk.Menu -- Scene "Type" submenu.
         scStatusMenu: tk.Menu -- Scene "Status" submenu.
         crStatusMenu: tk.Menu -- Character "Status" submenu.        
@@ -161,13 +161,13 @@ class TreeViewer(ttk.Frame):
         #--- Create public submenus.
 
         #--- Create a scene mode submenu.
-        self.scStyleMenu = tk.Menu(self.tree, tearoff=0)
-        self.scStyleMenu.add_command(label=_('None'), command=lambda: self._set_scn_mode(self.tree.selection(), 0))
-        self.scStyleMenu.add_command(label=_('Narration'), command=lambda: self._set_scn_mode(self.tree.selection(), 1))
-        self.scStyleMenu.add_command(label=_('Dramatic action'), command=lambda: self._set_scn_mode(self.tree.selection(), 2))
-        self.scStyleMenu.add_command(label=_('Dialogue'), command=lambda: self._set_scn_mode(self.tree.selection(), 3))
-        self.scStyleMenu.add_command(label=_('Description'), command=lambda: self._set_scn_mode(self.tree.selection(), 4))
-        self.scStyleMenu.add_command(label=_('Exposition'), command=lambda: self._set_scn_mode(self.tree.selection(), 5))
+        self.scModeMenu = tk.Menu(self.tree, tearoff=0)
+        self.scModeMenu.add_command(label=_('None'), command=lambda: self._set_scn_mode(self.tree.selection(), 0))
+        self.scModeMenu.add_command(label=_('Narration'), command=lambda: self._set_scn_mode(self.tree.selection(), 1))
+        self.scModeMenu.add_command(label=_('Dramatic action'), command=lambda: self._set_scn_mode(self.tree.selection(), 2))
+        self.scModeMenu.add_command(label=_('Dialogue'), command=lambda: self._set_scn_mode(self.tree.selection(), 3))
+        self.scModeMenu.add_command(label=_('Description'), command=lambda: self._set_scn_mode(self.tree.selection(), 4))
+        self.scModeMenu.add_command(label=_('Exposition'), command=lambda: self._set_scn_mode(self.tree.selection(), 5))
 
         #--- Create a scene type submenu.
         self.scTypeMenu = tk.Menu(self.tree, tearoff=0)
@@ -205,7 +205,7 @@ class TreeViewer(ttk.Frame):
         self._nvCtxtMenu.add_cascade(label=_('Set Type'), menu=self.scTypeMenu)
         self._nvCtxtMenu.add_cascade(label=_('Set Status'), menu=self.scStatusMenu)
         self._nvCtxtMenu.add_separator()
-        self._nvCtxtMenu.add_cascade(label=_('Set Mode'), menu=self.scStyleMenu)
+        self._nvCtxtMenu.add_cascade(label=_('Set Mode'), menu=self.scModeMenu)
         self._nvCtxtMenu.add_separator()
         self._nvCtxtMenu.add_command(label=_('Join with previous'), command=self.join_scenes)
         self._nvCtxtMenu.add_separator()
