@@ -114,6 +114,15 @@ class TreeViewer(ttk.Frame):
         else:
             _SCN_STATUS.append(_(status))
 
+    _SCN_MODES: list[str] = [_('N/A'),
+                  _('Narration'),
+                  _('Dramatic action'),
+                  _('Dialogue'),
+                  _('Description'),
+                  _('Exposition')
+                  ]
+    # Modes of discourse according to Jack M. Bickham.
+
     def __init__(self, parent, ui, kwargs, **kw):
         """Put a tkinter tree in the specified parent widget.
         
@@ -1881,7 +1890,7 @@ class TreeViewer(ttk.Frame):
             columns[self._colPos['st']] = self._SCN_STATUS[self._ui.novel.scenes[scId].status]
             sceneMode = self._ui.novel.scenes[scId].scnMode
             try:
-                columns[self._colPos['md']] = Scene.MODES[int(sceneMode)]
+                columns[self._colPos['md']] = self._SCN_MODES[int(sceneMode)]
             except:
                 columns[self._colPos['md']] = _('N/A')
             try:

@@ -8,6 +8,20 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.6
+
+- Refactor: Move the scene MODES list from Scene to TreeView.
+- Provide inverted "Y" icon for .yw7 files.
+
+Based on PyWriter v12.16.4
+
+### v4.44.5
+
+- Major refactoring of the processing of the scenes' modes of discourse.
+- Remove several add-ons.
+
+Based on PyWriter v12.16.3
+
 ### v4.44.4
 
 - Escape characters in custom field variables when writing as PCDATA to .yw7.
