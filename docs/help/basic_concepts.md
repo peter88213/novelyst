@@ -62,13 +62,13 @@ You can assign a status to each "Normal" type scene via context menu or Scene me
 
 ## Mode of discourse
 
-A scene's mode can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+A scene's mode can be *Narration*, *Dramatic action*, *Dialogue*, *Description*, or *Exposition*.
 
-- **Staged** scenes are mainly made up of action and dialog.
-- **Explaining** scenes mainly convey background information.
-- **Descriptive** scenes describe characters, locations, etc in detail.
-- **Summarizing** scenes summarize actions in brief, for example, to make time tighter.
-- Newly created scenes are set to "staged" by default.
+- **Narration** scenes summarize actions in brief, for example, to make time tighter.
+- **Dramatic action** scenes are mainly made up of action.
+- **Dialogue** scenes are mainly made up of dialog.
+- **Description** scenes describe characters, locations, etc in detail.
+- **Exposition** scenes mainly convey background information.
 
 ---
 

@@ -58,7 +58,7 @@ This can be *Outline*, *Draft*, *1st Edit*, *2nd Edit*, or *Done*.
 
 **Set the scene's [mode of discourse](basic_concepts)**
 
-This can be *staged*, *explaining*, *descriptive*, or *summarizing*.
+This can be *Narration*, *Dramatic action*, *Dialogue*, *Description*, or *Exposition*.
 
 ### Mode change for multiple scenes
 

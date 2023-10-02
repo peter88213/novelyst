@@ -56,14 +56,16 @@ This can be *Gliederung*, *Entwurf*, *1. Überarbeitung*, *2. Überarbeitung*, o
 
 ## Modus bestimmen
 
+## Set Mode
+
 **Set the scene's [mode of discourse](basic_concepts)**
 
-This can be *szenisch*, *erklärend*, *beschreibend*, or *zusammenfassend*.
+Das kann *Narrative Zussamenfassung*, *Dramatische Handlung*, *Dialog*, *Beschreibung* oder *Exposition* sein.
 
-### Modus change for multiple scenes
+### Mode change for multiple scenes
 
 - Either select multiple scenes, or
-- select a parent node (part, chapter, or Buch)
+- select a parent node (part, chapter, or Book)
 
 --- 
 
