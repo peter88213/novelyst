@@ -89,6 +89,7 @@ OPTIONS = dict(
     show_auto_numbering=False,
     show_renamings=False,
     show_writing_progress=False,
+    show_statistics=False,
     show_arcs=False,
     show_date_time=False,
     show_action_reaction=False,
