@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.8
+
+- Remove all type hints to be compatible with old Python versions.
+
+Based on PyWriter v12.16.7
+
 ### v4.44.7
 
 Change the layout of exported documents:

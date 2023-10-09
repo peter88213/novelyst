@@ -178,7 +178,7 @@ class NovelystTk(MainTk):
         self.plugins = PluginCollection(self)
         # dict-like Container for registered plugin objects
 
-        self.launchers: dict[str] = {}
+        self.launchers = {}
         # launchers for opening linked non-standard filetypes.
 
         self.tempDir = tempDir

@@ -114,7 +114,7 @@ class TreeViewer(ttk.Frame):
         else:
             _SCN_STATUS.append(_(status))
 
-    _SCN_MODES: list[str] = [_('N/A'),
+    _SCN_MODES = [_('N/A'),
                   _('Narration'),
                   _('Dramatic action'),
                   _('Dialogue'),
