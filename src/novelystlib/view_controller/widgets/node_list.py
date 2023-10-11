@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class NodeList(ttk.frame):
+class NodeList(ttk.Frame):
     """A Frame containing a list and control elements for adding and removing items.
     
     Public instance variables:
