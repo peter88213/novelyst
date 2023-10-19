@@ -8,6 +8,21 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.9
+
+PyWriter update:
+
+Simplify the yw7 file export, dropping redundant data that is not needed
+by yWriter 7.
+- Drop the sort order.
+- Drop word count.
+- Drop letter count.
+- Drop "scene belongs to chapter" information.
+- Do not write empty scene Characters/Locations/Items elements.
+- Remove yWriter version information.
+
+Based on PyWriter v12.17.1
+
 ### v4.44.8
 
 - Remove all type hints to be compatible with old Python versions.
