@@ -21,10 +21,10 @@ The term *plot* refers to the consequent course of the narrative action.
 
 The association of scenes and arc points is shown in the "Plot" column of the tree view.
 
-## What about acts?
+## What about stages like acts?
 
-If you want to divide a story into phases according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their points have to be assigned to specific scenes.
-Better suited for this are "todo" type chapters, which are inserted between the regular chapters at the beginning of each phase. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
+If you want to divide a story into stages according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their points have to be assigned to specific scenes.
+Better suited for this are "todo" type scenes, which are inserted between the regular scenes at the beginning of each phase. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
 
 ![Acts](../Screenshots/acts01.png)
 
