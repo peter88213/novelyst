@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.44.11
+
+- Reword column: "Plot" --> "Turning point".
+- Update logo.
+
+Based on PyWriter v12.17.2
+
 ### v4.44.10
 
 Fix a bug where normal scenes are written to the "notes" and "todo" export documents, 

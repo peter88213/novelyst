@@ -11,24 +11,23 @@
 ![Arcs](../Screenshots/arcs01.png)
 
 The term *plot* refers to the consequent course of the narrative action. 
-"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, road map with milestones, and so on. You can think of an arc as a line on which points are arranged that characterize the progression of the story. These points can be assigned to scenes to indicate the scene's relevance to the plot. 
+"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, road map with milestones, and so on. You can think of an arc as a line on which turning points are arranged that characterize the progression of the story. These turning points can be assigned to scenes to indicate the scene's relevance to the plot. 
 
 - *novelyst* lets you define any number of arcs. 
 - Any number of scenes can be assigned to each arc. 
 - Any number of arcs can be assigned to each scene.
-- Each arc can contain any number of points. 
-- Each point can be assigned to exactly one scene. 
+- Each arc can contain any number of turning points. 
+- Each turning point can be assigned to exactly one scene. 
 
-The association of scenes and arc points is shown in the "Plot" column of the tree view.
+The association of scenes and turning points is shown in the "Plot" column of the tree view.
 
 ## What about stages like acts?
 
-If you want to divide a story into stages according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their points have to be assigned to specific scenes.
-Better suited for this are "todo" type scenes, which are inserted between the regular scenes at the beginning of each phase. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
+If you want to divide a story into stages according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their turning points have to be assigned to specific scenes.
+Better suited for this are "todo" type scenes, which are inserted between the regular scenes at the beginning of each stage. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
 
 ![Acts](../Screenshots/acts01.png)
 
-This method can of course be combined well with arc points, which in this case can be created as plot points such as pinch point, turning point, climax, etc.
 
 ## How to define arcs
 
@@ -63,12 +62,12 @@ This method can of course be combined well with arc points, which in this case c
 2. Make sure the **Plot** window is open in the right pane. 
 3. In the **Arcs** field, remove the name of the arc you want to disconnect. Also remove the corresponding semicolon. 
 
-**Note:** Disconnecting a scene from an arc will also disconnect the corresponding arc points.
+**Note:** Disconnecting a scene from an arc will also disconnect the corresponding turning points.
 
 ## How to delete arcs
 
 1. Select the "Todo" chapter defining the arc you want to remove. 
-2. Delete the selected chapter. Children (points) are moved to the "Trash" chapter. 
+2. Delete the selected chapter. Children (turning points) are moved to the "Trash" chapter. 
 
 ## How to rename arcs
 
@@ -76,28 +75,28 @@ This method can of course be combined well with arc points, which in this case c
 2. In the right pane, change the arc's name in the **Arc name** entry field. 
 3. After having applied the change, you might want to edit the chapter title, removing the old arc prefix.
 
-## How to create arc points
+## How to create turning points
 
 *novelyst* implements arcs as scenes in "arc" chapters. If you add a scene to an arc defining "Todo" chapter, This scene is automatically assigned to the chapter's arc. 
 
-![Arc points](../Screenshots/arcs03.png)
+![Turning points](../Screenshots/arcs03.png)
 
-## How to associate points with scenes
+## How to associate turning points with scenes
 
-1. Select the arc point you want to assign a scene to. 
+1. Select the turning point you want to assign a scene to. 
 2. In the right pane, click **Assign scene**. This starts the scene picking mode, where the mouse cursor changes to a "plus" symbol in the tree view. 
-3. Select the scene you want to assign to the point. Clicking on any tree element ends the scene picking mode. You can finish the scene picking mode pressing the **Esc** key as well.   
+3. Select the scene you want to assign to the turning point. Clicking on any tree element ends the scene picking mode. You can finish the scene picking mode pressing the **Esc** key as well.   
 
 ## How to clear scene associations
 
-1. Select the arc point you want to clear its scene association. 
+1. Select the turning point you want to clear its scene association. 
 2. Click **Clear assignment**. 
 
 **Note** The scene association is also cleared automatically if you clear the scene's corresponding arc assignment.
 
-## How to delete points
+## How to delete turning points
 
-1. Select the arc point you want to delete.
+1. Select the turning point you want to delete.
 2. Press the **Del** key and confirm. This clears the scene assignment, if any, and moves the scene to the *Trash" chapter. 
 
 ## Load and save complete narrative structures

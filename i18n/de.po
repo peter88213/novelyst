@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.44.10\n"
-"POT-Creation-Date: 2023-10-27 13:56:18\n"
-"PO-Revision-Date: 2023-10-27 13:56:18\n"
+"Project-Id-Version: 4.44.11\n"
+"POT-Creation-Date: 2023-11-01 23:03:44\n"
+"PO-Revision-Date: 2023-11-01 23:03:44\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -882,6 +882,9 @@ msgstr "Extras"
 
 msgid "Trash"
 msgstr "Papierkorb"
+
+msgid "Turning points"
+msgstr "Wendepunkte"
 
 msgid "Undefined"
 msgstr "Nicht definiert"

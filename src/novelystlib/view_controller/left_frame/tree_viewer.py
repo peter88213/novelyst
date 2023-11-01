@@ -98,7 +98,7 @@ class TreeViewer(ttk.Frame):
         po=(_('Position'), 'ps_width'),
         ac=(_('Arcs'), 'arcs_width'),
         ar=(_('A/R'), 'pacing_width'),
-        pt=(_('Plot'), 'plot_width'),
+        pt=(_('Turning points'), 'plot_width'),
         )
     # Key: column ID
     # Value: (column title, column width)

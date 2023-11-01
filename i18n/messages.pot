@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 4.44.10\n"
-"POT-Creation-Date: 2023-10-27 13:56:18\n"
+"Project-Id-Version: 4.44.11\n"
+"POT-Creation-Date: 2023-11-01 23:03:44\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -882,6 +882,9 @@ msgid "Tools"
 msgstr ""
 
 msgid "Trash"
+msgstr ""
+
+msgid "Turning points"
 msgstr ""
 
 msgid "Undefined"
