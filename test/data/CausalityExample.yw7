@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<YWRITER7>
+  <PROJECT>
+    <Ver>7</Ver>
+    <Title><![CDATA[Trouble at Montresor Hall]]></Title>
+    <AuthorName><![CDATA[W. R. Hack]]></AuthorName>
+    <WordCountStart>0</WordCountStart>
+    <WordTarget>0</WordTarget>
+    <Fields>
+      <Field_WorkPhase>1</Field_WorkPhase>
+      <Field_RenumberChapters>1</Field_RenumberChapters>
+      <Field_ChapterHeadingPrefix>Chapter </Field_ChapterHeadingPrefix>
+    </Fields>
+  </PROJECT>
+  <LOCATIONS />
+  <ITEMS />
+  <CHARACTERS />
+  <SCENES>
+    <SCENE>
+      <ID>1</ID>
+      <Title><![CDATA[ACT 1]]></Title>
+      <Desc><![CDATA[Setup]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>2</ID>
+      <Title><![CDATA[Inciting Incident]]></Title>
+      <Desc><![CDATA[Also called "catalyst" or "call to adventure". This sets the protagonist in motion.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>3</ID>
+      <Title><![CDATA[Dorothy meets Baharov]]></Title>
+      <SceneContent />
+      <Fields>
+        <Field_SceneArcs><![CDATA[C]]></Field_SceneArcs>
+        <Field_SceneAssoc>34</Field_SceneAssoc>
+      </Fields>
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>4</ID>
+      <Title><![CDATA[Plot Point 1]]></Title>
+      <Desc><![CDATA["Point of no return": The protagonist engages with the action the inciting incident has created.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>6</ID>
+      <Title><![CDATA[ACT 2]]></Title>
+      <Desc><![CDATA[Confrontation]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>7</ID>
+      <Title><![CDATA[Midpoint]]></Title>
+      <Desc><![CDATA[The main turning point. A significant event, changing the development of things from good to bad, or vice versa.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>8</ID>
+      <Title><![CDATA[Dorothy gets impressed]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>9</ID>
+      <Title><![CDATA[Plot Point 2]]></Title>
+      <Desc><![CDATA[The aftermath of the Midpoint crisis. What changes the protagonist from "passenger" to "driver".]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>11</ID>
+      <Title><![CDATA[ACT 3]]></Title>
+      <Desc><![CDATA[Resolution]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>12</ID>
+      <Title><![CDATA[Climax]]></Title>
+      <Desc><![CDATA[The final moment of the story's conflict.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+      </Fields>
+      <Status>1</Status>
+      <Tags><![CDATA[stage]]></Tags>
+    </SCENE>
+    <SCENE>
+      <ID>13</ID>
+      <Title><![CDATA[The marriage]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>14</ID>
+      <Title><![CDATA[Montresor returns from a long journey]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>15</ID>
+      <Title><![CDATA[Dorothy shows up]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>16</ID>
+      <Title><![CDATA[Montresor at the Gambling Hall]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>18</ID>
+      <Title><![CDATA[The crime]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>19</ID>
+      <Title><![CDATA[Montresor fires Mary]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>20</ID>
+      <Title><![CDATA[Mary merrily at work]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>21</ID>
+      <Title><![CDATA[Dorothy and Coralinne at the Proms]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>22</ID>
+      <Title><![CDATA[Montresor meets Coralinne]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>23</ID>
+      <Title><![CDATA[At the black market]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>24</ID>
+      <Title><![CDATA[Baharov meets the Prosecutor]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>25</ID>
+      <Title><![CDATA[A chase]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>26</ID>
+      <Title><![CDATA[Bad guys lurking around]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>27</ID>
+      <Title><![CDATA[Montresor sentenced]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>28</ID>
+      <Title><![CDATA[Mary in despair]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>29</ID>
+      <Title><![CDATA[Dorothy commits suicide]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>30</ID>
+      <Title><![CDATA[Montresor returns]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>31</ID>
+      <Title><![CDATA[Coralinne's new plans]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>32</ID>
+      <Title><![CDATA[Baharov killed]]></Title>
+      <SceneContent />
+      <Fields>
+        <Field_SceneArcs><![CDATA[C]]></Field_SceneArcs>
+        <Field_SceneAssoc>35</Field_SceneAssoc>
+      </Fields>
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>33</ID>
+      <Title><![CDATA[Visiting uncle Sam]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>34</ID>
+      <Title><![CDATA[Setup]]></Title>
+      <Desc><![CDATA[Baharov walks into the room and notices a rifle hanging on the wall.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+        <Field_SceneArcs><![CDATA[C]]></Field_SceneArcs>
+        <Field_SceneAssoc>3</Field_SceneAssoc>
+      </Fields>
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>35</ID>
+      <Title><![CDATA[Payoff]]></Title>
+      <Desc><![CDATA[Montresor takes the rifle from the wall and shoots Baharov.]]></Desc>
+      <SceneContent />
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_SceneType>2</Field_SceneType>
+        <Field_SceneArcs><![CDATA[C]]></Field_SceneArcs>
+        <Field_SceneAssoc>32</Field_SceneAssoc>
+      </Fields>
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>36</ID>
+      <Title><![CDATA[Baharov buys a horse]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+    <SCENE>
+      <ID>5</ID>
+      <Title><![CDATA[Baharov doing his business]]></Title>
+      <SceneContent />
+      <Status>1</Status>
+    </SCENE>
+  </SCENES>
+  <CHAPTERS>
+    <CHAPTER>
+      <ID>1</ID>
+      <Title><![CDATA[Chapter 1]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>1</ScID>
+        <ScID>14</ScID>
+        <ScID>15</ScID>
+        <ScID>2</ScID>
+        <ScID>3</ScID>
+        <ScID>16</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>6</ID>
+      <Title><![CDATA[Chapter 2]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>22</ScID>
+        <ScID>36</ScID>
+        <ScID>21</ScID>
+        <ScID>4</ScID>
+        <ScID>18</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>2</ID>
+      <Title><![CDATA[Chapter 3]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>6</ScID>
+        <ScID>20</ScID>
+        <ScID>19</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>3</ID>
+      <Title><![CDATA[Chapter 4]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>24</ScID>
+        <ScID>23</ScID>
+        <ScID>8</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>7</ID>
+      <Title><![CDATA[Chapter 5]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>26</ScID>
+        <ScID>25</ScID>
+        <ScID>7</ScID>
+        <ScID>27</ScID>
+        <ScID>28</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>4</ID>
+      <Title><![CDATA[Chapter 6]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>9</ScID>
+        <ScID>29</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>5</ID>
+      <Title><![CDATA[Chapter 7]]></Title>
+      <Type>0</Type>
+      <ChapterType>0</ChapterType>
+      <Scenes>
+        <ScID>11</ScID>
+        <ScID>5</ScID>
+        <ScID>30</ScID>
+        <ScID>31</ScID>
+        <ScID>12</ScID>
+        <ScID>32</ScID>
+        <ScID>33</ScID>
+        <ScID>13</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>9</ID>
+      <Title><![CDATA[Causality]]></Title>
+      <Unused>-1</Unused>
+      <SectionStart>-1</SectionStart>
+      <Type>1</Type>
+      <ChapterType>2</ChapterType>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>10</ID>
+      <Title><![CDATA[C - Chekhov's Gun]]></Title>
+      <Unused>-1</Unused>
+      <Fields>
+        <Field_ArcDefinition><![CDATA[C]]></Field_ArcDefinition>
+      </Fields>
+      <Type>1</Type>
+      <ChapterType>2</ChapterType>
+      <Scenes>
+        <ScID>34</ScID>
+        <ScID>35</ScID>
+      </Scenes>
+    </CHAPTER>
+    <CHAPTER>
+      <ID>8</ID>
+      <Title><![CDATA[Arcs]]></Title>
+      <Unused>-1</Unused>
+      <SectionStart>-1</SectionStart>
+      <Type>1</Type>
+      <ChapterType>2</ChapterType>
+    </CHAPTER>
+  </CHAPTERS>
+  <PROJECTVARS>
+    <PROJECTVAR>
+      <ID>1</ID>
+      <Title><![CDATA[Language]]></Title>
+      <Desc><![CDATA[de]]></Desc>
+      <Tags><![CDATA[0]]></Tags>
+    </PROJECTVAR>
+    <PROJECTVAR>
+      <ID>2</ID>
+      <Title><![CDATA[Country]]></Title>
+      <Desc><![CDATA[DE]]></Desc>
+      <Tags><![CDATA[0]]></Tags>
+    </PROJECTVAR>
+  </PROJECTVARS>
+</YWRITER7>
