@@ -1,17 +1,29 @@
-[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Arcs
+[Project homepage](../index) > [Instructions for use](../usage) > [Online help](help) > Plot
 
 --- 
 
-# Arcs
+# Plot
 
-## What are arcs?
+## Applying a story structure model
+
+If you want to divide a story into stages according to a structure model (e.g. the *Three Act Model*, 
+or the *Save The Cat* beatsheet), just insert empty "todo" type scenes between the regular scenes 
+at the beginning of each stage, and tag them "stage". This gives you color-coded subheadings in the tree view. 
+
+![Acts](../Screenshots/acts01.png)
+
+With the [novelyst_templates plugin](https://peter88213.github.io/novelyst_templates/) you can
+load pre-made story structure models from Markdown template files, and you can save the 
+story structure of your project for reuse.
+
+
+## Defining Arcs
 
 *novelyst* provides *arcs* as a powerful and flexible concept for plotting.
 
 ![Arcs](../Screenshots/arcs01.png)
 
-The term *plot* refers to the consequent course of the narrative action. 
-"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, road map with milestones, and so on. You can think of an arc as a line on which turning points are arranged that characterize the progression of the story. These turning points can be assigned to scenes to indicate the scene's relevance to the plot. 
+"Arc" can mean a variety of things: Narrative strand, thread, character arc, storyline, sequence of cause and effect, sequence of setup and payoff, and so on. You can think of an arc as a line on which turning points are arranged that characterize the progression of the story. These turning points can be assigned to scenes to indicate the scene's relevance to the plot. 
 
 - *novelyst* lets you define any number of arcs. 
 - Any number of scenes can be assigned to each arc. 
@@ -20,14 +32,6 @@ The term *plot* refers to the consequent course of the narrative action.
 - Each turning point can be assigned to exactly one scene. 
 
 The association of scenes and turning points is shown in the "Plot" column of the tree view.
-
-## What about stages like acts?
-
-If you want to divide a story into stages according to a dramaturgical scheme, for example into acts or steps, arcs are not necessarily the means of choice. This is because their turning points have to be assigned to specific scenes.
-Better suited for this are "todo" type scenes, which are inserted between the regular scenes at the beginning of each stage. This gives you color-coded subheadings in the tree view, and also gives you the option of documenting your dramaturgical model in as much detail as you like, e.g. with "todo" scenes underneath. 
-
-![Acts](../Screenshots/acts01.png)
-
 
 ## How to define arcs
 

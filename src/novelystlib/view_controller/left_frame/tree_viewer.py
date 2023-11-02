@@ -644,6 +644,7 @@ class TreeViewer(ttk.Frame):
         self._ui.novel.scenes[scId].scType = kwargs.get('scType', 0)
         # Default type = Normal by default
         self._ui.novel.scenes[scId].appendToPrev = kwargs.get('appendToPrev', False)
+        self._ui.novel.scenes[scId].tags = kwargs.get('tags', False)
 
         # Initialize custom keyword variables.
         for fieldName in self._ui.prjFile.SCN_KWVAR:

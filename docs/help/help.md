@@ -28,9 +28,9 @@ You can open it with **Help > Online help** or **F1**.
 
 ---
 
-## [Arcs](arcs)
+## [Plot](arcs)
 
-With [arcs](arcs), you can link your plot to the narrative.
+How to apply a story structure model, and how to define arcs with turning points. 
 
 ---
 

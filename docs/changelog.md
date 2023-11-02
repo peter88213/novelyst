@@ -8,6 +8,13 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.45.0
+
+- Extend the API: The TreeViewer.add_scene method processes the "tags" keyword argument. This is necessary for the latest novelyst_templates plugin. 
+- Setup: "set_open.command.reg" assigns an icon to ".pwc" collection files. 
+
+Based on PyWriter v12.17.2
+
 ### v4.44.11
 
 - Reword column: "Plot" --> "Turning point".

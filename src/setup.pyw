@@ -65,12 +65,20 @@ python3 '$Apppath' %f
 
 SET_OPEN_CMD = f'''Windows Registry Editor Version 5.00
 
-[HKEY_CLASSES_ROOT\.yw7]
+[HKEY_CURRENT_USER\Software\Classes\\.yw7]
 @="yWriter7"
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7]
+@="yWriter7 Project"
 [HKEY_CURRENT_USER\Software\Classes\yWriter7\DefaultIcon]
 @="$INSTALL\\\\icons\\\\yLogo64.ico"
 [HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\open\command]
 @="\\"$PYTHON\\" \\"$SCRIPT\\" \\"%1\\""
+[HKEY_CURRENT_USER\Software\Classes\\.pwc]
+@="nv4Collection"
+[HKEY_CURRENT_USER\Software\Classes\\nv4Collection]
+@="novelyst Collection"
+[HKEY_CURRENT_USER\Software\Classes\\nv4Collection\DefaultIcon]
+@="$INSTALL\\\\icons\\\\cLogo64.ico"
 
 '''
 
@@ -91,8 +99,10 @@ You may want to run the Plugin Manager for compatibility check.
 
 SET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
-[HKEY_CLASSES_ROOT\.yw7]
+[HKEY_CURRENT_USER\Software\Classes\\.yw7]
 @="yWriter7"
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7]
+@="yWriter7 Project"
 [-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\Open with novelyst]
 [HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\{_('Open with novelyst')}]
 [HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\{_('Open with novelyst')}\\command]
