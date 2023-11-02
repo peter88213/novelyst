@@ -103,8 +103,8 @@ The association of scenes and turning points is shown in the "Plot" column of th
 1. Select the turning point you want to delete.
 2. Press the **Del** key and confirm. This clears the scene assignment, if any, and moves the scene to the *Trash" chapter. 
 
-## Load and save complete narrative structures
+## Modeling causality
 
-With the [novelyst_templates plugin](https://peter88213.github.io/novelyst_templates) you can load a prefabricated story structure defined with a Markdown file. You also can save a story structure made with *novelyst* in a Markdown file for reuse.
+You can use arcs to establish named connections between scenes, such as *setup -> payoff*, so you can keep track of this relationship even if the scenes are far away from each other.
 
-![Template](../Screenshots/template01.png)
+![Template](../Screenshots/causality01.png)
