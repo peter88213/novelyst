@@ -85,17 +85,6 @@ class WorkFile(Yw7File):
         'Field_SceneStyle',  # This is for updating old projects.
         'Field_SceneMode',
         ]
-    CRT_KWVAR = [
-        'Field_Link',
-        'Field_BirthDate',
-        'Field_DeathDate',
-        ]
-    LOC_KWVAR = [
-        'Field_Link',
-        ]
-    ITM_KWVAR = [
-        'Field_Link',
-        ]
 
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables.

@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/1).
 
+### v4.45.1
+
+- Make sure to keep unused character/location/item keyword variables.
+
+Based on PyWriter v12.18.0
+
 ### v4.45.0
 
 - Extend the API: The TreeViewer.add_scene method processes the "tags" keyword argument. This is necessary for the latest novelyst_templates plugin. 
