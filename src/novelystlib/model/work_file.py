@@ -87,6 +87,8 @@ class WorkFile(Yw7File):
         ]
     CRT_KWVAR = [
         'Field_Link',
+        'Field_BirthDate',
+        'Field_DeathDate',
         ]
     LOC_KWVAR = [
         'Field_Link',
