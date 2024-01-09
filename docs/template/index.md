@@ -56,13 +56,6 @@ There are some more examples in the release's *add-on* folder: a yWriter launche
 
 Please make sure that your Python3 installation has the *tkinter* module. On Ubuntu, for example, it is not available out of the box and must be installed via a separate package named *python3-tk*. 
 
-## General note about the fitness for use
-
-At present, this program is still under active development. Therefore it is recommended to check for updates from time to time, as well as for the plugins. 
-
-I use the program myself and fix errors immediately if I notice any. As far as I can tell, *novelyst* runs fast and reliably under Windows and Linux. It should also under other operating systems for which there is a reasonably up-to-date *Python 3* installation. However, there is a lack of a broad user base, which is why one cannot speak of real proven operation. 
-
-
 ## Download and install
 
 [Download the latest release (version 0.99.0)](https://github.com/peter88213/novelyst/raw/main/dist/novelyst_v0.99.0.zip)
