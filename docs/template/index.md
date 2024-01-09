@@ -1,5 +1,7 @@
 # ![N](img/nLogo32.png) novelyst
 
+**NOTE:** This application will not be continued. It will be replaced by [noveltree](https://peter88213.github.io/noveltree/). 
+
 *novelyst* is an organizer tool for writing novels with *LibreOffice Writer* or *OpenOffice Writer*. The entire novel is stored in a single file with all additional information. The manuscript is exported for editing with *Writer*, and then written back so that everything is always consistent and in one place. *novelyst* uses the file format of [yWriter 7](http://spacejock.com/yWriter7.html) and is largely compatible with it. 
 
 ![Screenshot](Screenshots/screen01.png)
