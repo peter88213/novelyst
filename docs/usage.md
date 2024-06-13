@@ -68,10 +68,10 @@ You can either
 - Command reference
 - Cover thumbnails
 
-You can open the online help page with **Help > Online help**.
+You can open the online help page with **Hilfe > Online-Hilfe**.
 
-- [Introduction (English)](https://github.com/peter88213/novelyst/wiki/English)
-- [Introduction (German)](https://github.com/peter88213/novelyst/wiki/Deutsch)
+- [Introduction (English)](https://peter88213.github.io/novelyst/introduction)
+- [Introduction (German)](https://peter88213.github.io/novelyst/de/introduction)
 
 --- 
 
