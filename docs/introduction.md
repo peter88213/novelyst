@@ -1,3 +1,7 @@
+[Project homepage](https://peter88213.github.io/novelyst) > Introduction
+
+---
+
 # novelyst - Introduction
 
 **NOTE:** This application is replaced by [novelibre](https://github.com/peter88213/novelibre) which supports another workflow and comes with many [improvements](https://github.com/peter88213/novelibre/discussions/2). 
