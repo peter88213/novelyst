@@ -1,4 +1,4 @@
-[Project homepage](https://peter88213.github.io/novelyst) > Introduction
+[Project homepage](index) > Introduction
 
 ---
 
