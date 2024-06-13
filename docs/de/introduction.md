@@ -12,7 +12,7 @@ Der folgende Artikel gibt einen kurzen Einblick in die Arbeitsweise mit *novelys
 
 Der *Navigator* von LibreOffice verschafft uns einen groben Überblick über die Dokumentstruktur auf Teile- und Kapitelebene (*Überschrift 1* und *Überschrift 2*).
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_LibreOffice01.png)
+![](../Screenshots/w_de_LibreOffice01.png)
 
 Was dem Office-Programm fehlt, ist eine kleinteilige Organisation von Metadaten für den Überblick über den Roman, so wie es spezialisierte Autorensoftware bietet. 
 
@@ -32,7 +32,7 @@ All das kann uns entweder im Vornherein bei der Planung, oder im Nachhinein bei 
 
 *novelyst* zeigt uns die Dokumentstruktur bis auf die Ebene der Abschnitte, zusammen mit den Metadaten.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_novelyst01.png)
+![](../Screenshots/w_de_novelyst01.png)
 
 *novelyst* ordnet den Roman mit einer Baumstruktur. Wir können Teile, Kapitel und Abschnitte erzeugen, verschieben und löschen. Teile lassen sich in Kapitel umwandeln und umgekehrt. Einzelne Teile, Kapitel und Abschnitte können als "unbenutzt" markiert, also ausgeblendet werden. Dann tragen sie nicht zur Wortzählung bei und erscheinen nicht im exportierten Manuskript.
 
@@ -54,19 +54,19 @@ Es empfiehlt sich auch, neben der unverzichtbaren [yw-cnv](https://peter88213.gi
 
 Für das komfortable Schreiben, und noch mehr für die ordentliche Gestaltung und die Druckausgabe des Romantexts wollen wir deshalb LibreOffice verwenden. Dazu exportieren wir den Roman zunächst als Manuskript aus *novelyst*. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_novelyst02.png)
+![](../Screenshots/w_de_novelyst02.png)
 
 Beim Export erzeugt *novelyst* am Beginn jedes Abschnitts einen Kommentar mit dem Abschnittstitel. Auf diese Weise können wir mit dem Navigator zu den Abschnitten springen. Das funktioniert auch bei ausgeschalteter Kommentar-Anzeige.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_LibreOffice04.png)
+![](../Screenshots/w_de_LibreOffice04.png)
 
 Wir schreiben die Abschnitte nach der Bearbeitung wieder in die *yw7*-Projektdatei zurück.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_LibreOffice03.png)
+![](../Screenshots/w_de_LibreOffice03.png)
 
 Ist *novelyst* zu diesem Zeitpunkt offen, laden wir einfach das Projekt neu, um die Änderungen zu sehen.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_novelyst03.png)
+![](../Screenshots/w_de_novelyst03.png)
 
 Das *odt*-Manuskript wird danach nicht mehr gebraucht. Es kann gelöscht oder beim nächsten Export aus *novelyst* überschrieben werden. 
 
@@ -76,7 +76,7 @@ Das *odt*-Manuskript wird danach nicht mehr gebraucht. Es kann gelöscht oder be
 
 Dies alles funktioniert deshalb, weil *novelyst* das erzeugte *odt*-Manuskript in *Bereiche* aufteilt, mit deren Hilfe die Teile, Kapitel und Abschnitte beim Zurückschreiben in das *yw7*-Format identifiziert und richtig einsortiert werden können. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_LibreOffice02.png)
+![](../Screenshots/w_de_LibreOffice02.png)
 
 Obwohl wir diese Bereichsstruktur mit LibreOffice bearbeiten könnten, sollten wir das auf keinen Fall tun, weil sonst das Zurückschreiben zu *novelyst* eventuell nicht mehr richtig funktioniert. Wir schreiben innerhalb der vorgegebenen Bereiche (die erkennbar sind, wenn man *LibreOffice* die Textbegrenzungen anzeigen lässt) an unseren Abschnitten. 
 
@@ -96,17 +96,17 @@ Was mit *LibreOffice Writer* nicht geht: Teile, Kapitel oder Abschnitte löschen
 
 Angenommen, wir wollen unser Manuskript jemandem zum Korrigieren geben, der ein fremdes Textverarbeitungsprogramm, z.B. *Word* verwendet. Das ist zunächst kein Problem, weil *LibreOffice* auch das *docx*-Format lesen und schreiben kann. Wenn wir allerdings unser normales Manuskript konvertieren würden, könnte das die Bereichseinteilung beeinflussen, und wir können das bearbeitete Dokument nicht mehr ins *yw7*-Format zurückschreiben. Für diesen Fall gibt es das *Manuskript mit sichtbaren Markierungen*, welche die Umwandlung in andere Dateiformate und zurück nach *odt* überstehen, sofern man sie nicht von Hand verändert oder löscht. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_novelyst05.png)
+![](../Screenshots/w_de_novelyst05.png)
 
 So sieht das Dokument in _LibreOffice Writer_ aus:
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_LibreOffice05.png)
+![](../Screenshots/w_de_LibreOffice05.png)
 
 Die farbig hervorgehobenen Zeilen mit den Codes in eckigen Klammern dürfen nicht angerührt werden, wollen wir Änderungen am Text zu *novelyst* zurückschreiben. Ansonsten können wir den Text aber frei bearbeiten und sogar neue Abschnitte einfügen, wie oben beschrieben. Neue Teile oder Kapitel können auch per *Markdown*-Überschrift (Ein oder zwei vorangestellte Rautenzeichen `#`) eingefügt werden.  
 
 Damit ist es nun möglich, zwischendurch eine Online-Textverarbeitung wie *Google Docs* einzusetzen. Nach dem Upload können wir das Dokument online bearbeiten:
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_GoogleDocs01.png)
+![](../Screenshots/w_de_GoogleDocs01.png)
 
 Nach dem Download als *.odt* verschieben wir das Dokument aus dem Download-Ordner in den Projektordner, wo die *.yw7*-Projektdatei liegt. Dann können wir die Änderungen in das Projekt übernehmen, entweder mit *LibreOffice/yw-cnv* oder mit [yw2OO](https://peter88213.github.io/yW2OO/). 
 
@@ -116,7 +116,7 @@ Nach dem Download als *.odt* verschieben wir das Dokument aus dem Download-Ordne
 
 Den fertigen Roman exportieren wir als *Manuskript ohne Markierungen*. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_de_novelyst04.png)
+![](../Screenshots/w_de_novelyst04.png)
 
 Damit erhalten wir ein *odt*-Dokument ohne die oben beschriebene Bereichseinteilung. Dieses Dokument lässt sich nicht mehr ins *yw7*-Format zurückschreiben, dafür ist es aber einfacher, es umzuformatieren oder in andere Dateiformate zu exportieren. Wir können jetzt zum Beispiel eine Dokumentvorlage für den Buchdruck anwenden. Oder wir können den Romantext in ein Masterdokument einbetten, das Titelei, Impressum und Inhaltsverzeichnis enthält. 
 
