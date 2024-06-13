@@ -12,7 +12,7 @@ The following article gives a short insight into how *novelyst* works.
 
 LibreOffice's *Navigator* gives us a rough overview of the document structure at part and chapter level (*Header 1* and *Header 2*).
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_LibreOffice01.png)
+![](Screenshots/w_en_LibreOffice01.png)
 
 What the Office program lacks is a small-scale organization of metadata for the overview of the novel, as offered by specialized authoring software. 
 
@@ -32,7 +32,7 @@ All of this can help us either in advance when planning, or afterwards when revi
 
 *novelyst* shows us the document structure down to the scene level, along with the metadata.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_novelyst01.png)
+![](Screenshots/w_en_novelyst01.png)
 
 *novelyst* organizes the novel with a tree structure. We can create, move and delete parts, chapters and scenes. Parts can be converted to chapters and vice versa. Individual parts, chapters and scenes can be marked as "unused", i.e. hidden. Then they do not contribute to the word count and do not appear in the exported manuscript.
 
@@ -54,19 +54,19 @@ It is also recommended to install some additional tools like [curly](https://pet
 
 Therefore, for comfortable writing, and even more for proper layout and print output of the novel text, we want to use LibreOffice. To do this, we first export the novel as a manuscript from *novelyst*. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_novelyst02.png)
+![](Screenshots/w_en_novelyst02.png)
 
 When exporting, *novelyst* creates a comment with the scene title at the beginning of each scene. This way we can jump to the scenes with the navigator. This works even if the comment display is turned off.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_LibreOffice04.png)
+![](Screenshots/w_en_LibreOffice04.png)
 
 We write the scenes back to the *yw7* project file after editing.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_LibreOffice03.png)
+![](Screenshots/w_en_LibreOffice03.png)
 
 If *novelyst* is open at that time, we simply reload the project to see the changes.
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_novelyst03.png)
+![](Screenshots/w_en_novelyst03.png)
 
 The *odt* manuscript is no longer needed after that. It can be deleted or overwritten the next time it is exported from *novelyst*. 
 
@@ -76,7 +76,7 @@ The *odt* manuscript is no longer needed after that. It can be deleted or overwr
 
 This all works because *novelyst* divides the generated *odt* manuscript into *sections* that can be used to identify and correctly sort the parts, chapters and scenes when writing them back into the *yw7* format. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_LibreOffice02.png)
+![](Screenshots/w_en_LibreOffice02.png)
 
 Although we could edit the section structure with LibreOffice, we should definitely not do so, because otherwise writing back to *novelyst* might not work properly. We write within the given sections (which are recognizable if you let *LibreOffice* show the text boundaries) on our scenes.  
 
@@ -94,17 +94,17 @@ You cannot delete or move parts, chapters or scenes with *LibreOffice Writer*. S
 
 Suppose we want to give our manuscript to someone for proofreading who uses a different word processor, e.g. *Word*. This is not a problem at first, because *LibreOffice* can also read and write the *docx* format. However, if we were to convert our normal manuscript, this could affect the sectioning, and we would not be able to write the edited document back to *yw7* format. For this case there is the *Manuscript with visible structure tags*, which survive the conversion to other file formats and back to *odt*, unless you change or delete them by hand. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_novelyst05.png)
+![](Screenshots/w_en_novelyst05.png)
 
 This is how the document looks in *LibreOffice Writer*: 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_LibreOffice05.png)
+![](Screenshots/w_en_LibreOffice05.png)
 
 The color highlighted lines with the codes in square brackets must not be touched if we want to write back changes to the text to *novelyst*. But otherwise we can edit the text freely and even insert new scenes as described above. New parts or chapters can also be inserted by *markdown* heading (one or two preceding hash marks `#`).  
 
 Now we can use an online word processor like *Google Docs* in between. After uploading we can edit the document online:
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_GoogleDocs01.png)
+![](Screenshots/w_en_GoogleDocs01.png)
 
 After downloading it as *.odt*, we move the document from the download folder to the project folder, where the *.yw7* project file is. Then we can transfer the changes to the project, either with *LibreOffice/yw-cnv* or with [yw2OO](https://peter88213.github.io/yW2OO/). 
 
@@ -114,7 +114,7 @@ After downloading it as *.odt*, we move the document from the download folder to
 
 We export the finished novel as a *Manuscript without tags*. 
 
-![](https://github.com/peter88213/novelyst/blob/main/docs/Screenshots/w_en_novelyst04.png)
+![](Screenshots/w_en_novelyst04.png)
 
 This will give us an *odt* document without the sectioning described above. This document can no longer be written back to *yw7* format, but it is easier to reformat it or export it to other file formats. For example, we can now apply a document template for book printing. Or we can embed the novel text in a master document that includes the front matter, imprint, and table of contents. 
 
