@@ -10,8 +10,8 @@
 
 With the [pywoo extension for OpenOffice](https://peter88213.github.io/pywoo) and the [yw-cnv extension for LibreOffice](https://peter88213.github.io/yw-cnv), you can write your edited Office documents back to the project.
 
-- [Introduction (English)](https://github.com/peter88213/novelyst/wiki/English)
-- [Introduction (German)](https://github.com/peter88213/novelyst/wiki/Deutsch)
+- [Introduction (English)](introduction)
+- [Introduction (German)](de/introduction)
 - [What's the difference to yWriter?](ywriter)
 
 ## Features
